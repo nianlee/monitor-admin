@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Menu, Layout } from 'antd'
+import { Link } from 'react-router-dom'
 import styles from './style.less'
 
 const MenuItem = Menu.Item
@@ -14,7 +15,7 @@ const MHeader = ({
   const renderMenu = () => {
     const genMenuItem = (data) => {
       return data.map(item => {
-        return <MenuItem key={item.id}>{item.name}</MenuItem>
+        return <MenuItem key={item.id}><Link to={item.route}>{item.name}</Link></MenuItem>
       })
     }
 
@@ -22,7 +23,7 @@ const MHeader = ({
       if (item.children) {
         return <SubMenu key={item.id} title={item.name}>{genMenuItem(item.children)}</SubMenu>
       }
-      return <MenuItem key={item.id}>{item.name}</MenuItem>
+      return <MenuItem key={item.id}><Link to={item.route}>{item.name}</Link></MenuItem>
     })
   }
 

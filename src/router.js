@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Router, Route, Switch } from 'dva/router'
-import IndexPage from './routes/IndexPage'
+import { Router, Route, Switch, Redirect } from 'dva/router'
+// import IndexPage from './routes/IndexPage'
 import App from 'routes/app'
 import dynamic from 'dva/dynamic'
 import { LocaleProvider } from 'antd'
@@ -24,7 +24,7 @@ function RouterConfig({ history, app }) {
       <LocaleProvider locale={zh_CN}>
         <App>
           <Switch>
-            <Route path="/" exact component={IndexPage} />
+            <Route path="/" exact render={() => (<Redirect to="/dashboard" />)} />
             {
               routes.map(({path, ...dynamics}, key) => (
                 <Route key={key}

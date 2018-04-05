@@ -8,7 +8,7 @@ import { withRouter } from 'dva/router'
 import { Layout, /*Breadcrumb*/ } from 'antd'
 import MHeader from 'components/layout/Header'
 
-const { Content, Footer } = Layout
+const { Content } = Layout
 
 const App = ({
   children, dispatch, app, loading, location,
@@ -30,9 +30,6 @@ const App = ({
           </Breadcrumb> */}
           {children}
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2016 Created by Ant UED
-        </Footer>
       </Layout>
     </div>
   )
