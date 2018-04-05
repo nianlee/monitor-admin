@@ -21,12 +21,23 @@ export default {
           }
         ]
       ],
-      proxy: {
-        "/api": {
-          "target": "http://127.0.0.1:7001/",
-          "changeOrigin": true
-        }
-      },
+      // proxy: {
+      //   "/api": {
+      //     "target": "http://127.0.0.1:7001/",
+      //     "changeOrigin": true
+      //   }
+      // },
     },
-  }
+  },
+  html: {
+    "template": `${__dirname}/src/index.ejs`,
+  },
+  browserslist: [
+    "> 1%",
+    "last 2 versions"
+  ],
+  extraBabelPresets: [
+    ['@babel/env', { loose: true, modules: false }],
+    '@babel/preset-react',
+  ],
 }

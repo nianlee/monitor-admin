@@ -1,30 +1,66 @@
-import fetch from 'dva/fetch';
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
-function parseJSON(response) {
-  return response.json();
-}
+const fetch = (options) => {
+  let {
+    method = 'get',
+    data,
+    url,
+  } = options
 
-function checkStatus(response) {
-  if (response.status >= 200 && response.status < 300) {
-    return response;
+  switch (method.toLowerCase()) {
+    case 'get':
+      return axios.get(url, {
+        params: data,
+      })
+    case 'delete':
+      return axios.delete(url, {
+        data: data,
+      })
+    case 'post':
+      // 添加 csrf token
+      axios.defaults.headers.post['x-csrf-token'] = Cookies.get('csrfToken')
+      return axios.post(url, data)
+    case 'put':
+      return axios.put(url, data)
+    case 'patch':
+      return axios.patch(url, data)
+    default:
+      return axios(options)
   }
-
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
 }
 
-/**
- * Requests a URL, returning a promise.
- *
- * @param  {string} url       The URL we want to request
- * @param  {object} [options] The options we want to pass to "fetch"
- * @return {object}           An object containing either "data" or "err"
- */
-export default function request(url, options) {
-  return fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON)
-    .then(data => ({ data }))
-    .catch(err => ({ err }));
+export default function request (options) {
+  return fetch(options).then((response) => {
+    const { data, statusText, status } = response
+    if (data.success) {
+      return Promise.resolve({
+        ...data,
+        success: true,
+        message: data.message || statusText || '没有描述',
+        statusCode: data.code || status || '没有code',
+      })
+    } 
+    return Promise.reject({
+      ...data,
+      success: false,
+      statusText: data.message || statusText || '没有描述',
+      status: data.code || status || '没有code',
+    })
+  }).catch((error) => {
+    const { response } = error
+    let msg
+    let statusCode
+    if (response && response instanceof Object) {
+      const { data, statusText } = response
+      statusCode = response.status
+      msg = data.message || statusText
+    } else {
+      statusCode = 600
+      msg = error.statusText || 'Network Error'
+    }
+
+    /* eslint-disable */
+    return Promise.reject({ success: false, statusCode, message: msg })
+  })
 }

@@ -1,19 +1,52 @@
-import React from 'react';
-import { Router, Route, Switch } from 'dva/router';
-import IndexPage from './routes/IndexPage';
-import App from 'routes/App'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Router, Route, Switch } from 'dva/router'
+import IndexPage from './routes/IndexPage'
+import App from 'routes/app'
+import dynamic from 'dva/dynamic'
+import { LocaleProvider } from 'antd'
+import zh_CN from 'antd/lib/locale-provider/zh_CN'
+import 'moment/locale/zh-cn'
+import '@babel/polyfill'
 
-function RouterConfig({ history }) {
+
+const routes = [
+  {
+    path: '/dashboard',
+    models: () => [import('./models/dashboard')],
+    component: () => import('./routes/dashboard'),
+  },
+]
+
+function RouterConfig({ history, app }) {
   return (
     <Router history={history}>
-      <App>
-        <Switch>
-          <Route path="/" exact component={IndexPage} />
-        </Switch>
-      </App>
-      
+      <LocaleProvider locale={zh_CN}>
+        <App>
+          <Switch>
+            <Route path="/" exact component={IndexPage} />
+            {
+              routes.map(({path, ...dynamics}, key) => (
+                <Route key={key}
+                  exact
+                  path={path}
+                  component={dynamic({
+                    app,
+                    ...dynamics
+                  })}
+                />
+              ))
+            }
+          </Switch>
+        </App>
+      </LocaleProvider>
     </Router>
-  );
+  )
 }
 
-export default RouterConfig;
+RouterConfig.propTypes = {
+  history: PropTypes.object,
+  app: PropTypes.object,
+}
+
+export default RouterConfig
