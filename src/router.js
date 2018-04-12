@@ -15,7 +15,12 @@ const routes = [
     path: '/dashboard',
     models: () => [import('./models/dashboard')],
     component: () => import('./routes/dashboard'),
-  },
+  }, 
+  {
+    path: '/report',
+    models: () => [import('./models/report')],
+    component: () => import('./routes/report'),
+  }
 ]
 
 function RouterConfig({ history, app }) {

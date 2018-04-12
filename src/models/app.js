@@ -43,7 +43,7 @@ export default {
       yield put({
         type: 'updateState',
         payload: {
-          menu: resData.data
+          menu: resData.data,
         }
       })
     },
@@ -61,7 +61,7 @@ export default {
     updateState: function(state, { payload }) {
       return { 
         ...state, 
-        ...payload
+        ...payload,
       }
     }
   }

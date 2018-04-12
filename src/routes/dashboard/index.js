@@ -7,26 +7,26 @@ import WarningChart from './components/WarningChart'
 import PieChart from './components/PieChart'
 
 const Dashboard = ({
-  app,
+  dashboard,
 }) => {
 
   return (
     <Row gutter={16} style={{ marginTop: '30px' }}>
       <Col span="6">
-        <WarningChart app={app} />
+        <WarningChart dashboard={dashboard} />
       </Col>
       <Col span="12">
-        <MapChart app={app} />
+        <MapChart dashboard={dashboard} />
       </Col>
       <Col span="6">
-        <PieChart app={app} />
+        <PieChart dashboard={dashboard} />
       </Col>
     </Row>
   )
 }
 
 Dashboard.propTypes = {
-  app: PropTypes.object,
+  dashboard: PropTypes.object,
 }
 
-export default connect(({ app }) => ({ app }))(Dashboard)
+export default connect(({ dashboard }) => ({ dashboard }))(Dashboard)

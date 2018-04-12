@@ -22,7 +22,7 @@ const App = ({
     <div>
      <Layout className="layout">
         <MHeader {...mHeaderProps} />
-        <Content style={{ padding: '0 50px' }}>
+        <Content style={{ padding: '20px 50px' }}>
           {/* <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>List</Breadcrumb.Item>

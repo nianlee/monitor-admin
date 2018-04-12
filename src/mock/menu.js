@@ -10,21 +10,21 @@ let database = [
     name: '统计报表',
     icon: 'user',
     route: '/report',
-    children: [
-      {
-        id: '21',
-        bpid: '2',
-        name: '报表子菜单1',
-        icon: 'shopping-cart',
-        route: '/report/1',
-      },
-      {
-        id: '22',
-        bpid: '2',
-        name: '报表子菜单2',
-        route: '/report/2',
-      },
-    ]
+    // children: [
+    //   {
+    //     id: '21',
+    //     bpid: '2',
+    //     name: '报表子菜单1',
+    //     icon: 'shopping-cart',
+    //     route: '/report/1',
+    //   },
+    //   {
+    //     id: '22',
+    //     bpid: '2',
+    //     name: '报表子菜单2',
+    //     route: '/report/2',
+    //   },
+    // ]
   },
   {
     id: '3',
