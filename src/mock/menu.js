@@ -34,19 +34,19 @@ let database = [
   },
   {
     id: '4',
-    name: '实时告警',
+    name: 'GIS信息',
     icon: 'camera-o',
     route: '/warning',
   },
   {
     id: '5',
-    name: '一键巡检',
+    name: '管理策略',
     icon: 'heart-o',
     route: '/inspection',
   },
   {
     id: '6',
-    name: '系统管理',
+    name: '系统设置',
     icon: 'bars',
     route: '/admin',
     children: [
