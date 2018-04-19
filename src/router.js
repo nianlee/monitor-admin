@@ -25,7 +25,12 @@ const routes = [
     path: '/monitor',
     models: () => [import('./models/monitor')],
     component: () => import('./routes/monitor'),
-  }
+  },
+  {
+    path: '/gis',
+    models: () => [import('./models/gis')],
+    component: () => import('./routes/gis'),
+  },
 ]
 
 function RouterConfig({ history, app }) {

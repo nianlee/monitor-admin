@@ -36,7 +36,7 @@ let database = [
     id: '4',
     name: 'GIS信息',
     icon: 'camera-o',
-    route: '/warning',
+    route: '/gis',
   },
   {
     id: '5',
