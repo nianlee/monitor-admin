@@ -31,6 +31,12 @@ const routes = [
     models: () => [import('./models/gis')],
     component: () => import('./routes/gis'),
   },
+  {
+    path: '/manage',
+    models: () => [import('./models/manage')],
+    component: () => import('./routes/manage'),
+  }
+
 ]
 
 function RouterConfig({ history, app }) {
