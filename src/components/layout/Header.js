@@ -10,7 +10,22 @@ const Header = Layout.Header
 
 const MHeader = ({
   app,
+  location,
 }) => {
+
+  const getSelectedKeys = menu => {
+    if (!menu) {
+      return []
+    }
+    const selectedKeys = []
+    const firstLevel = menu.find(item => item.route === location.pathname)
+    if (firstLevel) {
+      selectedKeys.push(firstLevel.id.toString())
+      return selectedKeys
+    } 
+    return selectedKeys
+  }
+
 
   const renderMenu = () => {
     const genMenuItem = (data) => {
@@ -27,6 +42,8 @@ const MHeader = ({
     })
   }
 
+  const selectedKeys = getSelectedKeys(app.menu)
+
   return (
     <Header>
       <div className={styles.logo}>智能物联远程设备监控系统</div>
@@ -35,6 +52,7 @@ const MHeader = ({
         theme="dark"
         mode="horizontal"
         defaultSelectedKeys={['2']}
+        selectedKeys={selectedKeys}
         style={{ lineHeight: '64px', borderBottom: 'none' }}
       >
         {renderMenu()}
@@ -45,6 +63,7 @@ const MHeader = ({
 
 MHeader.propTypes = {
   app: PropTypes.object,
+  location: PropTypes.object,
 }
 
 export default MHeader

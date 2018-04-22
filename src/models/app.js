@@ -5,6 +5,7 @@ import { routerRedux } from 'dva/router'
 // import { message } from 'antd'
 import { 
   getMenu,
+  query,
 } from 'services/app'
 
 export default {
@@ -32,20 +33,28 @@ export default {
 
     setup({ dispatch }) {
       dispatch({
-        type: 'getMenu'
+        type: 'getMenu',
+      })
+      
+      dispatch({
+        type: 'query',
       })
     }
   },
 
   effects: {
     *getMenu ({ payload }, { call, put, select }) {
-      const resData = yield call(getMenu, null)
+      const resData = yield call(getMenu)
       yield put({
         type: 'updateState',
         payload: {
           menu: resData.data,
         }
       })
+    },
+
+    *query ({ payload }, { call, put, select }) {
+      yield call(query)
     },
 
     *loginout ({ payload }, { call, put }) {

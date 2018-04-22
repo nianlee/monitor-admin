@@ -11,11 +11,15 @@
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.6.7",
     "dva": "^2.1.0",
+    "dva-loading": "^2.0.1",
     "echarts": "^4.0.4",
     "echarts-for-react": "^2.0.8",
     "js-cookie": "^2.2.0",
+    "nprogress": "^0.2.0",
     "path-to-regexp": "^2.2.0",
+    "qs": "^6.5.1",
     "react": "^16.2.0",
+    "react-amap": "^1.2.7",
     "react-dom": "^16.2.0"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import qs from 'qs'
 
 const fetch = (options) => {
   let {
@@ -12,14 +13,17 @@ const fetch = (options) => {
     case 'get':
       return axios.get(url, {
         params: data,
+        'Access-Control-Allow-Headers': 'accept',
       })
     case 'delete':
       return axios.delete(url, {
-        data: data,
+        data: data, 
       })
     case 'post':
       // 添加 csrf token
       axios.defaults.headers.post['x-csrf-token'] = Cookies.get('csrfToken')
+      console.log(data)
+      data = qs.stringify(data)
       return axios.post(url, data)
     case 'put':
       return axios.put(url, data)
@@ -33,7 +37,7 @@ const fetch = (options) => {
 export default function request (options) {
   return fetch(options).then((response) => {
     const { data, statusText, status } = response
-    if (data.success) {
+    if (data.result === 'success') {
       return Promise.resolve({
         ...data,
         success: true,
@@ -56,10 +60,9 @@ export default function request (options) {
       statusCode = response.status
       msg = data.message || statusText
     } else {
-      statusCode = 600
+      statusCode = error.code
       msg = error.statusText || 'Network Error'
     }
-
     /* eslint-disable */
     return Promise.reject({ success: false, statusCode, message: msg })
   })
