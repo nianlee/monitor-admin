@@ -42,7 +42,7 @@ let database = [
     id: '5',
     name: '管理策略',
     icon: 'heart-o',
-    route: '/inspection',
+    route: '/manage',
   },
   {
     id: '6',
