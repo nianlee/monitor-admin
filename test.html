@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dva Demo</title>
+  <link rel="stylesheet" href="index.css" />
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+
+  <div id="root">
+   <button>点我</button>
+  </div>
+    <script>
+      $('#root').find('button').on('click', function(e){
+        $.ajax('http://118.24.66.103:8080/monitor-web/device/queryDeviceSelective?sn=12')
+        .done(function(res){
+          console.log(res)
+        })
+      })
+    </script>
+</body>
+</html>

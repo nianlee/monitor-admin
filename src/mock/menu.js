@@ -64,9 +64,17 @@ let database = [
 module.exports = {
   [`GET /getMenu`] (req, res) {
     res.status(200).json({
-      success: true,
+      result: 'success',
       data: database,
-      message: 'success',
+      msg: 'success',
+    })
+  },
+
+  [`GET /query`] (req, res) {
+    res.status(200).json({
+      result: 'success',
+      data: database,
+      msg: 'success',
     })
   },
 }

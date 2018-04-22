@@ -1,39 +1,43 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Row, Col, AutoComplete } from 'antd'
-import MapChart from './components/MapChart'
+import { Row, Col, Input } from 'antd'
+import EquipmentMap from './components/EquipmentMap'
+import Detail from './components/Detail'
 import styles from './style.less'
 
+const Search = Input.Search
 
 const Gis = ({ gis, dispatch }) => {
-  const dataSource = ['设备1', '设备2', '设备3', '设备4']
   const handleSearch = value => {
     console.log(value)
-  }
-  const onSelect = value => {
-    console.log(value)
+    dispatch({
+      type: 'gis/queryDeviceSelective',
+      payload: {
+        sn : value,
+      }
+    })
   }
 
   return (
     <div>
-      <Row>
+      <Row gutter={24} style={{ backgroundColor: '#fff' }}>
         <Col style={{ textAlign: 'center' }}>
-          <AutoComplete
-            dataSource={dataSource}
-            style={{ width: 200 }}
-            onSelect={onSelect}
+          <Search 
+            className={styles.search}
+            placeholder="请输入设备编号(11-22-33-44-55)" 
+            enterButton="Search" 
+            size="large" 
             onSearch={handleSearch}
-            placeholder="请输入设备关键字"
           />
         </Col>
       </Row>
-      <Row className={styles.main}>
-        <Col span={18}>
-          <MapChart />
+      <Row gutter={24} className={styles.main}>
+        <Col span={18} className={styles.map}>
+          <EquipmentMap gis={gis} />
         </Col>
         <Col span={6}>
-          <h3>设备信息</h3>
+          <Detail gis={gis} dispatch={dispatch}/>
         </Col>
       </Row>
     </div>

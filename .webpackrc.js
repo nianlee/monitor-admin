@@ -1,4 +1,7 @@
 export default {
+  theme: {
+    'primary-color': '#1890ff',
+  },
   alias: {
     components: `${__dirname}/src/components`,
     utils: `${__dirname}/src/utils`,
@@ -23,8 +26,9 @@ export default {
       ],
       // proxy: {
       //   "/api": {
-      //     "target": "http://127.0.0.1:7001/",
-      //     "changeOrigin": true
+      //     "target": "http://118.24.66.103:8080",
+      //     "changeOrigin": true,
+      //     "pathRewrite": { "^/api" : "" }
       //   }
       // },
     },
