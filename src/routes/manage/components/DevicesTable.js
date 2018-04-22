@@ -12,13 +12,15 @@ EditableCell.propTypes = {
 }
 
 class EditableCell extends React.Component {
+  constructor(props) {
+    super(props)
 
-  // 属性
-  state = {
-    value:this.props.value,
-    editable:false,
+    this.state = {
+      value:this.props.value,
+      editable:false,
+    }
   }
-
+  
   //function
   handleChange = (e) => {
     const value = e.target.value;
