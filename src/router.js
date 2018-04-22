@@ -32,9 +32,9 @@ const routes = [
     component: () => import('./routes/gis'),
   },
   {
-    path: '/manage',
-    models: () => [import('./models/manage')],
-    component: () => import('./routes/manage'),
+    // path: '/manage',
+    // models: () => [import('./models/manage')],
+    // component: () => import('./routes/manage'),
   }
 
 ]
