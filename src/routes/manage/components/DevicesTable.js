@@ -1,4 +1,3 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect} from 'dva'
@@ -20,7 +19,7 @@ class EditableCell extends React.Component {
       editable:false,
     }
   }
-  
+
   //function
   handleChange = (e) => {
     const value = e.target.value;
