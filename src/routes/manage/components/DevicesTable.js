@@ -3,13 +3,6 @@ import PropTypes from 'prop-types'
 import { connect} from 'dva'
 import { Table,Button,Input,Icon,Popconfirm } from 'antd'
 
-
-EditableCell.propTypes = {
-  editable:PropTypes.object,
-  value:PropTypes.object,
-  onchange:PropTypes.func,
-}
-
 class EditableCell extends React.Component {
   constructor(props) {
     super(props)
@@ -21,13 +14,13 @@ class EditableCell extends React.Component {
   }
 
   //function
-  handleChange = (e) => {
+  handleChange(e) {
     const value = e.target.value;
     this.setState({value});
   }
 
   //检查状态
-  check = () => {
+  check() {
     this.setState({ editable:false }); // 设置状态值
     if(this.props.onchange) {
       this.props.onchange(this.state.value);
@@ -35,7 +28,7 @@ class EditableCell extends React.Component {
   }
 
   //编辑,直接设置新的属性
-  edit = ()=> {
+  edit() {
     this.setState({editable:true});
   }
 
@@ -71,6 +64,15 @@ class EditableCell extends React.Component {
     );
   }
 }
+
+EditableCell.propTypes = {
+  editable:PropTypes.object,
+  value:PropTypes.object,
+  onchange:PropTypes.func,
+}
+
+
+
 
 //定义表格
 class  EditableTable extends React.Component {
@@ -189,7 +191,7 @@ class  EditableTable extends React.Component {
   }
 
   //一行数据变化函数
-  onCellChange = (key,dataIndex) => {
+  onCellChange (key,dataIndex) {
     return (value)=>{
       const dataSource = [...this.state.dataSource]; //赋值数据
       const target = dataSource.find(item => item.key === key); // 根据index找到改变的item
@@ -198,17 +200,16 @@ class  EditableTable extends React.Component {
         this.setState({ dataSource }); // 更新数据源
       }
     }
-  };
+  }
 
   //删除设备函数
-  onDelete = (key) => {
+  onDelete(key) {
     const dataSource = [...this.state.dataSource];
     this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
-  };
-
+  }
 
   //添加设备函数
-  handleAdd = () => {
+  handleAdd () {
     // 定义数据来源
     const { count, dataSource } = this.state;
     const newData = {
@@ -239,6 +240,12 @@ class  EditableTable extends React.Component {
   }
 }
 
+EditableTable.propTypes = {
+  editable:PropTypes.object,
+  value:PropTypes.object,
+  onchange:PropTypes.func,
+}
+
 const DevicesTables = (manage,dispatch) =>{
   return (
     <EditableTable/>
@@ -249,6 +256,8 @@ DevicesTables.propTypes = {
   manage:PropTypes.object,
   dispatch:PropTypes.object,
 }
+
+
 
 export default connect(({ manage }) => ({ manage }))(DevicesTables)
 
