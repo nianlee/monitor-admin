@@ -10,17 +10,21 @@ class EquipmentMap extends Component {
         this.tool = tool
       }
     }
-    this.mapPlugins = ['ToolBar'];
-    this.markerPosition = { longitude: 106.631015, latitude: 29.717099 }
+    this.mapPlugins = ['ToolBar']
+    // this.markerPosition = { longitude: 106.631015, latitude: 29.717099 }
   }
   render() {
+    const markerPosition = {
+      longitude: this.props.gis.longitude,
+      latitude: this.props.gis.latitude,
+    }
     return <Map 
       amapkey={this.props.gis.AMAP_KEY} 
-      center={this.markerPosition}
+      center={markerPosition}
       plugins={this.mapPlugins}
       zoom={12}
     >
-      <Marker position={this.markerPosition} />
+      <Marker position={markerPosition} />
     </Map>
   }
 }

@@ -8,6 +8,8 @@ export default {
     AMAP_KEY: 'a09811fd80142cc7b385d2830fbbb384', // 高德地图key
 
     equitmentInfo: [], // 设备信息
+    longitude: 106.631015,  // 默认渝北区
+    latitude: 29.717099,
   },
 
   subscriptions: {
@@ -18,7 +20,7 @@ export default {
   effects: {
     *queryDeviceSelective({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceSelective, payload)
-      const info = resData.data
+      const info = resData.data[0].datDevice
       const equitmentInfo = []
 
       equitmentInfo.push({
@@ -63,6 +65,8 @@ export default {
         type: 'updateState',
         payload: {
           equitmentInfo: equitmentInfo,
+          longitude: info.longitude,
+          latitude: info.latitude,
         }
       })
     },
@@ -72,7 +76,7 @@ export default {
     updateState (state, { payload }) {
       return {
         ...state,
-        payload,
+        ...payload,
       }
     }
   },

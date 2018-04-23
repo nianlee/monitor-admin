@@ -14,7 +14,7 @@ const Gis = ({ gis, dispatch }) => {
     dispatch({
       type: 'gis/queryDeviceSelective',
       payload: {
-        sn : value,
+        sn: value,
       }
     })
   }

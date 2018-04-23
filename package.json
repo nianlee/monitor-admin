@@ -15,6 +15,7 @@
     "echarts": "^4.0.4",
     "echarts-for-react": "^2.0.8",
     "js-cookie": "^2.2.0",
+    "jsonp": "^0.2.1",
     "nprogress": "^0.2.0",
     "path-to-regexp": "^2.2.0",
     "qs": "^6.5.1",
