@@ -1,19 +1,35 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import qs from 'qs'
+import jsonp from 'jsonp'
 
 const fetch = (options) => {
   let {
     method = 'get',
     data,
     url,
+    fetchType,
   } = options
+
+  if (fetchType === 'jsonp') {
+    return new Promise((resolve, reject) => {
+      jsonp(url, {
+        param: `${qs.stringify(data)}&callback`,
+        name: `jsonp_${new Date().getTime()}`,
+        timeout: 4000,
+      }, (error, result) => {
+        if (error) {
+          reject(error)
+        }
+        resolve({ statusText: 'OK', status: 200, data: result })
+      })
+    })
+  }
 
   switch (method.toLowerCase()) {
     case 'get':
       return axios.get(url, {
         params: data,
-        'Access-Control-Allow-Headers': 'accept',
       })
     case 'delete':
       return axios.delete(url, {
@@ -22,8 +38,6 @@ const fetch = (options) => {
     case 'post':
       // 添加 csrf token
       axios.defaults.headers.post['x-csrf-token'] = Cookies.get('csrfToken')
-      console.log(data)
-      data = qs.stringify(data)
       return axios.post(url, data)
     case 'put':
       return axios.put(url, data)
@@ -41,14 +55,14 @@ export default function request (options) {
       return Promise.resolve({
         ...data,
         success: true,
-        message: data.message || statusText || '没有描述',
+        message: data.msg || statusText || '没有描述',
         statusCode: data.code || status || '没有code',
       })
     } 
     return Promise.reject({
       ...data,
       success: false,
-      statusText: data.message || statusText || '没有描述',
+      statusText: data.msg || statusText || '没有描述',
       status: data.code || status || '没有code',
     })
   }).catch((error) => {
