@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Tabs } from 'antd'
 import { connect } from 'dva'
 import UsersTable from './components/UsersTable'
+import DevicesTable from './components/DevicesTable'
 
 const TabPane = Tabs.TabPane;
 
@@ -18,6 +19,7 @@ const Manage = ({
         </TabPane>
 
         <TabPane tab="设备管理" key="2">
+          <DevicesTable/>
         </TabPane>
 
         <TabPane tab="维护策略" key="3">
