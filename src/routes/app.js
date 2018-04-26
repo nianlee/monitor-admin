@@ -9,15 +9,16 @@ import { Layout, /*Breadcrumb*/ } from 'antd'
 import MHeader from 'components/layout/Header'
 import Loader from 'components/loader/Loader'
 
-
 const { Content } = Layout
 
 const App = ({
-  children, dispatch, app, loading, location,
+  children, dispatch, app, loading, location
 }) => {
 
   const { href } = window.location
   let lastHref
+
+  const { pathname } = location
   
   // 加载nprogress
   if (lastHref !== href) {
@@ -28,12 +29,17 @@ const App = ({
     }
   }
 
+  // 用loginLayout 接受router 子组件
+  const LoginLayout = ({children}) => (children)
+
+  if (pathname === '/login') {
+    return <LoginLayout>{children}</LoginLayout>
+  }
+
   const mHeaderProps = {
     app,
     location,
   }
-
-  
 
   return (
     <div>
@@ -61,4 +67,4 @@ App.propTypes = {
   loading: PropTypes.object,
 }
 
-export default withRouter(connect(({ app, loading }) => ({ app, loading }))(App))
+export default withRouter(connect(({ app, loading, login }) => ({ app, loading }))(App))
