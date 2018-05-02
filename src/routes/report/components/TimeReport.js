@@ -1,24 +1,50 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Tabs } from 'antd'
+import { Row, Form, Button, DatePicker, Col } from 'antd'
 import { connect }from 'dva'
 
-const TabPane = Tabs.TabPane
+const FormItem = Form.Item
+const RangePicker = DatePicker.RangePicker
 
-const TimeReport = ({ report, dispatch}) => {
+const TimeReport = ({ report, dispatch, form }) => {
+  const { getFieldDecorator } = form
+  
+
   return (
-    <Tabs defaultActiveKey="1">
-      <TabPane tab="时间查询" key="1">Content of Tab Pane 1</TabPane>
-      <TabPane tab="异常查询" key="2">Content of Tab Pane 2</TabPane>
-      <TabPane tab="位置查询" key="5">Content of Tab Pane 3</TabPane>
-      <TabPane tab="设备查询" key="6">Content of Tab Pane 4</TabPane>
-    </Tabs>
+    <div style={{ width: '100%' }}>
+      <Row style={{ width: '100%' }}>
+        <Col style={{ width: 500, margin: '0 auto' }}>
+          <Form layout="inline" onSubmit={this.handleSubmit}>
+            <FormItem>
+              {getFieldDecorator('userName', {
+              })(
+                <RangePicker />
+              )}
+            </FormItem>
+            <FormItem>
+              <Button
+                type="primary"
+                htmlType="submit"
+              >
+                查询
+              </Button>
+            </FormItem>
+          </Form>
+        </Col>
+      </Row>
+      <Row>
+        
+      </Row>
+    </div>
   )
 }
 
 TimeReport.propTypes = {
   report: PropTypes.object,
   dispatch: PropTypes.func,
+  form: PropTypes.object,
 }
 
-export default connect(({ report }) => ({ report }))(TimeReport)
+const WrapperTimeReport = Form.create()(TimeReport)
+
+export default connect(({ report }) => ({ report }))(WrapperTimeReport)
