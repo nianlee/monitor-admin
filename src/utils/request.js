@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 import qs from 'qs'
 import jsonp from 'jsonp'
 
@@ -37,7 +37,7 @@ const fetch = (options) => {
       })
     case 'post':
       // 添加 csrf token
-      axios.defaults.headers.post['x-csrf-token'] = Cookies.get('csrfToken')
+      // axios.defaults.headers.post['x-csrf-token'] = Cookies.get('csrfToken')
       return axios.post(url, data)
     case 'put':
       return axios.put(url, data)

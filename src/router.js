@@ -35,7 +35,12 @@ const routes = [
     path: '/manage',
     models: () => [import('./models/manage')],
     component: () => import('./routes/manage'),
-  }
+  },
+  {
+    path: '/login',
+    models: () => [import('./models/login')],
+    component: () => import('./routes/login'),
+  },
 
 ]
 

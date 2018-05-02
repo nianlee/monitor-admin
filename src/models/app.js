@@ -1,4 +1,3 @@
-/* eslint no-restricted-globals: ["error", "event"] */
 import qs from 'qs'
 import { routerRedux } from 'dva/router'
 // import { openPages } from 'config'
@@ -54,7 +53,12 @@ export default {
     },
 
     *query ({ payload }, { call, put, select }) {
-      yield call(query)
+      const resData = yield call(query)
+      if (resData.success) {
+        // 用户已登录
+      } else {
+        yield put(routerRedux.push('/login'))
+      }
     },
 
     *loginout ({ payload }, { call, put }) {
