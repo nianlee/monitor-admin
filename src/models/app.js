@@ -13,7 +13,9 @@ export default {
     locationPathname: '',
     locationQuery: {},
     menu: [], // 菜单
-    user: {}, // 用户信息
+    user: {
+      name: 'deadpool'
+    }, // 用户信息
   },
   subscriptions: {
     setupHistory ({ dispatch, history }) {

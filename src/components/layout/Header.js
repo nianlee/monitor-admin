@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Layout } from 'antd'
+import { Menu, Layout, Dropdown, Icon } from 'antd'
 import { Link } from 'react-router-dom'
 import styles from './style.less'
 
@@ -26,6 +26,21 @@ const MHeader = ({
     return selectedKeys
   }
 
+  const userMenu = (
+    <Menu style={{ lineHeight: '64px', borderBottom: 'none' }}>
+      <MenuItem>
+        <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">详细信息</a>
+      </MenuItem>
+      <MenuItem>
+        <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">修改信息</a>
+      </MenuItem>
+      <MenuItem>
+        <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">退出</a>
+      </MenuItem>
+    </Menu>
+  );
+  
+
 
   const renderMenu = () => {
     const genMenuItem = (data) => {
@@ -47,7 +62,13 @@ const MHeader = ({
   return (
     <Header>
       <div className={styles.logo}>智能物联远程设备监控系统</div>
-      <div className={styles.user}>用户信息</div>
+      <div className={styles.user}>
+        <Dropdown overlay={userMenu}>
+          <a>
+            {app.user.name}<Icon type="down" />
+          </a>
+        </Dropdown>
+      </div>
       <Menu
         theme="dark"
         mode="horizontal"
