@@ -7,13 +7,24 @@ import DevicesTable from './components/DevicesTable'
 
 const TabPane = Tabs.TabPane;
 
-const Manage = ({
-  app,
-}) => {
+const Manage = ({ manage,dispatch }) => {
+
+  const loadDeviceList = activeKey => {
+
+    if(activeKey == 2) {
+      console.log(activeKey)
+      dispatch({
+        type:'manage/queryDeviceList',
+        payload:{
+          installAddr:1
+        }
+      })
+    }
+  }
 
   return (
     <div>
-      <Tabs type="card">
+      <Tabs type="card" onChange={loadDeviceList}>
         <TabPane tab="用户管理" key="1">
           <UsersTable/>
         </TabPane>
@@ -23,6 +34,7 @@ const Manage = ({
         </TabPane>
 
         <TabPane tab="维护策略" key="3">
+
         </TabPane>
       </Tabs>
     </div>
@@ -30,7 +42,8 @@ const Manage = ({
 }
 
 Manage.propTypes = {
-  app: PropTypes.object,
+  manage: PropTypes.object,
+  dispatch:PropTypes.func,
 }
 
-export default connect(({ app }) => ({ app }))(Manage)
+export default connect(({ manage }) => ({ manage }))(Manage)
