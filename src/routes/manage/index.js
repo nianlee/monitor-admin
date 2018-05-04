@@ -26,7 +26,7 @@ const Manage = ({ manage,dispatch }) => {
     <div>
       <Tabs type="card" onChange={loadDeviceList}>
         <TabPane tab="用户管理" key="1">
-          <UsersTable/>
+          <UsersTable manage={manage} dispatch={dispatch}/>
         </TabPane>
 
         <TabPane tab="设备管理" key="2">
