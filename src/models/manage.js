@@ -20,44 +20,20 @@ export default {
   effects: {
     *queryDeviceList({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceList,payload)
-      const info = resData.data[0].datDevice
+
       const devicesListInfo = []
-      console.log(info)
-      devicesListInfo.push({
-        key:1,
-        title:'设备名称',
-        description:info.name,
-      })
 
-      devicesListInfo.push({
-        key:2,
-        title:'sn',
-        description:info.sn,
-      })
-
-      devicesListInfo.push({
-        key:3,
-        title:'地址',
-        description:info.detailAddr,
-      })
-
-      devicesListInfo.push({
-        key:4,
-        title:'设备厂商',
-        description:info.manufacturer,
-      })
-
-      devicesListInfo.push({
-        key:5,
-        title:'设备类型',
-        description:info.type,
-      })
-
-      devicesListInfo.push({
-        key:6,
-        title:'设备状态',
-        description:info.state,
-      })
+      for (var v of resData.data) {
+        //console.log(v.datDevice);
+        devicesListInfo.push({
+          name: v.datDevice.name,
+          sn: v.datDevice.sn,
+          detailAddr: v.datDevice.detailAddr,
+          manufacturer: v.datDevice.manufacturer,
+          type: v.datDevice.type,
+          state: v.datDevice.state,
+        })
+      }
 
       yield put({
         type:'updateState',
@@ -65,7 +41,18 @@ export default {
           devicesListInfo:devicesListInfo,
         }
       })
+    },
+
+    // 删除设备
+    *deleteDevice({ payload }, { call, put, select }) {
+
+    },
+
+    //添加设备
+    *addDevice({ payload }, { call, put, select }) {
+
     }
+
   },
 
   reducers: {
