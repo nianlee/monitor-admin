@@ -26,12 +26,13 @@ let database = [
     //   },
     // ]
   },
+  /*
   {
     id: '3',
     name: '实时监控',
     icon: 'api',
     route: '/monitor',
-  },
+  },*/
   {
     id: '4',
     name: 'GIS信息',
