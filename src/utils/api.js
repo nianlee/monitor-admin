@@ -7,4 +7,7 @@ export default {
 
   // 用户登录
   loginLoad: `${config.apiHost}/loginLoad`,
+
+  // 用户管理
+  queryManagerInfoById: `${config.apiHost}/manager/`,
 }
