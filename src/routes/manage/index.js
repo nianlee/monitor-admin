@@ -20,6 +20,13 @@ const Manage = ({ manage,dispatch }) => {
         }
       })
     }
+
+    if(activeKey == 1) {
+      console.log(activeKey)
+      dispatch({
+        type:''
+      })
+    }
   }
 
   return (
@@ -30,7 +37,7 @@ const Manage = ({ manage,dispatch }) => {
         </TabPane>
 
         <TabPane tab="设备管理" key="2">
-          <DevicesTable/>
+          <DevicesTable manage={manage} dispatch={dispatch}/>
         </TabPane>
 
         <TabPane tab="维护策略" key="3">

@@ -123,7 +123,7 @@ class EditableTable extends React.Component {
   }
 
   render() {
-    return <Table bordered dataSource={this.manage.state.data} columns={this.columns}/>
+    return <Table bordered dataSource={this.state.data} columns={this.columns}/>
   }
 }
 
