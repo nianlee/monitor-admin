@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactEcharts from 'echarts-for-react'
 import PropTypes from 'prop-types'
+import styles from '../style.less'
 
 const EquipmentTemperature = ({ dashboard }) => {
   const getOption = () => ({
@@ -8,11 +9,17 @@ const EquipmentTemperature = ({ dashboard }) => {
       text: '设备平均温度'
     },
     tooltip: {},
-    legend: {
-      data:['设备平均温度']
-    },
+    // legend: {
+    //   data:['设备平均温度'],
+    //   bottom: 0,
+    // },
     xAxis: {
       data: ['区域1', '区域2', '区域3', '区域4']
+    },
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
     },
     yAxis: {},
     series: [{
@@ -25,7 +32,7 @@ const EquipmentTemperature = ({ dashboard }) => {
   return (
     <ReactEcharts
       option={getOption()}
-      style={{height: '300px', width: '100%', backgroundColor: '#fff'}}
+      className={styles.echart}
       opts={{ renderer: 'svg' }}/>
   )
 }

@@ -3,28 +3,33 @@ import ReactEcharts from 'echarts-for-react'
 import PropTypes from 'prop-types'
 import styles from '../style.less'
 
-const EquipmentTemperature = ({ dashboard }) => {
+const Soaking = ({ dashboard }) => {
   const getOption = () => ({
     title: {
-      text: '设备平均湿度'
+      text: '设备浸水统计'
     },
     tooltip: {},
+    legend: {
+      data:['浸水', '未浸水'],
+      bottom: 0,
+    },
     toolbox: {
       feature: {
         saveAsImage: {}
       }
     },
-    // legend: {
-    //   data:['设备平均湿度']
-    // },
     xAxis: {
-      data: ['区域1', '区域2', '区域3', '区域4']
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
     },
     yAxis: {},
     series: [{
-      name: '设备平均湿度',
+      name: '浸水',
       type: 'bar',
-      data: [10, 5, 20, 10]
+      data: [5, 20, 36, 10, 20, 32, 25],
+    }, {
+      name: '未浸水',
+      type: 'bar',
+      data: [15, 20, 16, 20, 20, 32, 25],
     }]
   })
 
@@ -37,9 +42,9 @@ const EquipmentTemperature = ({ dashboard }) => {
 }
 
 
-EquipmentTemperature.propTypes = {
+Soaking.propTypes = {
   dashboard: PropTypes.object,
 }
 
 
-export default EquipmentTemperature
+export default Soaking
