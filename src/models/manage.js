@@ -45,7 +45,9 @@ export default {
 
     // 删除设备
     *deleteDevice({ payload }, { call, put, select }) {
-
+      //state.devicesListInfo:state.devicesListInfo.filter(item => item.key != payload.key)
+      yield console.log(payload);
+      //console.log(payload.key);
     },
 
     //添加设备
