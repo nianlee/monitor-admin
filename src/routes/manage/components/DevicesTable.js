@@ -1,16 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect} from 'dva'
-import { Table,Button,Input,Icon,Popconfirm } from 'antd'
+import { Table,Button,Popconfirm} from 'antd'
 
+/*
 class EditableCell extends React.Component {
   constructor(props) {
     super(props)
+
 
     this.state = {
       value:this.props.value,
       editable:false,
     }
+
   }
 
   //function
@@ -33,7 +35,9 @@ class EditableCell extends React.Component {
   }
 
   render() {
-    const { value,editable } = this.state;
+    const { value,editable } = {this.props.value,this.props.editable};
+    console.log('******')
+    console.log(this.state)
     return (
       <div className="">
         {
@@ -70,128 +74,67 @@ EditableCell.propTypes = {
   value:PropTypes.object,
   onchange:PropTypes.func,
 }
+*/
 
+const DevicesTables = ({ manage, dispatch }) => {
 
+  //定义列
+  const columns =[
+    {
+      title:'设备名称',
+      dataIndex:'name',
+      key:'name',
+      width:'10%',
+    },
+    {
+      title:'设备sn编码',
+      dataIndex:'sn',
+      key:'sn',
+      width:'10%',
+    },
+    {
+      title:'地址',
+      dataIndex:'detailAddr',
+      key:'detailAddr',
+      width:'10%',
+    },
+    {
+      title:'设备厂商',
+      dataIndex:'manufacturer',
+      key:'manufacturer',
+      width:'10%',
+    },
+    {
+      title:'设备类型',
+      dataIndex:'type',
+      key:'type',
+      width:'10%',
+    },
+    {
+      title:'设备状态',
+      dataIndex:'state',
+      key:'state',
+      width:'10%',
+    },
 
+    {
+      title:'删除',
+      dataIndex:'删除',
+      width:'10%',
+      render: (text,record) => {
+        manage.devicesListInfo.length > 1 ?
+          (
+            <Popconfirm title="确定删除？" onConfirm={()=>onDelete(record.key)}>
+              <a>删除</a>
+            </Popconfirm>
+          ):null
+      }
+    }
+  ];
 
-//定义表格
-class  EditableTable extends React.Component {
-  //构造函数
-  constructor(props) {
-    super(props);
-    //定义列
-    this.columns =[
-      {
-        title:'设备名称',
-        dataIndex:'设备名称',
-        width:'10%',
-        render:(text,record) => (
-          <EditableCell
-            value={text}
-            onChange={this.onCellChange(record.key,name)}
-          />
-        ),
-      },
-      {
-        title:'sn',
-        dataIndex:'sn',
-        width:'10%',
-        render:(text,record) => (
-          <EditableCell
-            value={text}
-            onChange={this.onCellChange(record.key,name)}
-          />
-        ),
-      },
-      {
-        title:'地址',
-        dataIndex:'地址',
-        width:'10%',
-        render:(text,record) => (
-          <EditableCell
-            value={text}
-            onChange={this.onCellChange(record.key,name)}
-          />
-        ),
-      },
-      {
-        title:'设备厂商',
-        dataIndex:'设备厂商',
-        width:'10%',
-        render:(text,record) => (
-          <EditableCell
-            value={text}
-            onChange={this.onCellChange(record.key,name)}
-          />
-        ),
-      },
-      {
-        title:'设备类型',
-        dataIndex:'设备类型',
-        width:'10%',
-        render:(text,record) => (
-          <EditableCell
-            value={text}
-            onChange={this.onCellChange(record.key,name)}
-          />
-        ),
-      },
-      {
-        title:'设备状态',
-        dataIndex:'设备状态',
-        width:'10%',
-        render:(text,record) => (
-          <EditableCell
-            value={text}
-            onChange={this.onCellChange(record.key,name)}
-          />
-        ),
-      },
-      {
-        title:'删除',
-        dataIndex:'删除',
-        width:'10%',
-        render:(text,record) => {
-          return (
-            // 如果数据源超过一个就可以伤处。
-            this.state.dataSource.length > 1 ?
-              (
-                <Popconfirm title="确定删除？" onConfirm={()=>this.onDelete(record.key)}>
-                  <a href="javascript:;">删除</a>
-                </Popconfirm>
-              ):null
-          );
-        },
-      },
-      ];
-
-    // 初始化数据
-    this.state = {
-      dataSource:[
-        {
-        key:'1',
-        设备名称:'设备1',
-        sn:'11-22-33-44',
-        地址:'关电园',
-        设备厂商:'XXX公司',
-        设备类型:'挂机设备',
-        设备状态:'正常'
-        },
-        {
-          key:'2',
-          设备名称:'设备2',
-          sn:'11-22-33-44',
-          地址:'关电园',
-          设备厂商:'XXX公司',
-          设备类型:'挂机设备',
-          设备状态:'宕机'
-        },
-      ]
-    };
-  }
-
+  /*
   //一行数据变化函数
-  onCellChange (key,dataIndex) {
+  function onCellChange (key,dataIndex){
     return (value)=>{
       const dataSource = [...this.state.dataSource]; //赋值数据
       const target = dataSource.find(item => item.key === key); // 根据index找到改变的item
@@ -201,15 +144,18 @@ class  EditableTable extends React.Component {
       }
     }
   }
+  */
+
 
   //删除设备函数
-  onDelete(key) {
-    const dataSource = [...this.state.dataSource];
+  function onDelete(key) {
+    const dataSource = [...manage.devicesListInfo];
     this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
   }
 
+
   //添加设备函数
-  handleAdd () {
+  function handleAdd(){
     // 定义数据来源
     const { count, dataSource } = this.state;
     const newData = {
@@ -228,38 +174,30 @@ class  EditableTable extends React.Component {
     });
   }
 
-  render() {
-    const { dataSource } = this.state;
-    const columns = this.columns;
-    return (
-      <div>
-        <Button className="" onClick={this.handleAdd}>添加</Button>
-        <Table bordered dataSource={dataSource} columns={columns} />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Button className="" onClick={handleAdd}>添加</Button>
+      <Table bordered dataSource={manage.devicesListInfo} columns={columns} />
+    </div>
+  );
 }
 
+
+
+/*
 EditableTable.propTypes = {
   editable:PropTypes.object,
   value:PropTypes.object,
   onchange:PropTypes.func,
-}
-
-const DevicesTables = (manage,dispatch) =>{
-  return (
-    <EditableTable/>
-  );
-}
+}*/
 
 DevicesTables.propTypes = {
   manage:PropTypes.object,
-  dispatch:PropTypes.object,
+  dispatch:PropTypes.func,
 }
 
 
-
-export default connect(({ manage }) => ({ manage }))(DevicesTables)
+export default DevicesTables
 
 
 

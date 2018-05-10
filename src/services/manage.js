@@ -8,3 +8,11 @@ export function queryDeviceList(data) {
     url: api.queryDeviceSelective,
   })
 }
+
+// 用户查询
+export function queryUserList(data) {
+  return request({
+    data,
+    method:'get',
+  })
+}
