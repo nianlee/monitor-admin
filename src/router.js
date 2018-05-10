@@ -42,6 +42,11 @@ const routes = [
     models: () => [import('./models/login')],
     component: () => import('./routes/login'),
   },
+  {
+    path: '/region',
+    models: () => [import('./models/region')],
+    component: () => import('./routes/region'),
+  },
 
 ]
 

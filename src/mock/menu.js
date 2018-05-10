@@ -43,22 +43,42 @@ let database = [
     id: '5',
     name: '管理策略',
     icon: 'heart-o',
-    route: '/manage',
+    children: [
+      {
+        id: '51',
+        bpid: '5',
+        name: '用户管理',
+        icon: 'search',
+        route: '/manage',
+      },
+      {
+        id: '52',
+        bpid: '5',
+        name: '设备管理',
+        icon: 'search',
+        route: '/manage/equipment',
+      },
+      {
+        id: '53',
+        bpid: '5',
+        name: '角色管理',
+        icon: 'search',
+        route: '/manage/role',
+      },
+      {
+        id: '54',
+        bpid: '5',
+        name: '区域管理',
+        icon: 'search',
+        route: '/region',
+      }
+    ]
   },
   {
     id: '6',
     name: '系统设置',
     icon: 'bars',
     route: '/admin',
-    children: [
-      {
-        id: '61',
-        bpid: '6',
-        name: '用户管理',
-        icon: 'search',
-        route: '/admin/user',
-      }
-    ]
   },
 ]
 

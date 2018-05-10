@@ -1,0 +1,31 @@
+.container {
+  background-color: #fff;
+  margin: 24px 0;
+  padding: 12px;
+}
+
+.nodeTitle {
+  width: 100%;
+}
+
+.editIcon {
+  float: right;
+  width: 30px;
+  text-align: center;
+}
+
+:global .region.ant-tree li span.ant-tree-switcher, 
+:global .region.ant-tree li span.ant-tree-iconEle {
+  height: 40px;
+  line-height: 40px;
+}
+
+:global .region.ant-tree li .ant-tree-node-content-wrapper {
+  height: 40px;
+  line-height: 40px;
+  width: calc(~"100% - 40px");
+}
+
+:global .region.ant-tree.ant-tree-show-line li:not(:last-child):before {
+  margin: 36px 0;
+}
