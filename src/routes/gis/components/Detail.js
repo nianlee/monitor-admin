@@ -11,7 +11,7 @@ const Detail = ({ gis, dispatch }) => {
     dataSource={gis.equitmentInfo}
     renderItem={item => (
       <ListItem>
-        <ListItemMeta title={item.title} description={item.description}/> 
+        <ListItemMeta title={item.title} description={item.description}/>
       </ListItem>
     )}
   />
