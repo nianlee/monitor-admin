@@ -49,14 +49,15 @@ let database = [
         bpid: '5',
         name: '用户管理',
         icon: 'search',
-        route: '/manage',
+        route: '/usermanage',
+
       },
       {
         id: '52',
         bpid: '5',
         name: '设备管理',
         icon: 'search',
-        route: '/manage/equipment',
+        route: '/devicemanage',
       },
       {
         id: '53',

@@ -33,11 +33,6 @@ const routes = [
     component: () => import('./routes/gis'),
   },
   {
-    path: '/manage',
-    models: () => [import('./models/manage')],
-    component: () => import('./routes/manage'),
-  },
-  {
     path: '/login',
     models: () => [import('./models/login')],
     component: () => import('./routes/login'),
@@ -47,7 +42,16 @@ const routes = [
     models: () => [import('./models/region')],
     component: () => import('./routes/region'),
   },
-
+  {
+    path: '/usermanage',
+    models: () => [import('./models/users')],
+    component: () => import('./routes/users'),
+  },
+  {
+    path: '/devicemanage',
+    models: () => [import('./models/devices')],
+    component: () => import('./routes/devices'),
+  },
 ]
 
 function RouterConfig({ history, app }) {

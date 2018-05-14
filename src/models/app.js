@@ -2,7 +2,7 @@ import qs from 'qs'
 import { routerRedux } from 'dva/router'
 // import { openPages } from 'config'
 // import { message } from 'antd'
-import { 
+import {
   getMenu,
   query,
 } from 'services/app'
@@ -63,14 +63,14 @@ export default {
             bpid: '5',
             name: '用户管理',
             icon: 'search',
-            route: '/manage',
+            route: '/usermanage',
           },
           {
             id: '52',
             bpid: '5',
             name: '设备管理',
             icon: 'search',
-            route: '/manage/equipment',
+            route: '/devicemanage',
           },
           {
             id: '53',
@@ -118,7 +118,7 @@ export default {
       dispatch({
         type: 'getMenu',
       })
-      
+
       dispatch({
         type: 'query',
       })
@@ -156,8 +156,8 @@ export default {
 
   reducers: {
     updateState: function(state, { payload }) {
-      return { 
-        ...state, 
+      return {
+        ...state,
         ...payload,
       }
     }

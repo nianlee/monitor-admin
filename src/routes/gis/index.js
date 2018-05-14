@@ -9,6 +9,9 @@ import styles from './style.less'
 const Search = Input.Search
 
 const Gis = ({ gis, dispatch }) => {
+
+  console.log(gis);
+
   const handleSearch = value => {
     console.log(value)
     dispatch({
@@ -23,11 +26,11 @@ const Gis = ({ gis, dispatch }) => {
     <div>
       <Row gutter={24} style={{ backgroundColor: '#fff' }}>
         <Col style={{ textAlign: 'center' }}>
-          <Search 
+          <Search
             className={styles.search}
-            placeholder="请输入设备编号(11-22-33-44-55)" 
-            enterButton="Search" 
-            size="large" 
+            placeholder="请输入设备编号(11-22-33-44-55)"
+            enterButton="Search"
+            size="large"
             onSearch={handleSearch}
           />
         </Col>
