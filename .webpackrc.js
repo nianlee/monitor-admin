@@ -32,6 +32,20 @@ export default {
       //   }
       // },
     },
+    production: {
+      extraBabelPlugins: [
+        'transform-remove-console',
+        [
+          'import', {
+            'libraryName': 'antd',
+            'libraryDirectory': 'es',
+            'style': true
+          },
+        ],
+      ],
+      hash: true,
+      publicPath: './dist/',
+    }
   },
   html: {
     "template": `${__dirname}/src/index.ejs`,
