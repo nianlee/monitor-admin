@@ -23,9 +23,6 @@ const Manage = ({ manage,dispatch }) => {
 
     if(activeKey == 1) {
       console.log(activeKey)
-      dispatch({
-        type:''
-      })
     }
   }
 

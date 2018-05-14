@@ -121,16 +121,22 @@ const DevicesTables = ({ manage, dispatch }) => {
       title:'删除',
       dataIndex:'删除',
       width:'10%',
-      render: (text,record) => {
-        manage.devicesListInfo.length > 1 ?
-          (
-            <Popconfirm title="确定删除？" onConfirm={()=>onDelete(record.key)}>
-              <a>删除</a>
-            </Popconfirm>
-          ):null
-      }
+      render: (text,record) => renderOperation(text,record),
     }
   ];
+
+  function renderOperation(text,record) {
+
+    console.log(record)
+    return (
+          manage.devicesListInfo.length > 1 ?
+            (
+              <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.key)}>
+                <a href="javascript:;">删除</a>
+              </Popconfirm>
+            ) : null
+        );
+  }
 
   /*
   //一行数据变化函数
@@ -149,8 +155,12 @@ const DevicesTables = ({ manage, dispatch }) => {
 
   //删除设备函数
   function onDelete(key) {
-    const dataSource = [...manage.devicesListInfo];
-    this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
+
+    dispatch({
+      type:'manage/deleteDevice',
+      payload:key,
+    });
+    //this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
   }
 
 
@@ -173,6 +183,7 @@ const DevicesTables = ({ manage, dispatch }) => {
       count:count+1,
     });
   }
+
 
   return (
     <div>
