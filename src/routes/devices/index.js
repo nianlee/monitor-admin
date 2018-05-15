@@ -6,8 +6,6 @@ import { Table,Button,Popconfirm} from 'antd'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
-  console.log("---------------");
-  console.log(devices.dataSource);
   //定义列
   const columns =[
     {
@@ -21,6 +19,7 @@ const DeviceManage = ({ devices,dispatch }) => {
       dataIndex:'sn',
       key:'sn',
       width:'10%',
+
     },
     {
       title:'地址',
@@ -48,20 +47,19 @@ const DeviceManage = ({ devices,dispatch }) => {
     },
 
     {
-      title:'删除',
-      dataIndex:'删除',
+      title:'操作',
+      dataIndex:'操作',
       width:'10%',
       render: (text,record) => renderOperation(text,record),
     }
   ];
 
   function renderOperation(text,record) {
-
-    console.log(record)
+    console.log(record.id)
     return (
       devices.dataSource.length > 1 ?
         (
-          <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.key)}>
+          <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.id)}>
             <a href="javascript:;">删除</a>
           </Popconfirm>
         ) : null
@@ -84,11 +82,11 @@ const DeviceManage = ({ devices,dispatch }) => {
 
 
   //删除设备函数
-  function onDelete(key) {
+  function onDelete(id) {
 
     dispatch({
-      type:'manage/deleteDevice',
-      payload:key,
+      type:'devices/deleteDevice',
+      payload:id,
     });
     //this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
   }

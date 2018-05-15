@@ -9,10 +9,11 @@ export function queryDeviceList(data) {
   })
 }
 
-// 用户查询
-export function queryUserList(data) {
+// 设备删除
+export function deleteDevice(data) {
   return request({
     data,
     method:'get',
+    url:api.deleteDevice,
   })
 }

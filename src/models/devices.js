@@ -1,4 +1,4 @@
-import { queryDeviceList } from "../services/manage";
+import { queryDeviceList,deleteDevice } from "../services/manage";
 
 export default {
 
@@ -19,6 +19,7 @@ export default {
       for (var v of resData.data) {
         //console.log(v.datDevice);
         devicesList.push({
+          id:v.datDevice.id,
           name: v.datDevice.name,
           sn: v.datDevice.sn,
           detailAddr: v.datDevice.detailAddr,
@@ -38,9 +39,17 @@ export default {
 
     // 删除设备
     *deleteDevice({ payload }, { call, put, select }) {
-      //state.devicesListInfo:state.devicesListInfo.filter(item => item.key != payload.key)
-      yield console.log(payload);
-      //console.log(payload.key);
+      const result = yield call(deleteDevice,{id:payload})
+      if(result.result === "success") { //删除成功，更新dataSource
+        yield put({
+          type:'updateDeleteState',
+          payload:{
+            id:payload
+          }
+        })
+      } else {
+        throw result.msg
+      }
     },
 
     //添加设备
@@ -56,7 +65,17 @@ export default {
         ...state,
         ...payload,
       }
+    },
+
+    updateDeleteState (state, { payload }) {
+      state.dataSource = state.dataSource.filter(item => item.id != payload.id) //eslint-disable-line
+      return {
+        ...state,
+        ...payload,
+      }
     }
+
+
   },
 
   subscriptions: {
