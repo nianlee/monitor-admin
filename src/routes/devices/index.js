@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Table,Button,Popconfirm} from 'antd'
+import { Table,Button,Popconfirm,Modal} from 'antd'
 
 
 const DeviceManage = ({ devices,dispatch }) => {
@@ -66,6 +66,29 @@ const DeviceManage = ({ devices,dispatch }) => {
     );
   }
 
+  //添加设备函数
+  function handleAdd(){
+    console.log("handle add")
+    const vv = true
+    return (
+      <Modal
+             visible={vv}
+             title="title"
+             />
+    )
+  }
+
+
+  //删除设备函数
+  function onDelete(id) {
+
+    dispatch({
+      type:'devices/deleteDevice',
+      payload:id,
+    });
+    //this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
+  }
+
   /*
   //一行数据变化函数
   function onCellChange (key,dataIndex){
@@ -81,39 +104,7 @@ const DeviceManage = ({ devices,dispatch }) => {
   */
 
 
-  //删除设备函数
-  function onDelete(id) {
 
-    dispatch({
-      type:'devices/deleteDevice',
-      payload:id,
-    });
-    //this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
-  }
-
-
-  //添加设备函数
-  function handleAdd(){
-    /*
-    // 定义数据来源
-    const { count, dataSource } = this.state;
-    const newData = {
-      key: count,
-      设备名称:'add_name',
-      sn:'55-66-77',
-      地址:'关电园',
-      设备厂商:'XXX公司',
-      设备类型:'挂机设备',
-      设备状态:'宕机'
-    };
-
-    this.setState({
-      dataSource:[...dataSource,newData],
-      count:count+1,
-    });
-    */
-    console.log(devices.dataSource);
-  }
 
 
 

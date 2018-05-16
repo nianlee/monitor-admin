@@ -8,7 +8,7 @@ import { Button } from 'antd'
 const UserManage = ({ usermanage,dispatch }) => {
 
   /*
-  const loadDeviceList = activeKey => {
+  const loadDeviceList = activeKey => {L
 
     if(activeKey == 2) {
       console.log(activeKey)
