@@ -1,6 +1,6 @@
 import qs from 'qs'
 import { routerRedux } from 'dva/router'
-// import { openPages } from 'config'
+import config from 'config'
 // import { message } from 'antd'
 import {
   getMenu,
@@ -114,14 +114,13 @@ export default {
       })
     },
 
-    setup({ dispatch }) {
-      dispatch({
-        type: 'getMenu',
-      })
-
-      dispatch({
-        type: 'query',
-      })
+    setup({ dispatch, history }) {
+      // dispatch({
+      //   type: 'getMenu',
+      // })
+      if (config.loginLimit) {
+        dispatch({ type: 'query' })
+      }
     }
   },
 
@@ -137,11 +136,18 @@ export default {
     },
 
     *query ({ payload }, { call, put, select }) {
+      const { locationPathname } = select(_=>_.app)
       const resData = yield call(query)
       if (resData.success) {
         // 用户已登录
-      } else {
-        yield put(routerRedux.push('/login'))
+        if (locationPathname === '/login') {
+          yield put(routerRedux.push('/dashboard'))
+        }
+      } else if (config.openPages.indexOf(locationPathname) < 0) {
+        yield put(routerRedux.push({
+          pathname: '/login',
+          search: qs.stringify({ from: locationPathname }),
+        }))
       }
     },
 

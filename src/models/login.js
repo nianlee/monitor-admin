@@ -1,9 +1,16 @@
 import { loginLoad } from 'services/login'
+import api from 'utils/api'
+import { routerRedux } from 'dva/router'
+import { message } from 'antd'
+
 
 export default {
   namespace: 'login',
 
-  state: {},
+  state: {
+    randomKey: 1,
+    getVerifyCode: api.getVerifyCode, 
+  },
 
   subscriptions: {
     setup({ dispatch, history }) {
@@ -13,13 +20,17 @@ export default {
   effects: {
     *loginLoad({ payload }, { call, put }) { 
       const resData = yield call(loginLoad, payload)
-      console.log(resData)
+      if (resData.success) {
+        put(routerRedux.push('/dashboard'))
+      } else {
+        message.error(resData.message)
+      }
     },
   },
 
   reducers: {
-    save(state, action) {
-      return { ...state, ...action.payload };
+    updateState(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 };
