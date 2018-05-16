@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Modal,Button } from 'antd'
+import { Modal} from 'antd'
 
 const AddModal = ({ device, dispatch }) => {
   let vi = true;
