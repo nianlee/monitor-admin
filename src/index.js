@@ -10,7 +10,7 @@ const app = dva({
     effects: true
   }),
   onError(e, dispatch) {
-    if (e.statusCode === 700) { // 登录授权失效
+    if (e.statusCode === 2000) { // 登录授权失效
       dispatch(routerRedux.push('/login'))
       return
     }

@@ -3,6 +3,7 @@ import axios from 'axios'
 import qs from 'qs'
 import jsonp from 'jsonp'
 
+
 const fetch = (options) => {
   let {
     method = 'get',
@@ -51,7 +52,7 @@ const fetch = (options) => {
 export default function request (options) {
   return fetch(options).then((response) => {
     const { data, statusText, status } = response
-    if (data.result === 'success') {
+    if (data && data.data && data.data.result === 'success') {
       return Promise.resolve({
         ...data,
         success: true,
@@ -69,6 +70,7 @@ export default function request (options) {
     const { response } = error
     let msg
     let statusCode
+
     if (response && response instanceof Object) {
       const { data, statusText } = response
       statusCode = response.status
@@ -77,7 +79,15 @@ export default function request (options) {
       statusCode = error.code
       msg = error.statusText || 'Network Error'
     }
-    /* eslint-disable */
-    return Promise.reject({ success: false, statusCode, message: msg })
+
+    if (statusCode === 2000) {// 未登录
+      return Promise.reject({
+        success: false,
+        statusCode,
+        message: '未登录',
+      })
+    }
+
+    return Promise.resolve({ success: false, statusCode, message: msg })
   })
 }

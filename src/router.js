@@ -52,6 +52,11 @@ const routes = [
     models: () => [import('./models/devices')],
     component: () => import('./routes/devices'),
   },
+  {
+    path: '/manage/role',
+    models: () => [import('./models/role')],
+    component: () => import('./routes/role'),
+  }
 ]
 
 function RouterConfig({ history, app }) {
