@@ -31,15 +31,20 @@ const fetch = (options) => {
     case 'get':
       return axios.get(url, {
         params: data,
+        withCredentials: true,
       })
     case 'delete':
       return axios.delete(url, {
         data: data, 
       })
     case 'post':
-      // 添加 csrf token
-      // axios.defaults.headers.post['x-csrf-token'] = Cookies.get('csrfToken')
-      return axios.post(url, data)
+      return axios({
+        url,
+        method: 'post',
+        withCredentials: true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+      })
     case 'put':
       return axios.put(url, data)
     case 'patch':
@@ -52,7 +57,7 @@ const fetch = (options) => {
 export default function request (options) {
   return fetch(options).then((response) => {
     const { data, statusText, status } = response
-    if (data && data.data && data.data.result === 'success') {
+    if ((data && data.data && data.data.result === 'success') || (data && data.code === 1000)) {
       return Promise.resolve({
         ...data,
         success: true,

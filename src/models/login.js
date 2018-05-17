@@ -21,7 +21,7 @@ export default {
     *loginLoad({ payload }, { call, put }) { 
       const resData = yield call(loginLoad, payload)
       if (resData.success) {
-        put(routerRedux.push('/dashboard'))
+        yield put(routerRedux.push('/dashboard'))
       } else {
         message.error(resData.message)
       }

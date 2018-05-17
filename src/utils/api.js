@@ -8,7 +8,7 @@ export default {
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
-  getVerifyCode: `${config.apiHost}/commom/getVerifyCode`, // 获取验证码
+  getVerifyCode: `${config.apiHost}/common/getVerifyCode`, // 获取验证码
 
   // 用户管理
   queryManagerInfoById: `${config.apiHost}/manager/`,
