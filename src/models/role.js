@@ -1,25 +1,40 @@
-import { loginLoad } from 'services/login'
+import modelExtend from 'dva-model-extend'
+import { queryRoleList } from 'services/role'
+import { pageModel } from './common';
 
-export default {
+
+export default modelExtend(pageModel, {
   namespace: 'role',
 
-  state: {},
+  state: {
+    roleList: [], // 权限列表
+  },
 
   subscriptions: {
     setup({ dispatch, history }) {
+      dispatch({ type: 'queryRoleList' })
     },
   },
 
   effects: {
-    *loginLoad({ payload }, { call, put }) { 
-      const resData = yield call(loginLoad, payload)
+    *queryRoleList({ payload }, { call, put, select }) { 
+      const { pagination } = yield select(_ => _.role)
+      const resData = yield call(queryRoleList, {
+        ...payload,
+        rows: pagination.pageSize,
+        page: pagination.current,
+      })
       console.log(resData)
+      put({ type: 'updateState', payload: { roleList: resData.pageInfo }})
     },
   },
 
   reducers: {
-    save(state, { payload }) {
-      return { ...state, ...payload };
+    updateState(state, { payload }) {
+      return { 
+        ...state,
+        ...payload 
+      };
     },
   },
-};
+})

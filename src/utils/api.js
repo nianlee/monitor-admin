@@ -1,7 +1,7 @@
 import config from './config'
 
 export default {
-  query: '${config.apiHost}/role/queryRoleList', // 用户是否登录
+  query: `${config.apiHost}/role/queryRoleList`, // 用户是否登录
   getMenu: '/getMenu', // 获取菜单
   queryDeviceSelective: `${config.apiHost}/device/queryDeviceSelective`, // 查询设备
   deleteDevice:`${config.apiHost}/device/delDeviceById`, // 删除设备
