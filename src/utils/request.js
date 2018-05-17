@@ -3,7 +3,6 @@ import axios from 'axios'
 import qs from 'qs'
 import jsonp from 'jsonp'
 
-
 const fetch = (options) => {
   let {
     method = 'get',
@@ -31,15 +30,20 @@ const fetch = (options) => {
     case 'get':
       return axios.get(url, {
         params: data,
+        withCredentials: true,
       })
     case 'delete':
       return axios.delete(url, {
         data: data, 
       })
     case 'post':
-      // 添加 csrf token
-      // axios.defaults.headers.post['x-csrf-token'] = Cookies.get('csrfToken')
-      return axios.post(url, data)
+      return axios({
+        url,
+        method: 'post',
+        withCredentials: true,
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        data: qs.stringify(data),
+      })
     case 'put':
       return axios.put(url, data)
     case 'patch':
@@ -52,16 +56,16 @@ const fetch = (options) => {
 export default function request (options) {
   return fetch(options).then((response) => {
     const { data, statusText, status } = response
-    if (data && data.data && data.data.result === 'success') {
+    if (data && data.code === 1000) {
       return Promise.resolve({
-        ...data,
+        data: data.data || null,
         success: true,
         message: data.msg || statusText || '没有描述',
-        statusCode: data.code || status || '没有code',
+        code: data.code || status || '没有code',
       })
     } 
     return Promise.reject({
-      ...data,
+      data: null,
       success: false,
       statusText: data.msg || statusText || '没有描述',
       status: data.code || status || '没有code',
@@ -69,25 +73,25 @@ export default function request (options) {
   }).catch((error) => {
     const { response } = error
     let msg
-    let statusCode
+    let code
 
     if (response && response instanceof Object) {
       const { data, statusText } = response
-      statusCode = response.status
+      code = response.status
       msg = data.message || statusText
     } else {
-      statusCode = error.code
+      code = error.code
       msg = error.statusText || 'Network Error'
     }
 
-    if (statusCode === 2000) {// 未登录
+    if (code === 2000) {// 未登录
       return Promise.reject({
         success: false,
-        statusCode,
+        code,
         message: '未登录',
       })
     }
 
-    return Promise.resolve({ success: false, statusCode, message: msg })
+    return Promise.resolve({ success: false, code, message: msg })
   })
 }
