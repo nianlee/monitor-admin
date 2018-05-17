@@ -6,6 +6,7 @@ import { Table,Button,Popconfirm,Modal} from 'antd'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
+  const state = {visiable : false}
   //定义列
   const columns =[
     {
@@ -69,13 +70,8 @@ const DeviceManage = ({ devices,dispatch }) => {
   //添加设备函数
   function handleAdd(){
     console.log("handle add")
-    const vv = true
-    return (
-      <Modal
-             visible={vv}
-             title="title"
-             />
-    )
+    state.visiable = true;
+
   }
 
 
@@ -110,7 +106,20 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   return (
     <div>
-      <Button className="" onClick={handleAdd}>添加</Button>
+      <Button className="primary" onClick={handleAdd}>添加</Button>
+      <span>
+          <Modal
+            visible={state.visiable}
+            title="title"
+          >
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+          <p>Some contents...</p>
+
+        </Modal>
+      </span>
       <Table bordered dataSource={devices.dataSource} columns={columns} />
     </div>
 
