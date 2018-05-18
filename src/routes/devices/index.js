@@ -1,12 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Table,Button,Popconfirm,Modal} from 'antd'
-
+import { Table,Button,Popconfirm} from 'antd'
+import AddModal from './components/AddModal'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
-  const state = {visiable : false}
+  const { modalVisible } =  devices
+  //modal 属性
+  const modalProps ={ //eslint-disable-line
+    visible:modalVisible,
+    maskClosable:false,
+    title:'添加设备',
+    wrapperClassName:"vertical-center-modal",
+    onOk(data) {
+
+    },
+    onCancel() {
+
+    },
+  }
   //定义列
   const columns =[
     {
@@ -69,9 +82,12 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   //添加设备函数
   function handleAdd(){
-    console.log("handle add")
-    state.visiable = true;
+    dispatch({
+      type:'devices/showAddModal',
+      payload:{
 
+      },
+    })
   }
 
 
@@ -100,26 +116,10 @@ const DeviceManage = ({ devices,dispatch }) => {
   */
 
 
-
-
-
-
   return (
     <div>
       <Button className="primary" onClick={handleAdd}>添加</Button>
-      <span>
-          <Modal
-            visible={state.visiable}
-            title="title"
-          >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-
-        </Modal>
-      </span>
+      <AddModal {...modalProps} />
       <Table bordered dataSource={devices.dataSource} columns={columns} />
     </div>
 

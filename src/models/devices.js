@@ -7,6 +7,7 @@ export default {
   state: {
     //设备列表
     dataSource:[],
+    modalVisible:false
 
   },
 
@@ -73,7 +74,15 @@ export default {
         ...state,
         ...payload,
       }
-    }
+    },
+
+    showAddModal(state,{ payload }) {
+      return {
+        ...state,
+        ...payload,
+        modalVisible:true
+      }
+    },
 
 
   },
