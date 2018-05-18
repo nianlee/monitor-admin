@@ -8,6 +8,8 @@ export default modelExtend(pageModel, {
 
   state: {
     roleList: [], // 权限列表
+    type: null, // 修改or新增
+    modalVisible: false, // 弹框是否显示
   },
 
   subscriptions: {
@@ -25,7 +27,8 @@ export default modelExtend(pageModel, {
         page: pagination.current,
       })
       console.log(resData)
-      put({ type: 'updateState', payload: { roleList: resData.pageInfo }})
+      const roleList = resData.data.pageInfo.rows.map(item => ({ ...item, key: item.id }))
+      yield put({ type: 'updateState', payload: { roleList }})
     },
   },
 

@@ -115,9 +115,6 @@ export default {
     },
 
     setup({ dispatch, history }) {
-      // dispatch({
-      //   type: 'getMenu',
-      // })
       if (config.loginLimit) {
         dispatch({ type: 'query' })
       }
