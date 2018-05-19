@@ -21,13 +21,12 @@ export default modelExtend(pageModel, {
   effects: {
     *queryRoleList({ payload }, { call, put, select }) { 
       const { pagination } = yield select(_ => _.role)
-      const resData = yield call(queryRoleList, {
+      const { data } = yield call(queryRoleList, {
         ...payload,
         rows: pagination.pageSize,
         page: pagination.current,
       })
-      console.log(resData)
-      const roleList = resData.data.pageInfo.rows.map(item => ({ ...item, key: item.id }))
+      const roleList = data.rows.map(item => ({ ...item, key: item.id }))
       yield put({ type: 'updateState', payload: { roleList }})
     },
   },

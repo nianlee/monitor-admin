@@ -56,7 +56,18 @@ const routes = [
     path: '/manage/role',
     models: () => [import('./models/role')],
     component: () => import('./routes/role'),
-  }
+  },
+  {
+    path: '/manage/role/:type',
+    models: () => [import('./models/addOrUpdateRole')],
+    component: () => import('./routes/role/AddOrUpdate'),
+  },
+  {
+    path: '/manage/role/:type/:id',
+    models: () => [import('./models/addOrUpdateRole')],
+    component: () => import('./routes/role/AddOrUpdate'),
+  },
+  
 ]
 
 function RouterConfig({ history, app }) {

@@ -1,9 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { routerRedux } from 'dva/router'
 import { Table } from 'antd'
 import { connect } from 'dva'
-
-import AddOrUpdate from './components/AddOrUpdate'
 
 import styles from './style.less'
 
@@ -47,19 +46,19 @@ const Role = ({ role, dispatch }) => {
     render: (text, record) => { // eslint-disable-line
       return (
         <div>
-          <a onClick={update}>修改</a>
-          <a onClick={add} style={{ marginLeft: 5 }}>新增</a>
+          <a onClick={add}>新增</a>
+          <a style={{ marginLeft: 5 }} onClick={() => update(record)}>修改</a>
         </div>
       )
     }
   }];
 
-  const update = () => {
-    dispatch({ type: 'role/updateState', payload: { modalVisible: true, type: 'update' }})
+  const add = () => {
+    dispatch(routerRedux.push('/manage/role/1'))
   }
 
-  const add = () => {
-    dispatch({ type: 'role/updateState', payload: { modalVisible: true, type: 'add' }})    
+  const update = record => {
+    dispatch(routerRedux.push(`/manage/role/2/${record.id}`))
   }
 
   return (
@@ -68,7 +67,6 @@ const Role = ({ role, dispatch }) => {
         columns={columns}
         dataSource={role.roleList}
       />
-      <AddOrUpdate role={role} dispatch={dispatch}/>
     </div>
   )
 }
