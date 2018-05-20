@@ -64,6 +64,16 @@ export default function request (options) {
         code: data.code || status || '没有code',
       })
     } 
+
+    // if (data && data.result == 'success') {
+    //   return Promise.resolve({
+    //     data,
+    //     success: true,
+    //     message: data.msg || statusText || '没有描述',
+    //     code: data.code || status || '没有code',
+    //   })
+    // }
+
     return Promise.reject({
       data: null,
       success: false,
