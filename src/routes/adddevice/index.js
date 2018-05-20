@@ -181,84 +181,22 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
             <Col span={8}>
               <FormItem
                 {...formItemLayout}
-                label="设备厂商" // eslint-disable-line
+                label="维护人员 " // eslint-disable-line
               >
-                {getFieldDecorator('设备厂商', {
+                {getFieldDecorator('维护人员 ', {
                   rules: [
-                    { required: true, message: '请选输入设备厂商!' }
+                    { required: true, message: '请选输入维护人员 !' }
                   ],
                 })(
                   <Select>
-                    <Option value="86">设备类型1</Option>
-                    <Option value="87">设备类型2</Option>
-                    <Option value="86">设备类型3</Option>
-                    <Option value="87">设备类型4</Option>
-                    <Option value="86">设备类型5</Option>
-                    <Option value="87">设备类型6</Option>
+                    <Option value="86">张三</Option>
+                    <Option value="87">李四</Option>
+                    <Option value="86">王五</Option>
                   </Select>
                 )}
               </FormItem>
             </Col>
 
-            <Col span={8}>
-              <FormItem
-                {...formItemLayout}
-                label="maintainer " // eslint-disable-line
-              >
-                {getFieldDecorator('maintainer ', {
-                  rules: [
-                    { required: true, message: '请选输入maintainer !' }
-                  ],
-                })(
-                  <Select>
-                    <Option value="86">maintainer1</Option>
-                    <Option value="87">maintainer2</Option>
-                    <Option value="86">maintainer3</Option>
-                    <Option value="87">maintainer4</Option>
-                    <Option value="86">maintainer5</Option>
-                    <Option value="87">maintainer6</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
-
-            <Col span={8}>
-              <FormItem
-                {...formItemLayout}
-                label="运营商 " // eslint-disable-line
-              >
-                {getFieldDecorator('运营商 ', {
-                  rules: [
-                    { required: true, message: '请选择运营商 !' }
-                  ],
-                })(
-                  <Select>
-                    <Option value="86">中国移动</Option>
-                    <Option value="87">中国联通</Option>
-                    <Option value="86">中国电信</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
-
-            <Col span={8}>
-              <FormItem
-                {...formItemLayout}
-                label="芯片编码 " // eslint-disable-line
-              >
-                {getFieldDecorator('芯片编码 ', {
-                  rules: [
-                    { required: true, message: '请选择芯片编码 !' }
-                  ],
-                })(
-                  <Select>
-                    <Option value="86">code1</Option>
-                    <Option value="87">code2</Option>
-                    <Option value="86">code3</Option>
-                  </Select>
-                )}
-              </FormItem>
-            </Col>
           </Row>
         </Form>
       </div>
