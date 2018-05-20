@@ -1,4 +1,5 @@
 import { queryDeviceList,deleteDevice } from "../services/manage";
+import { routerRedux } from 'dva/router'
 
 export default {
 
@@ -55,7 +56,7 @@ export default {
 
     //添加设备
     *addDevice({ payload }, { call, put, select }) {
-
+      yield put(routerRedux.push('/adddevice'))
     }
 
   },
@@ -84,7 +85,13 @@ export default {
       }
     },
 
-
+    hideAddModal(state,{ payload }) {
+      return {
+        ...state,
+        ...payload,
+        modalVisible:false
+      }
+    },
   },
 
   subscriptions: {

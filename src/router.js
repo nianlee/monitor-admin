@@ -21,12 +21,12 @@ const routes = [
     models: () => [import('./models/report')],
     component: () => import('./routes/report'),
   },
-  /*
+
   {
-    path: '/monitor',
-    models: () => [import('./models/monitor')],
-    component: () => import('./routes/monitor'),
-  },*/
+    path: '/adddevice',
+    models: () => [import('./models/adddevice')],
+    component: () => import('./routes/adddevice'),
+  },
   {
     path: '/gis',
     models: () => [import('./models/gis')],

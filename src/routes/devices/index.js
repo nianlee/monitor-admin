@@ -13,11 +13,14 @@ const DeviceManage = ({ devices,dispatch }) => {
     maskClosable:false,
     title:'添加设备',
     wrapperClassName:"vertical-center-modal",
+    width:720,
     onOk(data) {
 
     },
     onCancel() {
-
+      dispatch({
+        type:'devices/hideAddModal'
+      })
     },
   }
   //定义列
@@ -83,7 +86,7 @@ const DeviceManage = ({ devices,dispatch }) => {
   //添加设备函数
   function handleAdd(){
     dispatch({
-      type:'devices/showAddModal',
+      type:'devices/addDevice',
       payload:{
 
       },

@@ -42,8 +42,8 @@ const AddModal = ({
     <Modal {...modalOpts}>
       <Form layout="horizontal">
 
-        <FormItem label="NickName" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('nickName', {
+        <FormItem label="sn" hasFeedback {...formItemLayout}>
+          {getFieldDecorator('sn', {
             initialValue: item.nickName,
             rules: [
               {
