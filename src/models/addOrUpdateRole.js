@@ -2,17 +2,89 @@ import {
   queryRoleList,
   queryRoleInfoById,
   queryRoleMenuList,
+  addRole,
+  editRoleById,
 } from 'services/role'
 import pathToRegexp from 'path-to-regexp'
 import { message } from 'antd'
+import { routerRedux } from 'dva/router'
 
 export default {
   namespace: 'addOrUpdateRole',
 
   state: {
     type: null, // 修改or新增
-    roleInfo: null, // 角色信息
-    allMenus: null, // 菜单信息
+    id: null, // 角色信息Id
+    formParams: {
+      parentId: {
+        value: null,
+      },
+      roleName: {
+        value: '',
+      },
+      roleDes: {
+        value: ''
+      },
+      menuIds: {
+        value: []
+      }
+    }, // 表单参数
+    roleSelectData: [{
+      id: '1',
+      name: '权限1',
+    }, {
+      id: '2',
+      name: '权限2',
+    }], // 权限下拉数据
+
+    allMenus: [
+      {
+        "id": 1,
+        "key": 1,
+        "parentId": 0,
+        "menuName": "监控设备管理1",
+        "menuOrder": 0,
+        "permission": "",
+        "childrenList": [{
+          "id": 11,
+          "key": 11,
+          "parentId": 1,
+          "menuName": "监控设备管理11",
+          "menuOrder": 0,
+          "permission": "",
+        }, {
+          "id": 12,
+          "key": 12,
+          "parentId": 1,
+          "menuName": "监控设备管理12",
+          "menuOrder": 0,
+          "permission": "",
+        }]
+      },
+      {
+        "id": 2,
+        "key": 2,
+        "parentId": 0,
+        "menuName": "监控设备管理2",
+        "menuOrder": 0,
+        "permission": "",
+        "childrenList": [{
+          "id": 21,
+          "key": 21,
+          "parentId": 0,
+          "menuName": "监控设备管理21",
+          "menuOrder": 0,
+          "permission": "",
+        }, {
+          "id": 22,
+          "key": 22,
+          "parentId": 0,
+          "menuName": "监控设备管理22",
+          "menuOrder": 0,
+          "permission": "",
+        }]
+      }
+    ], // 菜单信息
   },
 
   subscriptions: {
@@ -26,6 +98,7 @@ export default {
 
         if (match && match[1] == '1') {
           type = 'add'
+          dispatch({ type: 'clearState' })
         }
 
         if (updateMatch && updateMatch[1] == '2' && updateMatch[2]) {
@@ -56,7 +129,21 @@ export default {
       const resData = yield call(queryRoleInfoById, payload)
       console.log(resData)
       if (resData.success) {
-        yield put({ type: 'updateState', payload: { roleInfo: resData.data }})
+        yield put({ type: 'updateState', payload: { id: resData.data.id }})
+        yield put({ type: 'updateFormParams', payload: { 
+          parentId: {
+            value: resData.data.parentId,
+          },
+          roleName: {
+            value: resData.data.roleName,
+          },
+          roleDes: {
+            value: resData.data.roleDes,
+          },
+          menuIds: {
+            value: resData.data.allId && resData.data.allId.split('_') || [],
+          }
+        }})
       } else {
         message.error(resData.message)
       }
@@ -70,6 +157,30 @@ export default {
       } else {
         message.error(resData.message)
       }
+    },
+
+    // 角色添加
+    *addRole({ payload }, { call, put, select }) {
+      const resData = yield call(addRole, payload)
+
+      if (resData.success) {
+        message.success('添加成功')
+        yield put(routerRedux.push('/manage/role'))
+      } else {
+        message.error(resData.message)
+      }
+    },
+
+    // 角色信息更新
+    *editRoleById({ payload }, { call, put, select }) {
+      const resData = yield call( editRoleById, payload )
+
+      if (resData.success) {
+        message.success('更新成功')
+        yield put(routerRedux.push('/manage/role'))
+      } else {
+        message.error(resData.message)
+      }
     }
   },
 
@@ -80,5 +191,36 @@ export default {
         ...payload 
       };
     },
+
+    updateFormParams(state, { payload }) {
+      return {
+        ...state,
+        formParams: {
+          ...state.formParams,
+          ...payload,
+        }
+      }
+    }, 
+
+    clearState(state) {
+      return {
+        ...state,
+        id: null, // 角色信息Id
+        formParams: {
+          parentId: {
+            value: null,
+          },
+          roleName: {
+            value: '',
+          },
+          roleDes: {
+            value: ''
+          },
+          menuIds: {
+            value: []
+          }
+        }, // 表单参数
+      }
+    }
   },
 }

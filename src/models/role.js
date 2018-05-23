@@ -9,7 +9,6 @@ export default modelExtend(pageModel, {
   state: {
     roleList: [], // 权限列表
     type: null, // 修改or新增
-    modalVisible: false, // 弹框是否显示
   },
 
   subscriptions: {
