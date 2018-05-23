@@ -14,8 +14,21 @@ export default {
 
   state: {
     type: null, // 修改or新增
-    roleInfo: null, // 角色信息
-
+    id: null, // 角色信息Id
+    formParams: {
+      parentId: {
+        value: null,
+      },
+      roleName: {
+        value: '',
+      },
+      roleDes: {
+        value: ''
+      },
+      menuIds: {
+        value: []
+      }
+    }, // 表单参数
     roleSelectData: [{
       id: '1',
       name: '权限1',
@@ -85,6 +98,7 @@ export default {
 
         if (match && match[1] == '1') {
           type = 'add'
+          dispatch({ type: 'clearState' })
         }
 
         if (updateMatch && updateMatch[1] == '2' && updateMatch[2]) {
@@ -115,7 +129,21 @@ export default {
       const resData = yield call(queryRoleInfoById, payload)
       console.log(resData)
       if (resData.success) {
-        yield put({ type: 'updateState', payload: { roleInfo: resData.data }})
+        yield put({ type: 'updateState', payload: { id: resData.data.id }})
+        yield put({ type: 'updateFormParams', payload: { 
+          parentId: {
+            value: resData.data.parentId,
+          },
+          roleName: {
+            value: resData.data.roleName,
+          },
+          roleDes: {
+            value: resData.data.roleDes,
+          },
+          menuIds: {
+            value: resData.data.allId && resData.data.allId.split('_') || [],
+          }
+        }})
       } else {
         message.error(resData.message)
       }
@@ -163,5 +191,36 @@ export default {
         ...payload 
       };
     },
+
+    updateFormParams(state, { payload }) {
+      return {
+        ...state,
+        formParams: {
+          ...state.formParams,
+          ...payload,
+        }
+      }
+    }, 
+
+    clearState(state) {
+      return {
+        ...state,
+        id: null, // 角色信息Id
+        formParams: {
+          parentId: {
+            value: null,
+          },
+          roleName: {
+            value: '',
+          },
+          roleDes: {
+            value: ''
+          },
+          menuIds: {
+            value: []
+          }
+        }, // 表单参数
+      }
+    }
   },
 }

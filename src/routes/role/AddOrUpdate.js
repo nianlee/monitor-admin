@@ -34,7 +34,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
         dispatch({ type: 'addOrUpdateRole/addRole', payload: { ...fieldsValue }})
       } else {
         const payload = {
-          Id: addOrUpdateRole.roleInfo.id,
+          Id: addOrUpdateRole.id,
           ...fieldsValue,
         }
         dispatch({ type: 'addOrUpdateRole/editRoleById', payload: { payload }})
@@ -47,17 +47,6 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
   
   const { getFieldDecorator } = form
 
-  const roleInfo = addOrUpdateRole.roleInfo || {}
-
-  const initMenuIds = () => {
-    let menuIds = []
-    if (roleInfo.allId) {
-      menuIds = roleInfo.allId.split('_')
-    }
-    console.log('------', menuIds)
-    return menuIds
-  }
-
   return (
     <div style={{ backgroundColor: '#fff' }}>
       <Form className={styles.form} onSubmit={handleSubmit}>
@@ -66,7 +55,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
           label="上级角色"
         >
           {getFieldDecorator('parentId', { 
-            initialValue: roleInfo.parentId,
+            // initialValue: roleInfo.parentId,
             rules: [{ required: true, message: '请选择上级角色' }]}
           )(
             <Select>
@@ -82,7 +71,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
           label="角色名称"
         >
           {getFieldDecorator('roleName', { 
-            initialValue: roleInfo.roleName,
+            // initialValue: roleInfo.roleName,
             rules: [{ required: true, message: '请输入角色名称' }]}
           )(
             <Input placeholder="请输入角色名称" />
@@ -93,7 +82,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
           label="角色描述"
         >
           {getFieldDecorator('roleDes', { 
-            initialValue: roleInfo.roleDes,
+            // initialValue: roleInfo.roleDes,
             rules: [{ required: true, message: '请输入角色描述' }]}
           )(
             <Input placeholder="请输入角色描述" />
@@ -104,7 +93,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
           label="角色菜单"
         >
           {getFieldDecorator('menuIds', {
-            initialValue: initMenuIds(),
+            // initialValue: initMenuIds(),
             rules: [{ required: true, message: '请输入角色描述' }]}  
           )(
             <MenuSelect dataSource={addOrUpdateRole.allMenus}/>
@@ -129,6 +118,37 @@ AddOrUpdate.propTypes = {
   form: PropTypes.object,
 }
 
-const WrapperAddOrUpdate = Form.create()(AddOrUpdate)
+const formOptions = {
+  onFieldsChange(props, changedFields) {
+    // props.onChange(changedFields);
+    // console.log('---changedFields----', changedFields)
+    props.dispatch({ type: 'addOrUpdateRole/updateFormParams', payload: { ...changedFields }})
+  },
+  mapPropsToFields(props) {
+    // console.log(props)
+    const { formParams } = props.addOrUpdateRole
+
+    return {
+      parentId: Form.createFormField({
+        ...formParams.parentId,
+        value: formParams.parentId.value,
+      }),
+      roleName: Form.createFormField({
+        ...formParams.roleName,
+        value: formParams.roleName.value,
+      }),
+      roleDes: Form.createFormField({
+        ...formParams.roleDes,
+        value: formParams.roleDes.value,
+      }),
+      menuIds: Form.createFormField({
+        ...formParams.menuIds,
+        value: formParams.menuIds.value,
+      }),
+    };
+  }
+}
+
+const WrapperAddOrUpdate = Form.create(formOptions)(AddOrUpdate)
 
 export default connect(({ addOrUpdateRole }) => ({ addOrUpdateRole }))(WrapperAddOrUpdate)
