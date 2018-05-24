@@ -42,7 +42,7 @@ export default {
     // 删除设备
     *deleteDevice({ payload }, { call, put, select }) {
       const result = yield call(deleteDevice,{id:payload})
-      if(result.result === "success") { //删除成功，更新dataSource
+      if(result.result === "true") { //删除成功，更新dataSource
         yield put({
           type:'updateDeleteState',
           payload:{

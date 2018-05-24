@@ -1,24 +1,78 @@
+import { addDevice } from 'services/manage/'
+import { getRegionList } from 'services/manage/'
+import { routerRedux } from 'dva/router'
+import { message } from 'antd'
 
 export default {
 
-  namespace: 'example',
+  namespace: 'adddevice',
 
-  state: {},
-
-  subscriptions: {
-    setup({ dispatch, history }) {  // eslint-disable-line
-    },
+  state: {
+    regionList:[],
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {  // eslint-disable-line
-      yield put({ type: 'save' });
+
+    *add({ payload }, { call, put }) {  // eslint-disable-line
+      const resData = yield call(addDevice,payload)
+      if(resData.success) {
+        yield put(routerRedux.push('/devicemanage'))
+      } else {
+        yield put(routerRedux.push('/dashboard'))
+        message.error(resData.msg)
+      }
     },
+
+    // 获取区域
+    *getRegion({ payload }, { call, put }) {  // eslint-disable-line
+      const resData = yield call(getRegionList,payload)
+
+      if(resData.success) {
+        const relist = []
+        for(var v of resData.data) {
+          console.log(v);
+          relist.push({
+            name:v.name,
+            id:v.id
+          })
+        }
+
+        yield  put({
+          type:'updataRegin',
+          payload:{
+            regionList:relist,
+          }
+        })
+
+      } else {
+
+        message.error(resData.msg)
+      }
+    },
+
   },
 
   reducers: {
-    save(state, action) {
-      return { ...state, ...action.payload };
+
+    updataRegin(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+      }
+    },
+  },
+
+  subscriptions: {
+    setup({ dispatch, history }) {  // eslint-disable-line
+      return history.listen(({pathname,query}) => {
+        if(pathname === '/adddevice') {
+          dispatch({type:'getRegion',
+            payload:{
+              name:'重庆',
+              roleLev:'-1'
+            }})
+        }
+      });
     },
   },
 

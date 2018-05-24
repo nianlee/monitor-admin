@@ -17,3 +17,21 @@ export function deleteDevice(data) {
     url:api.deleteDevice,
   })
 }
+
+// 添加设备
+export function addDevice(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.addDevice,
+  })
+}
+
+// 获取区域树
+export function getRegionList(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryRegion,
+  })
+}
