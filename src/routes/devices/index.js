@@ -88,11 +88,9 @@ const DeviceManage = ({ devices,dispatch }) => {
     dispatch({
       type:'devices/addDevice',
       payload:{
-
       },
     })
   }
-
 
   //删除设备函数
   function onDelete(id) {
@@ -104,21 +102,6 @@ const DeviceManage = ({ devices,dispatch }) => {
     //this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
   }
 
-  /*
-  //一行数据变化函数
-  function onCellChange (key,dataIndex){
-    return (value)=>{
-      const dataSource = [...this.state.dataSource]; //赋值数据
-      const target = dataSource.find(item => item.key === key); // 根据index找到改变的item
-      if(target) { //如果找到了
-        target[dataIndex] = value;
-        this.setState({ dataSource }); // 更新数据源
-      }
-    }
-  }
-  */
-
-
   return (
     <div>
       <Button className="primary" onClick={handleAdd}>添加</Button>
@@ -128,20 +111,6 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   );
 }
-
-  /*
-  const loadDeviceList = activeKey => {
-
-    if(activeKey == 2) {
-      console.log(activeKey)
-      dispatch({
-        type:'manage/queryDeviceList',
-        payload:{
-          installAddr:1
-        }
-      })
-    }
-  }*/
 
 DeviceManage.propTypes = {
   devices: PropTypes.object,

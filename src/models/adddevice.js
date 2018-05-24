@@ -12,7 +12,6 @@ export default {
   },
 
   effects: {
-
     *add({ payload }, { call, put }) {  // eslint-disable-line
       const resData = yield call(addDevice,payload)
       if(resData.success) {
@@ -26,11 +25,12 @@ export default {
     // 获取区域
     *getRegion({ payload }, { call, put }) {  // eslint-disable-line
       const resData = yield call(getRegionList,payload)
+      const relist = []
 
       if(resData.success) {
-        const relist = []
         for(var v of resData.data) {
-          console.log(v);
+
+          console.log(v)
           relist.push({
             name:v.name,
             id:v.id
@@ -45,7 +45,6 @@ export default {
         })
 
       } else {
-
         message.error(resData.msg)
       }
     },
@@ -55,6 +54,7 @@ export default {
   reducers: {
 
     updataRegin(state, { payload }) {
+      console.log(payload)
       return {
         ...state,
         ...payload,

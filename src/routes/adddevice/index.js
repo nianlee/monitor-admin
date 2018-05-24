@@ -11,6 +11,7 @@ const Option = Select.Option;
 const AddDevice = ({ adddevice, dispatch, form }) => {
 
 
+  //console.log(adddevice.regionList);
   const regionLists = adddevice.regionList.map(region => <Option key={region.id}>region.name</Option>)
   // 添加设备请求
   const handleSubmit = (e) => {
