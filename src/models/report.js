@@ -16,8 +16,11 @@ export default {
   },
 
   reducers: {
-    save(state, action) {
-      return { ...state, ...action.payload };
+    updateState(state, { payload }) {
+      return { 
+        ...state,
+        ...payload 
+      };
     },
   },
 

@@ -14,7 +14,13 @@ export default {
   getVerifyCode: `${config.apiHost}/common/getVerifyCode`, // 获取验证码
 
   // 用户管理
-  queryManagerInfoById: `${config.apiHost}/manager/`,
+  queryManagerInfoById: `${config.apiHost}/manager`,
+
+  // 区域管理
+  queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表
+  addArea: `${config.apiHost}/area/addArea`, // 添加区域接口
+  editAreaById: `${config.apiHost}/area/editAreaById`, // 修改区域接口
+  delAreaById: `${config.apiHost}/area/delAreaById`, // 删除区域接口
 
   // 角色管理
   queryRoleList: `${config.apiHost}/role/queryRoleList`, // 角色列表查询
