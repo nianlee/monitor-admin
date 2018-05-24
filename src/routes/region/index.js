@@ -44,6 +44,18 @@ const Region = ({ region, dispatch }) => {
       </div>
   }
 
+  const genTreeNode = treeData => {
+    return treeData.map(item => {
+      if (item.children.length > 0) {
+        return <TreeNode title={renderNodeTitle(item.name)} key={item.id}>
+          {genTreeNode(item.children)}
+        </TreeNode>
+      } else {
+        return <TreeNode title={renderNodeTitle(item.name)} key={item.id} />
+      }
+    })
+  }
+
   return (
     <div className={styles.container}>
       <Tree
@@ -52,20 +64,7 @@ const Region = ({ region, dispatch }) => {
         onSelect={this.onSelect}
         className="region"
       >
-        <TreeNode title={renderNodeTitle('重庆市')} key="0-0">
-          <TreeNode title={renderNodeTitle('万州区')} key="0-0-0">
-            <TreeNode title={renderNodeTitle('1')} key="0-0-0-0" />
-            <TreeNode title={renderNodeTitle('2')} key="0-0-0-1" />
-            <TreeNode title={renderNodeTitle('3')} key="0-0-0-2" />
-          </TreeNode>
-          <TreeNode title={renderNodeTitle('渝中区')} key="0-0-1">
-            <TreeNode title={renderNodeTitle('1')} key="0-0-1-0" />
-          </TreeNode>
-          <TreeNode title={renderNodeTitle('渝北区')} key="0-0-2">
-            <TreeNode title={renderNodeTitle('1')} key="0-0-2-0" />
-            <TreeNode title={renderNodeTitle('2')} key="0-0-2-1" />
-          </TreeNode>
-        </TreeNode>
+       {genTreeNode(region.regionTreeData)}
       </Tree>
     </div>
   )
