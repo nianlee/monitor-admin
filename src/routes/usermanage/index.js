@@ -1,3 +1,4 @@
+/*
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Tabs } from 'antd'
@@ -47,3 +48,4 @@ Manage.propTypes = {
 }
 
 export default connect(({ manage }) => ({ manage }))(Manage)
+*/

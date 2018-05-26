@@ -23,7 +23,7 @@ const findParentId = (datas, id) => {
   return null
 }
 
-class MenuSelect extends Component {
+class MenuSelect extends Component { // eslint-disable-line
   constructor(props) {
     super(props)
     const value = props.value
@@ -97,10 +97,10 @@ class MenuSelect extends Component {
 
     const renderChild = (data) => {
       return data.map(item => {
-        return (<Checkbox 
+        return (<Checkbox
           value={item.id}
-          key={item.id} 
-          checked={isChecked(item)} 
+          key={item.id}
+          checked={isChecked(item)}
           onChange={this.level2Change.bind(this)}
         >
           {item.menuName}</Checkbox>)
@@ -110,9 +110,9 @@ class MenuSelect extends Component {
     return dataSource.map(item => {
       if (item.childrenList) {
         return (<div key={item.id}>
-          <Checkbox 
+          <Checkbox
             value={item.id}
-            onChange={this.level1Change.bind(this)}  
+            onChange={this.level1Change.bind(this)}
             checked={isChecked(item)}
           >{item.menuName}</Checkbox>
           <div className={styles.level2}>{renderChild(item.childrenList)}</div>
@@ -120,11 +120,11 @@ class MenuSelect extends Component {
       }
 
       return (<div key={item.id}>
-        <Checkbox 
-          key={item.id} 
+        <Checkbox
+          key={item.id}
           value={item.id}
-          onChange={this.level1Change.bind(this)}  
-          checked={isChecked(item)} 
+          onChange={this.level1Change.bind(this)}
+          checked={isChecked(item)}
         >
           {item.menuName}</Checkbox>
       </div>)

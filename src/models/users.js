@@ -2,11 +2,16 @@ import { queryDeviceList } from "../services/manage";
 
 export default {
 
-  namespace: 'usermanage',
+  namespace: 'users',
 
   state: {
-    // 用户列表
-    usetListInfo:[],
+
+    // 用户列表的info
+    userListInfo:[],
+    // 某一个用户的info
+    userInfo:[],
+    modalVisible:false,
+
 
   },
 
@@ -16,7 +21,7 @@ export default {
   },
 
   effects: {
-    *queryDeviceList({ payload }, { call, put, select }) {
+    *queryUserList({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceList,payload)
 
       const devicesListInfo = []
@@ -41,18 +46,6 @@ export default {
       })
     },
 
-    // 删除设备
-    *deleteDevice({ payload }, { call, put, select }) {
-      //state.devicesListInfo:state.devicesListInfo.filter(item => item.key != payload.key)
-      yield console.log(payload);
-      //console.log(payload.key);
-    },
-
-    //添加设备
-    *addDevice({ payload }, { call, put, select }) {
-
-    }
-
   },
 
   reducers: {
@@ -61,7 +54,23 @@ export default {
         ...state,
         ...payload,
       }
-    }
+    },
+
+    showAddModal(state,{ payload }) {
+      return {
+        ...state,
+        ...payload,
+        modalVisible:true
+      }
+    },
+
+    hideAddModal(state,{ payload }) {
+      return {
+        ...state,
+        ...payload,
+        modalVisible:false
+      }
+    },
   },
 
 };
