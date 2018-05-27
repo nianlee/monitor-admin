@@ -3,7 +3,8 @@ export default {
 
   namespace: 'dashboard',
 
-  state: {},
+  state: {
+  },
 
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line

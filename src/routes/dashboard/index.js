@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Row, Col, Card } from 'antd'
 import { connect } from 'dva'
 import EquipmentSummary from './components/EquipmentSummary'
-// import OnlineRate from './components/OnlineRate'
-// import EquipmentTemperature from './components/EquipmentTemperature'
+import Online from './components/Online'
+import Fault from './components/Fault'
 // import EquipmentHumidity from './components/EquipmentHumidity'
 // import Two from './components/Two'
 // import Six from './components/Six'
@@ -13,10 +13,11 @@ import EquipmentSummary from './components/EquipmentSummary'
 // import Soaking from './components/Soaking'
 // import styles from './style.less'
 
-const Dashboard = ({
-  dashboard,
-}) => {
-  return (<div>
+const Dashboard = ({ dashboard, dispatch }) => {
+
+  const childProps = { dashboard, dispatch }
+
+  return (<div className="dashboard">
     <Row gutter={24} style={{ marginTop: '30px' }}>
       <Col>
         <EquipmentSummary dashboard={dashboard} />
@@ -32,10 +33,10 @@ const Dashboard = ({
     </Row>
     <Row gutter={24} style={{ marginTop: '30px' }}>
       <Col span="12">
-        <Card title="在线设备列表" />
+        <Online {...childProps} />
       </Col>
       <Col span="12">
-        <Card title="故障设备列表" />
+        <Fault {...childProps} />
       </Col>
     </Row>
   </div>)
@@ -43,6 +44,7 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
   dashboard: PropTypes.object,
+  dispatch: PropTypes.func,
 }
 
 export default connect(({ dashboard }) => ({ dashboard }))(Dashboard)
