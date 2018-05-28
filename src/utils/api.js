@@ -15,6 +15,11 @@ export default {
 
   // 用户管理
   queryManagerInfoById: `${config.apiHost}/manager`,
+  queryUserListInfo: `${config.apiHost}/manager/managerList`,
+  deleteUserInfo: `${config.apiHost}/manager/delManagerById`,
+  modifyUserInfo:`${config.apiHost}/manager/editManagerById`,
+  queryUserInfo:`${config.apiHost}/manager/queryManagerInfoById`,
+  addUserInfo:`${config.apiHost}/manager/addManager`,
 
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表
