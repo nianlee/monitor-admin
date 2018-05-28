@@ -1,9 +1,8 @@
 import { queryUserList,deleteUserInfo } from "../services/manage";
-import { routerRedux } from 'dva/router'
 
 export default {
 
-  namespace: 'users',
+  namespace: 'modifyUser',
 
   state: {
 
@@ -47,10 +46,6 @@ export default {
         throw resDate.msg
       }
     },
-
-    *modifyUserInfo({ payload },{ call, put, select }) {
-      yield put(routerRedux.push('/modifyUser'))
-    }
   },
 
   reducers: {
@@ -60,45 +55,10 @@ export default {
         ...payload,
       }
     },
-
-    updateDeleteState(state,{payload}) {
-      state.userListInfo = state.userListInfo.filter(u => u.id != payload.id)
-      return {
-        ...state,
-        ...payload,
-      }
-    },
-
-    showAddModal(state,{ payload }) {
-      return {
-        ...state,
-        ...payload,
-        modalVisible:true
-      }
-    },
-
-    hideAddModal(state,{ payload }) {
-      return {
-        ...state,
-        ...payload,
-        modalVisible:false
-      }
-    },
   },
 
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line
-      return history.listen(({pathname,query}) => {
-        if(pathname === '/usermanage') {
-          dispatch({
-            type:'queryUserList',
-            payload:{
-              searchCom:'test',
-              page:'1',
-              row:'2'
-            }})
-        }
-      });
     },
   },
 
