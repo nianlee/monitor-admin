@@ -25,43 +25,50 @@ const UserManage = ({ users,dispatch }) => {
     },
   }
 
-  const data = [];
-  for (let i = 0;i<100;i++) {
-    data.push({
-      序号:i.toString(),
-      用户名:'wdy ${i}',
-      部门:'运维 ${i}部',
-      权限:'权限 ${i}'});
+  const UserList = [];
+  let i = 0;
+  for(let u of users.userListInfo) {
+    i++
+    UserList.push({
+      id:u.id,
+      index:i.toString(),
+      userName:u.userName,
+      phone:u.phone,
+      roleName:u.roleName,
+      areaName:u.areaName[0]
+    })
   }
 
   const columns = [
     {
       title:'序号',
-      dataIndex:'序号',
-      width:'25%',
-      //render:(text,record)=> renderColumns(text,record,'序号'),
+      dataIndex:'index',
+      width:'5%',
     },
     {
       title:'用户名',
-      dataIndex:'用户名',
-      width:'15%',
-      //render:(text,record) => renderColumns(text,record,'用户名'),
+      dataIndex:'userName',
+      width:'10%',
     },
     {
-      title:'部门',
-      dataIndex:'部门',
-      width:'15%',
-      //render:(text,record) => renderColumns(text,record,'部门'),
+      title:'电话',
+      dataIndex:'phone',
+      width:'10%',
     },
     {
-      title:'权限',
-      dataIndex:'权限',
+      title:'角色',
+      dataIndex:'roleName',
       width:'15%',
-      //render:(text,record) => renderColumns(text,record,'权限'),
+    },
+    {
+      title:'区域',
+      dataIndex:'areaName',
+      width:'15%',
     },
     {
       title:'操作',
-      dataIndex:'操作',
+      dataIndex:'operation',
+      width:'15%',
       render: (text,record) => renderOperation(text,record),
     },
   ];
@@ -69,7 +76,7 @@ const UserManage = ({ users,dispatch }) => {
   // operation
   function renderOperation(text,record) {
     return (
-      data.length > 1 ?
+      UserList.length > 1 ?
         (
           <div>
 
@@ -80,7 +87,7 @@ const UserManage = ({ users,dispatch }) => {
                onClick={()=>showUser(record)}
                style={{ marginLeft: 8 }}>查看</a>
 
-            <Popconfirm title="确定删除吗?">
+            <Popconfirm title="确定删除吗?" onConfirm={() => deleteUserAction(record.id)}>
               <a href="javascript:;" style={{ marginLeft: 8 }}>删除</a>
             </Popconfirm>
           </div>
@@ -89,12 +96,11 @@ const UserManage = ({ users,dispatch }) => {
   }
 
   function edit(key) {
-    const newData = [ ...data];
-    const target = newData.filter(item=>key === item.key)[0];
-    if(target) {
-      target.editable = true;
-      this.setState({data:newData});
-    }
+    console.log(key)
+    dispatch({
+      type:'users/modifyUserInfo',
+      payload:key,
+    })
   }
 
   function showUser(record) {
@@ -105,16 +111,14 @@ const UserManage = ({ users,dispatch }) => {
   }
 
 
-  /*
-  function renderColumns(text,record,column) {
-    return (
-      <EditableCell
-        editable={record.editable}
-        value={text}
-        onChange={value=>handleChange(value,record.key,column)}
-      />
-    );
+
+  function deleteUserAction(id) {
+    dispatch({
+      type:'users/deleteUserInfo',
+      payload:id
+    })
   }
+  /*
 
   function handleChange(value,key,column) {
     const newData = [ ...data];
@@ -143,7 +147,7 @@ const UserManage = ({ users,dispatch }) => {
     <div>
       <Button type="primary" onClick={handleAdd}>添加</Button>
       <ShowModal {...modalProps}/>
-      <Table bordered dataSource={data} columns={columns}/>
+      <Table bordered dataSource={UserList} columns={columns}/>
     </div>
   )
 }
