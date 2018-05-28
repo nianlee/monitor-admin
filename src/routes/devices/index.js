@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
+import { routerRedux } from 'dva/router'
 import AddModal from './components/AddModal'
 
 const DeviceManage = ({ devices,dispatch }) => {
@@ -85,11 +86,12 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   //添加设备函数
   function handleAdd(){
-    dispatch({
-      type:'devices/addDevice',
-      payload:{
-      },
-    })
+    dispatch(routerRedux.push('/adddevice'))
+    // dispatch({
+    //   type:'devices/addDevice',
+    //   payload:{
+    //   },
+    // })
   }
 
   //删除设备函数

@@ -31,7 +31,7 @@ export function addDevice(data) {
 export function getRegionList(data) {
   return request({
     data,
-    method:'post',
+    method:'get',
     url:api.queryRegion,
   })
 }
