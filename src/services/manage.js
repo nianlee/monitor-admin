@@ -35,3 +35,22 @@ export function getRegionList(data) {
     url:api.queryRegion,
   })
 }
+
+// 用户查询
+export function queryUserList(data) {
+  return request({
+    data,
+    method: 'post',
+    url: api.queryUserListInfo,
+  })
+}
+
+// 删除用户
+export function deleteUserInfo(data) {
+  return request({
+    data,
+    method:'post',
+    uri:api.deleteUserInfo,
+  })
+
+}
