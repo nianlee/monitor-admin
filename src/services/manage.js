@@ -31,8 +31,8 @@ export function addDevice(data) {
 export function getRegionList(data) {
   return request({
     data,
-    method:'get',
-    url:api.queryAreaList,
+    method:'post',
+    url:api.queryRegion,
   })
 }
 
