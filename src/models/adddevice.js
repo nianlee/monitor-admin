@@ -69,7 +69,7 @@ export default {
           dispatch({
             type:'getRegion',
             payload:{
-              name:'重庆',
+              parentId:'500100',
               roleLev:'-1'
             }})
         }
