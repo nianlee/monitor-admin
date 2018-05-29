@@ -28,6 +28,11 @@ const routes = [
     component: () => import('./routes/adddevice'),
   },
   {
+    path: '/controldevice',
+    models: () => [import('./models/controldevice')],
+    component: () => import('./routes/controldevice'),
+  },
+  {
     path: '/gis',
     models: () => [import('./models/gis')],
     component: () => import('./routes/gis'),
@@ -67,7 +72,7 @@ const routes = [
     models: () => [import('./models/addOrUpdateRole')],
     component: () => import('./routes/role/AddOrUpdate'),
   },
-  
+
 ]
 
 function RouterConfig({ history, app }) {
