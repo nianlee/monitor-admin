@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
-import { routerRedux } from 'dva/router'
-import AddModal from './components/AddModal'
+//import { routerRedux } from 'dva/router'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
@@ -75,23 +74,42 @@ const DeviceManage = ({ devices,dispatch }) => {
   function renderOperation(text,record) {
     console.log(record.id)
     return (
-      devices.dataSource.length > 1 ?
-        (
-          <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.id)}>
-            <a href="javascript:;">删除</a>
-          </Popconfirm>
-        ) : null
+      <div>
+
+        <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.id)}>
+          <a href="javascript:;">删除</a>
+        </Popconfirm>
+
+        <a href="javascript:;"
+           onClick={()=>controlDevice(record)}
+           style={{ marginLeft: 8 }}>控制</a>
+
+        <a href="javascript:;"
+           onClick={()=>updateDevice(record)}
+           style={{ marginLeft: 8 }}>升级</a>
+
+
+      </div>
     );
+  }
+
+  function controlDevice(id) {
+
+    dispatch({
+      type:'devices/controlDevice',
+    });
+  }
+
+  function updateDevice(id) {
+    //routerRedux.push('/controldevice')
   }
 
   //添加设备函数
   function handleAdd(){
-    dispatch(routerRedux.push('/adddevice'))
-    // dispatch({
-    //   type:'devices/addDevice',
-    //   payload:{
-    //   },
-    // })
+    dispatch({
+      type:'devices/addDevice',
+    });
+    //routerRedux.push('/adddevice')
   }
 
   //删除设备函数
@@ -101,13 +119,11 @@ const DeviceManage = ({ devices,dispatch }) => {
       type:'devices/deleteDevice',
       payload:id,
     });
-    //this.setState({dataSource:dataSource.filter(item => item.key != key)}); //筛选出不是这个元素的其他所有元素
   }
 
   return (
     <div>
       <Button className="primary" onClick={handleAdd}>添加</Button>
-      <AddModal {...modalProps} />
       <Table bordered dataSource={devices.dataSource} columns={columns} />
     </div>
 

@@ -32,7 +32,7 @@ export function getRegionList(data) {
   return request({
     data,
     method:'get',
-    url:api.queryRegion,
+    url:api.queryAreaList,
   })
 }
 

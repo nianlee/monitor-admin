@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Form, Input,Icon, Row, Col,Select,Button } from 'antd'
+import { Form, Input,Icon, Row, Col,Select,Button,Tag  } from 'antd'
 import styles from "./style.less"
+import { routerRedux } from 'dva/router'
 
 
 const FormItem = Form.Item;
@@ -12,7 +13,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
 
 
   //console.log(adddevice.regionList);
-  const regionLists = adddevice.regionList.map(region => <Option key={region.id}>region.name</Option>)
+  const regionLists = adddevice.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
   // 添加设备请求
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -82,6 +83,10 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     headers:{
       authorization:'authorization-text'
     }
+  }
+
+  function handleMap() {
+    dispatch(routerRedux.push('/adddevice'))
   }
 
   return (
@@ -182,7 +187,11 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
                   { required: true, message: '请输入详细地址！' }
                 ],
               })(
-                <Input prefix={<Icon type="address" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="详细地址" />
+                <div>
+                  <Tag>地址</Tag>
+                  <a href="javascript:;" style={{marginLeft:'5px'}} onClick={() => handleMap()}>地图上选择详细地址</a>
+                </div>
+
               )}
             </FormItem>
           </Col>

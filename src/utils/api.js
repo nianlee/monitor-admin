@@ -34,6 +34,4 @@ export default {
   editRoleById: `${config.apiHost}/role/editRoleById`, // 角色更新
   queryRoleMenuList: `${config.apiHost}/role/queryRoleMenuList`, // 角色菜单查询
 
-  // 区域管理
-  queryRegion:`${config.apiHost}/area/queryAreaList`, // 查询区域树
 }
