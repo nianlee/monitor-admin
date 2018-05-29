@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactEcharts from 'echarts-for-react'
-import Empty from './Empty'
+// import Empty from './Empty'
 
-const Statistics = ({ dashboard }) => {
+const PieStatistics = ({ dashboard }) => {
   const getOption = () => ({
     title: {
-      text: `总人数${dashboard.total}`,
+      text: `总设备${dashboard.total}`,
       left: 'center',
       top: 7,
       textStyle: {
@@ -22,19 +22,19 @@ const Statistics = ({ dashboard }) => {
       bottom: 0,
       left: 'center',
       data: [{
-        name: `女性员工 ${dashboard.woman}`,
-        icon: 'circle',
-        textStyle: {
-          color: '#FFD6E7'
-        }
-      }, {
-        name: `男性员工 ${dashboard.man}`,
+        name: `正常设备 ${dashboard.normal}`,
         icon: 'circle',
         textStyle: {
           color: '#BAE7FF'
         }
       }, {
-        name: `未设置 ${dashboard.unknown}`,
+        name: `离线设备 ${dashboard.offline}`,
+        icon: 'circle',
+        textStyle: {
+          color: '#FFD6E7'
+        }
+      }, {
+        name: `故障设备 ${dashboard.error}`,
         icon: 'circle',
       }]
     },
@@ -59,20 +59,20 @@ const Statistics = ({ dashboard }) => {
         },
         data:[
           {
-            value: dashboard.woman, 
-            name: `女性员工 ${dashboard.woman}`,
+            value: dashboard.normal, 
+            name: `正常设备 ${dashboard.normal}`,
+            itemStyle: {
+              color: '#BAE7FF'
+            }
+          }, {
+            value: dashboard.offline,
+            name: `离线设备 ${dashboard.offline}`,
             itemStyle: {
               color: '#FFD6E7',
             }
           }, {
-            value: dashboard.man,
-            name: `男性员工 ${dashboard.man}`,
-            itemStyle: {
-              color: '#BAE7FF',
-            }
-          }, {
-            value: dashboard.unknown,
-            name: `未设置 ${dashboard.unknown}`,
+            value: dashboard.error,
+            name: `故障设备 ${dashboard.error}`,
           },
         ],
         itemStyle: {
@@ -86,18 +86,17 @@ const Statistics = ({ dashboard }) => {
     ]
   })
 
-  return <div>{(!dashboard.total || dashboard.total <= 0)
-    ? <Empty type="noData" msg="暂无数据"/>
-    : <ReactEcharts
-        option={getOption()}
-        style={{height: '260px', width: '100%'}}
-        opts={{ renderer: 'svg' }}
-      />
-  }</div>
+  return <div>
+    <ReactEcharts
+      option={getOption()}
+      style={{height: '260px', width: '100%'}}
+      opts={{ renderer: 'svg' }}
+    />
+  </div>
 }
 
-Statistics.propTypes = {
+PieStatistics.propTypes = {
   dashboard: PropTypes.object,
 }
 
-export default Statistics
+export default PieStatistics

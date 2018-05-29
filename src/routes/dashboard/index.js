@@ -5,7 +5,7 @@ import { connect } from 'dva'
 import EquipmentSummary from './components/EquipmentSummary'
 import Online from './components/Online'
 import Fault from './components/Fault'
-// import EquipmentHumidity from './components/EquipmentHumidity'
+import PieStatistics from './components/PieStatistics'
 // import Two from './components/Two'
 // import Six from './components/Six'
 // import One from './components/One'
@@ -28,7 +28,9 @@ const Dashboard = ({ dashboard, dispatch }) => {
         <Card title="警告排行" />
       </Col>
       <Col span="12">
-        <Card title="本日设备运行情况" />
+        <Card title="本日设备运行情况">
+          <PieStatistics {...childProps} />
+        </Card>
       </Col>
     </Row>
     <Row gutter={24} style={{ marginTop: '30px' }}>
