@@ -1,5 +1,4 @@
-import { addDevice } from 'services/manage/'
-import { getRegionList } from 'services/manage/'
+import { getRegionList,addDevice } from 'services/manage/'
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
 
@@ -23,8 +22,9 @@ export default {
     },
 
     // 获取区域
-    *getRegion({ payload }, { call, put }) {  // eslint-disable-line
+    *getRegion({ payload }, { call, put }) {
       const resData = yield call(getRegionList,payload)
+
       const relist = []
 
       if(resData.success) {
@@ -66,7 +66,8 @@ export default {
     setup({ dispatch, history }) {  // eslint-disable-line
       return history.listen(({pathname,query}) => {
         if(pathname === '/adddevice') {
-          dispatch({type:'getRegion',
+          dispatch({
+            type:'getRegion',
             payload:{
               name:'重庆',
               roleLev:'-1'

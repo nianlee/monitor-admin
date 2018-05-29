@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
-import AddModal from './components/AddModal'
+import { routerRedux } from 'dva/router'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
@@ -72,28 +72,46 @@ const DeviceManage = ({ devices,dispatch }) => {
   ];
 
   function renderOperation(text,record) {
-    console.log(record.id)
+
     return (
-      devices.dataSource.length > 1 ?
+      <div>
+        <Popconfirm title="确定删除吗?" onConfirm={() => handleDelete(record.id)}>
+          <a href="javascript:;">删除</a>
+        </Popconfirm>
+
+        <a href="javascript:;" style={{marginLeft:'5px'}} onClick={() => handleControl(record.id)}>控制</a>
+
+        <a href="javascript:;" style={{marginLeft:'5px'}} onClick={() => handleControl(record.id)}>升级</a>
+      </div>
+        /*
+        devices.dataSource.length > 1 ?
         (
-          <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.id)}>
-            <a href="javascript:;">删除</a>
-          </Popconfirm>
+        <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.id)}>
+          <a href="javascript:;">删除</a>
+        </Popconfirm>
         ) : null
+        */
+
+
     );
   }
 
   //添加设备函数
   function handleAdd(){
+    dispatch(routerRedux.push('/adddevice'))
+  }
+
+  // 跳转到控制页面
+  function handleControl(id) {
     dispatch({
-      type:'devices/addDevice',
-      payload:{
-      },
+      type:'devices/controlDevice',
+      payload:id,
     })
   }
 
   //删除设备函数
-  function onDelete(id) {
+  function handleDelete(id) {
+
 
     dispatch({
       type:'devices/deleteDevice',
@@ -105,7 +123,6 @@ const DeviceManage = ({ devices,dispatch }) => {
   return (
     <div>
       <Button className="primary" onClick={handleAdd}>添加</Button>
-      <AddModal {...modalProps} />
       <Table bordered dataSource={devices.dataSource} columns={columns} />
     </div>
 
