@@ -54,12 +54,12 @@ export default {
       }
     },
 
-    /*
+
     //添加设备
     *addDevice({ payload }, { call, put, select }) {
       yield put(routerRedux.push('/adddevice'))
     },
-    */
+
 
     //跳转到控制页面
     *controlDevice({ payload },{ call,put,select }) {
