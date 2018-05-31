@@ -34,4 +34,6 @@ export default {
   editRoleById: `${config.apiHost}/role/editRoleById`, // 角色更新
   queryRoleMenuList: `${config.apiHost}/role/queryRoleMenuList`, // 角色菜单查询
 
+  // 其他
+  regeo: 'http://restapi.amap.com/v3/geocode/regeo', // 逆地理编码
 }

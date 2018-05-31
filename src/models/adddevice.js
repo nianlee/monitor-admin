@@ -1,6 +1,7 @@
 import { getRegionList,addDevice } from 'services/manage/'
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
+// import { regeo } from 'services/device'
 
 export default {
 
@@ -8,6 +9,9 @@ export default {
 
   state: {
     regionList:[],
+
+    mapAddressVisible: false, // 地图弹窗
+    // detailAddress:
   },
 
   effects: {
@@ -24,7 +28,6 @@ export default {
     // 获取区域
     *getRegion({ payload }, { call, put }) {
       const resData = yield call(getRegionList,payload)
-
       const relist = []
 
       if(resData.success) {
@@ -49,9 +52,20 @@ export default {
       }
     },
 
+    // // 逆地理编码
+    // *regeo({ payload }, { call, put }) {
+    //   const resData = yield call(regeo, payload)
+    //   console.log(resData)
+    // }
   },
 
   reducers: {
+    updateState(state, { payload }) {
+      return {
+        ...state,
+        ...payload
+      }
+    },
 
     updataRegin(state, { payload }) {
       console.log(payload)
