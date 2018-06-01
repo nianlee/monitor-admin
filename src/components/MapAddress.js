@@ -68,7 +68,9 @@ class MapAddress extends Component {
   }
 
   triggerChange(value) {
-    this.props.onChange(value)
+    if (this.props.onChange) {
+      this.props.onChange(value)
+    }
   } 
 
   render() {
@@ -106,7 +108,7 @@ MapAddress.propTypes = {
   defaultCenter: PropTypes.string, // 默认中心
   centerDatas: PropTypes.array, // 地图中心 数据
   style: PropTypes.object, // 自定义样式
-  onChange: PropTypes.func,
+  onChange: PropTypes.func, // 传递选中的地址
 }
 
 export default MapAddress
