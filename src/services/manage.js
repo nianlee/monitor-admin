@@ -27,6 +27,15 @@ export function addDevice(data) {
   })
 }
 
+// 控制设备
+export function controlDevice(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.controlDevice,
+  })
+}
+
 // 获取区域树
 export function getRegionList(data) {
   return request({

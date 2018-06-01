@@ -15,11 +15,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        //const otherValues =
-        //values = [...values]
         console.log('Received values of form: ', values);
         dispatch({
-          type: 'adddevice/add',
+          type: 'controldevice/control',
           payload: { ...values }
         })
       }
@@ -42,14 +40,14 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
   return (
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
-
         <Row gutter={24}>
+
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="风          扇1" // eslint-disable-line
+              label="第一路交流控制" // eslint-disable-line
             >
-              {getFieldDecorator('type', {
+              {getFieldDecorator('ACCtrl1', {
                 rules: [
                   { required: true, message: '请选择状态!' }
                 ],
@@ -62,8 +60,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
@@ -72,12 +71,10 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="风          扇2" // eslint-disable-line
+              label="第二路交流控制"
             >
-              {getFieldDecorator('type', {
-                rules: [
-                  { required: true, message: '请选择状态!' }
-                ],
+              {getFieldDecorator('ACCtrl2', {
+                rules: [{ required: true, message: '请选择状态' }],
               })(
                 <Select
                   showSearch
@@ -87,8 +84,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="3">开</Option>
-                  <Option value="4">关</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
@@ -97,59 +95,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="设第一路交流控制" // eslint-disable-line
+              label="第三路交流控制" // eslint-disable-line
             >
-              {getFieldDecorator('type', {
-                rules: [
-                  { required: true, message: '请选择状态!' }
-                ],
-              })(
-                <Select
-                  showSearch
-                  placeholder="请选择状态"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label="设第二路交流控制"
-            >
-              {getFieldDecorator('install_addr', {
-                rules: [{ type: 'array', required: true, message: '请选择状态' }],
-              })(
-                <Select
-                  showSearch
-                  placeholder="请选择状态"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label="设第三路交流控制 " // eslint-disable-line
-            >
-              {getFieldDecorator('maintainer ', {
+              {getFieldDecorator('ACCtrl3', {
                 rules: [
                   { required: true, message: '请选择状态 !' }
                 ],
@@ -162,9 +110,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
@@ -173,9 +121,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="设第四路交流控制 " // eslint-disable-line
+              label="第一路直流控制" // eslint-disable-line
             >
-              {getFieldDecorator('maintainer ', {
+              {getFieldDecorator('DCCtrl1', {
                 rules: [
                   { required: true, message: '请选择状态 !' }
                 ],
@@ -188,9 +136,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
@@ -199,9 +147,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="设第五路交流控制 " // eslint-disable-line
+              label="第二路直流控制" // eslint-disable-line
             >
-              {getFieldDecorator('maintainer ', {
+              {getFieldDecorator('DCCtrl2', {
                 rules: [
                   { required: true, message: '请选择状态 !' }
                 ],
@@ -214,9 +162,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
@@ -225,9 +173,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="设第六路交流控制 " // eslint-disable-line
+              label="第三路直流控制" // eslint-disable-line
             >
-              {getFieldDecorator('maintainer ', {
+              {getFieldDecorator('DCCtrl3', {
                 rules: [
                   { required: true, message: '请选择状态 !' }
                 ],
@@ -240,9 +188,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
@@ -251,9 +199,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="设第七路交流控制 " // eslint-disable-line
+              label="第四路直流控制" // eslint-disable-line
             >
-              {getFieldDecorator('maintainer ', {
+              {getFieldDecorator('DCCtrl4', {
                 rules: [
                   { required: true, message: '请选择状态 !' }
                 ],
@@ -266,9 +214,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
@@ -277,9 +225,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           <Col span={12}>
             <FormItem
               {...formItemLayout}
-              label="设第八路交流控制 " // eslint-disable-line
+              label="第五路直流控制" // eslint-disable-line
             >
-              {getFieldDecorator('maintainer ', {
+              {getFieldDecorator('DCCtrl5', {
                 rules: [
                   { required: true, message: '请选择状态 !' }
                 ],
@@ -292,9 +240,87 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">开</Option>
-                  <Option value="2">关</Option>
-                  <Option value="3">重启</Option>
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label="第六路直流控制" // eslint-disable-line
+            >
+              {getFieldDecorator('DCCtrl6', {
+                rules: [
+                  { required: true, message: '请选择状态 !' }
+                ],
+              })(
+                <Select
+                  showSearch
+                  placeholder="请选择状态"
+                  optionLabelProp="children"
+                  filterOption={(input,option) => {
+                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
+                  }}
+                >
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+
+          <Col span={12}>
+          <FormItem
+            {...formItemLayout}
+            label="第七路直流控制" // eslint-disable-line
+          >
+            {getFieldDecorator('DCCtrl7', {
+              rules: [
+                { required: true, message: '请选择状态 !' }
+              ],
+            })(
+              <Select
+                showSearch
+                placeholder="请选择状态"
+                optionLabelProp="children"
+                filterOption={(input,option) => {
+                  option.props.children.toLowerCase().indexOf(input.toLowerCase())
+                }}
+              >
+                <Option value="0">开</Option>
+                <Option value="1">关</Option>
+                <Option value="2">重启</Option>
+              </Select>
+            )}
+          </FormItem>
+        </Col>
+
+          <Col span={12}>
+            <FormItem
+              {...formItemLayout}
+              label="第八路直流控制 " // eslint-disable-line
+            >
+              {getFieldDecorator('DCCtrl8', {
+                rules: [
+                  { required: true, message: '请选择状态 !' }
+                ],
+              })(
+                <Select
+                  showSearch
+                  placeholder="请选择状态"
+                  optionLabelProp="children"
+                  filterOption={(input,option) => {
+                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
+                  }}
+                >
+                  <Option value="0">开</Option>
+                  <Option value="1">关</Option>
+                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>

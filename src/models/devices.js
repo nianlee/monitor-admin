@@ -1,5 +1,6 @@
 import { queryDeviceList,deleteDevice } from "../services/manage";
 import { routerRedux } from 'dva/router'
+import { message } from 'antd'
 
 export default {
 
@@ -18,25 +19,33 @@ export default {
 
       const devicesList = []
 
-      for (var v of resData.data) {
-        //console.log(v.datDevice);
-        devicesList.push({
-          id:v.datDevice.id,
-          name: v.datDevice.name,
-          sn: v.datDevice.sn,
-          detailAddr: v.datDevice.detailAddr,
-          manufacturer: v.datDevice.manufacturer,
-          type: v.datDevice.type,
-          state: v.datDevice.state,
+      if(resData.success) {
+        for (var v of resData.data) {
+          //console.log(v.datDevice);
+          devicesList.push({
+            id:v.datDevice.id,
+            name: v.datDevice.name,
+            sn: v.datDevice.sn,
+            detailAddr: v.datDevice.detailAddr,
+            manufacturer: v.datDevice.manufacturer,
+            type: v.datDevice.type,
+            state: v.datDevice.state,
+          })
+        }
+
+        yield put({
+          type:'updateState',
+          payload:{
+            dataSource:devicesList,
+          }
         })
+
+      } else {
+        throw  message.error(resData.msg)
       }
 
-      yield put({
-        type:'updateState',
-        payload:{
-          dataSource:devicesList,
-        }
-      })
+
+
     },
 
     // 删除设备
@@ -63,9 +72,10 @@ export default {
 
     //跳转到控制页面
     *controlDevice({ payload },{ call,put,select }) {
-      yield put(routerRedux.push('/controldevice'))
+      yield put(routerRedux.push(
+        '/controldevice', {sn:'11-22-33'}
+      ))
     }
-
   },
 
   reducers: {

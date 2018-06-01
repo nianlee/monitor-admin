@@ -81,7 +81,7 @@ const DeviceManage = ({ devices,dispatch }) => {
         </Popconfirm>
 
         <a href="javascript:;"
-           onClick={()=>controlDevice(record)}
+           onClick={()=>controlDevice(record.sn)}
            style={{ marginLeft: 8 }}>控制</a>
 
         <a href="javascript:;"
@@ -93,10 +93,18 @@ const DeviceManage = ({ devices,dispatch }) => {
     );
   }
 
-  function controlDevice(id) {
+  function controlDevice(sn) {
+
+    console.log('sn:',sn)
+    /*
+    routerRedux.push({
+      pathname: '/controldevice',
+      sn: sn
+    })*/
 
     dispatch({
       type:'devices/controlDevice',
+      payload:sn,
     });
   }
 
