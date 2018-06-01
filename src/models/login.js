@@ -3,7 +3,6 @@ import api from 'utils/api'
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
 
-
 export default {
   namespace: 'login',
 

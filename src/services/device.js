@@ -6,5 +6,6 @@ export function regeo (data) {
     data,
     method: 'get',
     url: api.regeo,
+    withCredentials: false, // 去除cookie 登录验证
   })
 }

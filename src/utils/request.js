@@ -6,6 +6,7 @@ import jsonp from 'jsonp'
 const fetch = (options) => {
   let {
     method = 'get',
+    withCredentials = true,
     data,
     url,
     fetchType,
@@ -29,7 +30,8 @@ const fetch = (options) => {
   switch (method.toLowerCase()) {
     case 'get':
       return axios.get(url, {
-        params: data
+        withCredentials,
+        params: data,
       })
     case 'delete':
       return axios.delete(url, {
@@ -39,7 +41,7 @@ const fetch = (options) => {
       return axios({
         url,
         method: 'post',
-        withCredentials: true,
+        withCredentials,
         headers: { 'content-type': 'application/x-www-form-urlencoded' },
         data: qs.stringify(data),
       })
@@ -56,12 +58,21 @@ export default function request (options) {
   return fetch(options).then((response) => {
     const { data, statusText, status } = response
     if (data && data.code === 1000) {
-      return Promise.resolve({
-        data: data.data || null,
-        success: true,
-        message: data.msg || statusText || '没有描述',
-        code: data.code || status || '没有code',
-      })
+      if (data.success) {
+        return Promise.resolve({
+          data: data.data || null,
+          success: true,
+          message: data.msg || statusText || '没有描述',
+          code: data.code || status || '没有code',
+        })
+      } else {
+        return Promise.reject({
+          data: null,
+          success: false,
+          statusText: data.msg || statusText || data.info || '没有描述',
+          status: data.code || status || data.infocode || '没有code',
+        })
+      }
     } 
 
     // 高德地图API
@@ -73,15 +84,6 @@ export default function request (options) {
         code: data.infocode || status || '没有code',
       })
     }
-
-    // if (data && data.result == 'success') {
-    //   return Promise.resolve({
-    //     data,
-    //     success: true,
-    //     message: data.msg || statusText || '没有描述',
-    //     code: data.code || status || '没有code',
-    //   })
-    // }
 
     return Promise.reject({
       data: null,
