@@ -31,9 +31,7 @@ export default {
       const relist = []
 
       if(resData.success) {
-        for(var v of resData.data) {
-
-          console.log(v)
+        for(let v of resData.data) {
           relist.push({
             name:v.name,
             id:v.id
@@ -68,7 +66,6 @@ export default {
     },
 
     updataRegin(state, { payload }) {
-      console.log(payload)
       return {
         ...state,
         ...payload,

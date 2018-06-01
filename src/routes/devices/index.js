@@ -72,7 +72,6 @@ const DeviceManage = ({ devices,dispatch }) => {
   ];
 
   function renderOperation(text,record) {
-    console.log(record.id)
     return (
       <div>
 

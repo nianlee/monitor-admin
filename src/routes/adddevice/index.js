@@ -95,7 +95,6 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
   return (
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
-
         <Row gutter={24}>
           <Col span={8}>
 
