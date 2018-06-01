@@ -1,11 +1,20 @@
 import { api, request } from 'utils'
 
-// 设备查询
+// 设备查询列表
 export function queryDeviceList(data) {
   return request({
     data,
-    method: 'get',
+    method: 'post',
     url: api.queryDeviceSelective,
+  })
+}
+
+// 查询某一个设备info
+export function queryDeviceInfo(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryDeviceInfo,
   })
 }
 
@@ -40,7 +49,7 @@ export function controlDevice(data) {
 export function getRegionList(data) {
   return request({
     data,
-    method:'get',
+    method:'post',
     url:api.queryAreaList,
   })
 }

@@ -1,4 +1,4 @@
-import { queryDeviceList,deleteDevice } from "../services/manage";
+import { queryDeviceList,deleteDevice,queryDeviceInfo } from "../services/manage";
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
 
@@ -9,19 +9,50 @@ export default {
   state: {
     //设备列表
     dataSource:[],
+    deviceInfos:[],
     modalVisible:false
 
   },
 
   effects: {
-    *queryDeviceList({ payload }, { call, put, select }) {
-      const resData = yield call(queryDeviceList,payload)
+    *queryDeviceInfos({ payload }, { call, put, select }) {
+      const resData = yield call(queryDeviceInfo,{deviceSn:payload});
+      console.log('sn',payload)
+      console.log('resData',resData)
+      //let deviceinfo = {};
+      if(resData.success) {
 
-      const devicesList = []
+        /*
+        deviceinfo.push({
+          sn:resData.data[0].datDevice.sn, // sn
+          name:resData.data[0].datDevice.name, //设备名称
+          installTime:resData.data[0].datDevice.installTime, // 安装时间
+          type:resData.data[0].datDevice.type, // 设备类型
+          detailAddr:resData.data[0].datDevice.detailAddr, // 安装详细地址
+          hardwareVersion:resData.data[0].datDevice.hardwareVersion, // 硬件版本
+        })*/
+
+        yield put({
+          type:'showAddModal',
+          payload:{
+            deviceInfos:resData.data[0].datDevice,
+          }
+        })
+      }else {
+        throw  message.error(resData.msg)
+      }
+    },
+
+    *queryDeviceList({ payload }, { call, put, select }) {
+      const resData = yield call(queryDeviceList,payload);
+
+      const devicesList = [];
+
+      console.log("v",resData);
 
       if(resData.success) {
         for (var v of resData.data) {
-          //console.log(v.datDevice);
+          console.log("v",v.datDevice);
           devicesList.push({
             id:v.datDevice.id,
             name: v.datDevice.name,
@@ -32,20 +63,15 @@ export default {
             state: v.datDevice.state,
           })
         }
-
         yield put({
           type:'updateState',
           payload:{
             dataSource:devicesList,
           }
         })
-
       } else {
         throw  message.error(resData.msg)
       }
-
-
-
     },
 
     // 删除设备

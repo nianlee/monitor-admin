@@ -31,6 +31,7 @@ export default {
       const relist = []
 
       if(resData.success) {
+        console.log('region',resData);
         for(let v of resData.data) {
           relist.push({
             name:v.name,
