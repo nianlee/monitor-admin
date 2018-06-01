@@ -1,26 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Form, Input,Icon, Row, Col,Select,Button,Tag  } from 'antd'
-import styles from "./style.less"
-import { routerRedux } from 'dva/router'
-
+import { Form, Input,Icon, Row, Col, Select, Button, Tag, Modal } from 'antd'
+import styles from './style.less'
+import MapAddress from 'components/MapAddress'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 const AddDevice = ({ adddevice, dispatch, form }) => {
 
-
-  //console.log(adddevice.regionList);
   const regionLists = adddevice.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
   // 添加设备请求
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        //const otherValues =
-        //values = [...values]
         console.log('Received values of form: ', values);
         dispatch({
           type: 'adddevice/add',
@@ -86,13 +81,20 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
   }
 
   function handleMap() {
-    dispatch(routerRedux.push('/adddevice'))
+    dispatch({ type: 'adddevice/updateState', payload: { mapAddressVisible: true }})
+  }
+
+  const modalOk = () => {
+    console.log('ok')
+  }
+
+  const modalCancel = () => {
+    dispatch({ type: 'adddevice/updateState', payload: { mapAddressVisible: false }})
   }
 
   return (
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
-
         <Row gutter={24}>
           <Col span={8}>
 
@@ -230,11 +232,22 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
         </FormItem>
 
       </Form>
+
+      <Modal
+        width={800}
+        height={500}
+        visible={adddevice.mapAddressVisible}
+        title="地址选择"
+        okText="确认"
+        cancelText="取消"
+        onOk={modalOk}
+        onCancel={modalCancel}
+      >
+        <MapAddress style={{ height: 500 }}/>
+      </Modal>
     </div>
   )
 }
-
-
 
 AddDevice.propTypes = {
   adddevice: PropTypes.object,

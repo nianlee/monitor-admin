@@ -5,11 +5,6 @@ import { Map, Marker } from 'react-amap'
 class EquipmentMap extends Component {
   constructor() {
     super()
-    this.toolEvents = {
-      created: (tool) => {
-        this.tool = tool
-      }
-    }
     this.mapPlugins = ['ToolBar']
     // this.markerPosition = { longitude: 106.631015, latitude: 29.717099 }
   }

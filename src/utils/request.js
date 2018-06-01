@@ -29,8 +29,7 @@ const fetch = (options) => {
   switch (method.toLowerCase()) {
     case 'get':
       return axios.get(url, {
-        params: data,
-        withCredentials: true,
+        params: data
       })
     case 'delete':
       return axios.delete(url, {
@@ -65,6 +64,16 @@ export default function request (options) {
       })
     } 
 
+    // 高德地图API
+    if (data && data.status === '1') {
+      return Promise.resolve({
+        data,
+        success: true,
+        message: data.info || statusText || '没有描述',
+        code: data.infocode || status || '没有code',
+      })
+    }
+
     // if (data && data.result == 'success') {
     //   return Promise.resolve({
     //     data,
@@ -77,8 +86,8 @@ export default function request (options) {
     return Promise.reject({
       data: null,
       success: false,
-      statusText: data.msg || statusText || '没有描述',
-      status: data.code || status || '没有code',
+      statusText: data.msg || statusText || data.info || '没有描述',
+      status: data.code || status || data.infocode || '没有code',
     })
   }).catch((error) => {
     const { response } = error
