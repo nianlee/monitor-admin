@@ -1,7 +1,6 @@
-import { getRegionList,addDevice } from 'services/manage/'
+import { getRegionList, addDevice } from 'services/manage/'
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
-// import { regeo } from 'services/device'
 
 export default {
 
@@ -15,13 +14,13 @@ export default {
   },
 
   effects: {
-    *add({ payload }, { call, put }) {  // eslint-disable-line
-      const resData = yield call(addDevice,payload)
+    // 添加设备
+    *add({ payload }, { call, put }) {
+      const resData = yield call(addDevice, payload)
       if(resData.success) {
         yield put(routerRedux.push('/devicemanage'))
       } else {
-        yield put(routerRedux.push('/dashboard'))
-        message.error(resData.msg)
+        message.error(resData.message)
       }
     },
 
@@ -49,12 +48,6 @@ export default {
         message.error(resData.msg)
       }
     },
-
-    // // 逆地理编码
-    // *regeo({ payload }, { call, put }) {
-    //   const resData = yield call(regeo, payload)
-    //   console.log(resData)
-    // }
   },
 
   reducers: {

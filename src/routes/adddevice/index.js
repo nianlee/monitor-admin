@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Form, Input,Icon, Row, Col, Select, Button, Tag, Modal } from 'antd'
+import { Form, Input, Row, Col, Select, Button } from 'antd'
+import AddressControl from './components/AddressControl'
 import styles from './style.less'
-import MapAddress from 'components/MapAddress'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -17,9 +17,21 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        const { addressObj } = values
+        const payload = {
+          ...values,
+          detail_addr: addressObj.address,
+          langitude: addressObj.langitude,
+          latitude: addressObj.latitude,
+          all_area_id: '1-2-3',
+          hardware_version: 'V1.1.1',
+          state: 0,
+        }
+        delete payload.addressObj
+       
         dispatch({
           type: 'adddevice/add',
-          payload: { ...values }
+          payload: { deviceBasicJsonStr: JSON.stringify(payload) }
         })
       }
     });
@@ -80,24 +92,11 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     }
   }
 
-  function handleMap() {
-    dispatch({ type: 'adddevice/updateState', payload: { mapAddressVisible: true }})
-  }
-
-  const modalOk = () => {
-    console.log('ok')
-  }
-
-  const modalCancel = () => {
-    dispatch({ type: 'adddevice/updateState', payload: { mapAddressVisible: false }})
-  }
-
   return (
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
         <Row gutter={24}>
           <Col span={8}>
-
             <FormItem
               {...formItemLayout}
               label="sn码" // eslint-disable-line
@@ -107,11 +106,10 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
                   { required: true, message: '请输入设备an码!' }
                 ],
               })(
-                <Input prefix={<Icon type="code" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="设备sn码" />
+                <Input placeholder="设备sn码" />
               )}
             </FormItem>
           </Col>
-
           <Col span={8}>
             <FormItem
               {...formItemLayout}
@@ -122,7 +120,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
                   { required: true, message: '请选择设备名称!' }
                 ],
               })(
-                <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="设备名称" />
+                <Input placeholder="设备名称" />
               )}
             </FormItem>
           </Col>
@@ -155,14 +153,15 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
               )}
             </FormItem>
           </Col>
-
+        </Row>
+        <Row gutter={24}>
           <Col span={8}>
             <FormItem
               {...formItemLayout}
               label="安装区域"
             >
               {getFieldDecorator('install_addr', {
-                rules: [{ type: 'array', required: true, message: '请选择安装区域' }],
+                rules: [{ required: true, message: '请选择安装区域' }],
               })(
                 <Select
                   showSearch
@@ -179,21 +178,16 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
           </Col>
 
           <Col span={8}>
-
             <FormItem
               {...formItemLayout}
               label="详细地址" // eslint-disable-line
             >
-              {getFieldDecorator('detail_addr', {
+              {getFieldDecorator('addressObj', {
                 rules: [
                   { required: true, message: '请输入详细地址！' }
                 ],
               })(
-                <div>
-                  <Tag>地址</Tag>
-                  <a href="javascript:;" style={{marginLeft:'5px'}} onClick={() => handleMap()}>地图上选择详细地址</a>
-                </div>
-
+                <AddressControl />
               )}
             </FormItem>
           </Col>
@@ -203,7 +197,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
               {...formItemLayout}
               label="维护人员 " // eslint-disable-line
             >
-              {getFieldDecorator('maintainer ', {
+              {getFieldDecorator('maintainer', {
                 rules: [
                   { required: true, message: '请选输入维护人员 !' }
                 ],
@@ -223,7 +217,6 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
               )}
             </FormItem>
           </Col>
-
         </Row>
 
         <FormItem>
@@ -232,19 +225,6 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
         </FormItem>
 
       </Form>
-
-      <Modal
-        width={800}
-        height={500}
-        visible={adddevice.mapAddressVisible}
-        title="地址选择"
-        okText="确认"
-        cancelText="取消"
-        onOk={modalOk}
-        onCancel={modalCancel}
-      >
-        <MapAddress style={{ height: 500 }}/>
-      </Modal>
     </div>
   )
 }
