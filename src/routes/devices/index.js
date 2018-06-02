@@ -2,18 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
+import ShowDeviceModal from './components/ShowDeviceModal'
 //import { routerRedux } from 'dva/router'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
+
+  console.log('devices:',devices.deviceInfos)
   const { modalVisible } =  devices
   //modal 属性
   const modalProps ={ //eslint-disable-line
+    item:devices.deviceInfos,
+    dynamic:devices.deviceDynamicDTOS,
     visible:modalVisible,
     maskClosable:false,
-    title:'添加设备',
+    title:'设备详情',
     wrapperClassName:"vertical-center-modal",
-    width:720,
+    width:1024,
     onOk(data) {
 
     },
@@ -80,27 +85,42 @@ const DeviceManage = ({ devices,dispatch }) => {
         </Popconfirm>
 
         <a href="javascript:;"
-           onClick={()=>controlDevice(record)}
+           onClick={()=>controlDevice(record.sn)}
            style={{ marginLeft: 8 }}>控制</a>
 
         <a href="javascript:;"
            onClick={()=>updateDevice(record)}
            style={{ marginLeft: 8 }}>升级</a>
 
+        <a href="javascript:;"
+           onClick={()=>checkDevice(record.sn)}
+           style={{ marginLeft: 8 }}>查看</a>
+
 
       </div>
     );
   }
 
-  function controlDevice(id) {
+  function controlDevice(sn) {
 
     dispatch({
       type:'devices/controlDevice',
+      payload:sn,
     });
+
   }
 
   function updateDevice(id) {
     //routerRedux.push('/controldevice')
+  }
+
+  // 设备查看
+  function checkDevice(sn) {
+    //console.log(sn)
+    dispatch({
+      type:'devices/queryDeviceInfos',
+      payload:sn,
+    })
   }
 
   //添加设备函数
@@ -119,10 +139,11 @@ const DeviceManage = ({ devices,dispatch }) => {
       payload:id,
     });
   }
-
+0
   return (
     <div>
       <Button className="primary" onClick={handleAdd}>添加</Button>
+      <ShowDeviceModal {...modalProps}/>
       <Table bordered dataSource={devices.dataSource} columns={columns} />
     </div>
 

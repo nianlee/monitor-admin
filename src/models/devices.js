@@ -1,5 +1,6 @@
-import { queryDeviceList,deleteDevice } from "../services/manage";
+import { queryDeviceList,deleteDevice,queryDeviceInfo } from "../services/manage";
 import { routerRedux } from 'dva/router'
+import { message } from 'antd'
 
 export default {
 
@@ -8,35 +9,59 @@ export default {
   state: {
     //设备列表
     dataSource:[],
-    modalVisible:false
+    deviceInfos:[],
+    deviceDynamicDTOS:[],
+    modalVisible:false,
+    sn:{},
 
   },
 
   effects: {
-    *queryDeviceList({ payload }, { call, put, select }) {
-      const resData = yield call(queryDeviceList,payload)
+    *queryDeviceInfos({ payload }, { call, put, select }) {
+      const resData = yield call(queryDeviceInfo,{deviceSn:payload});
+      console.log('sn',payload)
+      console.log('resData',resData)
+      //let deviceinfo = {};
+      if(resData.success) {
 
-      const devicesList = []
-
-      for (var v of resData.data) {
-        //console.log(v.datDevice);
-        devicesList.push({
-          id:v.datDevice.id,
-          name: v.datDevice.name,
-          sn: v.datDevice.sn,
-          detailAddr: v.datDevice.detailAddr,
-          manufacturer: v.datDevice.manufacturer,
-          type: v.datDevice.type,
-          state: v.datDevice.state,
+        yield put({
+          type:'showAddModal',
+          payload:{
+            deviceInfos:resData.data[0].datDevice,
+            deviceDynamicDTOS:resData.data[0].deviceDynamicDTOS,
+          }
         })
+      }else {
+        throw  message.error(resData.msg)
       }
+    },
 
-      yield put({
-        type:'updateState',
-        payload:{
-          dataSource:devicesList,
+    *queryDeviceList({ payload }, { call, put, select }) {
+      const resData = yield call(queryDeviceList,payload);
+
+      const devicesList = [];
+
+      if(resData.success) {
+        for (var v of resData.data) {
+          devicesList.push({
+            id:v.datDevice.id,
+            name: v.datDevice.name,
+            sn: v.datDevice.sn,
+            detailAddr: v.datDevice.detailAddr,
+            manufacturer: v.datDevice.manufacturer,
+            type: v.datDevice.type,
+            state: v.datDevice.state,
+          })
         }
-      })
+        yield put({
+          type:'updateState',
+          payload:{
+            dataSource:devicesList,
+          }
+        })
+      } else {
+        throw  message.error(resData.msg)
+      }
     },
 
     // 删除设备
@@ -63,9 +88,25 @@ export default {
 
     //跳转到控制页面
     *controlDevice({ payload },{ call,put,select }) {
-      yield put(routerRedux.push('/controldevice'))
-    }
+      /*
+      yield put(routerRedux.push({
+          pathname:'/controldevice',
+          query:{
+            sn:payload,
+          }
+        },
+      )
+      */
 
+      yield put(routerRedux.push({
+          pathname:'/controldevice',
+          query:{
+            sn:payload,
+          }
+        },
+      )
+    )
+    }
   },
 
   reducers: {
