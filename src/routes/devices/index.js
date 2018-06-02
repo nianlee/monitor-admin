@@ -13,11 +13,12 @@ const DeviceManage = ({ devices,dispatch }) => {
   //modal 属性
   const modalProps ={ //eslint-disable-line
     item:devices.deviceInfos,
+    dynamic:devices.deviceDynamicDTOS,
     visible:modalVisible,
     maskClosable:false,
     title:'设备详情',
     wrapperClassName:"vertical-center-modal",
-    width:720,
+    width:1024,
     onOk(data) {
 
     },
@@ -102,17 +103,11 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   function controlDevice(sn) {
 
-    console.log('sn:',sn)
-    /*
-    routerRedux.push({
-      pathname: '/controldevice',
-      sn: sn
-    })*/
-
     dispatch({
       type:'devices/controlDevice',
       payload:sn,
     });
+
   }
 
   function updateDevice(id) {

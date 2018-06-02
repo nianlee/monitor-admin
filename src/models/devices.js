@@ -10,7 +10,9 @@ export default {
     //设备列表
     dataSource:[],
     deviceInfos:[],
-    modalVisible:false
+    deviceDynamicDTOS:[],
+    modalVisible:false,
+    sn:{},
 
   },
 
@@ -22,20 +24,11 @@ export default {
       //let deviceinfo = {};
       if(resData.success) {
 
-        /*
-        deviceinfo.push({
-          sn:resData.data[0].datDevice.sn, // sn
-          name:resData.data[0].datDevice.name, //设备名称
-          installTime:resData.data[0].datDevice.installTime, // 安装时间
-          type:resData.data[0].datDevice.type, // 设备类型
-          detailAddr:resData.data[0].datDevice.detailAddr, // 安装详细地址
-          hardwareVersion:resData.data[0].datDevice.hardwareVersion, // 硬件版本
-        })*/
-
         yield put({
           type:'showAddModal',
           payload:{
             deviceInfos:resData.data[0].datDevice,
+            deviceDynamicDTOS:resData.data[0].deviceDynamicDTOS,
           }
         })
       }else {
@@ -48,11 +41,8 @@ export default {
 
       const devicesList = [];
 
-      console.log("v",resData);
-
       if(resData.success) {
         for (var v of resData.data) {
-          console.log("v",v.datDevice);
           devicesList.push({
             id:v.datDevice.id,
             name: v.datDevice.name,
@@ -98,9 +88,24 @@ export default {
 
     //跳转到控制页面
     *controlDevice({ payload },{ call,put,select }) {
-      yield put(routerRedux.push(
-        '/controldevice', {sn:'11-22-33'}
-      ))
+      /*
+      yield put(routerRedux.push({
+          pathname:'/controldevice',
+          query:{
+            sn:payload,
+          }
+        },
+      )
+      */
+
+      yield put(routerRedux.push({
+          pathname:'/controldevice',
+          query:{
+            sn:payload,
+          }
+        },
+      )
+    )
     }
   },
 
