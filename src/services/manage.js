@@ -18,6 +18,25 @@ export function queryDeviceInfo(data) {
   })
 }
 
+// 查询固件版本
+export function queryFirmVersion(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryFirmwareVersion,
+  })
+}
+
+// 固件升级
+export function updateFirmwareVersion(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.updateFirmwareVersion,
+  })
+
+}
+
 // 设备删除
 export function deleteDevice(data) {
   return request({

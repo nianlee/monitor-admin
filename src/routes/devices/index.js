@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
 import ShowDeviceModal from './components/ShowDeviceModal'
-//import { routerRedux } from 'dva/router'
+import { routerRedux } from 'dva/router'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
@@ -89,7 +89,7 @@ const DeviceManage = ({ devices,dispatch }) => {
            style={{ marginLeft: 8 }}>控制</a>
 
         <a href="javascript:;"
-           onClick={()=>updateDevice(record)}
+           onClick={()=>updateDevice(record.sn)}
            style={{ marginLeft: 8 }}>升级</a>
 
         <a href="javascript:;"
@@ -110,8 +110,8 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   }
 
-  function updateDevice(id) {
-    //routerRedux.push('/controldevice')
+  function updateDevice(sn) {
+    dispatch(routerRedux.push(`/updatedevice/${sn}`));
   }
 
   // 设备查看

@@ -10,6 +10,8 @@ export default {
   addDevice:`${config.apiHost}/device/addDevice`, // 添加设备
   controlDevice:`${config.apiHost}/device/deviceControl`, //设备控制
   queryDeviceInfo:`${config.apiHost}/device/queryDeviceBySn`, //设备控制
+  queryFirmwareVersion:`${config.apiHost}/device/queryFirmwareForUpgrade`, //设备控制
+  updateFirmwareVersion:`${config.apiHost}/device/deviceUpgrade`, //设备控制
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
