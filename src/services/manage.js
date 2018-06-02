@@ -41,7 +41,7 @@ export function updateFirmwareVersion(data) {
 export function deleteDevice(data) {
   return request({
     data,
-    method:'get',
+    method:'post',
     url:api.deleteDevice,
   })
 }
