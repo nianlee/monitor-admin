@@ -49,7 +49,7 @@ class AddressControl extends Component {
       >
         <MapAddress 
           style={{ height: 500 }}
-          defaultCenter="江北区"
+          defaultCenter="渝北区"
           onChange={this.onTrigger.bind(this)}
         />
       </Modal>

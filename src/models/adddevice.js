@@ -7,8 +7,7 @@ export default {
   namespace: 'adddevice',
 
   state: {
-    regionList:[],
-
+    regionList: [],
     mapAddressVisible: false, // 地图弹窗
     // detailAddress:
   },
@@ -26,7 +25,7 @@ export default {
 
     // 获取区域
     *getRegion({ payload }, { call, put }) {
-      const resData = yield call(getRegionList,payload)
+      const resData = yield call(getRegionList, payload)
       const relist = []
 
       if(resData.success) {

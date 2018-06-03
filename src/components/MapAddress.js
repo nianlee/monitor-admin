@@ -25,6 +25,7 @@ class MapAddress extends Component {
     this.events = {
       created: ins => {
         if (this.props.defaultCenter) {
+          console.log('-------', this.props.defaultCenter)
           ins.setCity(this.props.defaultCenter)
         }
 
@@ -40,23 +41,20 @@ class MapAddress extends Component {
         .then(res => {
           if (res.success) {
             this.setState({
+              address: res.data.regeocode.formatted_address,
+              langitude: e.lnglat.lng,
+              latitude: e.lnglat.lat,
+            })
+
+            this.triggerChange({
+              langitude:  e.lnglat.lng,
+              latitude: e.lnglat.lat,
               address: res.data.regeocode.formatted_address
             })
           }
         })
         .catch(err => {
           console.log(err)
-        })
-
-        this.setState({
-          langitude: e.lnglat.lng,
-          latitude: e.lnglat.lat,
-        })
-
-        this.triggerChange({
-          langitude: this.state.langitude,
-          latitude: this.state.latitude,
-          address: this.state.address
         })
       }
     }
@@ -80,7 +78,11 @@ class MapAddress extends Component {
           <Row gutter={24}>
             <Col span={10}>
               <FormItem label="选择区域">
-                <Select style={{ width: '100%' }} onChange={this.centerChange.bind(this)}>
+                <Select
+                  style={{ width: '100%' }} 
+                  onChange={this.centerChange.bind(this)} 
+                  value={this.props.defaultCenter}
+                >
                   <SelectOption key={1} value="渝北区">渝北区</SelectOption>
                   <SelectOption key={2} value="渝中区">渝中区</SelectOption>
                 </Select>
