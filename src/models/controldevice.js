@@ -1,4 +1,5 @@
 import { controlDevice } from "../services/manage";
+import pathToRegexp from 'path-to-regexp'
 
 export default {
 
@@ -33,7 +34,7 @@ export default {
       return {
         ...state,
         ...payload,
-        modalVisible:true,
+        modalVisible:true
       }
     },
 
@@ -42,6 +43,7 @@ export default {
         ...state,
         ...payload,
         sn:payload,
+        modalVisible:false
       }
     },
 
@@ -57,12 +59,11 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {  // eslint-disable-line
       return history.listen(({pathname,query}) => {
-        if(pathname === '/controldevice') {
-          console.log('query',query)
-          dispatch({
-            type:'update',
-            payload:query.sn,
-          })
+
+        const match = pathToRegexp('/controldevice/:sn').exec(pathname)
+        console.log('match',match)
+        if (match) {
+          dispatch({ type: 'update', payload: { sn: match[1] } })
         }
       });
     },

@@ -54,57 +54,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
               label="sn码" // eslint-disable-line
             >
               {getFieldDecorator('sn', {
-                initialValue:controldevice.sn,
+                initialValue:controldevice.sn.sn,
               })(
                 <Input disabled={true} />
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label="风扇1" // eslint-disable-line
-            >
-              {getFieldDecorator('fan1', {
-                rules: [
-                  { required: true, message: '请选择状态!' }
-                ],
-              })(
-                <Select
-                  showSearch
-                  placeholder="请选择状态"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem
-              {...formItemLayout}
-              label="风扇2"
-            >
-              {getFieldDecorator('fan2', {
-                rules: [{ required: true, message: '请选择状态' }],
-              })(
-                <Select
-                  showSearch
-                  placeholder="请选择状态"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                </Select>
               )}
             </FormItem>
           </Col>
@@ -116,7 +68,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('ACCtrl1', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -140,9 +92,9 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
               {...formItemLayout}
               label="第2路交流控制" // eslint-disable-line
             >
-              {getFieldDecorator('DCCtrl2', {
+              {getFieldDecorator('ACCtrl2', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -168,7 +120,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('ACCtrl3', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -194,7 +146,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('DCCtrl1', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -220,7 +172,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('DCCtrl2', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -246,7 +198,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('DCCtrl3', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -272,7 +224,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('DCCtrl4', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -298,7 +250,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           >
             {getFieldDecorator('DCCtrl5', {
               rules: [
-                { required: true, message: '请选择状态 !' }
+                { required: false, message: '请选择状态 !' }
               ],
             })(
               <Select
@@ -324,7 +276,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('DCCtrl6', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -350,7 +302,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('DCCtrl7', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select
@@ -376,7 +328,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             >
               {getFieldDecorator('DCCtrl8', {
                 rules: [
-                  { required: true, message: '请选择状态 !' }
+                  { required: false, message: '请选择状态 !' }
                 ],
               })(
                 <Select

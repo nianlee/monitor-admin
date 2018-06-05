@@ -1,30 +1,25 @@
-import { queryUserList,deleteUserInfo } from "../services/manage";
+import { modifyUserInfo } from "../services/manage";
 
 export default {
 
-  namespace: 'modifyUser',
+  namespace: 'modifyuser',
 
   state: {
-
-    // 用户列表的info
-    userListInfo:[],
-    // 某一个用户的info
-    userInfo:[],
-    modalVisible:false,
+    modifyMsg:'',
 
 
   },
 
   effects: {
-    *queryUserList({ payload }, { call, put, select }) {
-      const resData = yield call(queryUserList,payload)
+    *modify({ payload }, { call, put, select }) {
+      const resData = yield call(modifyUserInfo,payload)
 
       if(resData.success) {
-        console.log(resData.data.rows);
+        console.log(resData.msg);
         yield put({
           type:'updateState',
           payload:{
-            userListInfo:resData.data.rows,
+            modifyMsg:resData.msg,
           }
         })
       } else {
@@ -33,7 +28,7 @@ export default {
     },
 
     *deleteUserInfo({ payload },{ call, put, select }) {
-      const resDate = yield call(deleteUserInfo,payload)
+      const resDate = yield call(modifyUserInfo,payload)
       if(resDate.success) {
         console.log(resDate);
         yield put({

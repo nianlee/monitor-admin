@@ -89,5 +89,13 @@ export function deleteUserInfo(data) {
     method:'post',
     uri:api.deleteUserInfo,
   })
+}
 
+// 用户修改
+export function modifyUserInfo(data) {
+  return request({
+    data,
+    method:'post',
+    uri:api.modifyUserInfo,
+  })
 }

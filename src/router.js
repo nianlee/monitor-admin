@@ -28,7 +28,7 @@ const routes = [
     component: () => import('./routes/adddevice'),
   },
   {
-    path: '/controldevice',
+    path: '/controldevice/:sn',
     models: () => [import('./models/controldevice')],
     component: () => import('./routes/controldevice'),
   },
@@ -51,6 +51,11 @@ const routes = [
     path: '/usermanage',
     models: () => [import('./models/users')],
     component: () => import('./routes/users'),
+  },
+  {
+    path: '/modifyuser/:id/:userName/:userPw/:roleId/:realName/:phone/:email/:jobNum/:state/:areaId',
+    models: () => [import('./models/modifyuser')],
+    component: () => import('./routes/modifyuser'),
   },
   {
     path: '/devicemanage',

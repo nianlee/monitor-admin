@@ -21,7 +21,7 @@ export default {
       const resData = yield call(queryUserList,payload)
 
       if(resData.success) {
-        console.log(resData.data.rows);
+        console.log('userList',resData.data.rows);
         yield put({
           type:'updateState',
           payload:{

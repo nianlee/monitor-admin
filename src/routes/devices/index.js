@@ -102,11 +102,13 @@ const DeviceManage = ({ devices,dispatch }) => {
   }
 
   function controlDevice(sn) {
+    dispatch(routerRedux.push(`/controlDevice/${sn}`));
 
+    /*
     dispatch({
       type:'devices/controlDevice',
       payload:sn,
-    });
+    });*/
 
   }
 

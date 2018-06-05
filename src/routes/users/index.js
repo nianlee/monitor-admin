@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Table,Popconfirm,Button } from 'antd'
 import ShowModal from './components/ShowModal'
+import { routerRedux } from 'dva/router'
 
 
 const UserManage = ({ users,dispatch }) => {
@@ -33,8 +34,15 @@ const UserManage = ({ users,dispatch }) => {
       id:u.id,
       index:i.toString(),
       userName:u.userName,
-      phone:u.phone,
+      userPw:u.userPw,
+      roleId:u.roleId,
+      realName:u.realName,
       roleName:u.roleName,
+      phone:u.phone,
+      email:u.email,
+      jobNum:u.jobNum,
+      state:u.state,
+      areaId:u.areaId,
       areaName:u.areaName[0]
     })
   }
@@ -81,7 +89,7 @@ const UserManage = ({ users,dispatch }) => {
           <div>
 
             <a href="javascript:;"
-               onClick={()=>edit(record.id)}>修改</a>
+               onClick={()=>edit(record)}>修改</a>
 
             <a href="javascript:;"
                onClick={()=>showUser(record)}
@@ -97,10 +105,7 @@ const UserManage = ({ users,dispatch }) => {
 
   function edit(key) {
     console.log(key)
-    dispatch({
-      type:'users/modifyUserInfo',
-      payload:key,
-    })
+    dispatch(routerRedux.push(`/modifyuser/${key.id}/${key.userName}/${key.userPw}/${key.roleId}/${key.realName}/${key.phone}/${key.email}/${key.jobNum}/${key.state}/${key.areaId}`));
   }
 
   function showUser(record) {

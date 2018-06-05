@@ -16,7 +16,7 @@ const UpdateDevice = ({ updatedevice, dispatch, form }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('update form: ', values);
         dispatch({
           type: 'updatedevice/updateFirmwareVersion',
           payload: { ...values }
