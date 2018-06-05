@@ -1,4 +1,4 @@
-import { queryUserList,deleteUserInfo } from "../services/manage";
+import { queryUserList,deleteUserInfo, queryUserInfo} from "../services/manage";
 import { routerRedux } from 'dva/router'
 
 export default {
@@ -10,10 +10,8 @@ export default {
     // 用户列表的info
     userListInfo:[],
     // 某一个用户的info
-    userInfo:[],
+    userInfo:{},
     modalVisible:false,
-
-
   },
 
   effects: {
@@ -50,6 +48,21 @@ export default {
 
     *modifyUserInfo({ payload },{ call, put, select }) {
       yield put(routerRedux.push('/modifyUser'))
+    },
+
+    *queryUserInfo({ payload },{ call, put, select }) {
+      const resDate = yield call(queryUserInfo,payload)
+      if(resDate.success) {
+        console.log('queryUserInfo',resDate);
+        yield put({
+          type:'updateStateUserInfo',
+          payload:{
+            userInfo:resDate.data
+          },
+        })
+      } else {
+        throw resDate.msg
+      }
     }
   },
 
@@ -58,6 +71,14 @@ export default {
       return {
         ...state,
         ...payload,
+      }
+    },
+
+    updateStateUserInfo (state, { payload }) {
+      return {
+        ...state,
+        ...payload,
+        modalVisible:true,
       }
     },
 

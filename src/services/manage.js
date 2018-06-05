@@ -73,7 +73,7 @@ export function getRegionList(data) {
   })
 }
 
-// 用户查询
+// 查询用户列表
 export function queryUserList(data) {
   return request({
     data,
@@ -97,5 +97,14 @@ export function modifyUserInfo(data) {
     data,
     method:'post',
     uri:api.modifyUserInfo,
+  })
+}
+
+// 查询单个用户
+export function queryUserInfo(data) {
+  return request({
+    data,
+    method:'post',
+    uri:api.queryUserInfo,
   })
 }

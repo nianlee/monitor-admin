@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Table,Popconfirm,Button } from 'antd'
-import ShowModal from './components/ShowModal'
+import ShowUserModal from './components/ShowUserModal'
 import { routerRedux } from 'dva/router'
 
 
@@ -12,6 +12,7 @@ const UserManage = ({ users,dispatch }) => {
   //modal 属性
   const modalProps ={ //eslint-disable-line
     visible:modalVisible,
+    userInfos:users.userInfo,
     maskClosable:false,
     title:'查看用户',
     wrapperClassName:"vertical-center-modal",
@@ -110,8 +111,15 @@ const UserManage = ({ users,dispatch }) => {
 
   function showUser(record) {
     console.log(record)
+    /*
     dispatch({
       type:'users/showAddModal',
+      payload:{userInfo:record},
+    })
+    */
+    dispatch({
+      type:'users/queryUserInfo',
+      payload:record.id,
     })
   }
 
@@ -123,26 +131,6 @@ const UserManage = ({ users,dispatch }) => {
       payload:id
     })
   }
-  /*
-
-  function handleChange(value,key,column) {
-    const newData = [ ...data];
-    const target = newData.filter(item=>key === item.key)[0];
-    if(target) {
-      target[column] = value;
-      this.setState({data:newData});
-    }
-  }
-
-  function cancel(key) {
-    const newData = [ ...data];
-    const target = newData.filter(item=>key === item.key)[0];
-    if(target) {
-      Object.assign(target,this.cacheData.filter(item => key === item.key))[0];
-      delete  target.editable;
-      this.setState({data:newData});
-    }
-  }*/
 
   function handleAdd(key) {
 
@@ -151,7 +139,7 @@ const UserManage = ({ users,dispatch }) => {
   return (
     <div>
       <Button type="primary" onClick={handleAdd}>添加</Button>
-      <ShowModal {...modalProps}/>
+      <ShowUserModal {...modalProps}/>
       <Table bordered dataSource={UserList} columns={columns}/>
     </div>
   )
