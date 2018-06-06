@@ -83,11 +83,11 @@ export function queryUserList(data) {
 }
 
 // 删除用户
-export function deleteUserInfo(data) {
+export function deleteUserInfos(data) {
   return request({
     data,
     method:'post',
-    uri:api.deleteUserInfo,
+    uri:api.deleteUser,
   })
 }
 
@@ -95,7 +95,7 @@ export function deleteUserInfo(data) {
 export function modifyUserInfo(data) {
   return request({
     data,
-    method:'post',
+    method:'get',
     uri:api.modifyUserInfo,
   })
 }

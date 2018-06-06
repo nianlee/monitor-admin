@@ -20,7 +20,7 @@ export default {
   // 用户管理
   queryManagerInfoById: `${config.apiHost}/manager`,
   queryUserListInfo: `${config.apiHost}/manager/managerList`,
-  deleteUserInfo: `${config.apiHost}/manager/delManagerById`,
+  deleteUser: `${config.apiHost}/manager/delManagerById`,
   modifyUserInfo:`${config.apiHost}/manager/editManagerById`,
   queryUserInfo:`${config.apiHost}/manager/queryManagerInfoById`,
   addUserInfo:`${config.apiHost}/manager/addManager`,

@@ -111,21 +111,17 @@ const UserManage = ({ users,dispatch }) => {
 
   function showUser(record) {
     console.log(record)
-    /*
-    dispatch({
-      type:'users/showAddModal',
-      payload:{userInfo:record},
-    })
-    */
     dispatch({
       type:'users/queryUserInfo',
-      payload:record.id,
+      payload:{id:record.id},
     })
   }
 
 
 
   function deleteUserAction(id) {
+    console.log('deleteUserAction',id)
+
     dispatch({
       type:'users/deleteUserInfo',
       payload:id
@@ -133,7 +129,7 @@ const UserManage = ({ users,dispatch }) => {
   }
 
   function handleAdd(key) {
-
+    dispatch(routerRedux.push(`/modifyuser/${key.id}/${key.userName}/${key.userPw}/${key.roleId}/${key.realName}/${key.phone}/${key.email}/${key.jobNum}/${key.state}/${key.areaId}`));
   }
 
   return (

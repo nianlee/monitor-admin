@@ -9,8 +9,6 @@ const ShowModal = ({
   ...modalPorps
 }) => {
 
-  console.log('~~~~~',userInfos);
-
   const handleOk = () => {
   }
 
