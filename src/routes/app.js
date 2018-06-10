@@ -19,7 +19,7 @@ const App = ({
   let lastHref
 
   const { pathname } = location
-  
+
   // 加载nprogress
   if (lastHref !== href) {
     NProgress.start()
@@ -39,6 +39,7 @@ const App = ({
   const mHeaderProps = {
     app,
     location,
+    dispatch,
   }
 
   return (

@@ -35,14 +35,14 @@ const fetch = (options) => {
       })
     case 'delete':
       return axios.delete(url, {
-        data: data, 
+        data: data,
       })
     case 'post':
       return axios({
         url,
         method: 'post',
         withCredentials,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },
+        headers: { 'content-type': 'application/x-www-form-urlencoded' },//
         data: qs.stringify(data),
       })
     case 'put':
@@ -73,7 +73,7 @@ export default function request (options) {
           status: data.code || status || data.infocode || '没有code',
         })
       }
-    } 
+    }
 
     // 高德地图API
     if (data && data.status === '1') {

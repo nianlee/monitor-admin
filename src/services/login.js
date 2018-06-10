@@ -1,6 +1,6 @@
 import { api, request } from 'utils'
 
-// 设备查询
+// 用户登录
 export function loginLoad(data) {
   return request({
     data,
@@ -8,3 +8,4 @@ export function loginLoad(data) {
     url: api.loginLoad,
   })
 }
+

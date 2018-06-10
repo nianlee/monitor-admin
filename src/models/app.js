@@ -1,10 +1,10 @@
 import qs from 'qs'
 import { routerRedux } from 'dva/router'
 import config from 'config'
-// import { message } from 'antd'
 import {
   getMenu,
   query,
+  loginout,
 } from 'services/app'
 
 export default {
@@ -24,29 +24,7 @@ export default {
         name: '统计报表',
         icon: 'user',
         route: '/report',
-        // children: [
-        //   {
-        //     id: '21',
-        //     bpid: '2',
-        //     name: '报表子菜单1',
-        //     icon: 'shopping-cart',
-        //     route: '/report/1',
-        //   },
-        //   {
-        //     id: '22',
-        //     bpid: '2',
-        //     name: '报表子菜单2',
-        //     route: '/report/2',
-        //   },
-        // ]
       },
-      /*
-      {
-        id: '3',
-        name: '实时监控',
-        icon: 'api',
-        route: '/monitor',
-      },*/
       {
         id: '4',
         name: 'GIS信息',
@@ -149,7 +127,7 @@ export default {
     },
 
     *loginout ({ payload }, { call, put }) {
-      // yield call(loginout)
+      yield call(loginout)
       // todo 清空登录信息
       yield put(routerRedux.push({
         pathname: '/login',

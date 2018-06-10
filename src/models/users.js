@@ -52,8 +52,8 @@ export default {
 
     *queryUserInfo({payload}, {call, put, select}) {
       const resDate = yield call(queryUserInfo,payload)
-      console.log('payload', payload);
-      console.log('queryUserInfo', resDate);
+      //console.log('payload', payload);
+      //console.log('queryUserInfo', resDate);
 
       if(resDate.success) {
         yield put({
@@ -119,7 +119,7 @@ export default {
               payload: {
                 searchCom: 'test',
                 page: '1',
-                row: '2'
+                row: '100'
               }
             })
           }

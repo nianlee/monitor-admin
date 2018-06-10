@@ -11,6 +11,7 @@ const Header = Layout.Header
 const MHeader = ({
   app,
   location,
+  dispatch,
 }) => {
 
   const getSelectedKeys = menu => {
@@ -22,24 +23,31 @@ const MHeader = ({
     if (firstLevel) {
       selectedKeys.push(firstLevel.id.toString())
       return selectedKeys
-    } 
+    }
     return selectedKeys
   }
 
   const userMenu = (
     <Menu style={{ lineHeight: '64px', borderBottom: 'none' }}>
       <MenuItem>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">详细信息</a>
+        <a target="_blank" rel="noopener noreferrer">详细信息</a>
       </MenuItem>
       <MenuItem>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">修改信息</a>
+        <a target="_blank" rel="noopener noreferrer">修改信息</a>
       </MenuItem>
       <MenuItem>
-        <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">退出</a>
+        <a target="_blank" rel="noopener noreferrer" onClick={loginOut}>退出</a>
       </MenuItem>
     </Menu>
   );
-  
+
+  function loginOut() {
+    dispatch({
+      type:'app/loginout',
+      payload:''
+    })
+  }
+
 
 
   const renderMenu = () => {
@@ -85,6 +93,7 @@ const MHeader = ({
 MHeader.propTypes = {
   app: PropTypes.object,
   location: PropTypes.object,
+  dispatch: PropTypes.object,
 }
 
 export default MHeader

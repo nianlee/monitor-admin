@@ -28,7 +28,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
           state: 0,
         }
         delete payload.addressObj
-       
+
         dispatch({
           type: 'adddevice/add',
           payload: { deviceBasicJsonStr: JSON.stringify(payload) }
@@ -49,48 +49,6 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     }
   }
 
-
-  const residences = [{ // eslint-disable-line
-    value: '重庆市',
-    label: '重庆市',
-    children: [
-      {
-      value: '1',
-      label: '江北区',
-        /*
-      children: [{
-        value: '观音桥',
-        label: '观音桥步行街',
-      }],*/
-    },
-      {
-        value: '2',
-        label: '渝北区',
-        /*
-        children: [{
-          value: '照母山',
-          label: '光电园',
-        }],*/
-      },
-      {
-        value: '3',
-        label: '北碚区',
-        /*
-        children: [{
-          value: '蔡家岗镇',
-          label: '金科城',
-        }],*/
-      },
-    ],
-  }];
-
-  const uploadprops = { // eslint-disable-line
-    name:'file',//发到后台的文件参数名
-    action: '10.0.90.0',// 文件上传地址
-    headers:{
-      authorization:'authorization-text'
-    }
-  }
 
   return (
     <div className={styles.formWrapper}>

@@ -87,7 +87,7 @@ export function deleteUserInfos(data) {
   return request({
     data,
     method:'post',
-    uri:api.deleteUser,
+    url:api.deleteUser,
   })
 }
 
@@ -96,7 +96,7 @@ export function modifyUserInfo(data) {
   return request({
     data,
     method:'get',
-    uri:api.modifyUserInfo,
+    url:api.modifyUserInfo,
   })
 }
 
@@ -105,6 +105,16 @@ export function queryUserInfo(data) {
   return request({
     data,
     method:'post',
-    uri:api.queryUserInfo,
+    url:api.queryUserInfo,
   })
+}
+
+// 添加用户
+export function addUser(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.addUser,
+  })
+
 }

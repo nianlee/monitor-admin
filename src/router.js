@@ -53,6 +53,11 @@ const routes = [
     component: () => import('./routes/users'),
   },
   {
+    path: '/adduser',
+    models: () => [import('./models/adduser')],
+    component: () => import('./routes/adduser'),
+  },
+  {
     path: '/modifyuser/:id/:userName/:userPw/:roleId/:realName/:phone/:email/:jobNum/:state/:areaId',
     models: () => [import('./models/modifyuser')],
     component: () => import('./routes/modifyuser'),

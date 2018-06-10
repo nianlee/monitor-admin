@@ -2,27 +2,51 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
 import { Form, Input,Icon, Row, Col,Button,Select } from 'antd'
+import { routerRedux } from 'dva/router'
 import styles from "./style.less"
+import ShowAddUserModal from "./components/ShowAddUserModal";
 
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const ModifyUser = ({ modifyuser, dispatch, form }) => {
+const AddUser = ({ adduser, dispatch, form }) => {
 
 
-  //console.log(adddevice.regionList);
-  // 添加设备请求
+  const regionLists = adduser.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
+  const roleLists = adduser.roleList.map(role => <Option key={role.id}>{role.roleName}</Option>)
+
+  const { modalVisible } =  adduser
+  //modal 属性
+  const modalProps ={ //eslint-disable-line
+    visible:modalVisible,
+    msg:adduser.modalMsg,
+    maskClosable:false,
+    title:'添加消息',
+    wrapperClassName:"vertical-center-modal",
+    width:720,
+    onOk:handleModalClick,
+    onCancel:handleModalClick
+  }
+
+  function handleModalClick() {
+
+    console.log('handleModalClick')
+
+    dispatch({
+      type: 'adduser/updateHideModal',
+    })
+  }
+
+  // 添加用户请求
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        //const otherValues =
-        values = {...values,id:11}
 
-        console.log('modifyuser of form: ', values);
+        console.log('adduser of form: ', values);
         dispatch({
-          type: 'modifyuser/modify',
+          type: 'adduser/add',
           payload: { ...values }
         })
       }
@@ -41,6 +65,10 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
     }
   }
 
+  function onCancel() {
+    dispatch(routerRedux.push('/usermanage'));
+  }
+
   return (
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
@@ -54,7 +82,23 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
             >
               {getFieldDecorator('userName', {
                 rules: [
-                  { required: false, message: '' }
+                  { required: true, message: '' }
+                ],
+              })(
+                <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
+              )}
+            </FormItem>
+          </Col>
+
+          <Col span={8}>
+
+            <FormItem
+              {...formItemLayout}
+              label="真实姓名" // eslint-disable-line
+            >
+              {getFieldDecorator('realName', {
+                rules: [
+                  { required: true, message: '' }
                 ],
               })(
                 <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
@@ -65,11 +109,11 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
           <Col span={8}>
             <FormItem
               {...formItemLayout}
-              label="真实姓名" // eslint-disable-line
+              label="用户密码" // eslint-disable-line
             >
-              {getFieldDecorator('realName', {
+              {getFieldDecorator('userPw', {
                 rules: [
-                  { required: false, message: '' }
+                  { required: true, message: '' }
                 ],
               })(
                 <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
@@ -84,7 +128,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
             >
               {getFieldDecorator('phone', {
                 rules: [
-                  { required: false, message: '' }
+                  { required: true, message: '' }
                 ],
               })(
                 <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
@@ -98,7 +142,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
               label="电子邮件"
             >
               {getFieldDecorator('email', {
-                rules: [{required: false, message: '' }],
+                rules: [{required: true, message: '' }],
               })(
                 <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
               )}
@@ -111,7 +155,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
               label="工号"
             >
               {getFieldDecorator('jobNum', {
-                rules: [{required: false, message: '' }],
+                rules: [{required: true, message: '' }],
               })(
                 <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
               )}
@@ -125,7 +169,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
             >
               {getFieldDecorator('areaId', {
                 rules: [
-                  { required: false, message: '请选择区域!' }
+                  { required: true, message: '请选择区域!' }
                 ],
               })(
                 <Select
@@ -136,15 +180,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">江北区</Option>
-                  <Option value="2">渝北区</Option>
-                  <Option value="3">渝中区</Option>
-                  <Option value="4">南岸区</Option>
-                  <Option value="5">北碚区</Option>
-                  <Option value="6">巴南区</Option>
-                  <Option value="7">沙坪坝区</Option>
-                  <Option value="8">九龙坡区</Option>
-                  <Option value="9">大渡口区</Option>
+                  {regionLists}
                 </Select>
               )}
             </FormItem>
@@ -157,7 +193,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
             >
               {getFieldDecorator('roleId', {
                 rules: [
-                  { required: false, message: '请选择角色!' }
+                  { required: true, message: '请选择角色!' }
                 ],
               })(
                 <Select
@@ -168,11 +204,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">角色1</Option>
-                  <Option value="2">角色2</Option>
-                  <Option value="3">角色3</Option>
-                  <Option value="4">角色4</Option>
-                  <Option value="5">角色5</Option>
+                  {roleLists}
                 </Select>
               )}
             </FormItem>
@@ -181,23 +213,22 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
           <Col span={8}>
             <FormItem
               {...formItemLayout}
-              label="账号状态" // eslint-disable-line
+              label="用户类型" // eslint-disable-line
             >
-              {getFieldDecorator('state', {
+              {getFieldDecorator('accType', {
                 rules: [
-                  { required: false, message: '请选择账号状态!' }
+                  { required: true, message: '请选择用户类型!' }
                 ],
               })(
                 <Select
                   showSearch
-                  placeholder="请选择账号状态"
+                  placeholder="请选择用户类型"
                   optionLabelProp="children"
                   filterOption={(input,option) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="0">停用</Option>
-                  <Option value="1">启用</Option>
+                  <Option value="0">管理员</Option>
                 </Select>
               )}
             </FormItem>
@@ -206,23 +237,24 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
 
         <FormItem>
           <Button type="primary" htmlType="submit" className={styles.addButton}>确定</Button>
-          <Button className={styles.cancelButton}>取消</Button>
+          <Button className={styles.cancelButton} onClick={onCancel}>取消</Button>
         </FormItem>
 
       </Form>
+      <ShowAddUserModal {...modalProps}/>
     </div>
   )
 }
 
 
 
-ModifyUser.propTypes = {
-  modifyuser: PropTypes.object,
+AddUser.propTypes = {
+  adduser: PropTypes.object,
   dispatch: PropTypes.func,
   form: PropTypes.object,
 }
 
-const WrappedAdd = Form.create()(ModifyUser)
+const WrappedAdd = Form.create()(AddUser)
 
 
-export default connect(({ modifyuser }) => ({ modifyuser }))(WrappedAdd) // eslint-disable-line
+export default connect(({ adduser }) => ({ adduser }))(WrappedAdd) // eslint-disable-line

@@ -15,6 +15,7 @@ export default {
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
+  loginout: `${config.apiHost}/manager/logout`, // 用户退出登录
   getVerifyCode: `${config.apiHost}/common/getVerifyCode`, // 获取验证码
 
   // 用户管理
@@ -23,7 +24,7 @@ export default {
   deleteUser: `${config.apiHost}/manager/delManagerById`,
   modifyUserInfo:`${config.apiHost}/manager/editManagerById`,
   queryUserInfo:`${config.apiHost}/manager/queryManagerInfoById`,
-  addUserInfo:`${config.apiHost}/manager/addManager`,
+  addUser:`${config.apiHost}/manager/addManager`,
 
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表

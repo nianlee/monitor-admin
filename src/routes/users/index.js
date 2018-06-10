@@ -8,25 +8,6 @@ import { routerRedux } from 'dva/router'
 
 const UserManage = ({ users,dispatch }) => {
 
-  const { modalVisible } =  users
-  //modal 属性
-  const modalProps ={ //eslint-disable-line
-    visible:modalVisible,
-    userInfos:users.userInfo,
-    maskClosable:false,
-    title:'查看用户',
-    wrapperClassName:"vertical-center-modal",
-    width:720,
-    onOk(data) {
-
-    },
-    onCancel() {
-      dispatch({
-        type:'users/hideAddModal'
-      })
-    },
-  }
-
   const UserList = [];
   let i = 0;
   for(let u of users.userListInfo) {
@@ -84,6 +65,9 @@ const UserManage = ({ users,dispatch }) => {
 
   // operation
   function renderOperation(text,record) {
+
+    //const user = users.userListInfo[record.index];
+    console.log('user',record);
     return (
       UserList.length > 1 ?
         (
@@ -92,9 +76,7 @@ const UserManage = ({ users,dispatch }) => {
             <a href="javascript:;"
                onClick={()=>edit(record)}>修改</a>
 
-            <a href="javascript:;"
-               onClick={()=>showUser(record)}
-               style={{ marginLeft: 8 }}>查看</a>
+            <ShowUserModal selectUser={record}/>
 
             <Popconfirm title="确定删除吗?" onConfirm={() => deleteUserAction(record.id)}>
               <a href="javascript:;" style={{ marginLeft: 8 }}>删除</a>
@@ -109,16 +91,6 @@ const UserManage = ({ users,dispatch }) => {
     dispatch(routerRedux.push(`/modifyuser/${key.id}/${key.userName}/${key.userPw}/${key.roleId}/${key.realName}/${key.phone}/${key.email}/${key.jobNum}/${key.state}/${key.areaId}`));
   }
 
-  function showUser(record) {
-    console.log(record)
-    dispatch({
-      type:'users/queryUserInfo',
-      payload:{id:record.id},
-    })
-  }
-
-
-
   function deleteUserAction(id) {
     console.log('deleteUserAction',id)
 
@@ -129,13 +101,14 @@ const UserManage = ({ users,dispatch }) => {
   }
 
   function handleAdd(key) {
-    dispatch(routerRedux.push(`/modifyuser/${key.id}/${key.userName}/${key.userPw}/${key.roleId}/${key.realName}/${key.phone}/${key.email}/${key.jobNum}/${key.state}/${key.areaId}`));
+    dispatch(routerRedux.push(`/adduser`));
+
+
   }
 
   return (
     <div>
       <Button type="primary" onClick={handleAdd}>添加</Button>
-      <ShowUserModal {...modalProps}/>
       <Table bordered dataSource={UserList} columns={columns}/>
     </div>
   )
@@ -144,6 +117,7 @@ const UserManage = ({ users,dispatch }) => {
 UserManage.propTypes = {
   users: PropTypes.object,
   dispatch:PropTypes.func,
+  selectUser:PropTypes.object
 }
 
 export default connect(({ users }) => ({ users }))(UserManage)
