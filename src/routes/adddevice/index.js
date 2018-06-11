@@ -4,6 +4,7 @@ import { connect } from 'dva'
 import { Form, Input, Row, Col, Select, Button } from 'antd'
 import AddressControl from './components/AddressControl'
 import styles from './style.less'
+import { routerRedux } from 'dva/router'
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -11,6 +12,7 @@ const Option = Select.Option;
 const AddDevice = ({ adddevice, dispatch, form }) => {
 
   const regionLists = adddevice.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
+  //const deviceTypeLists = adddevice.deviceTypeList.map(type => <Option key={type.id}>{type}</Option>)
   // 添加设备请求
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +50,6 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
       sm:{span:16},
     }
   }
-
 
   return (
     <div className={styles.formWrapper}>
@@ -101,12 +102,10 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">设备类型1</Option>
-                  <Option value="2">设备类型2</Option>
-                  <Option value="3">设备类型3</Option>
-                  <Option value="4">设备类型4</Option>
-                  <Option value="5">设备类型5</Option>
-                  <Option value="6">设备类型6</Option>
+                  <Option key='1'>type1</Option>
+                  <Option key='2'>type2</Option>
+                  <Option key='3'>type3</Option>
+                  <Option key='4'>type4</Option>
                 </Select>
               )}
             </FormItem>
@@ -179,12 +178,16 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
 
         <FormItem>
           <Button type="primary" htmlType="submit" className={styles.addButton}>添加</Button>
-          <Button className={styles.cancelButton}>取消</Button>
+          <Button className={styles.cancelButton} onClick={onCancel}>取消</Button>
         </FormItem>
 
       </Form>
     </div>
   )
+
+  function onCancel() {
+    dispatch(routerRedux.push('/devicemanage'));
+  }
 }
 
 AddDevice.propTypes = {

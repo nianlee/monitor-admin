@@ -12,18 +12,42 @@ export default {
     // 某一个用户的info
     userInfo: {},
     modalVisible: false,
+    total:'200',
+    currentPage:'',
+    pageSize:''
+  },
+
+  subscriptions: {
+    setup({dispatch, history}) {  // eslint-disable-line
+      return history.listen(({pathname, query}) => {
+        if (pathname === '/usermanage') {
+          console.log('pathname', pathname);
+          dispatch({
+            type: 'queryUserList',
+            payload: {
+              searchCom: '',
+              page: '1',
+              row: '200'
+            }
+          })
+        }
+      });
+    },
   },
 
   effects: {
     *queryUserList({payload}, {call, put, select}) {
       const resData = yield call(queryUserList, payload)
-      console.log('userList', resData);
+
       if (resData.success) {
         console.log('userList', resData.data.rows);
         yield put({
           type: 'updateState',
           payload: {
             userListInfo: resData.data.rows,
+            total:payload.row,
+            currentPage:payload.page,
+            pageSize:'10'
           }
         })
       } else {
@@ -32,14 +56,13 @@ export default {
     },
 
     *deleteUserInfo({payload}, {call, put, select}) {
-      const resDate = yield call(deleteUserInfos, payload)
-      if (resDate.success) {
 
+      const resDate = yield call(deleteUserInfos, payload)
+
+      if (resDate.success) {
         yield put({
           type: 'updateDeleteState',
-          payload: {
-            id: payload
-          },
+          payload: payload
         })
       } else {
         throw resDate.msg
@@ -52,8 +75,6 @@ export default {
 
     *queryUserInfo({payload}, {call, put, select}) {
       const resDate = yield call(queryUserInfo,payload)
-      //console.log('payload', payload);
-      //console.log('queryUserInfo', resDate);
 
       if(resDate.success) {
         yield put({
@@ -85,7 +106,7 @@ export default {
       },
 
       updateDeleteState(state, {payload}) {
-        state.userListInfo = state.userListInfo.filter(u => u.id != payload.id)
+        state.userListInfo = state.userListInfo.filter(u => u.id != payload.id);
         return {
           ...state,
           ...payload,
@@ -106,24 +127,6 @@ export default {
           ...payload,
           modalVisible: false
         }
-      },
-    },
-
-    subscriptions: {
-      setup({dispatch, history}) {  // eslint-disable-line
-        return history.listen(({pathname, query}) => {
-          if (pathname === '/usermanage') {
-            console.log('pathname', pathname);
-            dispatch({
-              type: 'queryUserList',
-              payload: {
-                searchCom: 'test',
-                page: '1',
-                row: '100'
-              }
-            })
-          }
-        });
       },
     },
 };

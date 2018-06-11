@@ -11,19 +11,21 @@ const Option = Select.Option;
 const ModifyUser = ({ modifyuser, dispatch, form }) => {
 
 
-  //console.log(adddevice.regionList);
+  const regionLists = modifyuser.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
+  const roleLists = modifyuser.roleList.map(role => <Option key={role.id}>{role.roleName}</Option>)
+
   // 添加设备请求
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        //const otherValues =
-        values = {...values,id:11}
 
-        console.log('modifyuser of form: ', values);
+        const payload = {...values,id:modifyuser.userModel.id,userPw:modifyuser.userModel.userPw}
+
+        console.log('modifyuser of form: ', payload);
         dispatch({
           type: 'modifyuser/modify',
-          payload: { ...values }
+          payload: { ...payload }
         })
       }
     });
@@ -53,6 +55,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
               label="用户名" // eslint-disable-line
             >
               {getFieldDecorator('userName', {
+                initialValue:modifyuser.userModel.userName,
                 rules: [
                   { required: false, message: '' }
                 ],
@@ -68,6 +71,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
               label="真实姓名" // eslint-disable-line
             >
               {getFieldDecorator('realName', {
+                initialValue:modifyuser.userModel.realName,
                 rules: [
                   { required: false, message: '' }
                 ],
@@ -83,6 +87,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
               label="电话号码" // eslint-disable-line
             >
               {getFieldDecorator('phone', {
+                initialValue:modifyuser.userModel.phone,
                 rules: [
                   { required: false, message: '' }
                 ],
@@ -98,6 +103,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
               label="电子邮件"
             >
               {getFieldDecorator('email', {
+                initialValue:modifyuser.userModel.email,
                 rules: [{required: false, message: '' }],
               })(
                 <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
@@ -111,6 +117,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
               label="工号"
             >
               {getFieldDecorator('jobNum', {
+                initialValue:modifyuser.userModel.jobNum,
                 rules: [{required: false, message: '' }],
               })(
                 <Input prefix={<Icon type="name" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="" />
@@ -136,15 +143,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">江北区</Option>
-                  <Option value="2">渝北区</Option>
-                  <Option value="3">渝中区</Option>
-                  <Option value="4">南岸区</Option>
-                  <Option value="5">北碚区</Option>
-                  <Option value="6">巴南区</Option>
-                  <Option value="7">沙坪坝区</Option>
-                  <Option value="8">九龙坡区</Option>
-                  <Option value="9">大渡口区</Option>
+                  {regionLists}
                 </Select>
               )}
             </FormItem>
@@ -168,11 +167,7 @@ const ModifyUser = ({ modifyuser, dispatch, form }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  <Option value="1">角色1</Option>
-                  <Option value="2">角色2</Option>
-                  <Option value="3">角色3</Option>
-                  <Option value="4">角色4</Option>
-                  <Option value="5">角色5</Option>
+                  {roleLists}
                 </Select>
               )}
             </FormItem>

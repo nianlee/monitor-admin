@@ -8,6 +8,14 @@ import { routerRedux } from 'dva/router'
 
 const UserManage = ({ users,dispatch }) => {
 
+  console.log('userListInfo',users.userListInfo.length)
+
+  // 分页器
+  const pagination = {}
+  pagination.defaultCurrent = users.currentPage
+  pagination.total = users.total
+  pagination.pageSize = users.pageSize
+
   const UserList = [];
   let i = 0;
   for(let u of users.userListInfo) {
@@ -66,8 +74,6 @@ const UserManage = ({ users,dispatch }) => {
   // operation
   function renderOperation(text,record) {
 
-    //const user = users.userListInfo[record.index];
-    console.log('user',record);
     return (
       UserList.length > 1 ?
         (
@@ -93,23 +99,33 @@ const UserManage = ({ users,dispatch }) => {
 
   function deleteUserAction(id) {
     console.log('deleteUserAction',id)
-
     dispatch({
       type:'users/deleteUserInfo',
-      payload:id
+      payload:{id:id},
     })
   }
 
   function handleAdd(key) {
     dispatch(routerRedux.push(`/adduser`));
+  }
 
+  function handleTableChange(pagination) {
+    console.log('pagination',pagination)
 
+    dispatch({
+      type:'users/queryUserList',
+      payload:{
+        searchCom: '',
+        page: pagination.current,
+        row:  pagination.total,
+      }
+    })
   }
 
   return (
     <div>
       <Button type="primary" onClick={handleAdd}>添加</Button>
-      <Table bordered dataSource={UserList} columns={columns}/>
+      <Table bordered dataSource={UserList} columns={columns} pagination={pagination} onChange={handleTableChange}/>
     </div>
   )
 }

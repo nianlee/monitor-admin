@@ -64,6 +64,15 @@ export function controlDevice(data) {
   })
 }
 
+// 设备类型
+export function queryDeviceType(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryDeviceTypes
+  })
+}
+
 // 获取区域树
 export function getRegionList(data) {
   return request({
@@ -95,7 +104,7 @@ export function deleteUserInfos(data) {
 export function modifyUserInfo(data) {
   return request({
     data,
-    method:'get',
+    method:'post',
     url:api.modifyUserInfo,
   })
 }

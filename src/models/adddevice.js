@@ -1,4 +1,4 @@
-import { getRegionList, addDevice } from 'services/manage/'
+import { getRegionList, addDevice,queryDeviceType } from 'services/manage/'
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
 
@@ -9,6 +9,7 @@ export default {
   state: {
     regionList: [],
     mapAddressVisible: false, // 地图弹窗
+    deviceTypeList:[],
     // detailAddress:
   },
 
@@ -29,7 +30,6 @@ export default {
       const relist = []
 
       if(resData.success) {
-        console.log('region',resData);
         for(let v of resData.data) {
           relist.push({
             name:v.name,
@@ -48,6 +48,30 @@ export default {
         message.error(resData.msg)
       }
     },
+
+    //获取设备类型
+    *queryDeviceType({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceType, payload)
+      const types = []
+      console.log('queryDeviceType',resData.data);
+      if(resData.success) {
+        for (let i = 0;i<resData.data.length;i++) {
+          types.push({
+            id:i,
+            name:resData.data[i]
+          })
+        }
+        yield put({
+          type:'updateState',
+          payload:{
+            deviceTypeList:types,
+          }
+        })
+      } else {
+        message.error(resData.message)
+      }
+    },
+
   },
 
   reducers: {
@@ -75,7 +99,16 @@ export default {
             payload:{
               parentId:'500100',
               roleLev:'-1'
-            }})
+            }});
+
+          dispatch({
+            type:'queryDeviceType',
+            payload:{
+              page:'1',
+              rows:'100',
+              paramType:'sys-device-name'
+            }});
+
         }
       });
     },

@@ -7,8 +7,6 @@ import { routerRedux } from 'dva/router'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
-
-  console.log('devices:',devices.deviceInfos)
   const { modalVisible } =  devices
   //modal 属性
   const modalProps ={ //eslint-disable-line
@@ -95,21 +93,12 @@ const DeviceManage = ({ devices,dispatch }) => {
         <a href="javascript:;"
            onClick={()=>checkDevice(record.sn)}
            style={{ marginLeft: 8 }}>查看</a>
-
-
       </div>
     );
   }
 
   function controlDevice(sn) {
     dispatch(routerRedux.push(`/controlDevice/${sn}`));
-
-    /*
-    dispatch({
-      type:'devices/controlDevice',
-      payload:sn,
-    });*/
-
   }
 
   function updateDevice(sn) {
@@ -130,7 +119,6 @@ const DeviceManage = ({ devices,dispatch }) => {
     dispatch({
       type:'devices/addDevice',
     });
-    //routerRedux.push('/adddevice')
   }
 
   //删除设备函数
@@ -138,13 +126,13 @@ const DeviceManage = ({ devices,dispatch }) => {
 
     dispatch({
       type:'devices/deleteDevice',
-      payload:id,
+      payload:{id:id},
     });
   }
 0
   return (
     <div>
-      <Button className="primary" onClick={handleAdd}>添加</Button>
+      <Button type="primary" onClick={handleAdd}>添加</Button>
       <ShowDeviceModal {...modalProps}/>
       <Table bordered dataSource={devices.dataSource} columns={columns} />
     </div>

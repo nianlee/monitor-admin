@@ -12,13 +12,13 @@ export default {
   queryDeviceInfo:`${config.apiHost}/device/queryDeviceBySn`, //设备控制
   queryFirmwareVersion:`${config.apiHost}/device/queryFirmwareForUpgrade`, //设备控制
   updateFirmwareVersion:`${config.apiHost}/device/deviceUpgrade`, //设备控制
+  queryDeviceTypes:`${config.apiHost}/param/queryParamListForDropdown`, //设备控制
+
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
   loginout: `${config.apiHost}/manager/logout`, // 用户退出登录
   getVerifyCode: `${config.apiHost}/common/getVerifyCode`, // 获取验证码
-
-  // 用户管理
   queryManagerInfoById: `${config.apiHost}/manager`,
   queryUserListInfo: `${config.apiHost}/manager/managerList`,
   deleteUser: `${config.apiHost}/manager/delManagerById`,
