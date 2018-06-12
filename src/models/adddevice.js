@@ -10,6 +10,7 @@ export default {
     regionList: [],
     mapAddressVisible: false, // 地图弹窗
     deviceTypeList:[],
+    deviceNameList:[],
     // detailAddress:
   },
 
@@ -53,18 +54,41 @@ export default {
     *queryDeviceType({ payload }, { call, put }) {
       const resData = yield call(queryDeviceType, payload)
       const types = []
-      console.log('queryDeviceType',resData.data);
       if(resData.success) {
         for (let i = 0;i<resData.data.length;i++) {
           types.push({
             id:i,
-            name:resData.data[i]
+            name:resData.data[i].name,
+            value:resData.data[i].value,
           })
         }
         yield put({
           type:'updateState',
           payload:{
             deviceTypeList:types,
+          }
+        })
+      } else {
+        message.error(resData.message)
+      }
+    },
+
+    //获取设备名称
+    *queryDeviceName({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceType, payload)
+      const types = []
+      if(resData.success) {
+        for (let i = 0;i<resData.data.length;i++) {
+          types.push({
+            id:i,
+            name:resData.data[i].name,
+            value:resData.data[i].value,
+          })
+        }
+        yield put({
+          type:'updateState',
+          payload:{
+            deviceNameList:types,
           }
         })
       } else {
@@ -103,6 +127,14 @@ export default {
 
           dispatch({
             type:'queryDeviceType',
+            payload:{
+              page:'1',
+              rows:'100',
+              paramType:'sys-device-type'
+            }});
+
+          dispatch({
+            type:'queryDeviceName',
             payload:{
               page:'1',
               rows:'100',

@@ -5,7 +5,7 @@ export default {
   getMenu: '/getMenu', // 获取菜单
 
   // 设备管理
-  queryDeviceSelective: `${config.apiHost}/device/queryDeviceSelective`, // 查询设备
+  queryDeviceSelective: `${config.apiHost}/device/queryDevices`, // 查询设备
   deleteDevice:`${config.apiHost}/device/delDeviceById`, // 删除设备
   addDevice:`${config.apiHost}/device/addDevice`, // 添加设备
   controlDevice:`${config.apiHost}/device/deviceControl`, //设备控制

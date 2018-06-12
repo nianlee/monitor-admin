@@ -48,9 +48,9 @@ const DeviceManage = ({ devices,dispatch }) => {
       width:'10%',
     },
     {
-      title:'设备厂商',
-      dataIndex:'manufacturer',
-      key:'manufacturer',
+      title:'设备创建时间',
+      dataIndex:'createTime',
+      key:'createTime',
       width:'10%',
     },
     {
@@ -129,12 +129,31 @@ const DeviceManage = ({ devices,dispatch }) => {
       payload:{id:id},
     });
   }
-0
+
+  // 分页请求
+  function handlePage(pagination) {
+    console.log('pagination',pagination)
+
+    dispatch({
+      type:'devices/queryDeviceList',
+      payload:{
+        page: pagination.current,
+        rows:  pagination.pageSize,
+      }
+    })
+  }
+
+  // 分页器
+  const pagination = {}
+  pagination.defaultCurrent = devices.currentPage
+  pagination.total = devices.total
+  pagination.pageSize = devices.pageSize
+
   return (
     <div>
       <Button type="primary" onClick={handleAdd}>添加</Button>
       <ShowDeviceModal {...modalProps}/>
-      <Table bordered dataSource={devices.dataSource} columns={columns} />
+      <Table bordered dataSource={devices.dataSource} columns={columns} pagination={pagination} onChange={handlePage}/>
     </div>
 
   );
