@@ -1,10 +1,13 @@
 import qs from 'qs'
 import { routerRedux } from 'dva/router'
 import config from 'config'
+import { message } from 'antd'
 import {
   getMenu,
   query,
   loginout,
+  queryUserInfo,
+  modifyUserInfo,
 } from 'services/app'
 
 export default {
@@ -74,8 +77,9 @@ export default {
       },
     ], // 菜单
     user: {
-      name: 'deadpool'
+      userName: 'deadpool'
     }, // 用户信息
+    userInfoModalVisibal: false,
   },
   subscriptions: {
     setupHistory ({ dispatch, history }) {
@@ -92,7 +96,7 @@ export default {
       })
     },
 
-    setup({ dispatch, history }) {
+    setup({ dispatch }) {
       if (config.loginLimit) {
         dispatch({ type: 'query' })
       }
@@ -126,9 +130,34 @@ export default {
       }
     },
 
+    // 查询用户信息
+    *queryUserInfo(payload, { call, put, select}) {
+      const { user } = yield select(_=>_.app)
+      const resData = yield call(queryUserInfo, { id: user.id }) 
+      if (resData.success) {
+        yield put({ type: 'updateState', payload: { user: resData.data }})
+      } else {
+        message.error(resData.message)
+      }
+    },
+
+    // 修改用户信息
+    *modifyUserInfo({ payload }, { call, select }) {
+      const { user } = yield select(_=>_.app)
+      const resData = yield call(modifyUserInfo, {
+        ...payload,
+        ...user,
+      })
+
+      if (resData.success) {
+        message.success('修改成功')
+      } else {
+        message.error(resData.message)
+      }
+    },
+
     *loginout ({ payload }, { call, put }) {
       yield call(loginout)
-      // todo 清空登录信息
       yield put(routerRedux.push({
         pathname: '/login',
       }))

@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Menu, Layout, Dropdown, Icon } from 'antd'
 import { Link } from 'react-router-dom'
+import UserInfo from './UserInfo'
 import styles from './style.less'
 
 const MenuItem = Menu.Item
@@ -13,7 +14,6 @@ const MHeader = ({
   location,
   dispatch,
 }) => {
-
   const getSelectedKeys = menu => {
     if (!menu) {
       return []
@@ -27,13 +27,15 @@ const MHeader = ({
     return selectedKeys
   }
 
+  const showModal = () => {
+    dispatch({ type: 'app/updateState', payload: { userInfoModalVisible: true }})
+    dispatch({ type: 'app/queryUserInfo' })
+  }
+
   const userMenu = (
     <Menu style={{ lineHeight: '64px', borderBottom: 'none' }}>
       <MenuItem>
-        <a target="_blank" rel="noopener noreferrer">详细信息</a>
-      </MenuItem>
-      <MenuItem>
-        <a target="_blank" rel="noopener noreferrer">修改信息</a>
+        <a target="_blank" rel="noopener noreferrer" onClick={showModal}>详细信息</a>
       </MenuItem>
       <MenuItem>
         <a target="_blank" rel="noopener noreferrer" onClick={loginOut}>退出</a>
@@ -42,13 +44,8 @@ const MHeader = ({
   );
 
   function loginOut() {
-    dispatch({
-      type:'app/loginout',
-      payload:''
-    })
+    dispatch({ type:'app/loginout' })
   }
-
-
 
   const renderMenu = () => {
     const genMenuItem = (data) => {
@@ -73,7 +70,7 @@ const MHeader = ({
       <div className={styles.user}>
         <Dropdown overlay={userMenu}>
           <a>
-            {app.user.name}<Icon type="down" />
+            {app.user.userName}<Icon type="down" />
           </a>
         </Dropdown>
       </div>
@@ -86,6 +83,7 @@ const MHeader = ({
       >
         {renderMenu()}
       </Menu>
+      <UserInfo app={app} dispatch={dispatch}/>
     </Header>
   )
 }
@@ -93,7 +91,7 @@ const MHeader = ({
 MHeader.propTypes = {
   app: PropTypes.object,
   location: PropTypes.object,
-  dispatch: PropTypes.object,
+  dispatch: PropTypes.func,
 }
 
 export default MHeader

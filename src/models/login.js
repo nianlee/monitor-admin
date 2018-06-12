@@ -17,9 +17,10 @@ export default {
   },
 
   effects: {
-    *loginLoad({ payload }, { call, put }) { 
+    *loginLoad({ payload }, { call, put, select }) { 
       const resData = yield call(loginLoad, payload)
       if (resData.success) {
+        yield put({ type: 'app/updateState', payload: { user: resData.data }})
         yield put(routerRedux.push('/dashboard'))
       } else {
         message.error(resData.message)

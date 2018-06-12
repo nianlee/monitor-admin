@@ -26,3 +26,21 @@ export function getMenu(data) {
     data,
   })
 }
+
+// 获取用户信息
+export function queryUserInfo(data) {
+  return request({
+    url: api.queryUserInfo,
+    method: 'get',
+    data,
+  })
+}
+
+// 修改用户信息
+export function modifyUserInfo(data) {
+  return request({
+    url: api.modifyUserInfo,
+    method: 'post',
+    data,
+  })
+}
