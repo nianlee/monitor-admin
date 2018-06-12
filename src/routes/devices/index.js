@@ -7,8 +7,6 @@ import { routerRedux } from 'dva/router'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
-
-  console.log('devices:',devices.deviceInfos)
   const { modalVisible } =  devices
   //modal 属性
   const modalProps ={ //eslint-disable-line
@@ -50,9 +48,9 @@ const DeviceManage = ({ devices,dispatch }) => {
       width:'10%',
     },
     {
-      title:'设备厂商',
-      dataIndex:'manufacturer',
-      key:'manufacturer',
+      title:'设备创建时间',
+      dataIndex:'createTime',
+      key:'createTime',
       width:'10%',
     },
     {
@@ -95,21 +93,12 @@ const DeviceManage = ({ devices,dispatch }) => {
         <a href="javascript:;"
            onClick={()=>checkDevice(record.sn)}
            style={{ marginLeft: 8 }}>查看</a>
-
-
       </div>
     );
   }
 
   function controlDevice(sn) {
     dispatch(routerRedux.push(`/controlDevice/${sn}`));
-
-    /*
-    dispatch({
-      type:'devices/controlDevice',
-      payload:sn,
-    });*/
-
   }
 
   function updateDevice(sn) {
@@ -130,7 +119,6 @@ const DeviceManage = ({ devices,dispatch }) => {
     dispatch({
       type:'devices/addDevice',
     });
-    //routerRedux.push('/adddevice')
   }
 
   //删除设备函数
@@ -138,15 +126,34 @@ const DeviceManage = ({ devices,dispatch }) => {
 
     dispatch({
       type:'devices/deleteDevice',
-      payload:id,
+      payload:{id:id},
     });
   }
-0
+
+  // 分页请求
+  function handlePage(pagination) {
+    console.log('pagination',pagination)
+
+    dispatch({
+      type:'devices/queryDeviceList',
+      payload:{
+        page: pagination.current,
+        rows:  pagination.pageSize,
+      }
+    })
+  }
+
+  // 分页器
+  const pagination = {}
+  pagination.defaultCurrent = devices.currentPage
+  pagination.total = devices.total
+  pagination.pageSize = devices.pageSize
+
   return (
     <div>
-      <Button className="primary" onClick={handleAdd}>添加</Button>
+      <Button type="primary" onClick={handleAdd}>添加</Button>
       <ShowDeviceModal {...modalProps}/>
-      <Table bordered dataSource={devices.dataSource} columns={columns} />
+      <Table bordered dataSource={devices.dataSource} columns={columns} pagination={pagination} onChange={handlePage}/>
     </div>
 
   );

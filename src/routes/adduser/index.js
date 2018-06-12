@@ -210,29 +210,6 @@ const AddUser = ({ adduser, dispatch, form }) => {
             </FormItem>
           </Col>
 
-          <Col span={8}>
-            <FormItem
-              {...formItemLayout}
-              label="用户类型" // eslint-disable-line
-            >
-              {getFieldDecorator('accType', {
-                rules: [
-                  { required: true, message: '请选择用户类型!' }
-                ],
-              })(
-                <Select
-                  showSearch
-                  placeholder="请选择用户类型"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  <Option value="0">管理员</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
         </Row>
 
         <FormItem>

@@ -5,20 +5,20 @@ export default {
   getMenu: '/getMenu', // 获取菜单
 
   // 设备管理
-  queryDeviceSelective: `${config.apiHost}/device/queryDeviceSelective`, // 查询设备
+  queryDeviceSelective: `${config.apiHost}/device/queryDevices`, // 查询设备
   deleteDevice:`${config.apiHost}/device/delDeviceById`, // 删除设备
   addDevice:`${config.apiHost}/device/addDevice`, // 添加设备
   controlDevice:`${config.apiHost}/device/deviceControl`, //设备控制
   queryDeviceInfo:`${config.apiHost}/device/queryDeviceBySn`, //设备控制
   queryFirmwareVersion:`${config.apiHost}/device/queryFirmwareForUpgrade`, //设备控制
   updateFirmwareVersion:`${config.apiHost}/device/deviceUpgrade`, //设备控制
+  queryDeviceTypes:`${config.apiHost}/param/queryParamListForDropdown`, //设备控制
+
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
   loginout: `${config.apiHost}/manager/logout`, // 用户退出登录
   getVerifyCode: `${config.apiHost}/common/getVerifyCode`, // 获取验证码
-
-  // 用户管理
   queryManagerInfoById: `${config.apiHost}/manager`,
   queryUserListInfo: `${config.apiHost}/manager/managerList`,
   deleteUser: `${config.apiHost}/manager/delManagerById`,

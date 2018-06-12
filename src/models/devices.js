@@ -1,4 +1,4 @@
-import { queryDeviceList,deleteDevice,queryDeviceInfo } from "../services/manage";
+import { queryDeviceList,deleteDevice,queryDeviceInfo } from "../services/manage"; //eslint-disable-line
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
 
@@ -12,6 +12,9 @@ export default {
     deviceInfos:[],
     deviceDynamicDTOS:[],
     modalVisible:false,
+    total:'',
+    pageSize:'',
+    currentPage:'',
     sn:{},
 
   },
@@ -19,9 +22,6 @@ export default {
   effects: {
     *queryDeviceInfos({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceInfo,{deviceSn:payload});
-      console.log('sn',payload)
-      console.log('resData',resData)
-      //let deviceinfo = {};
       if(resData.success) {
 
         yield put({
@@ -42,23 +42,50 @@ export default {
       const devicesList = [];
 
       if(resData.success) {
-        for (var v of resData.data) {
-          devicesList.push({
-            id:v.datDevice.id,
-            name: v.datDevice.name,
-            sn: v.datDevice.sn,
-            detailAddr: v.datDevice.detailAddr,
-            manufacturer: v.datDevice.manufacturer,
-            type: v.datDevice.type,
-            state: v.datDevice.state,
-          })
+
+        for (var v of resData.data.rows) {
+          if(v.state == '-1') {
+            devicesList.push({
+              id:v.id,
+              name: v.name,
+              sn: v.sn,
+              detailAddr: v.detailAddr,
+              createTime: v.createTime,
+              type: v.type,
+              state: '故障',
+            })
+          } else if(v.state == '0') {
+            devicesList.push({
+              id:v.id,
+              name: v.name,
+              sn: v.sn,
+              detailAddr: v.detailAddr,
+              createTime: v.createTime,
+              type: v.type,
+              state: '离线',
+            })
+          } else {
+            devicesList.push({
+              id:v.id,
+              name: v.name,
+              sn: v.sn,
+              detailAddr: v.detailAddr,
+              createTime: v.createTime,
+              type: v.type,
+              state: '在线',
+            })
+          }
         }
         yield put({
           type:'updateState',
           payload:{
             dataSource:devicesList,
+            total:resData.data.total,
+            pageSize:resData.data.pageSize,
+            currentPage:resData.data.curPage,
           }
         })
+
       } else {
         throw  message.error(resData.msg)
       }
@@ -66,13 +93,13 @@ export default {
 
     // 删除设备
     *deleteDevice({ payload }, { call, put, select }) {
-      const result = yield call(deleteDevice,{id:payload})
+      console.log('payload',payload);
+      const result = yield call(deleteDevice,payload)
+      console.log('result',result);
       if(result.result === "true") { //删除成功，更新dataSource
         yield put({
           type:'updateDeleteState',
-          payload:{
-            id:payload
-          }
+          payload:payload
         })
       } else {
         throw result.msg
@@ -148,7 +175,8 @@ export default {
         if(pathname === '/devicemanage') {
           dispatch({type:'queryDeviceList',
             payload:{
-              installAddr:1
+              page: '1',
+              row: '10'
             }})
         }
       });

@@ -47,7 +47,7 @@ class ShowUserModal extends Component  {
 }
 
 ShowUserModal.propTypes = {
-  selectUser:PropTypes.Object,
+  selectUser:PropTypes.object,
 }
 
 export default ShowUserModal
