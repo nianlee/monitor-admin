@@ -28,6 +28,8 @@ export default {
     // 查询区域列表
     *queryAreaList({ payload }, { call, put }) {
       const resData = yield call(queryAreaList, payload)
+
+      console.log('resData',resData)
       if (resData.success) {
         let treeData = resData.data.filter(item => item.pId === 0)
 
@@ -55,7 +57,7 @@ export default {
         }]
 
         yield put({ type: 'updateState', payload: { regionTreeData: rootData }})
-        
+
       } else {
         message.error(resData.message)
       }
@@ -86,7 +88,7 @@ export default {
     },
 
     // 删除区域
-    *delAreaById({ payload }, { call, put }) { 
+    *delAreaById({ payload }, { call, put }) {
       const resData = yield call(delAreaById, payload)
       if (resData.success) {
         yield put({ type: 'queryAreaList', payload: { roleLev: -1 }})
@@ -99,7 +101,7 @@ export default {
 
   reducers: {
     updateState(state, { payload }) {
-      return { 
+      return {
         ...state,
         ...payload,
       }

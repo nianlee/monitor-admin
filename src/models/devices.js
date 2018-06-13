@@ -93,10 +93,8 @@ export default {
 
     // 删除设备
     *deleteDevice({ payload }, { call, put, select }) {
-      console.log('payload',payload);
       const result = yield call(deleteDevice,payload)
-      console.log('result',result);
-      if(result.result === "true") { //删除成功，更新dataSource
+      if(result.success) { //删除成功，更新dataSource
         yield put({
           type:'updateDeleteState',
           payload:payload
@@ -115,16 +113,6 @@ export default {
 
     //跳转到控制页面
     *controlDevice({ payload },{ call,put,select }) {
-      /*
-      yield put(routerRedux.push({
-          pathname:'/controldevice',
-          query:{
-            sn:payload,
-          }
-        },
-      )
-      */
-
       yield put(routerRedux.push({
           pathname:'/controldevice',
           query:{
