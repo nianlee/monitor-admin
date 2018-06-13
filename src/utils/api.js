@@ -14,7 +14,13 @@ export default {
   updateFirmwareVersion:`${config.apiHost}/device/deviceUpgrade`, //设备控制
   queryDeviceTypes:`${config.apiHost}/param/queryParamListForDropdown`, //设备控制
 
-
+  // 统计相关
+  queryDeviceCountByState:`${config.apiHost}/statistic/queryDeviceCountByState`, // 统计设备状态对应设备数
+  queryOfflineDevices:`${config.apiHost}/statistic/queryOfflineDevices`, // 统计设备离线列表
+  queryOnlineDevices:`${config.apiHost}/statistic/queryOnlineDevices`, // 统计设备在线列表
+  queryAlarmDevices:`${config.apiHost}/statistic/queryAlarmDevices`, // 统计设备预警列表
+  queryDeviceCountByArea:`${config.apiHost}/statistic/queryDeviceCountByArea`, // 统计设备区域对应设备数
+  
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
   loginout: `${config.apiHost}/manager/logout`, // 用户退出登录

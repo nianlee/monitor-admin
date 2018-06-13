@@ -6,7 +6,7 @@ import ReactEcharts from 'echarts-for-react'
 const PieStatistics = ({ dashboard }) => {
   const getOption = () => ({
     title: {
-      text: `总设备${dashboard.total}`,
+      text: `总设备${dashboard.TotalCount}`,
       left: 'center',
       top: 7,
       textStyle: {
@@ -16,25 +16,25 @@ const PieStatistics = ({ dashboard }) => {
     },
     tooltip : {
       trigger: 'item',
-      formatter: `{a} <br/>{b} : ${dashboard.total} ({d}%)`,
+      formatter: `{a} <br/>{b} : ${dashboard.TotalCount} ({d}%)`,
     },
     legend: {
       bottom: 0,
       left: 'center',
       data: [{
-        name: `正常设备 ${dashboard.normal}`,
+        name: `正常设备 ${dashboard.OnlineCount}`,
         icon: 'circle',
         textStyle: {
           color: '#BAE7FF'
         }
       }, {
-        name: `离线设备 ${dashboard.offline}`,
+        name: `离线设备 ${dashboard.OffLineCount}`,
         icon: 'circle',
         textStyle: {
           color: '#FFD6E7'
         }
       }, {
-        name: `故障设备 ${dashboard.error}`,
+        name: `故障设备 ${dashboard.AlarmCount}`,
         icon: 'circle',
       }]
     },
