@@ -18,23 +18,25 @@ export default modelExtend(pageModel, {
   },
 
   effects: {
-    *queryRoleList({ payload }, { call, put, select }) { 
+    *queryRoleList({ payload }, { call, put, select }) {
       const { pagination } = yield select(_ => _.role)
       const { data } = yield call(queryRoleList, {
         ...payload,
         rows: pagination.pageSize,
         page: pagination.current,
       })
+
+      console.log('role',data)
       const roleList = data.rows.map(item => ({ ...item, key: item.id }))
       yield put({ type: 'updateState', payload: { roleList }})
-    },
+    }
   },
 
   reducers: {
     updateState(state, { payload }) {
-      return { 
+      return {
         ...state,
-        ...payload 
+        ...payload
       };
     },
   },

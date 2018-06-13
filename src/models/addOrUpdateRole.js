@@ -1,4 +1,4 @@
-import { 
+import {
   queryRoleList,
   queryRoleInfoById,
   queryRoleMenuList,
@@ -113,7 +113,7 @@ export default {
 
   effects: {
     // 查询权限列表
-    *queryRoleList({ payload }, { call, put, select }) { 
+    *queryRoleList({ payload }, { call, put, select }) {
       const { pagination } = yield select(_ => _.role)
       const { data } = yield call(queryRoleList, {
         ...payload,
@@ -125,12 +125,12 @@ export default {
     },
 
     // 查询权限详情
-    *queryRoleInfoById ({ payload }, { call, put, select }) { 
+    *queryRoleInfoById ({ payload }, { call, put, select }) {
       const resData = yield call(queryRoleInfoById, payload)
       console.log(resData)
       if (resData.success) {
         yield put({ type: 'updateState', payload: { id: resData.data.id }})
-        yield put({ type: 'updateFormParams', payload: { 
+        yield put({ type: 'updateFormParams', payload: {
           parentId: {
             value: resData.data.parentId,
           },
@@ -150,7 +150,7 @@ export default {
     },
 
     // 角色菜单查询
-    *queryRoleMenuList ({ payload }, { call, put, select }) { 
+    *queryRoleMenuList ({ payload }, { call, put, select }) {
       const resData = yield call(queryRoleMenuList, payload)
       if (resData.success) {
         yield put({ type: 'updateState', payload: { allMenus: resData.data.data }})
@@ -174,7 +174,7 @@ export default {
     // 角色信息更新
     *editRoleById({ payload }, { call, put, select }) {
       const resData = yield call( editRoleById, payload )
-
+      console.log('editRoleById',resData)
       if (resData.success) {
         message.success('更新成功')
         yield put(routerRedux.push('/manage/role'))
@@ -186,9 +186,9 @@ export default {
 
   reducers: {
     updateState(state, { payload }) {
-      return { 
+      return {
         ...state,
-        ...payload 
+        ...payload
       };
     },
 
@@ -200,7 +200,7 @@ export default {
           ...payload,
         }
       }
-    }, 
+    },
 
     clearState(state) {
       return {

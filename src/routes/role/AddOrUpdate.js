@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Select, Input, Button } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { connect } from 'dva'
 
 import MenuSelect from './components/MenuSelect'
@@ -8,7 +8,6 @@ import MenuSelect from './components/MenuSelect'
 import styles from './style.less'
 
 const FormItem = Form.Item;
-const SelectOption = Select.Option;
 
 const formItemLayout = {
   labelCol: {
@@ -44,7 +43,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
     });
   }
 
-  
+
   const { getFieldDecorator } = form
 
   return (
@@ -52,25 +51,9 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
       <Form className={styles.form} onSubmit={handleSubmit}>
         <FormItem
           {...formItemLayout}
-          label="上级角色"
-        >
-          {getFieldDecorator('parentId', { 
-            // initialValue: roleInfo.parentId,
-            rules: [{ required: true, message: '请选择上级角色' }]}
-          )(
-            <Select>
-              <SelectOption key="" value="">请选择</SelectOption>
-              {addOrUpdateRole.roleSelectData.map(item => {
-                return <SelectOption key={item.id} value={item.id}>{item.name}</SelectOption>
-              })}
-            </Select>
-          )}
-        </FormItem>
-        <FormItem
-          {...formItemLayout}
           label="角色名称"
         >
-          {getFieldDecorator('roleName', { 
+          {getFieldDecorator('roleName', {
             // initialValue: roleInfo.roleName,
             rules: [{ required: true, message: '请输入角色名称' }]}
           )(
@@ -81,7 +64,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
           {...formItemLayout}
           label="角色描述"
         >
-          {getFieldDecorator('roleDes', { 
+          {getFieldDecorator('roleDes', {
             // initialValue: roleInfo.roleDes,
             rules: [{ required: true, message: '请输入角色描述' }]}
           )(
@@ -94,7 +77,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
         >
           {getFieldDecorator('menuIds', {
             // initialValue: initMenuIds(),
-            rules: [{ required: true, message: '请输入角色描述' }]}  
+            rules: [{ required: true, message: '请输入角色描述' }]}
           )(
             <MenuSelect dataSource={addOrUpdateRole.allMenus}/>
           )}

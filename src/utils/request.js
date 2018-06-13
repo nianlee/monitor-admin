@@ -42,7 +42,7 @@ const fetch = (options) => {
         url,
         method: 'post',
         withCredentials,
-        headers: { 'content-type': 'application/x-www-form-urlencoded' },//
+        headers: { 'content-type': 'application/x-www-form-urlencoded;charset=utf-8' },//
         data: qs.stringify(data),
       })
     case 'put':

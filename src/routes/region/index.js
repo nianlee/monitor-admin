@@ -10,6 +10,8 @@ const TreeNode = Tree.TreeNode
 const MenuItem = Menu.Item
 
 const Region = ({ region, dispatch }) => {
+
+  console.log('region',region.regionTreeData)
   const handleMenuClick = (e, data) => {
     e.domEvent.stopPropagation()
     if (e.key === 'edit') {
@@ -34,7 +36,7 @@ const Region = ({ region, dispatch }) => {
   }
 
   const handleEdit = data => {
-    dispatch({ type: 'region/updateState', payload: { 
+    dispatch({ type: 'region/updateState', payload: {
       modalVisible: true,
       selectedData: data,
       operateType: 'edit',
@@ -47,13 +49,13 @@ const Region = ({ region, dispatch }) => {
       <Menu onClick={ key => handleMenuClick(key, data) } style={{ width: 150 }}>
         <MenuItem key='add'>
           <a className={styles.menuA}>添加下级</a>
-        </MenuItem> 
-        {!isRoot ? 
+        </MenuItem>
+        {!isRoot ?
           <MenuItem key='edit'>
             <a className={styles.menuA}>修改</a>
-          </MenuItem> : 
+          </MenuItem> :
           ''}
-        {!isRoot ? 
+        {!isRoot ?
           <MenuItem key='del'>
             <Popconfirm title={`您确认要删除【${data.name}】吗?`}onConfirm={handleDelete} okText="确认" cancelText="取消">
               <a className={styles.menuA}>删除</a>
@@ -75,7 +77,7 @@ const Region = ({ region, dispatch }) => {
 
   const genTreeNode = treeData => {
     return treeData.map(item => {
-      if (item.children.length > 0) {
+      if (item.length > 0) {
         return <TreeNode title={renderNodeTitle(item)} key={item.id}>
           {genTreeNode(item.children)}
         </TreeNode>

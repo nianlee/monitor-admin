@@ -12,10 +12,9 @@ const Option = Select.Option;
 const AddDevice = ({ adddevice, dispatch, form }) => {
 
   const regionLists = adddevice.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
-  const deviceTypeLists = adddevice.deviceTypeList.map(type => <Option key={type.id}>{type.name}</Option>)
-  const deviceNameLists = adddevice.deviceNameList.map(name => <Option key={name.id}>{name.name}</Option>)
+  const deviceTypeLists = adddevice.deviceTypeList.map(type => <Option key={type.name}>{type.value}</Option>)
+  const deviceNameLists = adddevice.deviceNameList.map(name => <Option key={name.name}>{name.value}</Option>)
 
-  console.log('deviceNameList: ', adddevice.deviceNameList);
   // 添加设备请求
   const handleSubmit = (e) => {
     e.preventDefault();
