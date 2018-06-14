@@ -17,11 +17,14 @@ const routes = [
     component: () => import('./routes/dashboard'),
   },
   {
+    path: '/onlinelist', // 在线设备列表
+    component: () => import('./routes/dashboard/OnlineList'),
+  },
+  {
     path: '/report',
     models: () => [import('./models/report')],
     component: () => import('./routes/report'),
   },
-
   {
     path: '/adddevice',
     models: () => [import('./models/adddevice')],

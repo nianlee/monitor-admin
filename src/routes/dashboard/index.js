@@ -4,14 +4,9 @@ import { Row, Col, Card } from 'antd'
 import { connect } from 'dva'
 import EquipmentSummary from './components/EquipmentSummary'
 import Online from './components/Online'
-import Fault from './components/Fault'
 import PieStatistics from './components/PieStatistics'
-// import Two from './components/Two'
-// import Six from './components/Six'
-// import One from './components/One'
-// import Tilt from './components/Tilt'
-// import Soaking from './components/Soaking'
-// import styles from './style.less'
+import Alarm from './components/Alarm'
+import Offline from './components/Offline'
 
 const Dashboard = ({ dashboard, dispatch }) => {
 
@@ -25,7 +20,7 @@ const Dashboard = ({ dashboard, dispatch }) => {
     </Row>
     <Row gutter={24} style={{ marginTop: '30px' }}>
       <Col span="12">
-        <Card title="警告排行" />
+        <Alarm {...childProps} />
       </Col>
       <Col span="12">
         <Card title="本日设备运行情况">
@@ -38,7 +33,7 @@ const Dashboard = ({ dashboard, dispatch }) => {
         <Online {...childProps} />
       </Col>
       <Col span="12">
-        <Fault {...childProps} />
+        <Offline {...childProps} />
       </Col>
     </Row>
   </div>)

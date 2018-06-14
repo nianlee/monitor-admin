@@ -35,9 +35,9 @@ const columns = [{
   }
 }];
 
-const Online = ({ dashboard, dispatch }) => {
+const Offline = ({ dashboard, dispatch }) => {
   const goMore = () => {
-    dispatch(routerRedux.push('/onlinelist'))
+    dispatch(routerRedux.push('/offlinelist'))
   }
 
   const renderFooter = () => {
@@ -45,14 +45,14 @@ const Online = ({ dashboard, dispatch }) => {
   }
 
   const renderTitle = () => {
-    return <span className={styles.tableTitle}>在线设备列表</span>
+    return <span className={styles.tableTitle}>离线设备列表</span>
   }
 
   return (<div className={styles.tableWrapper}>
     <Table 
       bordered
       columns={columns} 
-      dataSource={dashboard.onlineList}
+      dataSource={dashboard.offlineList}
       pagination={false}
       title={renderTitle}
       footer={renderFooter}
@@ -61,9 +61,9 @@ const Online = ({ dashboard, dispatch }) => {
 }
   
 
-Online.propTypes = {
+Offline.propTypes = {
   dashboard: PropTypes.object,
   dispatch: PropTypes.func,
 }
 
-export default Online
+export default Offline

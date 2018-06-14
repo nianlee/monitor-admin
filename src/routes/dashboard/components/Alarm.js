@@ -11,9 +11,9 @@ const columns = [{
   key: 'name',
 },{
   title: '设备位置',
-  dataIndex: 'detailAddr',
+  dataIndex: 'detail_addr',
   className: styles.center,
-  key: 'detailAddr',
+  key: 'detail_addr',
 }, {
   title: '设备类型',
   dataIndex: 'type',
@@ -35,9 +35,9 @@ const columns = [{
   }
 }];
 
-const Online = ({ dashboard, dispatch }) => {
+const Alarm = ({ dashboard, dispatch }) => {
   const goMore = () => {
-    dispatch(routerRedux.push('/onlinelist'))
+    dispatch(routerRedux.push('/alarmlist'))
   }
 
   const renderFooter = () => {
@@ -45,14 +45,14 @@ const Online = ({ dashboard, dispatch }) => {
   }
 
   const renderTitle = () => {
-    return <span className={styles.tableTitle}>在线设备列表</span>
+    return <span className={styles.tableTitle}>警告设备列表</span>
   }
 
   return (<div className={styles.tableWrapper}>
     <Table 
       bordered
       columns={columns} 
-      dataSource={dashboard.onlineList}
+      dataSource={dashboard.alarmList}
       pagination={false}
       title={renderTitle}
       footer={renderFooter}
@@ -61,9 +61,9 @@ const Online = ({ dashboard, dispatch }) => {
 }
   
 
-Online.propTypes = {
+Alarm.propTypes = {
   dashboard: PropTypes.object,
   dispatch: PropTypes.func,
 }
 
-export default Online
+export default Alarm
