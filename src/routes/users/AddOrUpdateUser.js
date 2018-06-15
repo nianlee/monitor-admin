@@ -15,7 +15,11 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        dispatch({ type: 'addOrUpdateUser/add', values })
+        if (addOrUpdateUser.type == 'add') {
+          dispatch({ type: 'addOrUpdateUser/add', values })
+        } else {
+          console.log('edit')
+        }
       }
     });
   }
