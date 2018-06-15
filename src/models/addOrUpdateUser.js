@@ -18,7 +18,7 @@ export default {
   },
 
   subscriptions: {
-    setup({ dispatch, history }) { 
+    setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         console.log('-----', pathname)
         const addMatch = pathToRegexp('/addorupdateuser').exec(pathname)
