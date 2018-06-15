@@ -26,7 +26,7 @@ export default {
   loginout: `${config.apiHost}/manager/logout`, // 用户退出登录
   getVerifyCode: `${config.apiHost}/common/getVerifyCode`, // 获取验证码
   queryManagerInfoById: `${config.apiHost}/manager`,
-  queryUserListInfo: `${config.apiHost}/manager/managerList`,
+  queryUserListInfo: `${config.apiHost}/manager/managerList`, // 用户列表信息查询
   deleteUser: `${config.apiHost}/manager/delManagerById`,
   modifyUserInfo:`${config.apiHost}/manager/editManagerById`,
   queryUserInfo:`${config.apiHost}/manager/queryManagerInfoById`,

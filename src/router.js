@@ -58,7 +58,7 @@ const routes = [
     models: () => [import('./models/region')],
     component: () => import('./routes/region'),
   },
-  {
+  { // 用户管理
     path: '/usermanage',
     models: () => [import('./models/users')],
     component: () => import('./routes/users'),

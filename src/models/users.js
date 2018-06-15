@@ -1,33 +1,44 @@
-import { queryUserList,deleteUserInfos, queryUserInfo} from "../services/manage";
-import { routerRedux } from 'dva/router'
+import { 
+  queryUserList,
+  deleteUserInfos, 
+  queryUserInfo
+} from "../services/manage";
+
+import { routerRedux } from 'dva/router';
+import { message } from 'antd';
 
 export default {
 
   namespace: 'users',
 
   state: {
-
     // 用户列表的info
-    userListInfo: [],
+    userList: [],
     // 某一个用户的info
     userInfo: {},
     modalVisible: false,
     total:'200',
     currentPage:'',
-    pageSize:''
+    pageSize:'',
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+      showTotal: total => `共${total}条数据`,
+      showQuickJumper: true,
+      showSizeChanger: true,
+    }
   },
 
   subscriptions: {
-    setup({dispatch, history}) {  // eslint-disable-line
+    setup({dispatch, history}) {
       return history.listen(({pathname, query}) => {
         if (pathname === '/usermanage') {
-          console.log('pathname', pathname);
           dispatch({
             type: 'queryUserList',
             payload: {
-              searchCom: '',
-              page: '1',
-              row: '200'
+              page: 1,
+              row: 10
             }
           })
         }
@@ -40,18 +51,18 @@ export default {
       const resData = yield call(queryUserList, payload)
 
       if (resData.success) {
-        console.log('userList', resData.data.rows);
         yield put({
           type: 'updateState',
           payload: {
-            userListInfo: resData.data.rows,
-            total:payload.row,
-            currentPage:payload.page,
-            pageSize:'10'
+            userList: resData.data.rows,
+            pagination: {
+              current: resData.data.curPage,
+              total: resData.data.total,
+            }
           }
         })
       } else {
-        throw resData.msg
+        message.error(resData.message);
       }
     },
 
@@ -90,7 +101,7 @@ export default {
     },
 
     reducers: {
-      updateState(state, {payload}) {
+      updateState(state, { payload }) {
         return {
           ...state,
           ...payload,
@@ -106,7 +117,7 @@ export default {
       },
 
       updateDeleteState(state, {payload}) {
-        state.userListInfo = state.userListInfo.filter(u => u.id != payload.id);
+        state.userList = state.userList.filter(u => u.id != payload.id);
         return {
           ...state,
           ...payload,

@@ -11,7 +11,6 @@ const MenuItem = Menu.Item
 
 const Region = ({ region, dispatch }) => {
 
-  console.log('region',region.regionTreeData)
   const handleMenuClick = (e, data) => {
     e.domEvent.stopPropagation()
     if (e.key === 'edit') {

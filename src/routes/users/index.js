@@ -7,9 +7,6 @@ import { routerRedux } from 'dva/router'
 
 
 const UserManage = ({ users,dispatch }) => {
-
-  console.log('userListInfo',users.userListInfo.length)
-
   // 分页器
   const pagination = {}
   pagination.defaultCurrent = users.currentPage
