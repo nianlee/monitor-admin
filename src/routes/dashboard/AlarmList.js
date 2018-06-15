@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './style.less'
 import { Table, message } from 'antd'
-import { queryOnlineDevices } from 'services/dashboard'
+import { queryAlarmDevices } from 'services/dashboard'
 
 const columns = [{
   title: '设备名称',
@@ -34,7 +34,7 @@ const columns = [{
   }
 }];
 
-class OnlineList extends Component {
+class AlarmList extends Component {
   constructor(props) {
     super(props)
 
@@ -47,19 +47,19 @@ class OnlineList extends Component {
         showQuickJumper: true,
         showTotal: (total) => `共${total}条数据`
       },
-      onlineList: [],
+      alarmList: [],
     }
 
     this.paginationChange(this.state.pagination)
   }
 
   paginationChange(pagination) {
-    queryOnlineDevices({
+    queryAlarmDevices({
       page: pagination.current,
       rows: pagination.pageSize
     }).then(res => {
       if (res.success) {
-        const onlineList = res.data.rows.map(item => {
+        const alarmList = res.data.rows.map(item => {
           item.key = item.id
           return item
         })
@@ -69,7 +69,7 @@ class OnlineList extends Component {
             ...pagination,
             total: res.data.total,
           },
-          onlineList
+          alarmList,
         })
       } else {
         message.error(res.message)
@@ -79,14 +79,14 @@ class OnlineList extends Component {
 
   render() {
     const renderTitle = () => {
-      return <span className={styles.tableTitle}>在线设备列表</span>
+      return <span className={styles.tableTitle}>警告列表</span>
     }
   
     return (<div className={styles.tableWrapper}>
       <Table 
         bordered
         columns={columns} 
-        dataSource={this.state.onlineList}
+        dataSource={this.state.alarmList}
         pagination={this.state.pagination}
         title={renderTitle}
         onChange={this.paginationChange.bind(this)}
@@ -95,4 +95,5 @@ class OnlineList extends Component {
   }
 }
 
-export default OnlineList
+
+export default AlarmList

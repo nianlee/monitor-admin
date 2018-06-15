@@ -30,7 +30,7 @@ export default {
         if (pathname == '/dashboard') {
           dispatch({ type: 'queryDeviceCountByState' })
           dispatch({ type: 'queryOnlineDevices', payload: { page: 1, rows: 2 }})
-          dispatch({ type: 'queryAlarmDevices', payload: { page: 1, rows: 2 }})
+          dispatch({ type: 'queryAlarmDevices', payload: { page: 1, rows: 4 }})
           dispatch({ type: 'queryOfflineDevices', payload: { page: 1, rows: 2 }})
         }
       })

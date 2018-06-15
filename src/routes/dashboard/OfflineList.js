@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './style.less'
 import { Table, message } from 'antd'
-import { queryOnlineDevices } from 'services/dashboard'
+import { queryOfflineDevices } from 'services/dashboard'
 
 const columns = [{
   title: '设备名称',
@@ -34,7 +34,7 @@ const columns = [{
   }
 }];
 
-class OnlineList extends Component {
+class OfflineList extends Component {
   constructor(props) {
     super(props)
 
@@ -47,19 +47,19 @@ class OnlineList extends Component {
         showQuickJumper: true,
         showTotal: (total) => `共${total}条数据`
       },
-      onlineList: [],
+      offlineList: [],
     }
 
     this.paginationChange(this.state.pagination)
   }
 
   paginationChange(pagination) {
-    queryOnlineDevices({
+    queryOfflineDevices({
       page: pagination.current,
       rows: pagination.pageSize
     }).then(res => {
       if (res.success) {
-        const onlineList = res.data.rows.map(item => {
+        const offlineList = res.data.rows.map(item => {
           item.key = item.id
           return item
         })
@@ -69,7 +69,7 @@ class OnlineList extends Component {
             ...pagination,
             total: res.data.total,
           },
-          onlineList
+          offlineList
         })
       } else {
         message.error(res.message)
@@ -86,7 +86,7 @@ class OnlineList extends Component {
       <Table 
         bordered
         columns={columns} 
-        dataSource={this.state.onlineList}
+        dataSource={this.state.offlineList}
         pagination={this.state.pagination}
         title={renderTitle}
         onChange={this.paginationChange.bind(this)}
@@ -95,4 +95,4 @@ class OnlineList extends Component {
   }
 }
 
-export default OnlineList
+export default OfflineList

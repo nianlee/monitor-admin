@@ -20,7 +20,11 @@ export default {
 
   subscriptions: {
     setup({ dispatch, history }) {
-      dispatch({ type: 'queryAreaList', payload: { roleLev: -1 }})
+      history.listen(({ pathname }) => {
+        if (pathname == '/region') {
+          dispatch({ type: 'queryAreaList', payload: { roleLev: -1 }})
+        }
+      })
     },
   },
 

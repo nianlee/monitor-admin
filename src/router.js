@@ -21,6 +21,14 @@ const routes = [
     component: () => import('./routes/dashboard/OnlineList'),
   },
   {
+    path: '/alarmlist', // 警告设备列表
+    component: () => import('./routes/dashboard/AlarmList'),
+  },
+  {
+    path: '/offlinelist', // 离线设备列表
+    component: () => import('./routes/dashboard/OfflineList'),
+  },
+  {
     path: '/report',
     models: () => [import('./models/report')],
     component: () => import('./routes/report'),

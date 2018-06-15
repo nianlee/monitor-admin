@@ -77,7 +77,7 @@ const Region = ({ region, dispatch }) => {
 
   const genTreeNode = treeData => {
     return treeData.map(item => {
-      if (item.length > 0) {
+      if (item.children && item.children.length > 0) {
         return <TreeNode title={renderNodeTitle(item)} key={item.id}>
           {genTreeNode(item.children)}
         </TreeNode>
