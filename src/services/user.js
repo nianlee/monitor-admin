@@ -8,3 +8,12 @@ export function loginLoad(data) {
     url: api.loginLoad,
   })
 }
+
+// 用户详细信息查询
+export function queryUserInfo(data) {
+  return request({
+    data,
+    method: 'get',
+    url: api.queryUserInfo,
+  })
+}

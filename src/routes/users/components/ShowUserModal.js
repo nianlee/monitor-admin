@@ -14,7 +14,6 @@ class ShowUserModal extends Component  {
 
   modalInit() {
     this.setState({modalVisiable:true});
-
   }
 
   modalOk() {
@@ -51,5 +50,3 @@ ShowUserModal.propTypes = {
 }
 
 export default ShowUserModal
-
-

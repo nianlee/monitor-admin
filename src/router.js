@@ -63,10 +63,15 @@ const routes = [
     models: () => [import('./models/users')],
     component: () => import('./routes/users'),
   },
-  {
-    path: '/adduser',
-    models: () => [import('./models/adduser')],
-    component: () => import('./routes/adduser'),
+  { // 新增或者修改用户信息
+    path: '/addorupdateuser/:id',
+    models: () => [import('./models/addOrUpdateUser')],
+    component: () => import('./routes/users/AddOrUpdateUser'),
+  },
+  { // 新增或者修改用户信息
+    path: '/addorupdateuser',
+    models: () => [import('./models/addOrUpdateUser')],
+    component: () => import('./routes/users/AddOrUpdateUser'),
   },
   {
     path: '/modifyuser/:id/:userName/:userPw/:roleId/:realName/:phone/:email/:jobNum/:state/:areaId',

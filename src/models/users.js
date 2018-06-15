@@ -17,9 +17,6 @@ export default {
     // 某一个用户的info
     userInfo: {},
     modalVisible: false,
-    total:'200',
-    currentPage:'',
-    pageSize:'',
     pagination: {
       current: 1,
       pageSize: 10,
@@ -38,7 +35,7 @@ export default {
             type: 'queryUserList',
             payload: {
               page: 1,
-              row: 10
+              rows: 10
             }
           })
         }
@@ -47,20 +44,23 @@ export default {
   },
 
   effects: {
+    // 查询用户列表
     *queryUserList({payload}, {call, put, select}) {
       const resData = yield call(queryUserList, payload)
 
       if (resData.success) {
-        yield put({
-          type: 'updateState',
-          payload: {
-            userList: resData.data.rows,
-            pagination: {
-              current: resData.data.curPage,
-              total: resData.data.total,
-            }
-          }
-        })
+        const userList = resData.data.rows.map((item, index) => {
+          item.index = index + 1;
+          item.key = item.id;
+          return item;
+        });
+
+        yield put({ type: 'updateState', payload: { userList }});
+        yield put({ type: 'updatePagination', payload: {
+          total: resData.data.total,
+          pageIndex: resData.data.curPage,
+          pageSize: resData.data.pageSize,
+        }})
       } else {
         message.error(resData.message);
       }
@@ -108,35 +108,13 @@ export default {
         }
       },
 
-      updateStateUserInfo(state, {payload}) {
+      updatePagination(state, { payload }) {
         return {
           ...state,
-          ...payload,
-          modalVisible: true,
-        }
-      },
-
-      updateDeleteState(state, {payload}) {
-        state.userList = state.userList.filter(u => u.id != payload.id);
-        return {
-          ...state,
-          ...payload,
-        }
-      },
-
-      showAddModal(state, {payload}) {
-        return {
-          ...state,
-          ...payload,
-          modalVisible: true
-        }
-      },
-
-      hideAddModal(state, {payload}) {
-        return {
-          ...state,
-          ...payload,
-          modalVisible: false
+          pagination: {
+            ...state.pagination,
+            ...payload,
+          }
         }
       },
     },
