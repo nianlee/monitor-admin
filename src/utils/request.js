@@ -69,8 +69,8 @@ export default function request (options) {
         return Promise.reject({
           data: null,
           success: false,
-          statusText: data.msg || statusText || data.info || '没有描述',
-          status: data.code || status || data.infocode || '没有code',
+          message: data.msg || statusText || data.info || '没有描述',
+          code: data.code || status || data.infocode || '没有code',
         })
       }
     }
@@ -88,31 +88,13 @@ export default function request (options) {
     return Promise.reject({
       data: null,
       success: false,
-      statusText: data.msg || statusText || data.info || '没有描述',
-      status: data.code || status || data.infocode || '没有code',
+      message: data.msg || statusText || data.info || '没有描述',
+      code: data.code || status || data.infocode || '没有code',
     })
   }).catch((error) => {
-    const { response } = error
-    let msg
-    let code
-
-    if (response && response instanceof Object) {
-      const { data, statusText } = response
-      code = response.status
-      msg = data.message || statusText
-    } else {
-      code = error.code
-      msg = error.statusText || 'Network Error'
+    if (error.code === 2000) {
+      return Promise.reject(error)
     }
-
-    if (code === 2000) {// 未登录
-      return Promise.reject({
-        success: false,
-        code,
-        message: '未登录',
-      })
-    }
-
-    return Promise.resolve({ success: false, code, message: msg })
+    return Promise.resolve(error)
   })
 }

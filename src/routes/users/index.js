@@ -63,7 +63,7 @@ const UserManage = ({ users,dispatch }) => {
   function deleteUserAction(id) {
     dispatch({
       type:'users/deleteUserInfo',
-      payload:{id:id},
+      payload: { id },
     })
   }
 
