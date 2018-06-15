@@ -27,8 +27,8 @@ export default {
         yield put({
           type:'showAddModal',
           payload:{
-            deviceInfos:resData.data[0].datDevice,
-            deviceDynamicDTOS:resData.data[0].deviceDynamicDTOS,
+            deviceInfos:resData.data.rows[0].datDevice,
+            deviceDynamicDTOS:resData.data.rows[0].deviceDynamicDTOS,
           }
         })
       }else {
