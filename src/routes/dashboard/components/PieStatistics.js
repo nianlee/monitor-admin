@@ -59,20 +59,20 @@ const PieStatistics = ({ dashboard }) => {
         },
         data:[
           {
-            value: dashboard.normal, 
-            name: `正常设备 ${dashboard.normal}`,
+            value: dashboard.OnlineCount, 
+            name: `正常设备 ${dashboard.OnlineCount}`,
             itemStyle: {
               color: '#BAE7FF'
             }
           }, {
-            value: dashboard.offline,
-            name: `离线设备 ${dashboard.offline}`,
+            value: dashboard.OffLineCount,
+            name: `离线设备 ${dashboard.OffLineCount}`,
             itemStyle: {
               color: '#FFD6E7',
             }
           }, {
-            value: dashboard.error,
-            name: `故障设备 ${dashboard.error}`,
+            value: dashboard.AlarmCount,
+            name: `故障设备 ${dashboard.AlarmCount}`,
           },
         ],
         itemStyle: {
