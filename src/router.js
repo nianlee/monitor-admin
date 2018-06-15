@@ -1,14 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Router, Route, Switch, Redirect } from 'dva/router'
-// import IndexPage from './routes/IndexPage'
 import App from 'routes/app'
 import dynamic from 'dva/dynamic'
 import { LocaleProvider } from 'antd'
 import zh_CN from 'antd/lib/locale-provider/zh_CN'
 import 'moment/locale/zh-cn'
 import '@babel/polyfill'
-
 
 const routes = [
   {
@@ -63,20 +61,15 @@ const routes = [
     models: () => [import('./models/users')],
     component: () => import('./routes/users'),
   },
-  { // 新增或者修改用户信息
+  { // 修改用户信息
     path: '/addorupdateuser/:id',
     models: () => [import('./models/addOrUpdateUser')],
     component: () => import('./routes/users/AddOrUpdateUser'),
   },
-  { // 新增或者修改用户信息
+  { // 新增用户
     path: '/addorupdateuser',
     models: () => [import('./models/addOrUpdateUser')],
     component: () => import('./routes/users/AddOrUpdateUser'),
-  },
-  {
-    path: '/modifyuser/:id/:userName/:userPw/:roleId/:realName/:phone/:email/:jobNum/:state/:areaId',
-    models: () => [import('./models/modifyuser')],
-    component: () => import('./routes/modifyuser'),
   },
   {
     path: '/devicemanage',

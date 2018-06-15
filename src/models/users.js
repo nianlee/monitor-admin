@@ -1,10 +1,8 @@
 import { 
   queryUserList,
   deleteUserInfos, 
-  queryUserInfo
 } from "../services/manage";
 
-import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 
 export default {
@@ -14,9 +12,7 @@ export default {
   state: {
     // 用户列表的info
     userList: [],
-    // 某一个用户的info
-    userInfo: {},
-    modalVisible: false,
+
     pagination: {
       current: 1,
       pageSize: 10,
@@ -45,7 +41,7 @@ export default {
 
   effects: {
     // 查询用户列表
-    *queryUserList({payload}, {call, put, select}) {
+    *queryUserList({payload}, {call, put}) {
       const resData = yield call(queryUserList, payload)
 
       if (resData.success) {
@@ -66,56 +62,38 @@ export default {
       }
     },
 
-    *deleteUserInfo({payload}, {call, put, select}) {
-
-      const resDate = yield call(deleteUserInfos, payload)
-
-      if (resDate.success) {
-        yield put({
-          type: 'updateDeleteState',
-          payload: payload
-        })
+    // 删除用户
+    *deleteUserInfo({ payload }, { call, put, select }) {
+      const resData = yield call(deleteUserInfos, payload)
+      const { pagination } = yield select(_=>_.users)
+      if (resData.success) {
+        message.success('删除成功')
+        yield put({ type: 'queryUserList', payload: {
+          page: pagination.current,
+          rows: pagination.pageSize,
+        }})
       } else {
-        throw resDate.msg
+        message.error(resData.message)
+      }
+    },
+  },
+
+  reducers: {
+    updateState(state, { payload }) {
+      return {
+        ...state,
+        ...payload,
       }
     },
 
-    *modifyUserInfo({payload}, {call, put, select}) {
-      yield put(routerRedux.push('/modifyUser'))
-    },
-
-    *queryUserInfo({payload}, {call, put, select}) {
-      const resDate = yield call(queryUserInfo,payload)
-
-      if(resDate.success) {
-        yield put({
-          type:'updateStateUserInfo',
-          payload:{
-            userInfo:resDate.data
-          },
-        })
-      } else {
-        throw resDate.message
-      }
-    },
-    },
-
-    reducers: {
-      updateState(state, { payload }) {
-        return {
-          ...state,
+    updatePagination(state, { payload }) {
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
           ...payload,
         }
-      },
-
-      updatePagination(state, { payload }) {
-        return {
-          ...state,
-          pagination: {
-            ...state.pagination,
-            ...payload,
-          }
-        }
-      },
+      }
     },
+  },
 };

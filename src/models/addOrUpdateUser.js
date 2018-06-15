@@ -1,8 +1,9 @@
-import { getRegionList,addUser } from "../services/manage";
+import { getRegionList, addUser, modifyUserInfo } from "../services/manage";
 import { message } from 'antd'
 import { queryUserInfo } from 'services/user'
 import { queryRoleList } from 'services/role'
 import pathToRegexp from 'path-to-regexp'
+import { routerRedux } from "dva/router";
 
 export default {
 
@@ -12,13 +13,14 @@ export default {
     regionList:[],
     roleList: [], // 权限列表
     type: 'add', // 修改or新增
-
+    
     userInfo: {}, // 用户信息
   },
 
   subscriptions: {
     setup({ dispatch, history }) { 
       history.listen(({ pathname }) => {
+        console.log('-----', pathname)
         const addMatch = pathToRegexp('/addorupdateuser').exec(pathname)
         const match = pathToRegexp('/addorupdateuser/:id').exec(pathname)
         if (addMatch || match) {
@@ -51,6 +53,7 @@ export default {
       const resData = yield call(addUser,payload);
       if(resData.success) {
         message.success('添加成功')
+        yield put(routerRedux.push('/usermanage'))
       } else {
         message.error(resData.message)
       }
@@ -61,6 +64,17 @@ export default {
       const resData = yield call(queryUserInfo, payload);
       if(resData.success) {
         yield put({ type: 'updateState', payload: { userInfo: resData.data }})
+      } else {
+        message.error(resData.message)
+      }
+    },
+
+    // 修改用户信息
+    *modifyUserInfo({ payload }, { call, put }) {
+      const resData = yield call(modifyUserInfo, payload);
+      if(resData.success) {
+        message.success('修改成功')
+        yield put(routerRedux.push('/usermanage'))
       } else {
         message.error(resData.message)
       }
