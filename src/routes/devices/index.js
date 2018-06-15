@@ -7,6 +7,7 @@ import { routerRedux } from 'dva/router'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
+  console.log('tt',devices.deviceDynamicDTOS)
   const { modalVisible } =  devices
   //modal 属性
   const modalProps ={ //eslint-disable-line
