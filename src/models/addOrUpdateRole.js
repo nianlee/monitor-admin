@@ -4,6 +4,7 @@ import {
   queryRoleMenuList,
   addRole,
   editRoleById,
+  queryRoleListForDropdown,
 } from 'services/role'
 import pathToRegexp from 'path-to-regexp'
 import { message } from 'antd'
@@ -15,6 +16,8 @@ export default {
   state: {
     type: null, // 修改or新增
     id: null, // 角色信息Id
+    RoleListForDropdown:[], //角色列表查询-下拉框
+
     formParams: {
       parentId: {
         value: null,
@@ -22,7 +25,7 @@ export default {
       roleName: {
         value: '',
       },
-      roleDes: {
+      roleDesc: {
         value: ''
       },
       menuIds: {
@@ -99,10 +102,12 @@ export default {
         if (match && match[1] == '1') {
           type = 'add'
           dispatch({ type: 'clearState' })
+          dispatch({ type: 'queryRoleListForDropdown' })
         }
 
         if (updateMatch && updateMatch[1] == '2' && updateMatch[2]) {
           type = 'edit'
+          dispatch({ type: 'clearState' })
           dispatch({ type: 'queryRoleInfoById', payload: { Id: updateMatch[2] }})
         }
 
@@ -137,8 +142,8 @@ export default {
           roleName: {
             value: resData.data.roleName,
           },
-          roleDes: {
-            value: resData.data.roleDes,
+          roleDesc: {
+            value: resData.data.roleDesc,
           },
           menuIds: {
             value: resData.data.allId && resData.data.allId.split('_') || [],
@@ -171,8 +176,26 @@ export default {
       }
     },
 
+    // 获取角色列表查询-下拉框
+    *queryRoleListForDropdown({ payload }, { call, put }) {
+      console.log('------')
+      const resData = yield call(queryRoleListForDropdown, {
+        rows: 100,
+        page: 1,
+      });
+      console.log('sssss',resData)
+      if(resData.success) {
+        const RoleListForDropdown = resData.data.map(item => ({ ...item, key: item.value }))
+        yield put({ type: 'updateState', payload: { RoleListForDropdown }})
+
+      } else {
+        message.error(resData.message)
+      }
+    },
+
     // 角色信息更新
     *editRoleById({ payload }, { call, put, select }) {
+      console.log('payload',payload)
       const resData = yield call( editRoleById, payload )
       console.log('editRoleById',resData)
       if (resData.success) {
@@ -206,6 +229,7 @@ export default {
       return {
         ...state,
         id: null, // 角色信息Id
+        RoleListForDropdown:[],
         formParams: {
           parentId: {
             value: null,
@@ -213,7 +237,7 @@ export default {
           roleName: {
             value: '',
           },
-          roleDes: {
+          roleDesc: {
             value: ''
           },
           menuIds: {
