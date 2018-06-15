@@ -44,3 +44,11 @@ export function queryRoleMenuList(data) {
     url: api.queryRoleMenuList,
   })
 }
+
+export function queryRoleListForDropdown(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryRoleListForDropdown,
+  })
+}
