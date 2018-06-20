@@ -13,7 +13,7 @@ const Dashboard = ({ dashboard, dispatch }) => {
   const childProps = { dashboard, dispatch }
 
   return (<div className="dashboard">
-    <Row gutter={24} style={{ marginTop: '30px' }}>
+    <Row gutter={24} style={{ marginTop: '30px'}}>
       <Col>
         <EquipmentSummary dashboard={dashboard} />
       </Col>
