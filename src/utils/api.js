@@ -20,7 +20,7 @@ export default {
   queryOnlineDevices:`${config.apiHost}/statistic/queryOnlineDevices`, // 统计设备在线列表
   queryAlarmDevices:`${config.apiHost}/statistic/queryAlarmDevices`, // 统计设备预警列表
   queryDeviceCountByArea:`${config.apiHost}/statistic/queryDeviceCountByArea`, // 统计设备区域对应设备数
-  
+
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
   loginout: `${config.apiHost}/manager/logout`, // 用户退出登录
@@ -43,6 +43,7 @@ export default {
   queryRoleInfoById: `${config.apiHost}/role/queryRoleInfoById`, // 角色信息查询
   editRoleById: `${config.apiHost}/role/editRoleById`, // 角色更新
   queryRoleMenuList: `${config.apiHost}/role/queryRoleMenuList`, // 角色菜单查询
+  queryRoleListForDropdown: `${config.apiHost}/role/queryRoleListForDropdown`, // 角色列表查询-下拉框
 
   // 其他
   regeo: 'http://restapi.amap.com/v3/geocode/regeo', // 逆地理编码

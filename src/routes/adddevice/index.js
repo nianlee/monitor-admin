@@ -11,7 +11,7 @@ const Option = Select.Option;
 
 const AddDevice = ({ adddevice, dispatch, form }) => {
 
-  const regionLists = adddevice.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
+  //const regionLists = adddevice.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
   const deviceTypeLists = adddevice.deviceTypeList.map(type => <Option key={type.name}>{type.value}</Option>)
   const deviceNameLists = adddevice.deviceNameList.map(name => <Option key={name.name}>{name.value}</Option>)
 
@@ -20,17 +20,29 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+
         const { addressObj } = values
         const payload = {
           ...values,
           detail_addr: addressObj.address,
           langitude: addressObj.langitude,
           latitude: addressObj.latitude,
+
+          province:addressObj.province,//省
+          city:addressObj.city,//市
+          district:addressObj.district,//区
+          township:addressObj.township,//街道，路，镇
+
+          adcode:addressObj.adcode,//区code
+          citycode:addressObj.citycode,// 市code
+          towncode:addressObj.towncode,// 道，路，镇code
+
           all_area_id: '1-2-3',
           hardware_version: 'V1.1.1',
           state: 0,
         }
+
+        console.log('Received values of form: ', payload);
         delete payload.addressObj
 
         dispatch({
@@ -121,27 +133,6 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
           </Col>
         </Row>
         <Row gutter={24}>
-          <Col span={8}>
-            <FormItem
-              {...formItemLayout}
-              label="安装区域"
-            >
-              {getFieldDecorator('install_addr', {
-                rules: [{ required: true, message: '请选择安装区域' }],
-              })(
-                <Select
-                  showSearch
-                  placeholder="请选择安装区域"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  {regionLists}
-                </Select>
-              )}
-            </FormItem>
-          </Col>
 
           <Col span={8}>
             <FormItem
@@ -157,6 +148,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
               )}
             </FormItem>
           </Col>
+
 
           <Col span={8}>
             <FormItem

@@ -9,26 +9,48 @@ export default modelExtend(pageModel, {
   state: {
     roleList: [], // 权限列表
     type: null, // 修改or新增
+
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+      showTotal: total => `共${total}条数据`,
+      showQuickJumper: true,
+      showSizeChanger: true,
+    }
+
   },
 
   subscriptions: {
     setup({ dispatch, history }) {
-      dispatch({ type: 'queryRoleList' })
+
+      return history.listen(({pathname, query}) => {
+        if (pathname === '/manage/role') {
+          dispatch({ type: 'queryRoleList',payload: {
+            page: 1,
+            rows: 10
+          }})
+        }
+      })
     },
   },
 
   effects: {
     *queryRoleList({ payload }, { call, put, select }) {
-      const { pagination } = yield select(_ => _.role)
-      const { data } = yield call(queryRoleList, {
+      //const { pagination } = yield select(_ => _.role)
+      const resData = yield call(queryRoleList, {
         ...payload,
-        rows: pagination.pageSize,
-        page: pagination.current,
+        //rows: pagination.pageSize,
+        //page: pagination.current,
       })
 
-      console.log('role',data)
-      const roleList = data.rows.map(item => ({ ...item, key: item.id }))
+      const roleList = resData.data.rows.map(item => ({ ...item, key: item.id }))
       yield put({ type: 'updateState', payload: { roleList }})
+      yield put({ type: 'updatePagination', payload: {
+        total: resData.data.total,
+        pageIndex: resData.data.curPage,
+        pageSize: resData.data.pageSize,
+      }})
     }
   },
 
@@ -39,5 +61,15 @@ export default modelExtend(pageModel, {
         ...payload
       };
     },
+  },
+
+  updatePagination(state, { payload }) {
+    return {
+      ...state,
+      pagination: {
+        ...state.pagination,
+        ...payload,
+      }
+    }
   },
 })

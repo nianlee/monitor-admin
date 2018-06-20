@@ -122,7 +122,7 @@ export function queryUserInfo(data) {
 export function addUser(data) {
   return request({
     data,
-    method:'post',
+    method:'get',
     url:api.addUser,
   })
 

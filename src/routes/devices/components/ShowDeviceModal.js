@@ -16,14 +16,13 @@ const ShowModal = ({
   ...modalPorps
 }) => {
 
+  console.log('dynamicList',dynamic)
   const dynamicList = dynamic.map(d => (
     <div className={styles.summaryWrapper} key={d.indexOf}>
       <p>{d.attributeName}:</p>
       <p className={styles.itemWrapper}>{d.attributeValue}</p>
     </div>
   ))
-
-
 
   const handleOk = () => {
 

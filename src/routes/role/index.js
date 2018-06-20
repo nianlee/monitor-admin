@@ -8,37 +8,29 @@ import styles from './style.less'
 
 const Role = ({ role, dispatch }) => {
 
+
+  console.log('role',role.roleList)
   const columns = [{
     title: '角色名称',
     dataIndex: 'roleName',
     className: [styles.center],
     key: 'roleName',
-  }, {
+  },{
     title: '角色描述',
-    dataIndex: 'roleDes',
+    dataIndex: 'roleDesc',
     className: [styles.center],
-    key: 'roleDes',
-  }, {
-    title: '上级角色名称',
-    dataIndex: 'parentId',
-    className: [styles.center],
-    key: 'parentId',
-  }, {
+    key: 'roleDesc',
+  },{
     title: '状态',
     className: [styles.center],
     dataIndex: 'roleState',
     key: 'roleState',
-  }, {
-    title: '创建人',
-    dataIndex: 'createId',
-    className: [styles.center],
-    key: 'createId',
-  }, {
+  },{
     title: '创建时间',
-    dataIndex: 'createDate',
+    dataIndex: 'createTime',
     className: [styles.center],
     key: 'createDate',
-  }, {
+  },{
     title: '操作',
     dataIndex: 'opertor',
     className: [styles.center],
@@ -54,18 +46,32 @@ const Role = ({ role, dispatch }) => {
   }];
 
   const add = () => {
-    dispatch(routerRedux.push('/manage/role/1'))
+    dispatch(routerRedux.push(`/manage/role/1`))
   }
 
   const update = record => {
     dispatch(routerRedux.push(`/manage/role/2/${record.id}`))
   }
 
+  function handleTableChange(pagination) {
+    dispatch({ type: 'users/updatePagination', payload: pagination})
+    dispatch({
+      type:'users/queryUserList',
+      payload:{
+        page: pagination.current,
+        rows: pagination.pageSize,
+      }
+    })
+  }
+
   return (
     <div style={{ backgroundColor: '#fff' }}>
-      <Table 
+      <Table
+        bordered
         columns={columns}
         dataSource={role.roleList}
+        pagination={role.pagination}
+        onChange={handleTableChange}
       />
     </div>
   )

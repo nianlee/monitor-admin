@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Button } from 'antd'
+import { Form, Input, Button, Select } from 'antd'
 import { connect } from 'dva'
 
 import MenuSelect from './components/MenuSelect'
@@ -8,6 +8,7 @@ import MenuSelect from './components/MenuSelect'
 import styles from './style.less'
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 const formItemLayout = {
   labelCol: {
@@ -21,6 +22,7 @@ const formItemLayout = {
 
 const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
 
+  //console.log('addOrUpdateRole',addOrUpdateRole.RoleListForDropdown)
   const handleSubmit = (e) => {
     e.preventDefault()
 
@@ -33,22 +35,44 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
         dispatch({ type: 'addOrUpdateRole/addRole', payload: { ...fieldsValue }})
       } else {
         const payload = {
-          Id: addOrUpdateRole.id,
+          id: addOrUpdateRole.id,
           ...fieldsValue,
         }
-        dispatch({ type: 'addOrUpdateRole/editRoleById', payload: { payload }})
+        dispatch({ type: 'addOrUpdateRole/editRoleById', payload: payload })
       }
 
       console.log('Received values of form: ', fieldsValue)
     });
   }
 
-
   const { getFieldDecorator } = form
 
   return (
     <div style={{ backgroundColor: '#fff' }}>
       <Form className={styles.form} onSubmit={handleSubmit}>
+
+        <FormItem
+          {...formItemLayout}
+          label="父角色"
+
+        >
+          {getFieldDecorator('parentId', {
+            // initialValue: initMenuIds(),
+            rules: [{ required: true, message: '请选择父角色' }]}
+          )(
+            <Select
+              showSearch
+              placeholder="请选择父角色"
+              optionLabelProp="children"
+              filterOption={(input,option) => {
+                option.props.children.toLowerCase().indexOf(input.toLowerCase())
+              }}
+            >
+              {addOrUpdateRole.RoleListForDropdown && addOrUpdateRole.RoleListForDropdown.map(role => (<Option key={role.value} value={role.value}>{role.name}</Option>))}
+            </Select>
+          )}
+        </FormItem>
+
         <FormItem
           {...formItemLayout}
           label="角色名称"
@@ -60,17 +84,19 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
             <Input placeholder="请输入角色名称" />
           )}
         </FormItem>
+
         <FormItem
           {...formItemLayout}
           label="角色描述"
         >
-          {getFieldDecorator('roleDes', {
-            // initialValue: roleInfo.roleDes,
+          {getFieldDecorator('roleDesc', {
+            // initialValue: roleInfo.roleName,
             rules: [{ required: true, message: '请输入角色描述' }]}
           )(
             <Input placeholder="请输入角色描述" />
           )}
         </FormItem>
+
         <FormItem
           {...formItemLayout}
           label="角色菜单"
@@ -82,6 +108,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
             <MenuSelect dataSource={addOrUpdateRole.allMenus}/>
           )}
         </FormItem>
+
         <FormItem
           wrapperCol={{
             xs: { span: 24, offset: 0 },
@@ -120,9 +147,9 @@ const formOptions = {
         ...formParams.roleName,
         value: formParams.roleName.value,
       }),
-      roleDes: Form.createFormField({
-        ...formParams.roleDes,
-        value: formParams.roleDes.value,
+      roleDesc: Form.createFormField({
+        ...formParams.roleDesc,
+        value: formParams.roleDesc.value,
       }),
       menuIds: Form.createFormField({
         ...formParams.menuIds,
