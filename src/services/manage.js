@@ -125,5 +125,24 @@ export function addUser(data) {
     method:'get',
     url:api.addUser,
   })
+}
 
+// 区域列表查询
+export function queryAreaList(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryAreaList,
+  })
+}
+
+
+
+// 区域查询ByParentCode
+export function queryAreaByParentCode(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryAreaByParentCode,
+  })
 }

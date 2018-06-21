@@ -33,6 +33,7 @@ export default {
 
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表
+  queryAreaByParentCode: `${config.apiHost}/area/queryAreaByParentCode`, // 区域查询ByParentCode
   addArea: `${config.apiHost}/area/addArea`, // 添加区域接口
   editAreaById: `${config.apiHost}/area/editAreaById`, // 修改区域接口
   delAreaById: `${config.apiHost}/area/delAreaById`, // 删除区域接口

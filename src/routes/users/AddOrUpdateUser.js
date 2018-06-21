@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Row, Col, Button, Select, Card } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Card, Cascader } from 'antd'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import styles from "./style.less"
@@ -14,11 +14,17 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
+        const cascaderAreaId = values.cascaderAreaId
+        const payload = {...values}
+        payload.areaId = cascaderAreaId[cascaderAreaId.length-1]
+
+        delete payload.cascaderAreaId
+
         if (addOrUpdateUser.type == 'add') {
-          dispatch({ type: 'addOrUpdateUser/add', payload: values })
+          dispatch({ type: 'addOrUpdateUser/add', payload })
         } else {
           dispatch({ type: 'addOrUpdateUser/modifyUserInfo', payload: {
-            ...values,
+            ...payload,
             id: addOrUpdateUser.userInfo.id,
           }})
         }
@@ -41,6 +47,12 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
   }
 
   const { userInfo } = addOrUpdateUser
+
+  const areaLoadData = selectedOptions => {
+    dispatch({ type: 'addOrUpdateUser/queryAreaByParentCode', payload: selectedOptions })
+  }
+
+  
 
   return (
     <Card title={addOrUpdateUser.type == 'edit' ? '修改用户' : '添加用户'}>
@@ -144,15 +156,17 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
               {...formItemLayout}
               label="区域"
             >
-              {getFieldDecorator('areaId', {
+              {getFieldDecorator('cascaderAreaId', {
                 initialValue: userInfo.areaId,
                 rules: [
                   { required: true, message: '请选择区域!' }
                 ],
               })(
-                <Select placeholder="请选择区域">
-                  {addOrUpdateUser.regionList && addOrUpdateUser.regionList.map(region => (<Option key={region.id} value={region.id}>{region.name}</Option>))}
-                </Select>
+                <Cascader
+                  placeholder="请选择"
+                  options={addOrUpdateUser.regionList}
+                  loadData={areaLoadData}
+                />
               )}
             </FormItem>
           </Col>
