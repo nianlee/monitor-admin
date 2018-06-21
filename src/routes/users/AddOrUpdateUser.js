@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Row, Col, Button, Select, Card, Cascader } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Cascader, Card } from 'antd'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import styles from "./style.less"
@@ -9,6 +9,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
+  
   // 添加用户请求
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,8 +52,6 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
   const areaLoadData = selectedOptions => {
     dispatch({ type: 'addOrUpdateUser/queryAreaByParentCode', payload: selectedOptions })
   }
-
-  
 
   return (
     <Card title={addOrUpdateUser.type == 'edit' ? '修改用户' : '添加用户'}>
@@ -156,7 +155,7 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
               {...formItemLayout}
               label="区域"
             >
-              {getFieldDecorator('cascaderAreaId', {
+              {getFieldDecorator('areaId', {
                 initialValue: userInfo.areaId,
                 rules: [
                   { required: true, message: '请选择区域!' }
