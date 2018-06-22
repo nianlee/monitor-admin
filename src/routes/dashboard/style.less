@@ -3,6 +3,10 @@
   height: 300px;
 }
 
+.title {
+  background-color: #096dd9;
+}
+
 .echart {
   height: 300px;
   width: 100%;
@@ -27,13 +31,14 @@
 
 .summaryTitle {
   font-size: 18px;
-  color: #333;
-  margin-bottom: 2px
+  color: #e8e8e8;
+  margin-bottom: 2px;
 }
 
 .number {
   text-align: center;
   margin-bottom: 0;
+  color: #e8e8e8;
 }
 
 .center {
@@ -41,7 +46,7 @@
 }
 
 .tableWrapper {
-  background: #fff;
+  background:#35646c;
   border-radius: 4px;
 }
 
@@ -55,13 +60,35 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  color: rgba(0, 0, 0, 0.85);
+  color: #d9d9d9;;
   font-weight: 500;
 }
 
-:global .dashboard .ant-table.ant-table-bordered .ant-table-title{
-  position: static;
-  border-bottom: none;
-  background-image: url("./blue.jpg");
+:global .dashboard.ant-table-bordered.ant-table-title {
 
+      position: static;
+      border-bottom: none;
+      background-image: url("../../../public/image/blue.jpg");
 }
+
+:global .dashboard{
+  .ant-table {
+    .ant-table-thead > tr > th {
+      text-align: center;
+      background-image: url("../../../public/image/blue.jpg");
+      color: #e8e8e8;
+    }
+  }
+}
+
+:global .dashboard {
+  .ant-card {
+    .ant-card-head {
+      background-image: url("../../../public/image/blue.jpg");
+    }
+    .ant-card-head-title {
+      color: #d9d9d9;
+    }
+  }
+}
+
