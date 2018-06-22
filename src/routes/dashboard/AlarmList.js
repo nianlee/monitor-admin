@@ -81,11 +81,11 @@ class AlarmList extends Component {
     const renderTitle = () => {
       return <span className={styles.tableTitle}>警告列表</span>
     }
-  
+
     return (<div className={styles.tableWrapper}>
-      <Table 
+      <Table
         bordered
-        columns={columns} 
+        columns={columns}
         dataSource={this.state.alarmList}
         pagination={this.state.pagination}
         title={renderTitle}
