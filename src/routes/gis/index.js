@@ -5,31 +5,36 @@ import { Row, Col, Input } from 'antd'
 import EquipmentMap from './components/EquipmentMap'
 import Detail from './components/Detail'
 import styles from './style.less'
+import { dash } from '../../../public/image/chrome.jpg'
 
 const Search = Input.Search
 
+var divStyle = { //eslint-disable-line
+  backgroundImage: `url(${dash})`,
+};
+
 const Gis = ({ gis, dispatch }) => {
 
-  console.log(gis);
-
   const handleSearch = value => {
-    console.log(value)
-    dispatch({
-      type: 'gis/queryDeviceSelective',
-      payload: {
-        sn: value,
-      }
-    })
+    if(value.length > 0) {
+      dispatch({
+        type: 'gis/queryDeviceSelective',
+        payload: {
+          deviceSn: value,
+        }
+      })
+    }
   }
 
+  //{ backgroundColor: '#fff' }
   return (
     <div>
-      <Row gutter={24} style={{ backgroundColor: '#fff' }}>
+      <Row gutter={24} style={{backgroundColor: '#3b3b45'}}>
         <Col style={{ textAlign: 'center' }}>
           <Search
             className={styles.search}
             placeholder="请输入设备编号(11-22-33-44-55)"
-            enterButton="Search"
+            enterButton="搜索"
             size="large"
             onSearch={handleSearch}
           />
