@@ -1,4 +1,9 @@
-import { getRegionList, addUser, modifyUserInfo } from "../services/manage";
+import { 
+  queryAreaList,
+  queryAreaByParentCode,
+  addUser,
+  modifyUserInfo
+} from "../services/manage";
 import { message } from 'antd'
 import { queryUserInfo } from 'services/user'
 import { queryRoleList } from 'services/role'
@@ -24,10 +29,9 @@ export default {
         const match = pathToRegexp('/addorupdateuser/:id').exec(pathname)
         if (addMatch || match) {
           dispatch({
-            type:'getRegion',
+            type:'queryAreaList',
             payload: {
-              parentId: '500100',
-              roleLev: -1
+              level: 1
           }}),
 
           dispatch({ type: 'queryRoleList' })
@@ -90,17 +94,19 @@ export default {
     },
 
     // 获取区域
-    *getRegion({ payload }, { call, put }) {
-      const resData = yield call(getRegionList, payload);
+    *queryAreaList({ payload }, { call, put }) {
+      const resData = yield call(queryAreaList, payload);
       const relist = []
 
       if(resData.success) {
-        for(let v of resData.data) {
+        resData.data.forEach(item => {
           relist.push({
-            name:v.name,
-            id:v.id
+            ...item,
+            isLeaf: !item.isParent,
+            label: item.name,
+            value: item.code,
           })
-        }
+        })
 
         yield  put({
           type:'updateState',
@@ -113,6 +119,28 @@ export default {
         message.error(resData.msg)
       }
     },
+
+    // 区域查询ByParentCode
+    *queryAreaByParentCode({ payload }, { call, put }) {
+      const addressLength = payload.length
+      const targetOption = payload[addressLength - 1];
+      targetOption.loading = true;
+
+      const resData = yield call(queryAreaByParentCode, { parentCode: targetOption.value });
+      targetOption.loading = false
+      if(resData.success) {
+        targetOption.children = resData.data.map(item => {
+          return {
+            ...item,
+            isLeaf: addressLength > 2,
+            label: item.name,
+            value: item.code,
+          }
+        })
+      } else {
+        message.error(resData.msg)
+      }
+    }
   },
 
   reducers: {

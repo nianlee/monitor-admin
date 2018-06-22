@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Row, Col, Button, Select } from 'antd'
+import { Form, Input, Row, Col, Button, Select, Cascader, Card } from 'antd'
 import { routerRedux } from 'dva/router'
 import { connect } from 'dva'
 import styles from "./style.less"
@@ -15,7 +15,20 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        dispatch({ type: 'addOrUpdateUser/add', values })
+        const cascaderAreaId = values.cascaderAreaId
+        const payload = {...values}
+        payload.areaId = cascaderAreaId[cascaderAreaId.length-1]
+
+        delete payload.cascaderAreaId
+
+        if (addOrUpdateUser.type == 'add') {
+          dispatch({ type: 'addOrUpdateUser/add', payload })
+        } else {
+          dispatch({ type: 'addOrUpdateUser/modifyUserInfo', payload: {
+            ...payload,
+            id: addOrUpdateUser.userInfo.id,
+          }})
+        }
       }
     });
   }
@@ -36,8 +49,12 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
 
   const { userInfo } = addOrUpdateUser
 
+  const areaLoadData = selectedOptions => {
+    dispatch({ type: 'addOrUpdateUser/queryAreaByParentCode', payload: selectedOptions })
+  }
+
   return (
-    <div className={styles.formWrapper}>
+    <Card title={addOrUpdateUser.type == 'edit' ? '修改用户' : '添加用户'}>
       <Form onSubmit={handleSubmit} className="login-form">
         <Row gutter={24}>
           <Col span={8}>
@@ -72,21 +89,22 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
             </FormItem>
           </Col>
 
-          <Col span={8}>
-            <FormItem
-              {...formItemLayout}
-              label="用户密码"
-            >
-              {getFieldDecorator('userPw', {
-                initialValue: userInfo.userPw,
-                rules: [
-                  { required: true, message: '请输入密码' }
-                ],
-              })(
-                <Input type="password" placeholder="请输入密码" />
-              )}
-            </FormItem>
-          </Col>
+          {addOrUpdateUser.type == 'add' ? 
+            <Col span={8}>
+              <FormItem
+                {...formItemLayout}
+                label="用户密码"
+              >
+                {getFieldDecorator('userPw', {
+                  initialValue: userInfo.userPw,
+                  rules: [
+                    { required: true, message: '请输入密码' }
+                  ],
+                })(
+                  <Input type="password" placeholder="请输入密码" />
+                )}
+              </FormItem>
+            </Col> : ''}
 
           <Col span={8}>
             <FormItem
@@ -143,16 +161,11 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
                   { required: true, message: '请选择区域!' }
                 ],
               })(
-                <Select
-                  showSearch
-                  placeholder="请选择区域"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  {addOrUpdateUser.regionList && addOrUpdateUser.regionList.map(region => (<Option key={region.id} value={region.id}>{region.name}</Option>))}
-                </Select>
+                <Cascader
+                  placeholder="请选择"
+                  options={addOrUpdateUser.regionList}
+                  loadData={areaLoadData}
+                />
               )}
             </FormItem>
           </Col>
@@ -176,8 +189,7 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
                     option.props.children.toLowerCase().indexOf(input.toLowerCase())
                   }}
                 >
-                  {addOrUpdateUser.roleList && addOrUpdateUser.roleList.map(role => (<Option key={role.id} value={role.id}>{role.name}</Option>))}
-
+                  {addOrUpdateUser.roleList && addOrUpdateUser.roleList.map(role => (<Option key={role.id} value={role.id}>{role.roleName}</Option>))}
                 </Select>
               )}
             </FormItem>
@@ -190,7 +202,7 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
         </FormItem>
 
       </Form>
-    </div>
+    </Card>
   )
 }
 
