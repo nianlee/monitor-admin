@@ -83,13 +83,13 @@ const UserManage = ({ users,dispatch }) => {
   }
 
   return (
-    <div className={styles.tableWrapper}>
+    <div>
       <Button type="primary" onClick={handleAdd} className={styles.addBtn}>添加</Button>
-      <Table 
-        bordered 
-        dataSource={users.userList} 
-        columns={columns} 
-        pagination={users.pagination} 
+      <Table
+        bordered
+        dataSource={users.userList}
+        columns={columns}
+        pagination={users.pagination}
         onChange={handleTableChange}
       />
     </div>

@@ -7,10 +7,6 @@
   border-radius: 4px;
 }
 
-.addBtn {
-  margin: 20px;
-}
-
 .addButton {
   float: right;
   margin-right: 5px;
@@ -20,3 +16,29 @@
   float: right;
   margin-right: 10px;
 }
+
+:global{
+  .ant-breadcrumb {
+    & > span {
+      &:last-child {
+        color: #d9d9d9;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .ant-breadcrumb-link {
+    .anticon + span {
+      margin-left: 4px;
+    }
+  }
+
+  .ant-table {
+    .ant-table-thead > tr > th {
+      text-align: center;
+      background-image: url("../../../public/image/blue.jpg");
+      color: #e8e8e8;
+    }
+  }
+}
+
