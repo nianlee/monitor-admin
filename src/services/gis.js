@@ -5,6 +5,6 @@ export function queryDeviceSelective(data) {
   return request({
     data,
     method: 'get',
-    url: api.queryDeviceSelective,
+    url: api.queryDeviceInfo,
   })
 }
