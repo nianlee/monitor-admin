@@ -6,7 +6,7 @@ import { Card } from 'antd'
 const EquipmentSummary = ({ dashboard }) => {
 
   return (
-    <Card title="设备信息汇总" style={{'background-color': '#192c3e'}}>
+    <Card title="设备信息汇总" style={{'backgroundColor': '#192c3e'}}>
       <div className={styles.summaryWrapper}>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备总数</p>

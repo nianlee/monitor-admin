@@ -32,6 +32,15 @@ export default {
           dispatch({ type: 'queryOnlineDevices', payload: { page: 1, rows: 2 }})
           dispatch({ type: 'queryAlarmDevices', payload: { page: 1, rows: 4 }})
           dispatch({ type: 'queryOfflineDevices', payload: { page: 1, rows: 2 }})
+
+          window.GLOBAL_INTERVAL = setInterval(function(){
+            dispatch({ type: 'queryDeviceCountByState' })
+            dispatch({ type: 'queryOnlineDevices', payload: { page: 1, rows: 2 }})
+            dispatch({ type: 'queryAlarmDevices', payload: { page: 1, rows: 4 }})
+            dispatch({ type: 'queryOfflineDevices', payload: { page: 1, rows: 2 }})
+          }, 10*1000)
+        } else {
+          clearInterval(window.GLOBAL_INTERVAL)
         }
       })
     },
