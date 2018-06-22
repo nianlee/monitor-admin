@@ -20,20 +20,20 @@ export default {
   effects: {
     *queryDeviceSelective({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceSelective, payload)
-      const info = resData.data[0].datDevice
+      const info = resData.data.rows[0].datDevice
       const equitmentInfo = []
 
       equitmentInfo.push({
         key: 1,
         title: '设备名称',
         description: info.name,
-      }) 
+      })
 
       equitmentInfo.push({
         key: 2,
         title: '设备类型',
         description: info.type
-      }) 
+      })
 
       equitmentInfo.push({
         key: 3,
