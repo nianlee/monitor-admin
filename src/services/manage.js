@@ -34,7 +34,6 @@ export function updateFirmwareVersion(data) {
     method:'post',
     url:api.updateFirmwareVersion,
   })
-
 }
 
 // 设备删除
@@ -144,5 +143,43 @@ export function queryAreaByParentCode(data) {
     data,
     method:'post',
     url:api.queryAreaByParentCode,
+  })
+}
+
+// 10.6查询固件列表
+export function queryFirmwaresList(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryFirmwareList,
+
+  })
+}
+
+// 查询单个固件信息
+export function queryFirmwaresInfo(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.queryFirmwareById,
+
+  })
+}
+
+// 添加固件
+export function addFirmwares(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.addFirmware,
+  })
+}
+
+// 删除固件
+export function deleteFirmwares(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.delFirmwareById,
   })
 }

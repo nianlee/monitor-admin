@@ -10,8 +10,6 @@ export default {
   addDevice:`${config.apiHost}/device/addDevice`, // 添加设备
   controlDevice:`${config.apiHost}/device/deviceControl`, //设备控制
   queryDeviceInfo:`${config.apiHost}/device/queryDeviceBySn`, //设备控制
-  queryFirmwareVersion:`${config.apiHost}/device/queryFirmwareForUpgrade`, //设备控制
-  updateFirmwareVersion:`${config.apiHost}/device/deviceUpgrade`, //设备控制
   queryDeviceTypes:`${config.apiHost}/param/queryParamListForDropdown`, //设备控制
 
   // 统计相关
@@ -48,4 +46,12 @@ export default {
 
   // 其他
   regeo: 'http://restapi.amap.com/v3/geocode/regeo', // 逆地理编码
+
+  // 固件
+  queryFirmwareList:`${config.apiHost}/firmware/queryFirmwares`, // 查询固件列表
+  queryFirmwareById:`${config.apiHost}/firmware/queryFirmwareById`,// 查询固件-通过ID
+  delFirmwareById:`${config.apiHost}/firmware/delFirmwareById`, // 删除固件
+  addFirmware:`${config.apiHost}/firmware/addFirmware`,//添加升级固件
+  queryFirmwareVersion:`${config.apiHost}/device/queryFirmwareForUpgrade`, //设备升级固件查询
+  updateFirmwareVersion:`${config.apiHost}/device/deviceUpgrade`, //设备固件升级
 }

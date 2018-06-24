@@ -51,11 +51,6 @@ const routes = [
     models: () => [import('./models/login')],
     component: () => import('./routes/login'),
   },
-  {
-    path: '/region',
-    models: () => [import('./models/region')],
-    component: () => import('./routes/region'),
-  },
   { // 用户管理
     path: '/usermanage',
     models: () => [import('./models/users')],
@@ -70,6 +65,16 @@ const routes = [
     path: '/addorupdateuser',
     models: () => [import('./models/addOrUpdateUser')],
     component: () => import('./routes/users/AddOrUpdateUser'),
+  },
+  { // 固件
+    path: '/firmware',
+    models: () => [import('./models/firmware')],
+    component: () => import('./routes/firmware'),
+  },
+  { // 添加固件
+    path: '/AddFirmware',
+    models: () => [import('./models/addFirmware')],
+    component: () => import('./routes/firmware/AddFirmware'),
   },
   {
     path: '/devicemanage',

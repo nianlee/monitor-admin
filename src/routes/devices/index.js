@@ -4,10 +4,10 @@ import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
 import ShowDeviceModal from './components/ShowDeviceModal'
 import { routerRedux } from 'dva/router'
+import styles from './style.less'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
-  console.log('tt',devices.dataSource)
   const { modalVisible } =  devices
   //modal 属性
   const modalProps ={ //eslint-disable-line
@@ -46,12 +46,6 @@ const DeviceManage = ({ devices,dispatch }) => {
       title:'地址',
       dataIndex:'detailAddr',
       key:'detailAddr',
-      width:'10%',
-    },
-    {
-      title:'设备创建时间',
-      dataIndex:'createTime',
-      key:'createTime',
       width:'10%',
     },
     {
@@ -151,8 +145,8 @@ const DeviceManage = ({ devices,dispatch }) => {
   pagination.pageSize = devices.pageSize
 
   return (
-    <div>
-      <Button type="primary" onClick={handleAdd}>添加</Button>
+    <div className="devices">
+      <Button type="primary" onClick={handleAdd} className={styles.addButton}>添加</Button>
       <ShowDeviceModal {...modalProps}/>
       <Table bordered dataSource={devices.dataSource} columns={columns} pagination={pagination} onChange={handlePage}/>
     </div>

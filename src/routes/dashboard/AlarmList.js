@@ -82,7 +82,7 @@ class AlarmList extends Component {
       return <span className={styles.tableTitle}>警告列表</span>
     }
 
-    return (<div className={styles.tableWrapper}>
+    return (<div className="alarm">
       <Table
         bordered
         columns={columns}

@@ -38,8 +38,8 @@ const Role = ({ role, dispatch }) => {
     render: (text, record) => { // eslint-disable-line
       return (
         <div>
-          <a onClick={add}>新增</a>
-          <a style={{ marginLeft: 5 }} onClick={() => update(record)}>修改</a>
+          <a onClick={add} className={styles.title}>新增</a>
+          <a onClick={() => update(record)} className={styles.title}>修改</a>
         </div>
       )
     }
@@ -65,7 +65,7 @@ const Role = ({ role, dispatch }) => {
   }
 
   return (
-    <div style={{ backgroundColor: '#fff' }}>
+    <div className="role" >
       <Table
         bordered
         columns={columns}

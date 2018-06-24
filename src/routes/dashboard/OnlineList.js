@@ -81,11 +81,11 @@ class OnlineList extends Component {
     const renderTitle = () => {
       return <span className={styles.tableTitle}>在线设备列表</span>
     }
-  
-    return (<div className={styles.tableWrapper}>
-      <Table 
+
+    return (<div className="OnlineList">
+      <Table
         bordered
-        columns={columns} 
+        columns={columns}
         dataSource={this.state.onlineList}
         pagination={this.state.pagination}
         title={renderTitle}

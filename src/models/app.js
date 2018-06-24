@@ -60,20 +60,13 @@ export default {
             icon: 'search',
             route: '/manage/role',
           },
-          {
-            id: '54',
-            bpid: '5',
-            name: '区域管理',
-            icon: 'search',
-            route: '/region',
-          }
         ]
       },
       {
         id: '6',
-        name: '系统设置',
+        name: '固件管理',
         icon: 'bars',
-        route: '/admin',
+        route: '/firmware',
       },
     ], // 菜单
     user: {
@@ -133,7 +126,7 @@ export default {
     // 查询用户信息
     *queryUserInfo(payload, { call, put, select}) {
       const { user } = yield select(_=>_.app)
-      const resData = yield call(queryUserInfo, { id: user.id }) 
+      const resData = yield call(queryUserInfo, { id: user.id })
       if (resData.success) {
         yield put({ type: 'updateState', payload: { user: resData.data }})
       } else {

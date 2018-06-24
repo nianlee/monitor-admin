@@ -83,7 +83,7 @@ const UserManage = ({ users,dispatch }) => {
   }
 
   return (
-    <div>
+    <div className="users">
       <Button type="primary" onClick={handleAdd} className={styles.addBtn}>添加</Button>
       <Table
         bordered

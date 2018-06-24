@@ -50,7 +50,7 @@ export default {
               name: v.name,
               sn: v.sn,
               detailAddr: v.detailAddr,
-              createTime: v.createTime,
+              //createTime: v.createTime,
               type: v.type,
               state: '故障',
             })
@@ -60,7 +60,7 @@ export default {
               name: v.name,
               sn: v.sn,
               detailAddr: v.detailAddr,
-              createTime: v.createTime,
+              //createTime: v.createTime,
               type: v.type,
               state: '离线',
             })
@@ -70,7 +70,7 @@ export default {
               name: v.name,
               sn: v.sn,
               detailAddr: v.detailAddr,
-              createTime: v.createTime,
+              //createTime: v.createTime,
               type: v.type,
               state: '在线',
             })

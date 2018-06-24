@@ -81,11 +81,11 @@ class OfflineList extends Component {
     const renderTitle = () => {
       return <span className={styles.tableTitle}>在线设备列表</span>
     }
-  
-    return (<div className={styles.tableWrapper}>
-      <Table 
+
+    return (<div className="OfflineList">
+      <Table
         bordered
-        columns={columns} 
+        columns={columns}
         dataSource={this.state.offlineList}
         pagination={this.state.pagination}
         title={renderTitle}

@@ -42,7 +42,6 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
     dispatch(routerRedux.push('/devicemanage'))
   }
 
-
   return (
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
@@ -349,7 +348,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
         </Row>
 
         <FormItem>
-          <Button className={styles.cancelButton}>取消</Button>
+          <Button className={styles.cancelButton} onClick={handle}>取消</Button>
           <Button type="primary" htmlType="submit" className={styles.addButton}>确认</Button>
         </FormItem>
       </Form>
