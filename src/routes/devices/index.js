@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
 import ShowDeviceModal from './components/ShowDeviceModal'
 import { routerRedux } from 'dva/router'
-import styles from './style.less'
+//import styles from './style.less'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
@@ -111,9 +111,8 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   //添加设备函数
   function handleAdd(){
-    dispatch({
-      type:'devices/addDevice',
-    });
+    console.log('handleAdd')
+    dispatch(routerRedux.push('/adddevice'));
   }
 
   //删除设备函数
@@ -127,8 +126,8 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   // 分页请求
   function handlePage(pagination) {
-    console.log('pagination',pagination)
 
+    dispatch({ type: 'devices/updatePagination', payload: pagination})
     dispatch({
       type:'devices/queryDeviceList',
       payload:{
@@ -138,17 +137,11 @@ const DeviceManage = ({ devices,dispatch }) => {
     })
   }
 
-  // 分页器
-  const pagination = {}
-  pagination.defaultCurrent = devices.currentPage
-  pagination.total = devices.total
-  pagination.pageSize = devices.pageSize
-
   return (
     <div className="devices">
-      <Button type="primary" onClick={handleAdd} className={styles.addButton}>添加</Button>
+      <Button type="primary" onClick={handleAdd}>添加</Button>
       <ShowDeviceModal {...modalProps}/>
-      <Table bordered dataSource={devices.dataSource} columns={columns} pagination={pagination} onChange={handlePage}/>
+      <Table bordered dataSource={devices.dataSource} columns={columns} pagination={devices.pagination} onChange={handlePage}/>
     </div>
 
   );
