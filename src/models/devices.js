@@ -12,10 +12,16 @@ export default {
     deviceInfos:[],
     deviceDynamicDTOS:[],
     modalVisible:false,
-    total:'',
-    pageSize:'',
-    currentPage:'',
     sn:{},
+
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+      showTotal: total => `共${total}条数据`,
+      showQuickJumper: true,
+      showSizeChanger: true,
+    }
 
   },
 
@@ -86,6 +92,12 @@ export default {
           }
         })
 
+        yield put({ type: 'updatePagination', payload: {
+          total: resData.data.total,
+          pageIndex: resData.data.curPage,
+          pageSize: resData.data.pageSize,
+        }})
+
       } else {
         throw  message.error(resData.msg)
       }
@@ -125,6 +137,17 @@ export default {
   },
 
   reducers: {
+
+    updatePagination(state, { payload }) {
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          ...payload,
+        }
+      }
+    },
+
     updateState (state, { payload }) {
       return {
         ...state,
