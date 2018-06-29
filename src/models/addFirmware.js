@@ -1,46 +1,46 @@
-import {
-  addFirmwares,
-} from "../services/manage";
-import { message } from 'antd'
+import { addFirmwares } from "../services/manage";
+import { message } from "antd";
 import { routerRedux } from "dva/router";
 
 export default {
-
-  namespace: 'addFirmware',
+  namespace: "addFirmware",
 
   state: {
-    regionList:[],
-    roleList: [], // 权限列表
-    userInfo: {}, // 用户信息
+    firmwareInfo: {} // 添加的固件信息
   },
 
   subscriptions: {
     setup({ dispatch, history }) {
-      history.listen(({ pathname }) => {
-      })
-    },
+      history.listen(({ pathname }) => {});
+    }
   },
 
   effects: {
     // 添加固件
     *add({ payload }, { call, put }) {
-      const resData = yield call(addFirmwares,payload);
-      console.log('resData',resData)
-      if(resData.success) {
-        message.success('添加成功')
-        yield put(routerRedux.push('/firmware'))
+      const resData = yield call(addFirmwares, payload);
+      if (resData.success) {
+        message.success("添加成功");
+        yield put(routerRedux.push("/firmware"));
       } else {
-        message.error(resData.message)
+        message.error(resData.message);
       }
-    },
+    }
   },
 
   reducers: {
-    updateState (state, { payload }) {
+    updateState(state, { payload }) {
       return {
         ...state,
-        ...payload,
-      }
+        ...payload
+      };
     },
-  },
+
+    updateFirmwareInfo(state, { payload }) {
+      return {
+        ...state,
+        firmwareInfo: { ...payload }
+      };
+    }
+  }
 };

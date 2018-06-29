@@ -1,23 +1,25 @@
-import config from './config'
+import config from "./config";
 
 export default {
   query: `${config.apiHost}/role/queryRoleList`, // 用户是否登录
-  getMenu: '/getMenu', // 获取菜单
+  getMenu: "/getMenu", // 获取菜单
 
   // 设备管理
   queryDeviceSelective: `${config.apiHost}/device/queryDevices`, // 查询设备
-  deleteDevice:`${config.apiHost}/device/delDeviceById`, // 删除设备
-  addDevice:`${config.apiHost}/device/addDevice`, // 添加设备
-  controlDevice:`${config.apiHost}/device/deviceControl`, //设备控制
-  queryDeviceInfo:`${config.apiHost}/device/queryDeviceBySn`, //设备控制
-  queryDeviceTypes:`${config.apiHost}/param/queryParamListForDropdown`, //设备控制
+  deleteDevice: `${config.apiHost}/device/delDeviceById`, // 删除设备
+  addDevice: `${config.apiHost}/device/addDevice`, // 添加设备
+  controlDevice: `${config.apiHost}/device/deviceControl`, //设备控制
+  queryDeviceInfo: `${config.apiHost}/device/queryDeviceBySn`, //设备控制
+  queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, //设备控制
 
   // 统计相关
-  queryDeviceCountByState:`${config.apiHost}/statistic/queryDeviceCountByState`, // 统计设备状态对应设备数
-  queryOfflineDevices:`${config.apiHost}/statistic/queryOfflineDevices`, // 统计设备离线列表
-  queryOnlineDevices:`${config.apiHost}/statistic/queryOnlineDevices`, // 统计设备在线列表
-  queryAlarmDevices:`${config.apiHost}/statistic/queryAlarmDevices`, // 统计设备预警列表
-  queryDeviceCountByArea:`${config.apiHost}/statistic/queryDeviceCountByArea`, // 统计设备区域对应设备数
+  queryDeviceCountByState: `${
+    config.apiHost
+  }/statistic/queryDeviceCountByState`, // 统计设备状态对应设备数
+  queryOfflineDevices: `${config.apiHost}/statistic/queryOfflineDevices`, // 统计设备离线列表
+  queryOnlineDevices: `${config.apiHost}/statistic/queryOnlineDevices`, // 统计设备在线列表
+  queryAlarmDevices: `${config.apiHost}/statistic/queryAlarmDevices`, // 统计设备预警列表
+  queryDeviceCountByArea: `${config.apiHost}/statistic/queryDeviceCountByArea`, // 统计设备区域对应设备数
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
@@ -25,9 +27,9 @@ export default {
   getVerifyCode: `${config.apiHost}/common/getVerifyCode`, // 获取验证码
   queryUserListInfo: `${config.apiHost}/manager/managerList`, // 用户列表信息查询
   deleteUser: `${config.apiHost}/manager/delManagerById`,
-  modifyUserInfo:`${config.apiHost}/manager/editManagerById`,
-  queryUserInfo:`${config.apiHost}/manager/queryManagerInfoById`, // 用户详细信息查询
-  addUser:`${config.apiHost}/manager/addManager`,
+  modifyUserInfo: `${config.apiHost}/manager/editManagerById`,
+  queryUserInfo: `${config.apiHost}/manager/queryManagerInfoById`, // 用户详细信息查询
+  addUser: `${config.apiHost}/manager/addManager`,
 
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表
@@ -45,13 +47,14 @@ export default {
   queryRoleListForDropdown: `${config.apiHost}/role/queryRoleListForDropdown`, // 角色列表查询-下拉框
 
   // 其他
-  regeo: 'http://restapi.amap.com/v3/geocode/regeo', // 逆地理编码
+  regeo: "http://restapi.amap.com/v3/geocode/regeo", // 逆地理编码
 
   // 固件
-  queryFirmwareList:`${config.apiHost}/firmware/queryFirmwares`, // 查询固件列表
-  queryFirmwareById:`${config.apiHost}/firmware/queryFirmwareById`,// 查询固件-通过ID
-  delFirmwareById:`${config.apiHost}/firmware/delFirmwareById`, // 删除固件
-  addFirmware:`${config.apiHost}/firmware/addFirmware`,//添加升级固件
-  queryFirmwareVersion:`${config.apiHost}/device/queryFirmwareForUpgrade`, //设备升级固件查询
-  updateFirmwareVersion:`${config.apiHost}/device/deviceUpgrade`, //设备固件升级
-}
+  queryFirmwareList: `${config.apiHost}/firmware/queryFirmwares`, // 查询固件列表
+  queryFirmwareById: `${config.apiHost}/firmware/queryFirmwareById`, // 查询固件-通过ID
+  delFirmwareById: `${config.apiHost}/firmware/delFirmwareById`, // 删除固件
+  addFirmware: `${config.apiHost}/firmware/addFirmware`, // 添加升级固件
+  uploadFirmware: `${config.apiHost}/firmware/uploadFirmware`, // 上传固件
+  queryFirmwareVersion: `${config.apiHost}/device/queryFirmwareForUpgrade`, //设备升级固件查询
+  updateFirmwareVersion: `${config.apiHost}/device/deviceUpgrade` //设备固件升级
+};
