@@ -25,7 +25,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
         const payload = {
           ...values,
           detail_addr: addressObj.address,
-          langitude: addressObj.langitude,
+          longitude: addressObj.langitude,
           latitude: addressObj.latitude,
 
           province:addressObj.province,//省
