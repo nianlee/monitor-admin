@@ -1,36 +1,30 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'dva'
-import { Row, Col, Input } from 'antd'
-import EquipmentMap from './components/EquipmentMap'
-import Detail from './components/Detail'
-import styles from './style.less'
-import { dash } from '../../../public/image/chrome.jpg'
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "dva";
+import { Row, Col, Input } from "antd";
+import EquipmentMap from "./components/EquipmentMap";
+import Detail from "./components/Detail";
+import styles from "./style.less";
 
-const Search = Input.Search
-
-var divStyle = { //eslint-disable-line
-  backgroundImage: `url(${dash})`,
-};
+const Search = Input.Search;
 
 const Gis = ({ gis, dispatch }) => {
-
   const handleSearch = value => {
-    if(value.length > 0) {
+    if (value.length > 0) {
       dispatch({
-        type: 'gis/queryDeviceSelective',
+        type: "gis/queryDeviceSelective",
         payload: {
-          deviceSn: value,
+          deviceSn: value
         }
-      })
+      });
     }
-  }
+  };
 
   //{ backgroundColor: '#fff' }
   return (
     <div>
-      <Row gutter={24} style={{backgroundColor: '#3b3b45'}}>
-        <Col style={{ textAlign: 'center' }}>
+      <Row gutter={24} style={{ backgroundColor: "#3b3b45" }}>
+        <Col style={{ textAlign: "center" }}>
           <Search
             className={styles.search}
             placeholder="请输入设备编号(11-22-33-44-55)"
@@ -45,16 +39,16 @@ const Gis = ({ gis, dispatch }) => {
           <EquipmentMap gis={gis} />
         </Col>
         <Col span={6}>
-          <Detail gis={gis} dispatch={dispatch}/>
+          <Detail gis={gis} dispatch={dispatch} />
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 Gis.propTypes = {
   gis: PropTypes.object,
-  dispatch: PropTypes.func,
-}
+  dispatch: PropTypes.func
+};
 
-export default connect(({ gis }) => ({ gis }))(Gis)
+export default connect(({ gis }) => ({ gis }))(Gis);
