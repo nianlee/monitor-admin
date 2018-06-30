@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import { Table,Button,Popconfirm} from 'antd'
 import ShowDeviceModal from './components/ShowDeviceModal'
 import { routerRedux } from 'dva/router'
-//import styles from './style.less'
+import styles from './style.less'
 
 const DeviceManage = ({ devices,dispatch }) => {
 
@@ -79,15 +79,15 @@ const DeviceManage = ({ devices,dispatch }) => {
 
         <a href="javascript:;"
            onClick={()=>controlDevice(record.sn)}
-           style={{ marginLeft: 8 }}>控制</a>
+           style={styles.operation}>控制</a>
 
         <a href="javascript:;"
            onClick={()=>updateDevice(record.sn)}
-           style={{ marginLeft: 8 }}>升级</a>
+           style={styles.operation}>升级</a>
 
         <a href="javascript:;"
            onClick={()=>checkDevice(record.sn)}
-           style={{ marginLeft: 8 }}>查看</a>
+           style={styles.operation}>查看</a>
       </div>
     );
   }
