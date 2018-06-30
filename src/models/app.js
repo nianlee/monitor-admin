@@ -22,12 +22,15 @@ export default {
         name: '首页',
         route: '/dashboard',
       },
+
+      /*
       {
         id: '2',
         name: '统计报表',
         icon: 'user',
         route: '/report',
-      },
+      },*/
+
       {
         id: '4',
         name: 'GIS信息',
