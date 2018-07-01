@@ -102,9 +102,9 @@ const firmwareManage = ({ firmware,dispatch }) => {
   }
 
   function handleTableChange(pagination) {
-    dispatch({ type: 'users/updatePagination', payload: pagination})
+    dispatch({ type: 'firmware/updatePagination', payload: pagination})
     dispatch({
-      type:'users/queryUserList',
+      type:'firmware/queryFirmwareList',
       payload:{
         page: pagination.current,
         rows: pagination.pageSize,
