@@ -5,7 +5,8 @@ import {
   queryAlarmDevices,
   // queryDeviceCountByArea,
 } from '../services/dashboard'
-import { message } from 'antd'
+//import { message } from 'antd'
+
 
 export default {
   namespace: 'dashboard',
@@ -53,7 +54,7 @@ export default {
       if (resData.success) {
         yield put({ type: 'save', payload: { ...resData.data }})
       } else {
-        message.error(resData.message)
+        console.log(resData.message)
       }
     },
 
@@ -70,7 +71,7 @@ export default {
 
         yield put({ type: 'save', payload: { onlineList }})
       } else {
-        message.error(resData.message)
+        console.log(resData.message)
       }
     },
 
@@ -78,7 +79,7 @@ export default {
     *queryAlarmDevices({ payload }, { call, put }) {
       const resData = yield call(queryAlarmDevices, payload)
       if (resData.success) {
-
+        console.log('alarm',resData)
         // 添加key
         const alarmList = resData.data.rows.map(item => {
           item.key = item.id
@@ -87,7 +88,7 @@ export default {
 
         yield put({ type: 'save', payload: { alarmList }})
       } else {
-        message.error(resData.message)
+        console.log(resData.message)
       }
     },
 
@@ -104,7 +105,7 @@ export default {
 
         yield put({ type: 'save', payload: { offlineList }})
       } else {
-        message.error(resData.message)
+        console.log(resData.message)
       }
     },
   },

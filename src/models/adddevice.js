@@ -18,6 +18,8 @@ export default {
     // 添加设备
     *add({ payload }, { call, put }) {
       const resData = yield call(addDevice, payload)
+      console.log('josn',payload)
+      console.log('add',resData)
       if(resData.success) {
         yield put(routerRedux.push('/devicemanage'))
       } else {

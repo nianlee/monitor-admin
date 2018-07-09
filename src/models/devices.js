@@ -45,6 +45,7 @@ export default {
     *queryDeviceList({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceList,payload);
 
+      console.log('devices',resData)
       const devicesList = [];
 
       if(resData.success) {
