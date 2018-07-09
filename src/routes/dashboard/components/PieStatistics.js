@@ -40,7 +40,7 @@ const PieStatistics = ({ dashboard }) => {
     },
     series : [
       {
-        name: '员工统计',
+        name: '设备数量',
         type: 'pie',
         radius: ['35%', '70%'],
         center: ['50%', '50%'],
@@ -59,7 +59,7 @@ const PieStatistics = ({ dashboard }) => {
         },
         data:[
           {
-            value: dashboard.OnlineCount, 
+            value: dashboard.OnlineCount,
             name: `正常设备 ${dashboard.OnlineCount}`,
             itemStyle: {
               color: '#BAE7FF'

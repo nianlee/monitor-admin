@@ -4,6 +4,11 @@ import { Table, message } from 'antd'
 import { queryOnlineDevices } from 'services/dashboard'
 
 const columns = [{
+  title: '设备sn',
+  dataIndex: 'sn',
+  className: styles.center,
+  key: 'sn',
+},{
   title: '设备名称',
   dataIndex: 'name',
   className: styles.center,

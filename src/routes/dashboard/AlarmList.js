@@ -3,17 +3,30 @@ import styles from './style.less'
 import { Table, message } from 'antd'
 import { queryAlarmDevices } from 'services/dashboard'
 
-const columns = [{
-  title: '设备名称',
-  dataIndex: 'name',
+const columns = [
+  {
+    title: '设备sn',
+    dataIndex: 'sn',
+    className: styles.center,
+    key: 'sn',
+  },
+  {
+  title: '设备预警信息',
+  dataIndex: 'alarm_info',
   className: styles.center,
-  key: 'name',
+  key: 'alarm_info',
 },{
-  title: '设备位置',
-  dataIndex: 'detailAddr',
+  title: '预警开始时间',
+  dataIndex: 'alarm_start_time',
   className: styles.center,
-  key: 'detailAddr',
-}, {
+  key: 'alarm_start_time',
+},{
+    title: '预警结束时间',
+    dataIndex: 'alarm_end_time',
+    className: styles.center,
+    key: 'alarm_end_time',
+    width:'20%',
+  },{
   title: '设备类型',
   dataIndex: 'type',
   className: styles.center,

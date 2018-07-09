@@ -4,11 +4,17 @@ import { Table } from 'antd'
 import { routerRedux } from 'dva/router'
 import styles from '../style.less'
 
-const columns = [{
-  title: '设备名称',
-  dataIndex: 'name',
-  className: styles.center,
-  key: 'name',
+const columns = [
+  {
+    title: '设备sn',
+    dataIndex: 'sn',
+    className: styles.center,
+    key: 'sn',
+  },{
+    title: '设备故障信息',
+    dataIndex: 'alarm_info',
+    className: styles.center,
+    key: 'alarm_info',
 },{
   title: '设备位置',
   dataIndex: 'detail_addr',
@@ -19,7 +25,8 @@ const columns = [{
   dataIndex: 'type',
   className: styles.center,
   key: 'type',
-}, {
+}];
+  /*{
   title: '设备状态',
   dataIndex: 'state',
   className: styles.center,
@@ -32,8 +39,8 @@ const columns = [{
     } else {
       return '故障'
     }
-  }
-}];
+  }*/
+
 
 const Alarm = ({ dashboard, dispatch }) => {
   const goMore = () => {
@@ -45,13 +52,13 @@ const Alarm = ({ dashboard, dispatch }) => {
   }
 
   const renderTitle = () => {
-    return <span className={styles.tableTitle}>警告设备列表</span>
+    return <span className={styles.tableTitle}>故障设备列表</span>
   }
 
   return (<div className={styles.tableWrapper}>
-    <Table 
+    <Table
       bordered
-      columns={columns} 
+      columns={columns}
       dataSource={dashboard.alarmList}
       pagination={false}
       title={renderTitle}
@@ -59,7 +66,7 @@ const Alarm = ({ dashboard, dispatch }) => {
     />
   </div>)
 }
-  
+
 
 Alarm.propTypes = {
   dashboard: PropTypes.object,

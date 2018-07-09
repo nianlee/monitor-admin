@@ -5,6 +5,11 @@ import { routerRedux } from 'dva/router'
 import styles from '../style.less'
 
 const columns = [{
+  title: '设备sn',
+  dataIndex: 'sn',
+  className: styles.center,
+  key: 'sn',
+},{
   title: '设备名称',
   dataIndex: 'name',
   className: styles.center,
@@ -19,7 +24,8 @@ const columns = [{
   dataIndex: 'type',
   className: styles.center,
   key: 'type',
-}, {
+},
+  /*{
   title: '设备状态',
   dataIndex: 'state',
   className: styles.center,
@@ -33,7 +39,8 @@ const columns = [{
       return '故障'
     }
   }
-}];
+}*/
+];
 
 const Online = ({ dashboard, dispatch }) => {
   const goMore = () => {
@@ -49,9 +56,9 @@ const Online = ({ dashboard, dispatch }) => {
   }
 
   return (<div className={styles.tableWrapper}>
-    <Table 
+    <Table
       bordered
-      columns={columns} 
+      columns={columns}
       dataSource={dashboard.onlineList}
       pagination={false}
       title={renderTitle}
@@ -59,7 +66,7 @@ const Online = ({ dashboard, dispatch }) => {
     />
   </div>)
 }
-  
+
 
 Online.propTypes = {
   dashboard: PropTypes.object,
