@@ -9,13 +9,14 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
-  
+
   // 添加用户请求
   const handleSubmit = (e) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        const cascaderAreaId = values.cascaderAreaId
+        //console.log('cascaderAreaId',values)
+        const cascaderAreaId = values.areaId
         const payload = {...values}
         payload.areaId = cascaderAreaId[cascaderAreaId.length-1]
 
@@ -89,7 +90,7 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
             </FormItem>
           </Col>
 
-          {addOrUpdateUser.type == 'add' ? 
+          {addOrUpdateUser.type == 'add' ?
             <Col span={8}>
               <FormItem
                 {...formItemLayout}
