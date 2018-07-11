@@ -45,32 +45,40 @@ export default {
           {
             id: '51',
             bpid: '5',
-            name: '用户管理',
-            icon: 'search',
-            route: '/usermanage',
-          },
-          {
-            id: '52',
-            bpid: '5',
             name: '设备管理',
             icon: 'search',
             route: '/devicemanage',
           },
           {
+            id: '52',
+            name: '固件管理',
+            icon: 'bars',
+            route: '/firmware',
+          },
+        ]
+      },
+
+      {
+        id: '6',
+        name: '系统管理',
+        icon: 'heart-o',
+        children: [
+          {
             id: '53',
-            bpid: '5',
+            bpid: '6',
+            name: '用户管理',
+            icon: 'search',
+            route: '/usermanage',
+          },
+          {
+            id: '54',
+            bpid: '6',
             name: '角色管理',
             icon: 'search',
             route: '/manage/role',
           },
         ]
-      },
-      {
-        id: '6',
-        name: '固件管理',
-        icon: 'bars',
-        route: '/firmware',
-      },
+      }
     ], // 菜单
     user: {
       userName: 'deadpool'

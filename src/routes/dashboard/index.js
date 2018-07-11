@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Row, Col, Card } from 'antd'
 import { connect } from 'dva'
 import EquipmentSummary from './components/EquipmentSummary'
-import Online from './components/Online'
 import PieStatistics from './components/PieStatistics'
 import Alarm from './components/Alarm'
 import Offline from './components/Offline'
@@ -20,7 +19,7 @@ const Dashboard = ({ dashboard, dispatch }) => {
     </Row>
     <Row gutter={24} style={{ marginTop: '30px' }}>
       <Col span="12">
-        <Alarm {...childProps} />
+        <PieStatistics {...childProps} />
       </Col>
       <Col span="12">
         <Card title="本日设备运行情况">
@@ -30,7 +29,7 @@ const Dashboard = ({ dashboard, dispatch }) => {
     </Row>
     <Row gutter={24} style={{ marginTop: '30px' }}>
       <Col span="12">
-        <Online {...childProps} />
+        <Alarm {...childProps} />
       </Col>
       <Col span="12">
         <Offline {...childProps} />

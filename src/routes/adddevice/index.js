@@ -13,7 +13,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
 
   //const regionLists = adddevice.regionList.map(region => <Option key={region.id}>{region.name}</Option>)
   const deviceTypeLists = adddevice.deviceTypeList.map(type => <Option key={type.name}>{type.value}</Option>)
-  const deviceNameLists = adddevice.deviceNameList.map(name => <Option key={name.name}>{name.value}</Option>)
+  //const deviceNameLists = adddevice.deviceNameList.map(name => <Option key={name.name}>{name.value}</Option>)
 
   // 添加设备请求
   const handleSubmit = (e) => {
@@ -76,34 +76,10 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
             >
               {getFieldDecorator('sn', {
                 rules: [
-                  { required: true, message: '请输入设备an码!' }
+                  { pattern:"([A-Fa-f0-9]{2}-){5}[A-Fa-f0-9]{2}",required:true, message: '请输入设备正确的mac地址!' }
                 ],
               })(
-                <Input placeholder="设备sn码" />
-              )}
-            </FormItem>
-          </Col>
-          <Col span={8}>
-            <FormItem
-              {...formItemLayout}
-              label="设备名称" // eslint-disable-line
-            >
-              {getFieldDecorator('name', {
-                rules: [
-                  { required: true, message: '请选择设备名称!' }
-                ],
-              })(
-
-                <Select
-                  showSearch
-                  placeholder="请选择设备名称"
-                  optionLabelProp="children"
-                  filterOption={(input,option) => {
-                    option.props.children.toLowerCase().indexOf(input.toLowerCase())
-                  }}
-                >
-                  {deviceNameLists}
-                </Select>
+                <Input placeholder="设备sn码"/>
               )}
             </FormItem>
           </Col>
@@ -183,6 +159,8 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
         </FormItem>
 
       </Form>
+
+
     </div>
   )
 

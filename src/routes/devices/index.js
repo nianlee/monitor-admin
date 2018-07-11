@@ -30,12 +30,6 @@ const DeviceManage = ({ devices,dispatch }) => {
   //定义列
   const columns =[
     {
-      title:'设备名称',
-      dataIndex:'name',
-      key:'name',
-      width:'10%',
-    },
-    {
       title:'设备sn编码',
       dataIndex:'sn',
       key:'sn',

@@ -41,7 +41,7 @@ const Login = ({ login, dispatch, form }) => {
                 prefix={
                   <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
-                placeholder="用户名：admin"
+                placeholder=""
               />
             )}
           </FormItem>
@@ -54,7 +54,7 @@ const Login = ({ login, dispatch, form }) => {
                   <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
                 }
                 type="password"
-                placeholder="密码：111111"
+                placeholder=""
               />
             )}
           </FormItem>
@@ -78,9 +78,6 @@ const Login = ({ login, dispatch, form }) => {
             </Col>
           </Row>
           <FormItem>
-            <a className={styles.loginFormForgot} href="">
-              忘记密码
-            </a>
             <Button
               type="primary"
               htmlType="submit"
@@ -88,7 +85,6 @@ const Login = ({ login, dispatch, form }) => {
             >
               登录
             </Button>
-            <a href="">现在注册!</a>
           </FormItem>
         </Form>
       </div>

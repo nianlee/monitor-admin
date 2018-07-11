@@ -52,7 +52,7 @@ const Alarm = ({ dashboard, dispatch }) => {
   }
 
   const renderTitle = () => {
-    return <span className={styles.tableTitle}>故障设备列表</span>
+    return <span className={styles.tableTitle}>设备警告列表</span>
   }
 
   return (<div className={styles.tableWrapper}>
