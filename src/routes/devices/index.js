@@ -80,6 +80,10 @@ const DeviceManage = ({ devices,dispatch }) => {
            style={{marginLeft:8}}>升级</a>
 
         <a href="javascript:;"
+           onClick={()=>modifyDevice(record.id)}
+           style={{marginLeft:8}}>地址修改</a>
+
+        <a href="javascript:;"
            onClick={()=>checkDevice(record.sn)}
            style={{marginLeft:8}}>查看</a>
       </div>
@@ -92,6 +96,10 @@ const DeviceManage = ({ devices,dispatch }) => {
 
   function updateDevice(sn) {
     dispatch(routerRedux.push(`/updatedevice/${sn}`));
+  }
+
+  function modifyDevice(id) {
+    dispatch(routerRedux.push(`/modifydevice/${id}`));
   }
 
   // 设备查看
