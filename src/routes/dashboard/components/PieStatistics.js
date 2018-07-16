@@ -82,7 +82,7 @@ const PieStatistics = ({ dashboard }) => {
             shadowColor: 'rgba(0, 0, 0, 0.5)'
           }
         }
-      }
+      },
     ]
   })
 

@@ -2,15 +2,16 @@ import React, { Component } from 'react'
 import styles from './style.less'
 import { Table, message,Button,Modal,Input } from 'antd'
 import { queryAlarmDevices } from 'services/dashboard'
+//import PropTypes from 'prop-types'
+import {withRouter} from "react-router-dom";
 
 const InputGroup = Input.Group;
-
-
 
 class AlarmList extends Component {
   constructor(props) {
     super(props)
 
+    //const { history } = this.props;
     this.columns = [
       {
         title: '设备sn',
@@ -73,6 +74,9 @@ class AlarmList extends Component {
     this.paginationChange(this.state.pagination)
   }
 
+  onBack(){
+    //history.push("/dashboard");
+  }
 
 
   renderOperation(text,record) {
@@ -146,10 +150,6 @@ class AlarmList extends Component {
     });
   }
 
-  onBack() {
-
-  }
-
   render() {
     const renderTitle = () => {
       return <span className={styles.tableTitle}>警告列表</span>
@@ -211,4 +211,4 @@ class AlarmList extends Component {
   }
 }
 
-export default AlarmList
+export default withRouter(AlarmList);
