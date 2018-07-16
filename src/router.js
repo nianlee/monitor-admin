@@ -87,6 +87,11 @@ const routes = [
     component: () => import('./routes/updatedevice'),
   },
   {
+    path: '/modifydevice/:sn',
+    models: () => [import('./models/modifydevice')],
+    component: () => import('./routes/devices/modifydevice'),
+  },
+  {
     path: '/manage/role',
     models: () => [import('./models/role')],
     component: () => import('./routes/role'),
