@@ -54,6 +54,15 @@ export function addDevice(data) {
   })
 }
 
+// 修改设备
+export function modifyDevice(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.modifyDevice,
+  })
+}
+
 // 控制设备
 export function controlDevice(data) {
   return request({
