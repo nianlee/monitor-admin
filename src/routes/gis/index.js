@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
-import { Row, Col, Input } from "antd";
+import { Row, Col, Input, Checkbox } from "antd";
 import EquipmentMap from "./components/EquipmentMap";
 import Detail from "./components/Detail";
 import styles from "./style.less";
 
 const Search = Input.Search;
+const CheckboxGroup = Checkbox.Group;
 
 const Gis = ({ gis, dispatch }) => {
   const handleSearch = value => {
@@ -20,11 +21,31 @@ const Gis = ({ gis, dispatch }) => {
     }
   };
 
-  //{ backgroundColor: '#fff' }
+  const checkBoxOptions = [
+    { label: "正常设备", value: "1" },
+    { label: "异常设备", value: "3" },
+    { label: "离线设备", value: "2" }
+  ];
+
+  const checkBoxChange = checkedValues => {
+    const dataList = checkedValues.reduce((acc, cur) => {
+      return acc.concat(gis.allDataList.filter(item => item.type == cur));
+    }, []);
+
+    dispatch({ type: "gis/updateState", payload: { dataList } });
+  };
+
   return (
     <div>
       <Row gutter={24} style={{ backgroundColor: "#3b3b45" }}>
-        <Col style={{ textAlign: "center" }}>
+        <Col span="12" style={{ textAlign: "center", lineHeight: "80px" }}>
+          <CheckboxGroup
+            className="gis-checkbox"
+            options={checkBoxOptions}
+            onChange={checkBoxChange}
+          />
+        </Col>
+        <Col span="12">
           <Search
             className={styles.search}
             placeholder="请输入设备编号(11-22-33-44-55)"

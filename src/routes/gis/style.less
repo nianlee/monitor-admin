@@ -13,9 +13,34 @@
   margin: 20px 0;
 }
 
+.errorMarker {
+  width: 40px;
+  height: 40px;
+  background: url(../img/error.png) no-repeat;
+  background-size: cover;
+}
+
+.normalMarker {
+  width: 40px;
+  height: 40px;
+  background: url(../img/normal.png) no-repeat;
+  background-size: cover;
+}
+
+.offlineMarker {
+  width: 40px;
+  height: 40px;
+  background: url(../img/offline.png) no-repeat;
+  background-size: cover;
+}
+
 :global .gis {
   .ant-list {
     color: #e8e8e8;
     background-color: #2f7f80;
   }
+}
+
+:global .gis-checkbox .ant-checkbox-group-item {
+  color: #fff;
 }
