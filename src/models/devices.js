@@ -1,4 +1,11 @@
-import { queryDeviceList,deleteDevice,queryDeviceInfo } from "../services/manage"; //eslint-disable-line
+import { queryDeviceList,
+  deleteDevice,
+  queryDeviceInfo,
+  queryDeviceType,
+  queryAreaList,
+  queryAreaByParentCode,
+  batchUpdae,
+} from "../services/manage"; //eslint-disable-line
 import { routerRedux } from 'dva/router'
 import { message } from 'antd'
 
@@ -13,6 +20,12 @@ export default {
     deviceDynamicDTOS:[],
     modalVisible:false,
     sn:{},
+    selectedRowKeys:[], // 选中的
+    deviceSnList:[],
+
+    deviceTypes:[],
+    deviceState:[],
+    regionList:[],
 
     pagination: {
       current: 1,
@@ -45,7 +58,6 @@ export default {
     *queryDeviceList({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceList,payload);
 
-      console.log('devices',resData)
       const devicesList = [];
 
       if(resData.success) {
@@ -134,6 +146,114 @@ export default {
         },
       )
     )
+    },
+
+    //获取设备类型
+    *queryDeviceType({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceType, payload)
+      const types = []
+      if(resData.success) {
+        for (let i = 0;i<resData.data.length;i++) {
+          types.push({
+            id:i,
+            name:resData.data[i].name,
+            value:resData.data[i].value,
+          })
+        }
+        yield put({
+          type:'updateState',
+          payload:{
+            deviceTypes:types,
+          }
+        })
+      } else {
+        message.error(resData.message)
+      }
+    },
+
+    //获取设备状态
+    *queryDeviceState({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceType, payload)
+      const types = []
+      if(resData.success) {
+        for (let i = 0;i<resData.data.length;i++) {
+          types.push({
+            id:i,
+            name:resData.data[i].name,
+            value:resData.data[i].value,
+          })
+        }
+        yield put({
+          type:'updateState',
+          payload:{
+            deviceState:types,
+          }
+        })
+      } else {
+        message.error(resData.message)
+      }
+    },
+
+    // 获取区域
+    *queryAreaList({ payload }, { call, put }) {
+      const resData = yield call(queryAreaList, payload);
+      const relist = []
+
+      if(resData.success) {
+        resData.data.forEach(item => {
+          relist.push({
+            ...item,
+            isLeaf: !item.isParent,
+            label: item.name,
+            value: item.code,
+          })
+        })
+
+        yield  put({
+          type:'updateState',
+          payload:{
+            regionList:relist,
+          }
+        })
+
+      } else {
+        message.error(resData.msg)
+      }
+    },
+
+    // 区域查询ByParentCode
+    *queryAreaByParentCode({ payload }, { call, put }) {
+      const addressLength = payload.length
+      const targetOption = payload[addressLength - 1];
+      targetOption.loading = true;
+
+      const resData = yield call(queryAreaByParentCode, { parentCode: targetOption.value });
+      targetOption.loading = false
+      if(resData.success) {
+        targetOption.children = resData.data.map(item => {
+          return {
+            ...item,
+            isLeaf: addressLength > 2,
+            label: item.name,
+            value: item.code,
+          }
+        })
+      } else {
+        message.error(resData.msg)
+      }
+    },
+
+    // 批量升级
+    *batchUpdae({ payload }, { call, put }) {
+      const resData = yield call(batchUpdae, payload);
+      if(resData.success) {
+        yield  put({
+          type:'updateState'
+        });
+        message.error(resData.msg)
+      } else {
+        message.error(resData.msg)
+      }
     }
   },
 
@@ -153,6 +273,8 @@ export default {
       return {
         ...state,
         ...payload,
+        selectedRowKeys:[],
+        deviceSnList:[],
       }
     },
 
@@ -179,6 +301,16 @@ export default {
         modalVisible:false
       }
     },
+
+    updateSelect(state,{ payload }) {
+      return {
+        ...state,
+        ...payload,
+        selectedRowKeys:payload.selectedRowKeys,
+        deviceSnList:payload.deviceSnList,
+
+      }
+    },
   },
 
   subscriptions: {
@@ -189,6 +321,28 @@ export default {
             payload:{
               page: '1',
               row: '10'
+            }});
+
+          dispatch({
+            type:'queryDeviceType',
+            payload:{
+              page:'1',
+              rows:'100',
+              paramType:'sys-device-type'
+            }});
+
+          dispatch({
+            type:'queryDeviceState',
+            payload:{
+              page:'1',
+              rows:'100',
+              paramType:'sys-device-state'
+            }});
+
+          dispatch({
+            type:'queryAreaList',
+            payload: {
+              level: 1
             }})
         }
       });
