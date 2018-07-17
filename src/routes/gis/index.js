@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
-import { Row, Col, Input, Checkbox } from "antd";
+import { Row, Col, Input, Checkbox, Cascader } from "antd";
 import EquipmentMap from "./components/EquipmentMap";
 import Detail from "./components/Detail";
 import styles from "./style.less";
@@ -35,22 +35,36 @@ const Gis = ({ gis, dispatch }) => {
     dispatch({ type: "gis/updateState", payload: { dataList } });
   };
 
+  const areaLoadData = selectedOptions => {
+    dispatch({
+      type: "gis/queryAreaByParentCode",
+      payload: selectedOptions
+    });
+  };
+
   return (
     <div>
       <Row gutter={24} style={{ backgroundColor: "#3b3b45" }}>
-        <Col span="12" style={{ textAlign: "center", lineHeight: "80px" }}>
+        <Col span="8" style={{ textAlign: "center", lineHeight: "80px" }}>
           <CheckboxGroup
             className="gis-checkbox"
             options={checkBoxOptions}
             onChange={checkBoxChange}
           />
         </Col>
-        <Col span="12">
+        <Col span="8" style={{ textAlign: "center", lineHeight: "80px" }}>
+          <Cascader
+            style={{ width: "100%" }}
+            placeholder="请选择"
+            options={gis.regionList}
+            loadData={areaLoadData}
+          />
+        </Col>
+        <Col span="8">
           <Search
             className={styles.search}
             placeholder="请输入设备编号(11-22-33-44-55)"
             enterButton="搜索"
-            size="large"
             onSearch={handleSearch}
           />
         </Col>

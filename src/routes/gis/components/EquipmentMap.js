@@ -14,7 +14,7 @@ class EquipmentMap extends Component {
         console.log(extData);
       }
     };
-    // this.markerPosition = { longitude: 106.505968, latitude: 29.608018 }
+    // this.markerPosition = { longitude: 106.505968, latitude: 29.608018 };
   }
 
   renderMarkerLayout(extData) {
@@ -28,15 +28,19 @@ class EquipmentMap extends Component {
   }
 
   render() {
-    // const markerPosition = {
-    //   longitude: this.props.gis.longitude,
-    //   latitude: this.props.gis.latitude
-    // };
+    const { equitmentInfo } = this.props.gis;
+    let markerPosition = {};
+    if (equitmentInfo.longitude) {
+      markerPosition = {
+        longitude: equitmentInfo.longitude,
+        latitude: equitmentInfo.latitude
+      };
+    }
 
     return (
       <Map
         amapkey={this.props.gis.AMAP_KEY}
-        // center={markerPosition}
+        center={markerPosition}
         plugins={this.mapPlugins}
 
         // zoom={12}
