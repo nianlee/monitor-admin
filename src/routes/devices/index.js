@@ -16,9 +16,6 @@ const DeviceManage = ({ devices,dispatch,form }) => {
   const { selectedRowKeys } = devices; //eslint-disable-line
   const deviceSnList = devices.deviceSnList;
   const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
-
-  console.log('deviceSnList',deviceSnList);
-
   const deviceTypeLists = devices.deviceTypes.map(type => (
     <Option key={type.name}>{type.value}</Option>));
 
@@ -162,7 +159,7 @@ const DeviceManage = ({ devices,dispatch,form }) => {
   function batchUpdae() {
     dispatch({
       type:'devices/batchUpdae',
-      payload:{deviceSnList:"11-22-33-44-55-66"}
+      payload:{deviceSnList:deviceSnList}
     })
   }
 
