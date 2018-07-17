@@ -12,6 +12,7 @@ export default {
   controlDevice:`${config.apiHost}/device/deviceControl`, //设备控制
   queryDeviceInfo:`${config.apiHost}/device/queryDeviceBySn`, //设备控制
   queryDeviceTypes:`${config.apiHost}/param/queryParamListForDropdown`, //设备控制
+  batchUpdae:`${config.apiHost}/device/deviceUpgradeBatch`, //设备控制批量升级
 
   // 统计相关
   queryDeviceCountByState:`${config.apiHost}/statistic/queryDeviceCountByState`, // 统计设备状态对应设备数
@@ -29,6 +30,7 @@ export default {
   modifyUserInfo:`${config.apiHost}/manager/editManagerById`,
   queryUserInfo:`${config.apiHost}/manager/queryManagerInfoById`, // 用户详细信息查询
   addUser:`${config.apiHost}/manager/addManager`,
+
 
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表
