@@ -153,6 +153,15 @@ export function queryAreaByParentCode(data) {
   });
 }
 
+// 批量升级
+export function batchUpdae(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.batchUpdae,
+  })
+}
+
 // 10.6查询固件列表
 export function queryFirmwaresList(data) {
   return request({

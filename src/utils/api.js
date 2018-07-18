@@ -12,6 +12,7 @@ export default {
   controlDevice: `${config.apiHost}/device/deviceControl`, //设备控制
   queryDeviceInfo: `${config.apiHost}/device/queryDeviceBySn`, //设备控制
   queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, //设备控制
+  batchUpdae: `${config.apiHost}/device/deviceUpgradeBatch`, //设备控制批量升级
 
   // 统计相关
   queryDeviceCountByState: `${
@@ -57,8 +58,5 @@ export default {
   addFirmware: `${config.apiHost}/firmware/addFirmware`, //添加升级固件
   queryFirmwareVersion: `${config.apiHost}/device/queryFirmwareForUpgrade`, //设备升级固件查询
   updateFirmwareVersion: `${config.apiHost}/device/deviceUpgrade`, //设备固件升级
-  uploadFirmware: `${config.apiHost}/firmware/uploadFirmware`, //上传固件
-
-  // gis
-  queryDevices: `${config.apiHost}/device/queryDevices` // 设备查询
+  uploadFirmware: `${config.apiHost}/firmware/uploadFirmware` //上传固件
 };

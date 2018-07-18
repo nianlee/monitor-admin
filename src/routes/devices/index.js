@@ -1,14 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'dva'
-import { Table,Button,Popconfirm} from 'antd'
+import { Table,Button,Popconfirm, Row, Col,Form,Select,Cascader} from 'antd'
 import ShowDeviceModal from './components/ShowDeviceModal'
 import { routerRedux } from 'dva/router'
 //import styles from './style.less'
 
-const DeviceManage = ({ devices,dispatch }) => {
 
+const DeviceManage = ({ devices,dispatch,form }) => {
+
+  const FormItem = Form.Item;
+  const { Option } = Select;
   const { modalVisible } =  devices
+  const { getFieldDecorator } = form;
+  const { selectedRowKeys } = devices; //eslint-disable-line
+  const deviceSnList = devices.deviceSnList;
+  const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
+  const deviceTypeLists = devices.deviceTypes.map(type => (
+    <Option key={type.name}>{type.value}</Option>));
+
+  const deviceStateLists = devices.deviceState.map(type => (
+    <Option key={type.value}>{type.name}</Option>));
+
+  const areaLoadData = selectedOptions => {
+    dispatch({ type: 'devices/queryAreaByParentCode', payload: selectedOptions })
+  }
+
   //modal 属性
   const modalProps ={ //eslint-disable-line
     item:devices.deviceInfos,
@@ -33,32 +50,32 @@ const DeviceManage = ({ devices,dispatch }) => {
       title:'设备sn编码',
       dataIndex:'sn',
       key:'sn',
-      width:'10%',
+      //width:'10%',
 
     },
     {
       title:'地址',
       dataIndex:'detailAddr',
       key:'detailAddr',
-      width:'10%',
+      //width:'10%',
     },
     {
       title:'设备类型',
       dataIndex:'type',
       key:'type',
-      width:'10%',
+      //width:'10%',
     },
     {
       title:'设备状态',
       dataIndex:'state',
       key:'state',
-      width:'10%',
+      //width:'10%',
     },
 
     {
       title:'操作',
       dataIndex:'操作',
-      width:'10%',
+      //width:'10%',
       render: (text,record) => renderOperation(text,record),
     }
   ];
@@ -139,11 +156,117 @@ const DeviceManage = ({ devices,dispatch }) => {
     })
   }
 
+  function batchUpdae() {
+    dispatch({
+      type:'devices/batchUpdae',
+      payload:{deviceSnList:deviceSnList}
+    })
+  }
+
+  function handleFormReset() {
+    form.resetFields();
+  }
+
+  function onSelectChange(selectedRowKeys, selectedRows) {
+    console.log('selectedRowKeys changed: ', selectedRows);
+
+    dispatch({
+      type:'devices/updateSelect',
+      payload:{
+        selectedRowKeys:selectedRowKeys,
+        selectedSns:selectedRows.sn,
+      }
+    })
+  }
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange,
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    form.validateFields((err, values) => {
+      if (!err) {
+
+        const cascaderAreaId = values.CascaderObject;
+        const payload = {...values};
+        payload.areaCode = cascaderAreaId[2],
+        payload.page=1,
+        payload.rows=10,
+        delete payload.CascaderObject,
+
+        //console.log("Received values of form: ", payload);
+
+        dispatch({
+          type:'devices/queryDeviceList',
+          payload:{ payload }
+        })
+      }
+    });
+  };
+
   return (
-    <div className="devices">
+    <div>
+      <a>筛选</a>
+      <Form onSubmit={handleSubmit} layout="inline">
+        <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="设备区域">
+              {getFieldDecorator('CascaderObject')(
+                <Cascader
+                  placeholder="请选择"
+                  options={devices.regionList}
+                  loadData={areaLoadData}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="设备类型">
+              {getFieldDecorator('deviceType')(
+                <Select
+                  showSearch
+                  placeholder="请选择设备类型"
+                  optionLabelProp="children"
+                  style={{ width: '200px' }}
+                  filterOption={(input, option) => {
+                    option.props.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase());
+                  }}
+                >
+                  {deviceTypeLists}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem label="设备状态">
+              {getFieldDecorator('deviceState')(
+                <Select placeholder="请选择" style={{ width: '200px' }}>
+                  {deviceStateLists}
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+        </Row>
+
+        <div style={{ overflow: 'hidden' }}>
+          <span style={{ float: 'right', marginTop0: 50, marginRight:50 }}>
+            <Button type="primary" htmlType="submit">
+              查询
+            </Button>
+            <Button style={{ marginLeft: 8 }} onClick={handleFormReset}>
+              重置
+            </Button>
+          </span>
+        </div>
+      </Form>
       <Button type="primary" onClick={handleAdd}>添加</Button>
+      <Button type="primary" onClick={batchUpdae} style={{ marginLeft: 8 }} disabled={!hasSelected}>批量升级</Button>
       <ShowDeviceModal {...modalProps}/>
-      <Table bordered dataSource={devices.dataSource} columns={columns} pagination={devices.pagination} onChange={handlePage}/>
+      <Table bordered dataSource={devices.dataSource} rowSelection={rowSelection} columns={columns} pagination={devices.pagination} onChange={handlePage}/>
     </div>
 
   );
@@ -152,8 +275,10 @@ const DeviceManage = ({ devices,dispatch }) => {
 DeviceManage.propTypes = {
   devices: PropTypes.object,
   dispatch:PropTypes.func,
-
+  form: PropTypes.object
 }
 
-export default connect(({ devices }) => ({ devices }))(DeviceManage)
+const WrappedAdd = Form.create()(DeviceManage);
+
+export default connect(({ devices }) => ({ devices }))(WrappedAdd)
 
