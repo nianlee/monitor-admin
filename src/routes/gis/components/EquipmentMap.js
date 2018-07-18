@@ -30,12 +30,12 @@ class EquipmentMap extends Component {
   }
 
   render() {
-    const { equitmentInfo } = this.props.gis;
+    const { longitude, latitude } = this.props.gis;
     let markerPosition = {};
-    if (equitmentInfo.longitude) {
+    if (longitude) {
       markerPosition = {
-        longitude: equitmentInfo.longitude,
-        latitude: equitmentInfo.latitude
+        longitude: longitude,
+        latitude: latitude
       };
     }
 
