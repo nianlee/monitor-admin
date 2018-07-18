@@ -14,22 +14,20 @@ const Gis = ({ gis, dispatch }) => {
     if (value.length > 0) {
       dispatch({
         type: "gis/queryDeviceSelective",
-        payload: {
-          deviceSn: value
-        }
+        payload: { deviceSn: value }
       });
     }
   };
 
   const checkBoxOptions = [
     { label: "正常设备", value: "1" },
-    { label: "异常设备", value: "3" },
-    { label: "离线设备", value: "2" }
+    { label: "异常设备", value: "0" },
+    { label: "离线设备", value: "-1" }
   ];
 
   const checkBoxChange = checkedValues => {
     const dataList = checkedValues.reduce((acc, cur) => {
-      return acc.concat(gis.allDataList.filter(item => item.type == cur));
+      return acc.concat(gis.allDataList.filter(item => item.state == cur));
     }, []);
 
     dispatch({ type: "gis/updateState", payload: { dataList } });
@@ -39,6 +37,15 @@ const Gis = ({ gis, dispatch }) => {
     dispatch({
       type: "gis/queryAreaByParentCode",
       payload: selectedOptions
+    });
+  };
+
+  const areaChange = (value, selectedOptions) => {
+    if (!value) return;
+
+    dispatch({
+      type: "gis/queryDevices",
+      payload: { areaCode: value[value.length - 1] }
     });
   };
 
@@ -52,18 +59,21 @@ const Gis = ({ gis, dispatch }) => {
             onChange={checkBoxChange}
           />
         </Col>
-        <Col span="8" style={{ textAlign: "center", lineHeight: "80px" }}>
+        <Col span="8" style={{ lineHeight: "80px" }}>
           <Cascader
+            changeOnSelect
             style={{ width: "100%" }}
-            placeholder="请选择"
+            placeholder="请选择区域"
             options={gis.regionList}
             loadData={areaLoadData}
+            onChange={areaChange}
           />
         </Col>
         <Col span="8">
           <Search
+            defaultValue={gis.sn}
             className={styles.search}
-            placeholder="请输入设备编号(11-22-33-44-55)"
+            placeholder="请输入设备编号"
             enterButton="搜索"
             onSearch={handleSearch}
           />
@@ -71,7 +81,7 @@ const Gis = ({ gis, dispatch }) => {
       </Row>
       <Row gutter={24} className={styles.main}>
         <Col span={18} className={styles.map}>
-          <EquipmentMap gis={gis} />
+          <EquipmentMap gis={gis} dispatch={dispatch} />
         </Col>
         <Col span={6}>
           <Detail gis={gis} dispatch={dispatch} />

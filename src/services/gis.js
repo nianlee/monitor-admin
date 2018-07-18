@@ -1,6 +1,6 @@
 import { api, request } from "utils";
 
-// 设备查询
+// 单个设备查询
 export function queryDeviceSelective(data) {
   return request({
     data,
@@ -24,5 +24,14 @@ export function queryAreaByParentCode(data) {
     data,
     method: "post",
     url: api.queryAreaByParentCode
+  });
+}
+
+// 根据条件查询设备
+export function queryDevices(data) {
+  return request({
+    data,
+    method: "get",
+    url: api.queryDevices
   });
 }

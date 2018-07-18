@@ -4,23 +4,25 @@ import { Map, Markers } from "react-amap";
 import styles from "../style.less";
 
 class EquipmentMap extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.mapPlugins = ["ToolBar"];
     this.markersEvents = {
-      click: (MapsOption, marker) => {
+      click: (mapsOption, marker) => {
         // 获取marker 数据
         const extData = marker.getExtData();
-        console.log(extData);
+        props.dispatch({
+          type: "gis/queryDeviceSelective",
+          payload: { deviceSn: extData.sn }
+        });
       }
     };
-    // this.markerPosition = { longitude: 106.505968, latitude: 29.608018 };
   }
 
   renderMarkerLayout(extData) {
-    if (extData.type === 1) {
+    if (extData.state == "1") {
       return <div className={styles.normalMarker} />;
-    } else if (extData.type === 2) {
+    } else if (extData.state == "0") {
       return <div className={styles.offlineMarker} />;
     } else {
       return <div className={styles.errorMarker} />;
@@ -42,8 +44,6 @@ class EquipmentMap extends Component {
         amapkey={this.props.gis.AMAP_KEY}
         center={markerPosition}
         plugins={this.mapPlugins}
-
-        // zoom={12}
       >
         <Markers
           markers={this.props.gis.dataList}
@@ -56,7 +56,8 @@ class EquipmentMap extends Component {
 }
 
 EquipmentMap.propTypes = {
-  gis: PropTypes.object
+  gis: PropTypes.object,
+  dispatch: PropTypes.func
 };
 
 export default EquipmentMap;

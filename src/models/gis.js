@@ -1,22 +1,13 @@
 import {
   queryDeviceSelective,
   queryAreaList,
-  queryAreaByParentCode
+  queryAreaByParentCode,
+  queryDevices
 } from "services/gis";
 import { message } from "antd";
 import pathToRegexp from "path-to-regexp";
 
-const randomMarker = len =>
-  Array(len)
-    .fill(true)
-    .map((e, idx) => ({
-      position: {
-        longitude: 100 + Math.random() * 30,
-        latitude: 30 + Math.random() * 20
-      },
-      myIndex: idx + 1,
-      type: Math.ceil((Math.random() * 10) % 3)
-    }));
+const maxCount = 5000; // 显示设备的最大条数
 
 export default {
   namespace: "gis",
@@ -25,12 +16,11 @@ export default {
     AMAP_KEY: "a09811fd80142cc7b385d2830fbbb384", // 高德地图key
 
     equitmentInfo: [], // 设备信息
-    longitude: 106.631015, // 默认渝北区
-    latitude: 29.717099,
+    sn: null, // sn 的值
 
     regionList: [], // 区域列表
     dataList: [], // 设备列表数据
-    allDataList: randomMarker(100) // 所有数据
+    allDataList: [] // 所有数据
   },
 
   subscriptions: {
@@ -41,6 +31,7 @@ export default {
         if (match && match[1]) {
           // 根据sn 初始化页面
           dispatch({ type: "initDataBySn", payload: { sn: match[1] } });
+          dispatch({ type: "updateState", payload: { sn: match[1] } });
         } else {
           dispatch({ type: "initData" });
         }
@@ -56,19 +47,16 @@ export default {
   effects: {
     // 初始化数据
     *initData({ payload }, { call, put, select }) {
-      const { allDataList } = yield select(_ => _.gis);
-      yield put({ type: "updateState", payload: { dataList: allDataList } });
+      yield put({ type: "queryDevices", payload: { sourceType: "init" } });
     },
 
     // 根据sn 初始化数据
     *initDataBySn({ payload }, { call, put, select }) {
-      // const { allDataList } = yield select(_ => _.gis);
       yield put({
         type: "queryDeviceSelective",
-        payload: { deviceSn: payload.sn }
+        payload: { deviceSn: payload.sn, sourceType: "init" }
       });
-
-      // yield put({ type: "updateState", payload: { dataList: allDataList } });
+      yield put({ type: "queryDevices" });
     },
 
     // 查询设备信息
@@ -78,6 +66,11 @@ export default {
       if (resData.success) {
         const info = resData.data.rows[0].datDevice; // 固定属性
         const equitmentInfo = [];
+
+        // 带sn 的页面跳转，初始化dataList 为sn 对应的详细数据
+        if (payload.sourceType === "init") {
+          yield put({ type: "updateState", payload: { dataList: [info] } });
+        }
 
         equitmentInfo.push({
           key: "设备名称",
@@ -140,6 +133,34 @@ export default {
       }
     },
 
+    // 根据条件查询设备
+    *queryDevices({ payload }, { call, put }) {
+      const data = {
+        ...payload,
+        page: 1,
+        rows: maxCount
+      };
+
+      delete data.sourceType;
+
+      const resData = yield call(queryDevices, data);
+
+      if (resData.success) {
+        const updateData = { allDataList: resData.data.rows };
+
+        if (payload && payload.sourceType === "init") {
+          updateData.dataList = resData.data.rows;
+        }
+
+        yield put({
+          type: "updateState",
+          payload: updateData
+        });
+      } else {
+        message.error(resData.msg);
+      }
+    },
+
     // 获取区域
     *queryAreaList({ payload }, { call, put }) {
       const resData = yield call(queryAreaList, payload);
@@ -180,7 +201,7 @@ export default {
         targetOption.children = resData.data.map(item => {
           return {
             ...item,
-            isLeaf: addressLength > 2,
+            isLeaf: addressLength > 1,
             label: item.name,
             value: item.code
           };
