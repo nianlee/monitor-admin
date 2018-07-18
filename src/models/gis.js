@@ -17,6 +17,8 @@ export default {
 
     equitmentInfo: [], // 设备信息
     sn: null, // sn 的值
+    longitude: null, // 经度
+    latitude: null, // 纬度
 
     regionList: [], // 区域列表
     dataList: [], // 设备列表数据
@@ -67,9 +69,16 @@ export default {
         const info = resData.data.rows[0].datDevice; // 固定属性
         const equitmentInfo = [];
 
-        // 带sn 的页面跳转，初始化dataList 为sn 对应的详细数据
+        // 带sn 的页面跳转，初始化dataList 为sn 对应的详细数据，设置marker，以及地图中心
         if (payload.sourceType === "init") {
-          yield put({ type: "updateState", payload: { dataList: [info] } });
+          yield put({
+            type: "updateState",
+            payload: {
+              dataList: [info],
+              longitude: info.longitude,
+              latitude: info.latitude
+            }
+          });
         }
 
         equitmentInfo.push({
@@ -146,11 +155,31 @@ export default {
       const resData = yield call(queryDevices, data);
 
       if (resData.success) {
-        const updateData = { allDataList: resData.data.rows };
+        // 格式化为marker 所需格式
+        const formatedData = resData.data.rows.map(item => {
+          let formatedItem = item;
+          formatedItem.position = {
+            longitude: item.longitude,
+            latitude: item.latitude
+          };
+          return formatedItem;
+        });
 
-        if (payload && payload.sourceType === "init") {
-          updateData.dataList = resData.data.rows;
+        console.log(formatedData);
+
+        const updateData = { allDataList: formatedData };
+
+        if (
+          (payload && payload.sourceType === "init") ||
+          (payload && payload.sourceType === "areaChange")
+        ) {
+          updateData.dataList = formatedData;
         }
+
+        // 设置中心点
+        const oneInfo = formatedData[0];
+        updateData.longitude = oneInfo.longitude;
+        updateData.latitude = oneInfo.latitude;
 
         yield put({
           type: "updateState",
