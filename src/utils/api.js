@@ -13,6 +13,8 @@ export default {
   queryDeviceInfo: `${config.apiHost}/device/queryDeviceBySn`, //设备控制
   queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, //设备控制
   batchUpdae: `${config.apiHost}/device/deviceUpgradeBatch`, //设备控制批量升级
+  queryDeviceCountByLevel1Area:`${config.apiHost}/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
+  queryDeviceCountByStateHis:`${config.apiHost}/statistic/queryDeviceCountByStateHis`, //11.7统计设备状态对应设备数历史列表
 
   // 统计相关
   queryDeviceCountByState: `${

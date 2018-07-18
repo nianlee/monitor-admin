@@ -9,6 +9,28 @@ export function queryDeviceCountByState (data) {
   })
 }
 
+// 根据区域查询设备量
+export function queryDeviceCountByLevel1Area (data) {
+  return request({
+    data,
+    method: 'get',
+    url: api.queryDeviceCountByLevel1Area,
+  })
+}
+
+
+// 统计设备状态对应设备数历史列表
+export function queryDeviceCountByStateHis (data) {
+  return request({
+    data,
+    method: 'get',
+    url: api.queryDeviceCountByStateHis,
+  })
+}
+
+
+
+
 // 统计设备离线列表
 export function queryOfflineDevices (data) {
   return request({

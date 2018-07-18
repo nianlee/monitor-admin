@@ -24,7 +24,7 @@ const Dashboard = ({ dashboard, dispatch }) => {
     <Row gutter={24} style={{ marginTop: '30px' }}>
       <Col span="12">
         <Card title="设备概况">
-          <CqMap/>
+          <CqMap {...childProps}/>
         </Card>
       </Col>
       <Col span="12">
