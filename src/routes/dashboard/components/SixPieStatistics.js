@@ -67,7 +67,7 @@ const PieStatistics = ({ dashboard }) => {
       x : 'center',
       y : 'bottom',
       data:[
-        '设备总数','设备在线数','设备故障数','设备在线率','设备离线率', '设备故障率'
+        '设备总数','设备在线数','设备故障数','设备正常率','设备报警率', '设备离线率'
       ]
     },
     title : {
@@ -149,7 +149,7 @@ const PieStatistics = ({ dashboard }) => {
         itemStyle : labelFromatter,
         data : [
           {name:'other', value:dashboard.OnlineRate, itemStyle : labelBottom},
-          {name:'设备在线率', value:100-dashboard.OnlineRate,itemStyle : labelTop}
+          {name:'设备正常率', value:100-dashboard.OnlineRate,itemStyle : labelTop}
         ]
       },
       {
@@ -160,7 +160,7 @@ const PieStatistics = ({ dashboard }) => {
         itemStyle : labelFromatter,
         data : [
           {name:'other', value:dashboard.OfflineRate, itemStyle : labelBottom},
-          {name:'设备离线率', value:100-dashboard.OfflineRate,itemStyle : labelTop}
+          {name:'设备报警率', value:100-dashboard.OfflineRate,itemStyle : labelTop}
         ]
       },
       {
@@ -172,7 +172,7 @@ const PieStatistics = ({ dashboard }) => {
         itemStyle : labelFromatter,
         data : [
           {name:'other', value:dashboard.AlarmRate, itemStyle : labelBottom},
-          {name:'设备故障率', value:100-dashboard.AlarmRate,itemStyle : labelTop}
+          {name:'设备离线率', value:100-dashboard.AlarmRate,itemStyle : labelTop}
         ]
       },
     ]

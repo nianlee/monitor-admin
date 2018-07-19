@@ -158,7 +158,7 @@ class AlarmList extends Component {
 
   render() {
     const renderTitle = () => {
-      return <span className={styles.tableTitle}>警告列表</span>;
+      return <span className={styles.tableTitle}>报警设备列表</span>;
     };
 
     return (

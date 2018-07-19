@@ -8,7 +8,7 @@ import Alarm from './components/Alarm'
 import Offline from './components/Offline'
 import CqMap from './components/CqMap'
 import SixPieStatistics from './components/SixPieStatistics'
-import styles from './style.less'
+import styles from './style.less' //eslint-disable-line
 import LineStatistics from './components/LineStatistics'
 
 const Dashboard = ({ dashboard, dispatch }) => {
@@ -17,7 +17,7 @@ const Dashboard = ({ dashboard, dispatch }) => {
 
   return (<div className="dashboard">
     <Row gutter={24} style={{ marginTop: '30px'}}>
-      <Col className={styles.colbg}>
+      <Col>
         <SixPieStatistics {...childProps} />
       </Col>
     </Row>
