@@ -46,6 +46,7 @@ const Gis = ({ gis, dispatch }) => {
     dispatch({
       type: "gis/queryDevices",
       payload: {
+        areaLevel: value.length,
         areaCode: value[value.length - 1],
         sourceType: "areaChange"
       }

@@ -165,8 +165,6 @@ export default {
           return formatedItem;
         });
 
-        console.log(formatedData);
-
         const updateData = { allDataList: formatedData };
 
         if (
@@ -186,7 +184,9 @@ export default {
           payload: updateData
         });
       } else {
-        message.error(resData.msg);
+        // 没有查询到数据，设置dataList 为空
+        console.log(resData.message);
+        yield put({ type: "updateState", payload: { dataList: [] } });
       }
     },
 
@@ -212,7 +212,7 @@ export default {
           }
         });
       } else {
-        message.error(resData.msg);
+        message.error(resData.message);
       }
     },
 
@@ -236,7 +236,7 @@ export default {
           };
         });
       } else {
-        message.error(resData.msg);
+        message.error(resData.message);
       }
     }
   },
