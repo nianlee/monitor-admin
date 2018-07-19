@@ -40,6 +40,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
   //modal 属性
   const modalProps = {
+    dataUpTime:devices.dataUpTime,
+    firmwareVersion:devices.firmwareVersion,
     item: devices.deviceInfos,
     dynamic: devices.deviceDynamicDTOS,
     visible: modalVisible,

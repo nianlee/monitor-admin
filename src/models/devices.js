@@ -17,6 +17,10 @@ export default {
     //设备列表
     dataSource: [],
     deviceInfos: [],
+
+    dataUpTime:'',//数据上传时间
+    firmwareVersion:'',//固件版本号
+
     deviceDynamicDTOS: [],
     modalVisible: false,
     sn: {},
@@ -42,14 +46,32 @@ export default {
   effects: {
     *queryDeviceInfos({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceInfo, { deviceSn: payload });
+      console.log('deInfo',resData);
       if (resData.success) {
-        yield put({
-          type: "showAddModal",
-          payload: {
-            deviceInfos: resData.data.rows[0].datDevice,
-            deviceDynamicDTOS: resData.data.rows[0].deviceDynamicDTOS
-          }
-        });
+        if(resData.data.rows[0].datDevice.hasOwnProperty("dataUpTime") &&
+          resData.data.rows[0].datDevice.hasOwnProperty("firmwareVersion")) {
+
+          yield put({
+            type: "showAddModal",
+            payload: {
+              dataUpTime:resData.data.rows[0].datDevice.dataUpTime,
+              firmwareVersion:resData.data.rows[0].datDevice.firmwareVersion,
+              deviceInfos: resData.data.rows[0].datDevice,
+              deviceDynamicDTOS: resData.data.rows[0].deviceDynamicDTOS
+            }
+          });
+        } else {
+          yield put({
+            type: "showAddModal",
+            payload: {
+              dataUpTime:'无',
+              firmwareVersion:'无',
+              deviceInfos: resData.data.rows[0].datDevice,
+              deviceDynamicDTOS: resData.data.rows[0].deviceDynamicDTOS
+            }
+          });
+        }
+
       } else {
         throw message.error(resData.msg);
       }

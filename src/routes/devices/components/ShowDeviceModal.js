@@ -16,9 +16,11 @@ const ShowModal = ({
     </div>
   ));
 
-  const modalOpts = {
-    ...modalPorps
-  };
+  const modalOpts = {...modalPorps};
+  const { dataUpTime } = {...modalPorps};
+  const { firmwareVersion } = {...modalPorps};
+
+  console.log('dataUpTime','firmwareVersion',dataUpTime,firmwareVersion)
 
   return (
     <Modal {...modalOpts}>
@@ -55,12 +57,12 @@ const ShowModal = ({
 
         <div>
           <label className={styles.textTitle}>固件版本: </label>
-          <label>{item.hardwareVersion}</label>
+          <label>{dataUpTime}</label>
         </div>
 
         <div>
           <label className={styles.textTitle}>数据上报时间: </label>
-          <label>{item.hardwareVersion}</label>
+          <label>{firmwareVersion}</label>
         </div>
 
         <Card title="设备信息汇总" className={styles.cardWrapper}>

@@ -16,7 +16,6 @@ export default {
   effects: {
     *firmVersion({ payload }, { call, put }) {  // eslint-disable-line
       const  resData = yield call(queryFirmVersion,payload)
-      console.log('resData',resData)
       if(resData.success) {
         if(resData.data != null){
           yield put({
@@ -37,16 +36,13 @@ export default {
             }
           })
         }
-
       } else {
-        throw message.error(resData.msg)
+        throw message.error(resData.message)
       }
-
     },
 
     *updateFirmwareVersion({ payload }, { call, put }) {
       const resData = yield call(updateFirmwareVersion,payload)
-      console.log('resData',resData)
       if(resData.success) {
         yield put({
           type:'updateState',
@@ -55,6 +51,8 @@ export default {
             modalVisible:true,
           }
         })
+      } else {
+        throw message.error(resData.message)
       }
     }
   },
@@ -81,7 +79,6 @@ export default {
     setup({ dispatch, history }) {  // eslint-disable-line
       history.listen(({ pathname }) => {
         const match = pathToRegexp('/updatedevice/:sn').exec(pathname)
-        console.log('match',match)
         if (match) {
           dispatch({ type: 'firmVersion', payload: { sn: match[1] } })
         }
