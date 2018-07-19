@@ -36,7 +36,9 @@ const DeviceManage = ({ devices,dispatch,form }) => {
     wrapperClassName:"vertical-center-modal",
     width:1024,
     onOk(data) {
-
+      dispatch({
+        type:'devices/hideAddModal'
+      })
     },
     onCancel() {
       dispatch({

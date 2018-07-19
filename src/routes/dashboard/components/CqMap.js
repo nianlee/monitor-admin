@@ -11,20 +11,24 @@ import ReactEcharts from 'echarts-for-react'
 
 const CqMap = ({ dashboard }) => {
 
-  const randomData = () => { //eslint-disable-line
-    return Math.round(Math.random()*1000);
-  }
+  const convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+      res.push(data[i]);
+    }
+    return res;
+  };
 
   const getOption = () => ({
     backgroundColor: '#fff',
-    zoom:5,
     tooltip : {
-      trigger: 'item'
+      trigger: 'item',
+
     },
     visualMap: {
       min: 0,
       max: 1500,
-      text:['搞','低'],
+      text:['高','低'],
       realtime: false,
       calculable: true,
       inRange: {
@@ -43,16 +47,39 @@ const CqMap = ({ dashboard }) => {
         saveAsImage: {}
       }
     },
+    /*
+    geo: {
+      map: '重庆',
+      label: {
+        emphasis: {
+          show: true
+        }
+      },
+      roam: true, // 是否可以点击鼠标、滚轮缩放
+      itemStyle: {
+        normal: {
+          areaColor:'#777b18',
+          borderColor: '#111'
+        },
+        emphasis: {
+          areaColor: '#2a333d'
+        }
+      }
+    },*/
+
     series:[
       {
         name: '重庆市地图',
         type: 'map',
         mapType: '重庆', // 自定义扩展图表类型
+        roam: true, // 是否可以点击鼠标、滚轮缩放，切记切记
         itemStyle:{
           normal:{label:{show:true}},
           emphasis:{label:{show:true}}
         },
-        data:[
+        data:convertData(dashboard.AreaCount)//[dashboard.AreaCount.map(item => (item))]
+
+          /*
           {name: '奉节县', value: randomData()},
           {name: '巫溪县', value: randomData()},
           {name: '开州区', value: randomData()},
@@ -92,7 +119,8 @@ const CqMap = ({ dashboard }) => {
           {name: '江北区', value: randomData()},
           {name: '大渡口区', value: randomData()},
           {name: '渝中区', value: randomData()},
-        ]
+          */
+        //]
       }
     ]
   })
