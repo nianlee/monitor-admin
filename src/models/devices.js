@@ -66,7 +66,7 @@ export default {
           } else if (item.state == "0") {
             item.state = "离线";
           } else {
-            item.state = "在线";
+            item.state = "正常";
           }
 
           item.key = item.id;
