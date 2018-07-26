@@ -30,18 +30,20 @@ export default {
       history.listen(({ pathname }) => {
         const match = pathToRegexp("/gis/:sn").exec(pathname);
 
-        if (match && match[1]) {
-          // 根据sn 初始化页面
-          dispatch({ type: "initDataBySn", payload: { sn: match[1] } });
-          dispatch({ type: "updateState", payload: { sn: match[1] } });
-        } else {
-          dispatch({ type: "initData" });
-        }
+        if (match) {
+          if (match[1]) {
+            // 根据sn 初始化页面
+            dispatch({ type: "initDataBySn", payload: { sn: match[1] } });
+            dispatch({ type: "updateState", payload: { sn: match[1] } });
+          } else {
+            dispatch({ type: "initData" });
+          }
 
-        dispatch({
-          type: "queryAreaList",
-          payload: { level: 1 }
-        });
+          dispatch({
+            type: "queryAreaList",
+            payload: { level: 1 }
+          });
+        }
       });
     }
   },
