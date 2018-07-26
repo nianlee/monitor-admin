@@ -5,7 +5,7 @@ import ReactEcharts from 'echarts-for-react'
 
 const SixPieStatistics = ({ dashboard }) => {
 
-  console.log('six',dashboard.OnlineRate,dashboard.OfflineRate,dashboard.AlarmRate)
+  //console.log('six',dashboard.OnlineRate,dashboard.OfflineRate,dashboard.AlarmRate)
 
   const labelTop = {  //eslint-disable-line
     normal : {
@@ -585,7 +585,7 @@ const SixPieStatistics = ({ dashboard }) => {
             position: 'center',
             formatter:function (argument) {
               var html;
-              html='设备正常率\n\n'+dashboard.OnlineRate *100 + '%';
+              html='设备正常率\n\n'+dashboard.OnlineRate.toFixed(2) * 100+ '%';
               return html;
             },
             textStyle:{
@@ -673,7 +673,7 @@ const SixPieStatistics = ({ dashboard }) => {
             position: 'center',
             formatter:function (argument) {
               var html;
-              html='设备故障率\n\n'+dashboard.AlarmRate *100 + '%';
+              html='设备故障率\n\n'+dashboard.AlarmRate.toFixed(2) * 100 + '%';
               return html;
             },
             textStyle:{
@@ -761,7 +761,7 @@ const SixPieStatistics = ({ dashboard }) => {
             position: 'center',
             formatter:function (argument) {
               var html;
-              html='设备离线率\n\n'+dashboard.OfflineRate *100 + '%';
+              html='设备离线率\n\n'+dashboard.OfflineRate.toFixed(2) * 100 + '%';
               return html;
             },
             textStyle:{
