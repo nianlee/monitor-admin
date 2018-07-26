@@ -81,7 +81,7 @@ export default {
       }
     ], // 菜单
     user: {
-      userName: "deadpool"
+      userName: ""
     }, // 用户信息
     userInfoModalVisibal: false
   },
