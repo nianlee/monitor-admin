@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Menu, Layout } from "antd";
+import { Menu, Layout, Dropdown, Icon } from "antd";
 import { Link } from "react-router-dom";
-// import UserInfo from "./UserInfo";
+import UserInfo from "./UserInfo";
 import styles from "./style.less";
 
 const MenuItem = Menu.Item;
@@ -23,32 +23,32 @@ const MHeader = ({ app, location, dispatch }) => {
     return selectedKeys;
   };
 
-  // const showModal = () => {
-  //   dispatch({
-  //     type: "app/updateState",
-  //     payload: { userInfoModalVisible: true }
-  //   });
-  //   dispatch({ type: "app/queryUserInfo" });
-  // };
+  const showModal = () => {
+    dispatch({
+      type: "app/updateState",
+      payload: { userInfoModalVisible: true }
+    });
+    dispatch({ type: "app/queryUserInfo" });
+  };
 
-  // const userMenu = (
-  //   <Menu style={{ lineHeight: "64px", borderBottom: "none" }}>
-  //     <MenuItem>
-  //       <a target="_blank" rel="noopener noreferrer" onClick={showModal}>
-  //         详细信息
-  //       </a>
-  //     </MenuItem>
-  //     <MenuItem>
-  //       <a target="_blank" rel="noopener noreferrer" onClick={loginOut}>
-  //         退出
-  //       </a>
-  //     </MenuItem>
-  //   </Menu>
-  // );
+  const userMenu = (
+    <Menu style={{ lineHeight: "64px", borderBottom: "none" }}>
+      <MenuItem>
+        <a target="_blank" rel="noopener noreferrer" onClick={showModal}>
+          详细信息
+        </a>
+      </MenuItem>
+      <MenuItem>
+        <a target="_blank" rel="noopener noreferrer" onClick={loginOut}>
+          退出
+        </a>
+      </MenuItem>
+    </Menu>
+  );
 
-  // function loginOut() {
-  //   dispatch({ type: "app/loginout" });
-  // }
+  function loginOut() {
+    dispatch({ type: "app/loginout" });
+  }
 
   const renderMenu = () => {
     const genMenuItem = data => {
@@ -82,14 +82,14 @@ const MHeader = ({ app, location, dispatch }) => {
   return (
     <Header>
       <div className={styles.logo}>智能物联远程设备监控系统</div>
-      {/* <div className={styles.user}>
+      <div className={styles.user}>
         <Dropdown overlay={userMenu}>
           <a>
             {app.user.userName}
             <Icon type="down" />
           </a>
         </Dropdown>
-      </div> */}
+      </div>
       <Menu
         theme="dark"
         mode="horizontal"
@@ -99,7 +99,7 @@ const MHeader = ({ app, location, dispatch }) => {
       >
         {renderMenu()}
       </Menu>
-      {/* <UserInfo app={app} dispatch={dispatch}/> */}
+      <UserInfo app={app} dispatch={dispatch} />
     </Header>
   );
 };
