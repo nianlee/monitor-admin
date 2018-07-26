@@ -2,13 +2,8 @@ import qs from "qs";
 import { routerRedux } from "dva/router";
 import config from "config";
 import { message } from "antd";
-import {
-  getMenu,
-  query,
-  loginout,
-  queryUserInfo,
-  modifyUserInfo
-} from "services/app";
+import Cookies from "js-cookie";
+import { getMenu, loginout, queryUserInfo, modifyUserInfo } from "services/app";
 
 export default {
   namespace: "app",
@@ -22,14 +17,12 @@ export default {
         name: "首页",
         route: "/dashboard"
       },
-
-      /*
       {
         id: '2',
         name: '统计报表',
         icon: 'user',
         route: '/report',
-      },*/
+      },
 
       {
         id: "4",
@@ -54,7 +47,14 @@ export default {
             name: "固件管理",
             icon: "bars",
             route: "/firmware"
+          },
+          {
+            id: "53",
+            name: "区域管理",
+            icon: "bars",
+            route: "/region"
           }
+
         ]
       },
 
@@ -120,9 +120,20 @@ export default {
 
     *query({ payload }, { call, put, select }) {
       const { locationPathname } = select(_ => _.app);
-      const resData = yield call(query);
+      const userId = Cookies.get("userId");
+      if (!userId) {
+        return yield put(
+          routerRedux.push({
+            pathname: "/login",
+            search: qs.stringify({ from: locationPathname })
+          })
+        );
+      }
+      const resData = yield call(queryUserInfo, { id: userId });
+
       if (resData.success) {
         // 用户已登录
+        yield put({ type: "updateState", payload: { user: resData.data } });
         if (locationPathname === "/login") {
           yield put(routerRedux.push("/dashboard"));
         }
@@ -164,6 +175,7 @@ export default {
 
     *loginout({ payload }, { call, put }) {
       yield call(loginout);
+      Cookies.remove("userId");
       yield put(
         routerRedux.push({
           pathname: "/login"
