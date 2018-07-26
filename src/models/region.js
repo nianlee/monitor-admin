@@ -22,7 +22,8 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         if (pathname == '/region') {
-          dispatch({ type: 'queryAreaList', payload: { roleLev: -1 }})
+          console.log('region');
+          dispatch({ type: 'queryAreaList', payload: { roleLev: 1 }})
         }
       })
     },
@@ -33,7 +34,10 @@ export default {
     *queryAreaList({ payload }, { call, put }) {
       const resData = yield call(queryAreaList, payload)
 
-      console.log('resData',resData)
+      console.log('queryAreaList',resData);
+
+
+
       if (resData.success) {
         let treeData = resData.data.filter(item => item.pId === 0)
 

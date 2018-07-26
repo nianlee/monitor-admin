@@ -6,7 +6,8 @@ import {
   queryDeviceCountByLevel1Area,
   queryDeviceCountByStateHis,
 } from '../services/dashboard'
-//import { message } from 'antd'
+import { queryDeviceList } from '../services/manage'
+import { message } from 'antd'
 
 
 export default {
@@ -34,6 +35,16 @@ export default {
     offlineRateList:[],//离线率数组
     alarmRateList:[],//预警率数组
     healthRateList:[],//健康度数组
+
+    dataSource: [],// 设备列表
+    pagination: {
+      current: 1,
+      pageSize: 10,
+      total: 0,
+      showTotal: total => `共${total}条数据`,
+      showQuickJumper: true,
+      showSizeChanger: true
+    }
   },
 
   subscriptions: {
@@ -47,6 +58,7 @@ export default {
 
           dispatch({ type: 'queryDeviceCountByLevel1Area', payload: { name: '重庆市'}});
           dispatch({ type: 'queryDeviceCountByStateHis', payload: { needCache: 'true',timeType:'DAY'}});
+          dispatch({type: "queryDeviceList", payload: {page: "1", row: "10"}});
 
           window.GLOBAL_INTERVAL = setInterval(function(){
             dispatch({ type: 'queryDeviceCountByState' });
@@ -56,6 +68,7 @@ export default {
 
             dispatch({ type: 'queryDeviceCountByLevel1Area', payload: { name: '重庆市'}});
             dispatch({ type: 'queryDeviceCountByStateHis', payload: { needCache: 'true',timeType:'DAY'}});
+            dispatch({type: "queryDeviceList", payload: {page: "1", row: "10"}});
           }, 10*1000)
         } else {
           clearInterval(window.GLOBAL_INTERVAL)
@@ -65,6 +78,54 @@ export default {
   },
 
   effects: {
+
+    // 查询设备列表
+    *queryDeviceList({ payload }, { call, put, select }) {
+      const resData = yield call(queryDeviceList, payload);
+
+      if (resData.success) {
+        const devicesList = resData.data.rows.map(item => {
+          if (item.state == "-1") {
+            item.state = "故障";
+          } else if (item.state == "0") {
+            item.state = "离线";
+          } else {
+            item.state = "正常";
+          }
+
+          item.key = item.id;
+
+          return item;
+        });
+
+        yield put({
+          type: "updateState",
+          payload: {
+            dataSource: devicesList,
+            total: resData.data.total,
+            pageSize: resData.data.pageSize,
+            currentPage: resData.data.curPage
+          }
+        });
+
+        yield put({
+          type: "updatePagination",
+          payload: {
+            total: resData.data.total,
+            pageIndex: resData.data.curPage,
+            pageSize: resData.data.pageSize
+          }
+        });
+      } else {
+        message.error(resData.message);
+      }
+
+      // 缓存查询参数
+      yield put({
+        type: "updateState",
+        payload: { queryParamsCache: payload }
+      });
+    },
 
     //统计设备状态对应设备数历史列表
     *queryDeviceCountByStateHis({ payload }, { call, put }) {
