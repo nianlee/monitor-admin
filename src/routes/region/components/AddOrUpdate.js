@@ -25,25 +25,28 @@ const AddOrUpdate = ({ region, dispatch, form }) => {
       }
 
       if (region.operateType === 'add') {
+
+        console.log('Received values of form: ', fieldsValue)
         dispatch({ type: 'region/addArea', payload: {
-          pId: region.selectedData.id,
+          //pId: region.selectedData.id,
+          parentCode:region.selectedData.pCode,
+          code:region.selectedData.code,
           ...fieldsValue,
         }})
       } else {
-        dispatch({ type: 'region/editAreaById', payload: { 
-          id: region.selectedData.id,
+        dispatch({ type: 'region/editAreaById', payload: {
+          //id: region.selectedData.id,
+          code:region.selectedData.code,
           ...fieldsValue,
         }})
       }
-
-      console.log('Received values of form: ', fieldsValue)
     });
   }
 
   const handleCancel = () => {
     dispatch({ type: 'region/updateState', payload: { modalVisible: false }})
   }
-  
+
   const { getFieldDecorator } = form
 
   const initialValue = () => {
@@ -54,7 +57,7 @@ const AddOrUpdate = ({ region, dispatch, form }) => {
   }
 
   return (
-    <Modal 
+    <Modal
       title={region.operateType === 'add' ? '新增' : '修改'}
       okText="确认"
       cancelText="取消"
@@ -67,7 +70,7 @@ const AddOrUpdate = ({ region, dispatch, form }) => {
           {...formItemLayout}
           label="名称"
         >
-          {getFieldDecorator('name', { 
+          {getFieldDecorator('name', {
             initialValue: initialValue(),
             rules: [{ required: true, message: '请输入名称' }],
           })(

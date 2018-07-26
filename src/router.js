@@ -32,6 +32,11 @@ const routes = [
     component: () => import("./routes/report")
   },
   {
+    path: "/region",
+    models: () => [import("./models/region")],
+    component: () => import("./routes/region")
+  },
+  {
     path: "/adddevice",
     models: () => [import("./models/adddevice")],
     component: () => import("./routes/adddevice")
