@@ -6,7 +6,10 @@ import {
   queryDeviceCountByLevel1Area,
   queryDeviceCountByStateHis,
 } from '../services/dashboard'
-import { queryDeviceList } from '../services/manage'
+import { queryDeviceList,
+  queryAreaList,
+  queryAreaByParentCode,
+  queryDeviceType} from '../services/manage'
 import { message } from 'antd'
 
 
@@ -37,6 +40,9 @@ export default {
     healthRateList:[],//健康度数组
 
     dataSource: [],// 设备列表
+    regionList: [],// 区域列表
+    deviceTypes:[],// 设备类型列表
+    deviceState:[],// 设备状态列表
     pagination: {
       current: 1,
       pageSize: 10,
@@ -59,6 +65,9 @@ export default {
           dispatch({ type: 'queryDeviceCountByLevel1Area', payload: { name: '重庆市'}});
           dispatch({ type: 'queryDeviceCountByStateHis', payload: { needCache: 'true',timeType:'DAY'}});
           dispatch({type: "queryDeviceList", payload: {page: "1", row: "10"}});
+          dispatch({type: "queryAreaList", payload: {level: 1}});
+          dispatch({type: "queryDeviceType", payload: {page: "1", rows: "100", paramType: "sys-device-type"}});
+          dispatch({type: "queryDeviceState", payload: {page: "1", rows: "100", paramType: "sys-device-state"}});
 
           window.GLOBAL_INTERVAL = setInterval(function(){
             dispatch({ type: 'queryDeviceCountByState' });
@@ -68,7 +77,7 @@ export default {
 
             dispatch({ type: 'queryDeviceCountByLevel1Area', payload: { name: '重庆市'}});
             dispatch({ type: 'queryDeviceCountByStateHis', payload: { needCache: 'true',timeType:'DAY'}});
-            dispatch({type: "queryDeviceList", payload: {page: "1", row: "10"}});
+            //dispatch({type: "queryDeviceList", payload: {page: "1", row: "10"}});
           }, 10*1000)
         } else {
           clearInterval(window.GLOBAL_INTERVAL)
@@ -91,6 +100,42 @@ export default {
             item.state = "离线";
           } else {
             item.state = "正常";
+          }
+
+          if(item.powerSupplyState == '1') {
+            item.powerSupplyState = '正常'
+          } else {
+            item.powerSupplyState = '异常'
+          }
+
+          if(item.environmentState == '1') {
+            item.environmentState = '风扇开'
+          } else {
+            item.environmentState = '风扇关'
+          }
+
+          if(item.networkState == '1') {
+            item.networkState = '正常'
+          } else {
+            item.networkState = '异常'
+          }
+
+          if(item.securityState == '1') {
+            item.securityState = '正常'
+          } else {
+            item.securityState = '异常'
+          }
+
+          if(item.lightningProtectionState == '1') {
+            item.lightningProtectionState = '正常'
+          } else {
+            item.lightningProtectionState = '异常'
+          }
+
+          if(item.leakageState == '1') {
+            item.leakageState = '正常'
+          } else {
+            item.leakageState = '异常'
           }
 
           item.key = item.id;
@@ -125,6 +170,102 @@ export default {
         type: "updateState",
         payload: { queryParamsCache: payload }
       });
+    },
+
+    // 获取区域
+    *queryAreaList({ payload }, { call, put }) {
+      const resData = yield call(queryAreaList, payload);
+      const relist = [];
+
+      if (resData.success) {
+        resData.data.forEach(item => {
+          relist.push({
+            ...item,
+            isLeaf: !item.isParent,
+            label: item.name,
+            value: item.code
+          });
+        });
+
+        yield put({
+          type: "updateState",
+          payload: {
+            regionList: relist
+          }
+        });
+      } else {
+        message.error(resData.msg);
+      }
+    },
+
+    // 区域查询ByParentCode
+    *queryAreaByParentCode({ payload }, { call, put }) {
+      const addressLength = payload.length;
+      const targetOption = payload[addressLength - 1];
+      targetOption.loading = true;
+
+      const resData = yield call(queryAreaByParentCode, {
+        parentCode: targetOption.value
+      });
+      targetOption.loading = false;
+      if (resData.success) {
+        targetOption.children = resData.data.map(item => {
+          return {
+            ...item,
+            isLeaf: addressLength > 2,
+            label: item.name,
+            value: item.code
+          };
+        });
+      } else {
+        message.error(resData.msg);
+      }
+    },
+
+    //获取设备类型
+    *queryDeviceType({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceType, payload);
+      const types = [];
+      if (resData.success) {
+        for (let i = 0; i < resData.data.length; i++) {
+          types.push({
+            id: i,
+            name: resData.data[i].name,
+            value: resData.data[i].value
+          });
+        }
+        yield put({
+          type: "updateState",
+          payload: {
+            deviceTypes: types
+          }
+        });
+      } else {
+        message.error(resData.message);
+      }
+    },
+
+    //获取设备状态
+    *queryDeviceState({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceType, payload);
+      const types = [];
+      if (resData.success) {
+        for (let i = 0; i < resData.data.length; i++) {
+          types.push({
+            id: i,
+            name: resData.data[i].name,
+            value: resData.data[i].value
+          });
+        }
+        yield put({
+          type: "updateState",
+          payload: {
+            deviceState: types
+          }
+        });
+      } else {
+        message.error(resData.message);
+      }
     },
 
     //统计设备状态对应设备数历史列表
@@ -233,6 +374,16 @@ export default {
         ...state,
         ...payload,
       }
+    },
+
+    updatePagination(state, { payload }) {
+      return {
+        ...state,
+        pagination: {
+          ...state.pagination,
+          ...payload
+        }
+      };
     },
   },
 };

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Row, Col, Table,Form,Select,Button,Cascader,Card } from 'antd' //eslint-disable-line
 import { connect } from 'dva'
 import Alarm from './components/Alarm'
-import Offline from './components/Offline'
 import EquipmentSummary from "./components/EquipmentSummary"; //eslint-disable-line
 
 const Dashboard = ({ dashboard, dispatch,form }) => {
@@ -26,44 +25,38 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
     },
     {
       title: "供电",
-      dataIndex: "type",
-      key: "type",
+      dataIndex: "powerSupplyState",
+      key: "powerSupplyState",
       //width:'10%',
     },
     {
       title: "环境",
-      dataIndex: "state",
-      key: "state",
+      dataIndex: "environmentState",
+      key: "environmentState",
       //width:'10%',
     },
     {
       title: "网络",
-      dataIndex: "state1",
-      key: "state1",
+      dataIndex: "networkState",
+      key: "networkState",
       //width:'10%',
     },
     {
       title: "安防",
-      dataIndex: "state2",
-      key: "state2",
+      dataIndex: "securityState",
+      key: "securityState",
       //width:'10%',
     },
     {
       title: "防雷",
-      dataIndex: "state3",
-      key: "state3",
+      dataIndex: "lightningProtectionState",
+      key: "lightningProtectionState",
       //width:'10%',
     },
     {
       title: "漏电",
-      dataIndex: "state4",
-      key: "state4",
-      //width:'10%',
-    },
-    {
-      title: "交直流",
-      dataIndex: "state5",
-      key: "state5",
+      dataIndex: "leakageState",
+      key: "leakageState",
       //width:'10%',
     },
     {
@@ -97,9 +90,62 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
     });
   }
 
+  const areaLoadData = selectedOptions => {
+    dispatch({
+      type: "dashboard/queryAreaByParentCode",
+      payload: selectedOptions
+    });
+  };
+
   const FormItem = Form.Item;
   //const { Option } = Select;
   const { getFieldDecorator } = form;
+  const { Option } = Select;
+  const deviceTypeLists = dashboard.deviceTypes.map(type => (
+    <Option key={type.name}>{type.value}</Option>
+  ));
+  const deviceStateLists = dashboard.deviceState.map(type => (
+    <Option key={type.value}>{type.name}</Option>
+  ));
+
+  function handleFormReset() {
+    form.resetFields();
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    form.validateFields((err, values) => {
+      if (!err) {
+        const cascaderAreaId = values.CascaderObject;
+        const payload = {
+          //...devices.queryParamsCache,
+          ...values
+        };
+        if (cascaderAreaId) {
+          payload.areaLevel = cascaderAreaId.length;
+          payload.areaCode = cascaderAreaId[cascaderAreaId.length - 1];
+        }
+
+        delete payload.CascaderObject;
+        dispatch({
+          type: "dashboard/queryDeviceList",
+          payload
+        });
+      }
+    });
+  };
+
+  // 分页请求
+  function handlePage(pagination) {
+    dispatch({ type: "dashboard/updatePagination", payload: pagination });
+    dispatch({
+      type: "dashboard/queryDeviceList",
+      payload: {
+        page: pagination.current,
+        rows: pagination.pageSize
+      }
+    });
+  }
 
   return (<div className="dashboard">
     <Row gutter={24} style={{ marginTop: '-5px' }}>
@@ -110,16 +156,15 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
     <Row gutter={24}>
       <Col span="24">
         <Card title="设备信息列表">
-          <a style={{fontSize:30}}>筛选</a>
-          <Form onSubmit="" layout="inline">
+          <Form onSubmit={handleSubmit} layout="inline">
             <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
               <Col md={6} sm={24}>
                 <FormItem label="设备区域">
                   {getFieldDecorator("CascaderObject")(
                     <Cascader
                       placeholder="请选择"
-                      //options={devices.regionList}
-                      //loadData={areaLoadData}
+                      options={dashboard.regionList}
+                      loadData={areaLoadData}
                       changeOnSelect
                     />
                   )}
@@ -139,7 +184,7 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
                           .indexOf(input.toLowerCase());
                       }}
                     >
-
+                      {deviceTypeLists}
                     </Select>
                   )}
                 </FormItem>
@@ -148,7 +193,7 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
                 <FormItem label="设备状态">
                   {getFieldDecorator("deviceState")(
                     <Select placeholder="请选择" style={{ width: "200px" }}>
-
+                      {deviceStateLists}
                     </Select>
                   )}
                 </FormItem>
@@ -160,7 +205,7 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
                   </Button>
                   <Button
                     style={{ marginLeft: 8, width: 100 }}
-                    onClick=""
+                    onClick={handleFormReset}
                   >
                     重置
                   </Button>
@@ -171,20 +216,16 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
           <Table
             bordered
             dataSource={dashboard.dataSource}
-            //rowSelection={rowSelection}
             columns={columns}
-            //pagination={devices.pagination}
-            //onChange={handlePage}
+            pagination={dashboard.pagination}
+            onChange={handlePage}
           />
         </Card>
       </Col>
     </Row>
     <Row gutter={24} style={{ marginTop: '30px' }}>
-      <Col span="12">
+      <Col span="24">
         <Alarm {...childProps} />
-      </Col>
-      <Col span="12">
-        <Offline {...childProps} />
       </Col>
     </Row>
   </div>)

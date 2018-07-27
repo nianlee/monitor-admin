@@ -29,8 +29,9 @@ const AddOrUpdate = ({ region, dispatch, form }) => {
         console.log('Received values of form: ', fieldsValue)
         dispatch({ type: 'region/addArea', payload: {
           //pId: region.selectedData.id,
-          parentCode:region.selectedData.pCode,
-          code:region.selectedData.code,
+          parentCode:region.selectedData.code,
+          pCode:region.selectedData.pCode,
+          //code:region.selectedData.pCode,
           ...fieldsValue,
         }})
       } else {

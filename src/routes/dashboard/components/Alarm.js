@@ -6,42 +6,45 @@ import styles from '../style.less'
 
 const columns = [
   {
-    title: '设备sn',
-    dataIndex: 'sn',
+    title: "设备sn",
+    dataIndex: "sn",
     className: styles.center,
-    key: 'sn',
-  },{
-    title: '设备故障信息',
-    dataIndex: 'alarm_info',
+    key: "sn"
+  },
+  {
+    title: "设备预警信息",
+    dataIndex: "alarm_info",
     className: styles.center,
-    key: 'alarm_info',
-},{
-  title: '设备位置',
-  dataIndex: 'detail_addr',
-  className: styles.center,
-  key: 'detail_addr',
-}, {
-  title: '设备类型',
-  dataIndex: 'type',
-  className: styles.center,
-  key: 'type',
-}];
-  /*{
-  title: '设备状态',
-  dataIndex: 'state',
-  className: styles.center,
-  key: 'state',
-  render: (text, record) => {
-    if (record.state == 1) {
-      return '在线'
-    } else if (record.state == 0) {
-      return '离线'
-    } else {
-      return '故障'
+    key: "alarm_info"
+  },
+  {
+    title: "预警开始时间",
+    dataIndex: "alarm_start_time",
+    className: styles.center,
+    key: "alarm_start_time"
+  },
+  {
+    title: "设备类型",
+    dataIndex: "type",
+    className: styles.center,
+    key: "type"
+  },
+  {
+    title: "设备状态",
+    dataIndex: "state",
+    className: styles.center,
+    key: "state",
+    render: (text, record) => {
+      if (record.state == 1) {
+        return "在线";
+      } else if (record.state == 0) {
+        return "离线";
+      } else {
+        return "故障";
+      }
     }
-  }*/
-
-
+  },
+];
 const Alarm = ({ dashboard, dispatch }) => {
   const goMore = () => {
     dispatch(routerRedux.push('/alarmlist'))

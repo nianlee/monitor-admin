@@ -76,6 +76,13 @@ export default {
             name: "角色管理",
             icon: "search",
             route: "/manage/role"
+          },
+          {
+            id: "55",
+            bpid: "6",
+            name: "登录信息",
+            icon: "search",
+            route: "/loginlog"
           }
         ]
       }

@@ -114,6 +114,11 @@ const routes = [
     component: () => import("./routes/role")
   },
   {
+    path: "/loginlog",
+    models: () => [import("./models/loginlog")],
+    component: () => import("./routes/loginlog")
+  },
+  {
     path: "/manage/role/:type",
     models: () => [import("./models/addOrUpdateRole")],
     component: () => import("./routes/role/AddOrUpdate")

@@ -72,6 +72,8 @@ export default {
     // 添加区域
     *addArea({ payload }, { call, put }) {
       const resData = yield call(addArea, payload);
+      console.log('param',payload);
+      console.log('addArea',resData);
       if (resData.success) {
         yield put({ type: 'queryAreaList', payload: { roleLev: 1 }}); //添加成功后再反查询一次
         yield put({ type: 'updateState', payload: { modalVisible: false }})

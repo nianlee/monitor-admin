@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
 import { Form, Input, Row, Col, Select, Button } from "antd";
-import AddressControl from "./components/AddressControl";
+//import AddressControl from "./components/AddressControl";
 import styles from "./style.less";
 import { routerRedux } from "dva/router";
 
@@ -19,9 +19,10 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        const { addressObj } = values;
+        //const { addressObj } = values;
         const payload = {
           ...values,
+          /*
           detail_addr: addressObj.address,
           longitude: addressObj.langitude,
           latitude: addressObj.latitude,
@@ -34,6 +35,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
           adcode: addressObj.adcode, //区code
           citycode: addressObj.citycode, // 市code
           towncode: addressObj.towncode, // 道，路，镇code
+          */
 
           all_area_id: "1-2-3",
           hardware_version: "V1.1.1",
@@ -102,35 +104,32 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
             </FormItem>
           </Col>
         </Row>
+
         <Row gutter={24}>
           <Col span={8}>
-            <FormItem {...formItemLayout} label="详细地址">
-              {getFieldDecorator("addressObj", {
-                rules: [{ required: true, message: "请输入详细地址！" }]
-              })(<AddressControl />)}
+            <FormItem {...formItemLayout} label="经度">
+              {getFieldDecorator("sn", {
+                rules: [
+                  {
+                    //pattern: "([A-Fa-f0-9]{2}-){5}[A-Fa-f0-9]{2}",
+                    required: true,
+                    message: "请输入设备地址经度"
+                  }
+                ]
+              })(<Input placeholder="经度" />)}
             </FormItem>
           </Col>
-
           <Col span={8}>
-            <FormItem {...formItemLayout} label="维护人员 ">
-              {getFieldDecorator("maintainer", {
-                rules: [{ required: true, message: "请选输入维护人员 !" }]
-              })(
-                <Select
-                  showSearch
-                  placeholder="请选择维护人员"
-                  optionLabelProp="children"
-                  filterOption={(input, option) => {
-                    option.props.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase());
-                  }}
-                >
-                  <Option value="1">张三</Option>
-                  <Option value="2">李四</Option>
-                  <Option value="3">王五</Option>
-                </Select>
-              )}
+            <FormItem {...formItemLayout} label="维度">
+              {getFieldDecorator("sn", {
+                rules: [
+                  {
+                    //pattern: "([A-Fa-f0-9]{2}-){5}[A-Fa-f0-9]{2}",
+                    required: true,
+                    message: "请输入设备地址维度!"
+                  }
+                ]
+              })(<Input placeholder="维度" />)}
             </FormItem>
           </Col>
         </Row>
@@ -161,3 +160,38 @@ AddDevice.propTypes = {
 const WrappedAdd = Form.create()(AddDevice);
 
 export default connect(({ adddevice }) => ({ adddevice }))(WrappedAdd);
+
+
+/*<Col span={8}>*/
+/*  <FormItem {...formItemLayout} label="详细地址">*/
+/*    {getFieldDecorator("addressObj", { */
+/*      rules: [{ required: true, message: "请输入详细地址！" }]*/
+/*    })(<AddressControl />)}*/
+/*  </FormItem>*/
+/*</Col>*/
+
+/*
+<Row gutter={24}>
+  <Col span={8}>
+    <FormItem {...formItemLayout} label="维护人员 ">
+      {getFieldDecorator("maintainer", {
+        rules: [{ required: true, message: "请选输入维护人员 !" }]
+      })(
+        <Select
+          showSearch
+          placeholder="请选择维护人员"
+          optionLabelProp="children"
+          filterOption={(input, option) => {
+            option.props.children
+              .toLowerCase()
+              .indexOf(input.toLowerCase());
+          }}
+        >
+          <Option value="1">张三</Option>
+          <Option value="2">李四</Option>
+          <Option value="3">王五</Option>
+        </Select>
+      )}
+    </FormItem>
+  </Col>
+</Row>*/
