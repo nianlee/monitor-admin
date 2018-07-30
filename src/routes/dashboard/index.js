@@ -1,12 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Row, Col, Table,Form,Select,Button,Cascader,Card } from 'antd' //eslint-disable-line
-import { connect } from 'dva'
-import Alarm from './components/Alarm'
+import React from "react";
+import PropTypes from "prop-types";
+import { Row, Col, Table, Form, Select, Button, Cascader, Card } from "antd"; //eslint-disable-line
+import { connect } from "dva";
+import Alarm from "./components/Alarm";
 import EquipmentSummary from "./components/EquipmentSummary"; //eslint-disable-line
 
-const Dashboard = ({ dashboard, dispatch,form }) => {
-
+const Dashboard = ({ dashboard, dispatch, form }) => {
   const childProps = { dashboard, dispatch };
 
   //定义列
@@ -14,49 +13,49 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
     {
       title: "设备编号",
       dataIndex: "sn",
-      key: "sn",
+      key: "sn"
       //width:'10%',
     },
     {
       title: "安装地址",
       dataIndex: "detailAddr",
-      key: "detailAddr",
+      key: "detailAddr"
       //width:'10%',
     },
     {
       title: "供电",
       dataIndex: "powerSupplyState",
-      key: "powerSupplyState",
+      key: "powerSupplyState"
       //width:'10%',
     },
     {
       title: "环境",
       dataIndex: "environmentState",
-      key: "environmentState",
+      key: "environmentState"
       //width:'10%',
     },
     {
       title: "网络",
       dataIndex: "networkState",
-      key: "networkState",
+      key: "networkState"
       //width:'10%',
     },
     {
       title: "安防",
       dataIndex: "securityState",
-      key: "securityState",
+      key: "securityState"
       //width:'10%',
     },
     {
       title: "防雷",
       dataIndex: "lightningProtectionState",
-      key: "lightningProtectionState",
+      key: "lightningProtectionState"
       //width:'10%',
     },
     {
       title: "漏电",
       dataIndex: "leakageState",
-      key: "leakageState",
+      key: "leakageState"
       //width:'10%',
     },
     {
@@ -147,97 +146,96 @@ const Dashboard = ({ dashboard, dispatch,form }) => {
     });
   }
 
-  return (<div className="dashboard">
-    <Row gutter={24} style={{ marginTop: '-5px' }}>
-      <Col>
-        <EquipmentSummary {...childProps} />
-      </Col>
-    </Row>
-    <Row gutter={24}>
-      <Col span="24">
-        <Card title="设备信息列表">
-          <Form onSubmit={handleSubmit} layout="inline">
-            <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-              <Col md={6} sm={24}>
-                <FormItem label="设备区域">
-                  {getFieldDecorator("CascaderObject")(
-                    <Cascader
-                      placeholder="请选择"
-                      options={dashboard.regionList}
-                      loadData={areaLoadData}
-                      changeOnSelect
-                    />
-                  )}
-                </FormItem>
-              </Col>
-              <Col md={6} sm={24}>
-                <FormItem label="设备类型">
-                  {getFieldDecorator("deviceType")(
-                    <Select
-                      showSearch
-                      placeholder="请选择设备类型"
-                      optionLabelProp="children"
-                      style={{ width: "200px" }}
-                      filterOption={(input, option) => {
-                        option.props.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase());
-                      }}
+  return (
+    <div className="dashboard">
+      <Row gutter={24} style={{ marginTop: "-5px" }}>
+        <Col>
+          <EquipmentSummary {...childProps} />
+        </Col>
+      </Row>
+      <Row gutter={24} style={{ marginTop: 20 }}>
+        <Col span="24">
+          <Card title="设备信息列表">
+            <Form onSubmit={handleSubmit} layout="inline">
+              <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+                <Col md={6}>
+                  <FormItem label="设备区域">
+                    {getFieldDecorator("CascaderObject")(
+                      <Cascader
+                        placeholder="请选择"
+                        options={dashboard.regionList}
+                        loadData={areaLoadData}
+                        changeOnSelect
+                      />
+                    )}
+                  </FormItem>
+                </Col>
+                <Col md={6}>
+                  <FormItem label="设备类型">
+                    {getFieldDecorator("deviceType")(
+                      <Select
+                        showSearch
+                        placeholder="请选择设备类型"
+                        style={{ width: 180 }}
+                      >
+                        {deviceTypeLists}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col md={6}>
+                  <FormItem label="设备状态">
+                    {getFieldDecorator("deviceState")(
+                      <Select placeholder="请选择" style={{ width: 180 }}>
+                        {deviceStateLists}
+                      </Select>
+                    )}
+                  </FormItem>
+                </Col>
+                <Col md={6}>
+                  <FormItem>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      style={{ width: 100 }}
                     >
-                      {deviceTypeLists}
-                    </Select>
-                  )}
-                </FormItem>
-              </Col>
-              <Col md={6} sm={24}>
-                <FormItem label="设备状态">
-                  {getFieldDecorator("deviceState")(
-                    <Select placeholder="请选择" style={{ width: "200px" }}>
-                      {deviceStateLists}
-                    </Select>
-                  )}
-                </FormItem>
-              </Col>
-              <Col md={6}>
-                <FormItem>
-                  <Button type="primary" htmlType="submit" style={{ width: 100 }}>
-                    查询
-                  </Button>
-                  <Button
-                    style={{ marginLeft: 8, width: 100 }}
-                    onClick={handleFormReset}
-                  >
-                    重置
-                  </Button>
-                </FormItem>
-              </Col>
-            </Row>
-          </Form>
-          <Table
-            bordered
-            dataSource={dashboard.dataSource}
-            columns={columns}
-            pagination={dashboard.pagination}
-            onChange={handlePage}
-          />
-        </Card>
-      </Col>
-    </Row>
-    <Row gutter={24} style={{ marginTop: '30px' }}>
-      <Col span="24">
-        <Alarm {...childProps} />
-      </Col>
-    </Row>
-  </div>)
-}
+                      查询
+                    </Button>
+                    <Button
+                      style={{ marginLeft: 8, width: 100 }}
+                      onClick={handleFormReset}
+                    >
+                      重置
+                    </Button>
+                  </FormItem>
+                </Col>
+              </Row>
+            </Form>
+            <Table
+              bordered
+              style={{ marginTop: 20 }}
+              dataSource={dashboard.dataSource}
+              columns={columns}
+              pagination={dashboard.pagination}
+              onChange={handlePage}
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Row gutter={24} style={{ marginTop: "30px" }}>
+        <Col span="24">
+          <Alarm {...childProps} />
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 Dashboard.propTypes = {
   dashboard: PropTypes.object,
   dispatch: PropTypes.func,
-  form: PropTypes.object,
-}
+  form: PropTypes.object
+};
 
 const WrappedAdd = Form.create()(Dashboard);
 export default connect(({ dashboard }) => ({ dashboard }))(WrappedAdd);
-
-//export default connect(({ dashboard }) => ({ dashboard }))(Dashboard)
