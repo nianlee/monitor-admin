@@ -1,11 +1,11 @@
 import { api, request } from "utils";
 
-// 单个设备查询
-export function queryDeviceSelective(data) {
+// 根据sn 查询设备
+export function queryDeviceBySn(data) {
   return request({
     data,
     method: "get",
-    url: api.queryDeviceInfo
+    url: api.queryDeviceBySn
   });
 }
 
@@ -32,6 +32,6 @@ export function queryDevices(data) {
   return request({
     data,
     method: "get",
-    url: api.queryDeviceSelective
+    url: api.queryDevices
   });
 }

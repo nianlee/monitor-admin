@@ -5,7 +5,7 @@ export function queryDeviceList(data) {
   return request({
     data,
     method: "post",
-    url: api.queryDeviceSelective
+    url: api.queryDevices
   });
 }
 
@@ -14,7 +14,7 @@ export function queryDeviceInfo(data) {
   return request({
     data,
     method: "post",
-    url: api.queryDeviceInfo
+    url: api.queryDeviceBySn
   });
 }
 
@@ -157,9 +157,9 @@ export function queryAreaByParentCode(data) {
 export function batchUpdae(data) {
   return request({
     data,
-    method:'post',
-    url:api.batchUpdae,
-  })
+    method: "post",
+    url: api.batchUpdae
+  });
 }
 
 // 10.6查询固件列表

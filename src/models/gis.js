@@ -1,8 +1,8 @@
 import {
-  queryDeviceSelective,
   queryAreaList,
   queryAreaByParentCode,
-  queryDevices
+  queryDevices,
+  queryDeviceBySn
 } from "services/gis";
 import { message } from "antd";
 import pathToRegexp from "path-to-regexp";
@@ -29,20 +29,23 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         const match = pathToRegexp("/gis/:sn").exec(pathname);
+        const isNormalGisPage = pathname === "/gis";
 
-        if (match) {
-          if (match[1]) {
-            // 根据sn 初始化页面
-            dispatch({ type: "initDataBySn", payload: { sn: match[1] } });
-            dispatch({ type: "updateState", payload: { sn: match[1] } });
-          } else {
-            dispatch({ type: "initData" });
-          }
-
+        if (isNormalGisPage || match) {
           dispatch({
             type: "queryAreaList",
             payload: { level: 1 }
           });
+        }
+
+        if (isNormalGisPage) {
+          dispatch({ type: "initData" });
+        }
+
+        if (match && match[1]) {
+          // 根据sn 初始化页面
+          dispatch({ type: "initDataBySn", payload: { sn: match[1] } });
+          dispatch({ type: "updateState", payload: { sn: match[1] } });
         }
       });
     }
@@ -57,15 +60,15 @@ export default {
     // 根据sn 初始化数据
     *initDataBySn({ payload }, { call, put, select }) {
       yield put({
-        type: "queryDeviceSelective",
+        type: "queryDeviceBySn",
         payload: { deviceSn: payload.sn, sourceType: "init" }
       });
       yield put({ type: "queryDevices" });
     },
 
     // 查询设备信息
-    *queryDeviceSelective({ payload }, { call, put, select }) {
-      const resData = yield call(queryDeviceSelective, payload);
+    *queryDeviceBySn({ payload }, { call, put, select }) {
+      const resData = yield call(queryDeviceBySn, payload);
 
       if (resData.success) {
         const info = resData.data.rows[0].datDevice; // 固定属性
@@ -171,7 +174,8 @@ export default {
 
         if (
           (payload && payload.sourceType === "init") ||
-          (payload && payload.sourceType === "areaChange")
+          (payload && payload.sourceType === "areaChange") ||
+          (payload && payload.sourceType === "fuzzyQuery")
         ) {
           updateData.dataList = formatedData;
         }

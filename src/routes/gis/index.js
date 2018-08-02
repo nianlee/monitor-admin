@@ -13,8 +13,8 @@ const Gis = ({ gis, dispatch }) => {
   const handleSearch = value => {
     if (value.length > 0) {
       dispatch({
-        type: "gis/queryDeviceSelective",
-        payload: { deviceSn: value }
+        type: "gis/queryDevices",
+        payload: { queryKey: value, sourceType: "fuzzyQuery" }
       });
     }
   };

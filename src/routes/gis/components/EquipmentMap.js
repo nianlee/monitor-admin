@@ -12,7 +12,7 @@ class EquipmentMap extends Component {
         // 获取marker 数据
         const extData = marker.getExtData();
         props.dispatch({
-          type: "gis/queryDeviceSelective",
+          type: "gis/queryDeviceBySn",
           payload: { deviceSn: extData.sn }
         });
       }

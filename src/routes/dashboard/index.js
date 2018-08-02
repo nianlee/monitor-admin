@@ -1,9 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Table, Form, Select, Button, Cascader, Card } from "antd"; //eslint-disable-line
+import { Row, Col, Table, Form, Select, Button, Cascader, Card } from "antd";
 import { connect } from "dva";
 import Alarm from "./components/Alarm";
-import EquipmentSummary from "./components/EquipmentSummary"; //eslint-disable-line
+import EquipmentSummary from "./components/EquipmentSummary";
+import styles from "./style.less";
 
 const Dashboard = ({ dashboard, dispatch, form }) => {
   const childProps = { dashboard, dispatch };
@@ -13,54 +14,63 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
     {
       title: "设备编号",
       dataIndex: "sn",
-      key: "sn"
+      key: "sn",
+      className: styles.columnCenter
       //width:'10%',
     },
     {
       title: "安装地址",
       dataIndex: "detailAddr",
-      key: "detailAddr"
-      //width:'10%',
+      key: "detailAddr",
+      className: styles.columnCenter,
+      width: "30%"
     },
     {
       title: "供电",
       dataIndex: "powerSupplyState",
-      key: "powerSupplyState"
+      key: "powerSupplyState",
+      className: styles.columnCenter
       //width:'10%',
     },
     {
       title: "环境",
       dataIndex: "environmentState",
-      key: "environmentState"
+      key: "environmentState",
+      className: styles.columnCenter
       //width:'10%',
     },
     {
       title: "网络",
       dataIndex: "networkState",
-      key: "networkState"
+      key: "networkState",
+      className: styles.columnCenter
       //width:'10%',
     },
     {
       title: "安防",
       dataIndex: "securityState",
-      key: "securityState"
+      key: "securityState",
+      className: styles.columnCenter
       //width:'10%',
     },
     {
       title: "防雷",
       dataIndex: "lightningProtectionState",
-      key: "lightningProtectionState"
+      key: "lightningProtectionState",
+      className: styles.columnCenter
       //width:'10%',
     },
     {
       title: "漏电",
       dataIndex: "leakageState",
-      key: "leakageState"
+      key: "leakageState",
+      className: styles.columnCenter
       //width:'10%',
     },
     {
       title: "操作",
       dataIndex: "操作",
+      className: styles.columnCenter,
       //width:'10%',
       render: (text, record) => renderOperation(text, record)
     }
