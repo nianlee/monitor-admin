@@ -159,8 +159,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   function checkDevice(sn) {
     //console.log(sn)
     dispatch({
-      type: "devices/queryDeviceInfos",
-      payload: sn
+      type: "devices/queryDeviceBySn",
+      payload: { deviceSn: sn }
     });
   }
 

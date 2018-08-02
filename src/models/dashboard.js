@@ -4,7 +4,8 @@ import {
   queryOnlineDevices,
   queryAlarmDevices,
   queryDeviceCountByLevel1Area,
-  queryDeviceCountByStateHis
+  queryDeviceCountByStateHis,
+  queryDeviceBySn
 } from "../services/dashboard";
 import {
   queryDeviceList,
@@ -52,7 +53,10 @@ export default {
       showQuickJumper: true,
       showSizeChanger: true
     },
-    deviceQueryParamsCache: {} // 设备查询参数缓存
+    deviceQueryParamsCache: {}, // 设备查询参数缓存
+
+    deviceModalVisible: false, // 设备详情弹窗
+    deviceDetailInfo: {} // 设备详细信息
   },
 
   subscriptions: {
@@ -222,6 +226,76 @@ export default {
         type: "updateState",
         payload: { deviceQueryParamsCache: data }
       });
+    },
+
+    // 根据sn 查询设备详细信息
+    *queryDeviceBySn({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceBySn, payload);
+
+      if (resData.success) {
+        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const deviceDetailInfo = {
+          name: info.name,
+          deviceDetailMetas: []
+        };
+
+        const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+
+        deviceDetailMetas.push({
+          key: "设备名称",
+          title: "设备名称",
+          description: info.name
+        });
+
+        deviceDetailMetas.push({
+          key: "mac",
+          title: "mac",
+          description: info.mac
+        });
+
+        deviceDetailMetas.push({
+          key: "设备类型",
+          title: "设备类型",
+          description: info.type
+        });
+
+        deviceDetailMetas.push({
+          key: "设备状态",
+          title: "设备状态",
+          description: info.state
+        });
+
+        deviceDetailMetas.push({
+          key: "硬件版本",
+          title: "硬件版本",
+          description: info.hardwareVersion
+        });
+
+        deviceDetailMetas.push({
+          key: "设备地址",
+          title: "设备地址",
+          description: info.detailAddr
+        });
+
+        // 动态属性
+        const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        if (deviceDynamicDTOS) {
+          deviceDynamicDTOS.forEach(item => {
+            deviceDetailMetas.push({
+              key: item.attributeDesc,
+              title: item.attributeName,
+              description: item.attributeValue
+            });
+          });
+        }
+
+        yield put({
+          type: "updateState",
+          payload: { deviceDetailInfo }
+        });
+      } else {
+        message.error(resData.msg);
+      }
     },
 
     // 获取区域

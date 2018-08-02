@@ -71,9 +71,8 @@ export default {
       const resData = yield call(queryDeviceBySn, payload);
 
       if (resData.success) {
-        const info = resData.data.rows[0].datDevice; // 固定属性
+        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
         const equitmentInfo = [];
-
         // 带sn 的页面跳转，初始化dataList 为sn 对应的详细数据，设置marker，以及地图中心
         if (payload.sourceType === "init") {
           yield put({

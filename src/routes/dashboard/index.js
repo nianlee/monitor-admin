@@ -4,6 +4,8 @@ import { Row, Col, Table, Form, Select, Button, Cascader, Card } from "antd";
 import { connect } from "dva";
 import Alarm from "./components/Alarm";
 import EquipmentSummary from "./components/EquipmentSummary";
+import { routerRedux } from "dva/router";
+import DeviceDetailModal from "./components/DeviceDetailModal";
 import styles from "./style.less";
 
 const Dashboard = ({ dashboard, dispatch, form }) => {
@@ -16,7 +18,6 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       dataIndex: "sn",
       key: "sn",
       className: styles.columnCenter
-      //width:'10%',
     },
     {
       title: "安装地址",
@@ -30,48 +31,41 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       dataIndex: "powerSupplyState",
       key: "powerSupplyState",
       className: styles.columnCenter
-      //width:'10%',
     },
     {
       title: "环境",
       dataIndex: "environmentState",
       key: "environmentState",
       className: styles.columnCenter
-      //width:'10%',
     },
     {
       title: "网络",
       dataIndex: "networkState",
       key: "networkState",
       className: styles.columnCenter
-      //width:'10%',
     },
     {
       title: "安防",
       dataIndex: "securityState",
       key: "securityState",
       className: styles.columnCenter
-      //width:'10%',
     },
     {
       title: "防雷",
       dataIndex: "lightningProtectionState",
       key: "lightningProtectionState",
       className: styles.columnCenter
-      //width:'10%',
     },
     {
       title: "漏电",
       dataIndex: "leakageState",
       key: "leakageState",
       className: styles.columnCenter
-      //width:'10%',
     },
     {
       title: "操作",
       dataIndex: "操作",
       className: styles.columnCenter,
-      //width:'10%',
       render: (text, record) => renderOperation(text, record)
     }
   ];
@@ -80,23 +74,29 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
     return (
       <div>
         <a
-          href="javascript:;"
-          onClick={() => checkDevice(record.sn)}
-          style={{ marginLeft: 2 }}
+          onClick={() => {
+            dispatch({
+              type: "dashboard/queryDeviceBySn",
+              payload: { deviceSn: record.sn }
+            });
+
+            dispatch({
+              type: "dashboard/updateState",
+              payload: { deviceModalVisible: true }
+            });
+          }}
         >
-          查看
+          查看详情
+        </a>
+
+        <a
+          onClick={() => dispatch(routerRedux.push(`/gis/${record.sn}`))}
+          style={{ marginLeft: 12 }}
+        >
+          查看地图位置
         </a>
       </div>
     );
-  }
-
-  // 设备查看
-  function checkDevice(sn) {
-    //console.log(sn)
-    dispatch({
-      type: "devices/queryDeviceInfos",
-      payload: sn
-    });
   }
 
   const areaLoadData = selectedOptions => {
@@ -107,7 +107,6 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
   };
 
   const FormItem = Form.Item;
-  //const { Option } = Select;
   const { getFieldDecorator } = form;
   const { Option } = Select;
   const deviceTypeLists = dashboard.deviceTypes.map(type => (
@@ -237,6 +236,8 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
           <Alarm {...childProps} />
         </Col>
       </Row>
+
+      <DeviceDetailModal dispatch={dispatch} dashboard={dashboard} />
     </div>
   );
 };
