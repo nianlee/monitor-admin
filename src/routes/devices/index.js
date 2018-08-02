@@ -13,7 +13,7 @@ import {
 } from "antd";
 import ShowDeviceModal from "./components/ShowDeviceModal";
 import { routerRedux } from "dva/router";
-//import styles from './style.less'
+import styles from "./style.less";
 
 const DeviceManage = ({ devices, dispatch, form }) => {
   const FormItem = Form.Item;
@@ -22,7 +22,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   const { getFieldDecorator } = form;
   const { selectedRowKeys } = devices;
   const deviceSnList = devices.deviceSnList;
-  const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
+  // const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
   const deviceTypeLists = devices.deviceTypes.map(type => (
     <Option key={type.name}>{type.value}</Option>
   ));
@@ -40,8 +40,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
   //modal 属性
   const modalProps = {
-    dataUpTime:devices.dataUpTime,
-    firmwareVersion:devices.firmwareVersion,
+    dataUpTime: devices.dataUpTime,
+    firmwareVersion: devices.firmwareVersion,
     item: devices.deviceInfos,
     dynamic: devices.deviceDynamicDTOS,
     visible: modalVisible,
@@ -63,34 +63,40 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   //定义列
   const columns = [
     {
+      title: "序号",
+      dataIndex: "index",
+      key: "index",
+      className: styles.columnCenter
+    },
+    {
       title: "设备sn编码",
       dataIndex: "sn",
-      key: "sn"
-      //width:'10%',
+      key: "sn",
+      className: styles.columnCenter
     },
     {
       title: "地址",
       dataIndex: "detailAddr",
-      key: "detailAddr"
-      //width:'10%',
+      key: "detailAddr",
+      className: styles.columnCenter
     },
     {
       title: "设备类型",
       dataIndex: "type",
-      key: "type"
-      //width:'10%',
+      key: "type",
+      className: styles.columnCenter
     },
     {
       title: "设备状态",
       dataIndex: "state",
-      key: "state"
-      //width:'10%',
+      key: "state",
+      className: styles.columnCenter
     },
 
     {
       title: "操作",
       dataIndex: "操作",
-      //width:'10%',
+      className: styles.columnCenter,
       render: (text, record) => renderOperation(text, record)
     }
   ];
@@ -258,13 +264,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
                 <Select
                   showSearch
                   placeholder="请选择设备类型"
-                  optionLabelProp="children"
                   style={{ width: "200px" }}
-                  filterOption={(input, option) => {
-                    option.props.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase());
-                  }}
                 >
                   {deviceTypeLists}
                 </Select>
@@ -303,9 +303,18 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           type="primary"
           onClick={batchUpdae}
           style={{ marginLeft: 8 }}
-          disabled={!hasSelected}
+          // disabled={!hasSelected}
         >
           批量升级
+        </Button>
+        <Button type="primary" style={{ marginLeft: 8 }} onClick={() => {}}>
+          批量重启
+        </Button>
+        <Button type="primary" style={{ marginLeft: 8 }} onClick={() => {}}>
+          批量开门
+        </Button>
+        <Button type="primary" style={{ marginLeft: 8 }} onClick={() => {}}>
+          批量检修
         </Button>
       </div>
       <ShowDeviceModal {...modalProps} />

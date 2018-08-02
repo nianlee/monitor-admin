@@ -18,8 +18,8 @@ export default {
     dataSource: [],
     deviceInfos: [],
 
-    dataUpTime:'',//数据上传时间
-    firmwareVersion:'',//固件版本号
+    dataUpTime: "", //数据上传时间
+    firmwareVersion: "", //固件版本号
 
     deviceDynamicDTOS: [],
     modalVisible: false,
@@ -46,16 +46,17 @@ export default {
   effects: {
     *queryDeviceInfos({ payload }, { call, put, select }) {
       const resData = yield call(queryDeviceInfo, { deviceSn: payload });
-      console.log('deInfo',resData);
+      console.log("deInfo", resData);
       if (resData.success) {
-        if(resData.data.rows[0].datDevice.hasOwnProperty("dataUpTime") &&
-          resData.data.rows[0].datDevice.hasOwnProperty("firmwareVersion")) {
-
+        if (
+          resData.data.rows[0].datDevice.hasOwnProperty("dataUpTime") &&
+          resData.data.rows[0].datDevice.hasOwnProperty("firmwareVersion")
+        ) {
           yield put({
             type: "showAddModal",
             payload: {
-              dataUpTime:resData.data.rows[0].datDevice.dataUpTime,
-              firmwareVersion:resData.data.rows[0].datDevice.firmwareVersion,
+              dataUpTime: resData.data.rows[0].datDevice.dataUpTime,
+              firmwareVersion: resData.data.rows[0].datDevice.firmwareVersion,
               deviceInfos: resData.data.rows[0].datDevice,
               deviceDynamicDTOS: resData.data.rows[0].deviceDynamicDTOS
             }
@@ -64,14 +65,13 @@ export default {
           yield put({
             type: "showAddModal",
             payload: {
-              dataUpTime:'无',
-              firmwareVersion:'无',
+              dataUpTime: "无",
+              firmwareVersion: "无",
               deviceInfos: resData.data.rows[0].datDevice,
               deviceDynamicDTOS: resData.data.rows[0].deviceDynamicDTOS
             }
           });
         }
-
       } else {
         throw message.error(resData.msg);
       }
@@ -82,7 +82,7 @@ export default {
       const resData = yield call(queryDeviceList, payload);
 
       if (resData.success) {
-        const devicesList = resData.data.rows.map(item => {
+        const devicesList = resData.data.rows.map((item, index) => {
           if (item.state == "-1") {
             item.state = "故障";
           } else if (item.state == "0") {
@@ -91,7 +91,8 @@ export default {
             item.state = "正常";
           }
 
-          item.key = item.id;
+          item.key = item.sn;
+          item.index = index + 1;
 
           return item;
         });

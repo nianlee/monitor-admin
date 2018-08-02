@@ -18,10 +18,10 @@ export default {
         route: "/dashboard"
       },
       {
-        id: '2',
-        name: '统计报表',
-        icon: 'user',
-        route: '/report',
+        id: "2",
+        name: "统计报表",
+        icon: "user",
+        route: "/report"
       },
 
       {
@@ -31,60 +31,44 @@ export default {
         route: "/gis"
       },
       {
-        id: "5",
-        name: "管理策略",
-        icon: "heart-o",
-        children: [
-          {
-            id: "51",
-            bpid: "5",
-            name: "设备管理",
-            icon: "search",
-            route: "/devicemanage"
-          },
-          {
-            id: "52",
-            name: "固件管理",
-            icon: "bars",
-            route: "/firmware"
-          },
-          {
-            id: "53",
-            name: "区域管理",
-            icon: "bars",
-            route: "/region"
-          }
-
-        ]
+        id: "51",
+        bpid: "5",
+        name: "设备管理",
+        icon: "search",
+        route: "/devicemanage"
       },
-
       {
-        id: "6",
-        name: "系统管理",
-        icon: "heart-o",
-        children: [
-          {
-            id: "53",
-            bpid: "6",
-            name: "用户管理",
-            icon: "search",
-            route: "/usermanage"
-          },
-          {
-            id: "54",
-            bpid: "6",
-            name: "角色管理",
-            icon: "search",
-            route: "/manage/role"
-          },
-          {
-            id: "55",
-            bpid: "6",
-            name: "登录信息",
-            icon: "search",
-            route: "/loginlog"
-          }
-        ]
+        id: "52",
+        name: "固件管理",
+        icon: "bars",
+        route: "/firmware"
+      },
+      {
+        id: "53",
+        name: "区域管理",
+        icon: "bars",
+        route: "/region"
+      },
+      {
+        id: "61",
+        bpid: "6",
+        name: "用户管理",
+        icon: "search",
+        route: "/usermanage"
+      },
+      {
+        id: "62",
+        bpid: "6",
+        name: "角色管理",
+        icon: "search",
+        route: "/manage/role"
+      },
+      {
+        id: "63",
+        bpid: "6",
+        name: "登录信息",
+        icon: "search",
+        route: "/loginlog"
       }
     ], // 菜单
     user: {

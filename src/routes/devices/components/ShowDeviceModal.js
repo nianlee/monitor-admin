@@ -16,11 +16,11 @@ const ShowModal = ({
     </div>
   ));
 
-  const modalOpts = {...modalPorps};
-  const { dataUpTime } = {...modalPorps};
-  const { firmwareVersion } = {...modalPorps};
+  const modalOpts = { ...modalPorps };
+  const { dataUpTime } = { ...modalPorps };
+  const { firmwareVersion } = { ...modalPorps };
 
-  console.log('dataUpTime','firmwareVersion',dataUpTime,firmwareVersion)
+  // console.log('dataUpTime','firmwareVersion',dataUpTime,firmwareVersion)
 
   return (
     <Modal {...modalOpts}>
