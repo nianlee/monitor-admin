@@ -15,7 +15,7 @@ const Manage = ({ manage,dispatch }) => {
     if(activeKey == 2) {
       console.log(activeKey)
       dispatch({
-        type:'manage/queryDeviceList',
+        type:'manage/queryDevices',
         payload:{
           installAddr:1
         }

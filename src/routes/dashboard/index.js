@@ -136,7 +136,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
 
         delete payload.CascaderObject;
         dispatch({
-          type: "dashboard/queryDeviceList",
+          type: "dashboard/queryDevices",
           payload
         });
       }
@@ -147,7 +147,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
   function handlePage(pagination) {
     dispatch({ type: "dashboard/updatePagination", payload: pagination });
     dispatch({
-      type: "dashboard/queryDeviceList",
+      type: "dashboard/queryDevices",
       payload: {
         page: pagination.current,
         rows: pagination.pageSize

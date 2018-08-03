@@ -1,7 +1,7 @@
 import { api, request } from "utils";
 
 // 设备查询列表
-export function queryDeviceList(data) {
+export function queryDevices(data) {
   return request({
     data,
     method: "post",
@@ -10,7 +10,7 @@ export function queryDeviceList(data) {
 }
 
 // 查询某一个设备info
-export function queryDeviceInfo(data) {
+export function queryDeviceBySn(data) {
   return request({
     data,
     method: "post",
@@ -37,11 +37,11 @@ export function updateFirmwareVersion(data) {
 }
 
 // 设备删除
-export function deleteDevice(data) {
+export function delDeviceById(data) {
   return request({
     data,
     method: "get",
-    url: api.deleteDevice
+    url: api.delDeviceById
   });
 }
 
@@ -154,11 +154,11 @@ export function queryAreaByParentCode(data) {
 }
 
 // 批量升级
-export function batchUpdae(data) {
+export function deviceUpgradeBatch(data) {
   return request({
     data,
     method: "post",
-    url: api.batchUpdae
+    url: api.deviceUpgradeBatch
   });
 }
 

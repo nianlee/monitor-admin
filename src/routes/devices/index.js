@@ -18,11 +18,10 @@ import styles from "./style.less";
 const DeviceManage = ({ devices, dispatch, form }) => {
   const FormItem = Form.Item;
   const { Option } = Select;
-  const { modalVisible } = devices;
   const { getFieldDecorator } = form;
   const { selectedRowKeys } = devices;
-  const deviceSnList = devices.deviceSnList;
-  // const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
+
+  const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
   const deviceTypeLists = devices.deviceTypes.map(type => (
     <Option key={type.name}>{type.value}</Option>
   ));
@@ -38,28 +37,6 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     });
   };
 
-  //modal 属性
-  const modalProps = {
-    dataUpTime: devices.dataUpTime,
-    firmwareVersion: devices.firmwareVersion,
-    item: devices.deviceInfos,
-    dynamic: devices.deviceDynamicDTOS,
-    visible: modalVisible,
-    maskClosable: false,
-    title: "设备详情",
-    wrapperClassName: "vertical-center-modal",
-    width: 1024,
-    onOk(data) {
-      dispatch({
-        type: "devices/hideAddModal"
-      });
-    },
-    onCancel() {
-      dispatch({
-        type: "devices/hideAddModal"
-      });
-    }
-  };
   //定义列
   const columns = [
     {
@@ -78,7 +55,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
       title: "地址",
       dataIndex: "detailAddr",
       key: "detailAddr",
-      className: styles.columnCenter
+      className: styles.columnCenter,
+      width: "30%"
     },
     {
       title: "设备类型",
@@ -105,38 +83,22 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     return (
       <div>
         <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.id)}>
-          <a href="javascript:;">删除</a>
+          <a>删除</a>
         </Popconfirm>
 
-        <a
-          href="javascript:;"
-          onClick={() => controlDevice(record.sn)}
-          style={{ marginLeft: 8 }}
-        >
+        <a onClick={() => controlDevice(record.sn)} style={{ marginLeft: 8 }}>
           控制
         </a>
 
-        <a
-          href="javascript:;"
-          onClick={() => updateDevice(record.sn)}
-          style={{ marginLeft: 8 }}
-        >
+        <a onClick={() => updateDevice(record.sn)} style={{ marginLeft: 8 }}>
           升级
         </a>
 
-        <a
-          href="javascript:;"
-          onClick={() => modifyDevice(record.id)}
-          style={{ marginLeft: 8 }}
-        >
+        <a onClick={() => modifyDevice(record.id)} style={{ marginLeft: 8 }}>
           地址修改
         </a>
 
-        <a
-          href="javascript:;"
-          onClick={() => checkDevice(record.sn)}
-          style={{ marginLeft: 8 }}
-        >
+        <a onClick={() => checkDevice(record.sn)} style={{ marginLeft: 8 }}>
           查看
         </a>
       </div>
@@ -157,23 +119,26 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
   // 设备查看
   function checkDevice(sn) {
-    //console.log(sn)
     dispatch({
       type: "devices/queryDeviceBySn",
       payload: { deviceSn: sn }
+    });
+
+    dispatch({
+      type: "devices/save",
+      payload: { deviceDetailModalVisible: true }
     });
   }
 
   //添加设备函数
   function handleAdd() {
-    console.log("handleAdd");
     dispatch(routerRedux.push("/adddevice"));
   }
 
   //删除设备函数
   function onDelete(id) {
     dispatch({
-      type: "devices/deleteDevice",
+      type: "devices/delDeviceById",
       payload: { id: id }
     });
   }
@@ -182,7 +147,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   function handlePage(pagination) {
     dispatch({ type: "devices/updatePagination", payload: pagination });
     dispatch({
-      type: "devices/queryDeviceList",
+      type: "devices/queryDevices",
       payload: {
         page: pagination.current,
         rows: pagination.pageSize
@@ -190,10 +155,11 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     });
   }
 
-  function batchUpdae() {
+  // 批量升级
+  function deviceUpgradeBatch() {
     dispatch({
-      type: "devices/batchUpdae",
-      payload: { deviceSnList: deviceSnList }
+      type: "devices/deviceUpgradeBatch",
+      payload: { deviceSnList: devices.selectedRowKeys.join(",") }
     });
   }
 
@@ -202,7 +168,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   }
 
   function onSelectChange(selectedRowKeys, selectedRows) {
-    console.log("selectedRowKeys changed: ", selectedRows);
+    console.log("selectedRowKeys changed: ", selectedRows, selectedRowKeys);
 
     dispatch({
       type: "devices/updateSelect",
@@ -234,7 +200,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
         delete payload.CascaderObject;
         dispatch({
-          type: "devices/queryDeviceList",
+          type: "devices/queryDevices",
           payload
         });
       }
@@ -243,8 +209,11 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
   return (
     <div>
-      <a>筛选</a>
-      <Form onSubmit={handleSubmit} layout="inline">
+      <Form
+        onSubmit={handleSubmit}
+        layout="inline"
+        style={{ background: "#fff", padding: 20 }}
+      >
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={6} sm={24}>
             <FormItem label="设备区域">
@@ -295,29 +264,47 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           </Col>
         </Row>
       </Form>
-      <div style={{ margin: "20px 0" }}>
+
+      <div style={{ background: "#fff", padding: 20, marginTop: 20 }}>
         <Button type="primary" onClick={handleAdd}>
           添加
         </Button>
         <Button
           type="primary"
-          onClick={batchUpdae}
+          onClick={deviceUpgradeBatch}
           style={{ marginLeft: 8 }}
-          // disabled={!hasSelected}
+          disabled={!hasSelected}
         >
           批量升级
         </Button>
-        <Button type="primary" style={{ marginLeft: 8 }} onClick={() => {}}>
+        <Button
+          type="primary"
+          disabled={!hasSelected}
+          style={{ marginLeft: 8 }}
+          onClick={() => {}}
+        >
           批量重启
         </Button>
-        <Button type="primary" style={{ marginLeft: 8 }} onClick={() => {}}>
+        <Button
+          type="primary"
+          disabled={!hasSelected}
+          style={{ marginLeft: 8 }}
+          onClick={() => {}}
+        >
           批量开门
         </Button>
-        <Button type="primary" style={{ marginLeft: 8 }} onClick={() => {}}>
+        <Button
+          type="primary"
+          disabled={!hasSelected}
+          style={{ marginLeft: 8 }}
+          onClick={() => {}}
+        >
           批量检修
         </Button>
       </div>
-      <ShowDeviceModal {...modalProps} />
+
+      <ShowDeviceModal dispatch={dispatch} devices={devices} />
+
       <Table
         bordered
         dataSource={devices.dataSource}
@@ -325,6 +312,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         columns={columns}
         pagination={devices.pagination}
         onChange={handlePage}
+        style={{ background: "#fff" }}
       />
     </div>
   );

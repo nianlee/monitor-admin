@@ -1,11 +1,11 @@
 import {
-  queryDeviceList,
-  deleteDevice,
-  queryDeviceInfo,
+  queryDevices,
+  delDeviceById,
+  queryDeviceBySn,
   queryDeviceType,
   queryAreaList,
   queryAreaByParentCode,
-  batchUpdae
+  deviceUpgradeBatch
 } from "../services/manage"; //eslint-disable-line
 import { routerRedux } from "dva/router";
 import { message } from "antd";
@@ -22,14 +22,16 @@ export default {
     firmwareVersion: "", //固件版本号
 
     deviceDynamicDTOS: [],
-    modalVisible: false,
     sn: {},
-    selectedRowKeys: [], // 选中的
+    selectedRowKeys: [], // 选中的keys, sn string array
     deviceSnList: [],
 
     deviceTypes: [],
     deviceState: [],
     regionList: [],
+
+    deviceDetailModalVisible: false, // 设备详情弹框
+    deviceDetailInfo: {}, // 设备详情
 
     queryParamsCache: null, // 查询参数缓存
 
@@ -44,42 +46,79 @@ export default {
   },
 
   effects: {
-    *queryDeviceInfos({ payload }, { call, put, select }) {
-      const resData = yield call(queryDeviceInfo, { deviceSn: payload });
-      console.log("deInfo", resData);
+    // 根据sn 查询设备详细信息
+    *queryDeviceBySn({ payload }, { call, put }) {
+      const resData = yield call(queryDeviceBySn, payload);
+
       if (resData.success) {
-        if (
-          resData.data.rows[0].datDevice.hasOwnProperty("dataUpTime") &&
-          resData.data.rows[0].datDevice.hasOwnProperty("firmwareVersion")
-        ) {
-          yield put({
-            type: "showAddModal",
-            payload: {
-              dataUpTime: resData.data.rows[0].datDevice.dataUpTime,
-              firmwareVersion: resData.data.rows[0].datDevice.firmwareVersion,
-              deviceInfos: resData.data.rows[0].datDevice,
-              deviceDynamicDTOS: resData.data.rows[0].deviceDynamicDTOS
-            }
-          });
-        } else {
-          yield put({
-            type: "showAddModal",
-            payload: {
-              dataUpTime: "无",
-              firmwareVersion: "无",
-              deviceInfos: resData.data.rows[0].datDevice,
-              deviceDynamicDTOS: resData.data.rows[0].deviceDynamicDTOS
-            }
+        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const deviceDetailInfo = {
+          name: info.name,
+          deviceDetailMetas: []
+        };
+
+        const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+
+        deviceDetailMetas.push({
+          key: "设备名称",
+          title: "设备名称",
+          description: info.name
+        });
+
+        deviceDetailMetas.push({
+          key: "mac",
+          title: "mac",
+          description: info.mac
+        });
+
+        deviceDetailMetas.push({
+          key: "设备类型",
+          title: "设备类型",
+          description: info.type
+        });
+
+        deviceDetailMetas.push({
+          key: "设备状态",
+          title: "设备状态",
+          description: info.state
+        });
+
+        deviceDetailMetas.push({
+          key: "硬件版本",
+          title: "硬件版本",
+          description: info.hardwareVersion
+        });
+
+        deviceDetailMetas.push({
+          key: "设备地址",
+          title: "设备地址",
+          description: info.detailAddr
+        });
+
+        // 动态属性
+        const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        if (deviceDynamicDTOS) {
+          deviceDynamicDTOS.forEach(item => {
+            deviceDetailMetas.push({
+              key: item.attributeDesc,
+              title: item.attributeName,
+              description: item.attributeValue
+            });
           });
         }
+
+        yield put({
+          type: "save",
+          payload: { deviceDetailInfo }
+        });
       } else {
-        throw message.error(resData.msg);
+        message.error(resData.message);
       }
     },
 
     // 查询设备列表
-    *queryDeviceList({ payload }, { call, put, select }) {
-      const resData = yield call(queryDeviceList, payload);
+    *queryDevices({ payload }, { call, put, select }) {
+      const resData = yield call(queryDevices, payload);
 
       if (resData.success) {
         const devicesList = resData.data.rows.map((item, index) => {
@@ -127,8 +166,8 @@ export default {
     },
 
     // 删除设备
-    *deleteDevice({ payload }, { call, put, select }) {
-      const result = yield call(deleteDevice, payload);
+    *delDeviceById({ payload }, { call, put, select }) {
+      const result = yield call(delDeviceById, payload);
       if (result.success) {
         //删除成功，更新dataSource
         yield put({
@@ -136,7 +175,7 @@ export default {
           payload: payload
         });
       } else {
-        throw result.msg;
+        message.error(result.message);
       }
     },
 
@@ -225,7 +264,7 @@ export default {
           }
         });
       } else {
-        message.error(resData.msg);
+        message.error(resData.message);
       }
     },
 
@@ -249,20 +288,20 @@ export default {
           };
         });
       } else {
-        message.error(resData.msg);
+        message.error(resData.message);
       }
     },
 
     // 批量升级
-    *batchUpdae({ payload }, { call, put }) {
-      const resData = yield call(batchUpdae, payload);
+    *deviceUpgradeBatch({ payload }, { call, put }) {
+      const resData = yield call(deviceUpgradeBatch, payload);
       if (resData.success) {
         yield put({
           type: "updateState"
         });
-        message.error(resData.msg);
+        message.success("升级成功");
       } else {
-        message.error(resData.msg);
+        message.error(resData.message);
       }
     }
   },
@@ -275,6 +314,13 @@ export default {
           ...state.pagination,
           ...payload
         }
+      };
+    },
+
+    save(state, { payload }) {
+      return {
+        ...state,
+        ...payload
       };
     },
 
@@ -295,26 +341,9 @@ export default {
       };
     },
 
-    showAddModal(state, { payload }) {
-      return {
-        ...state,
-        ...payload,
-        modalVisible: true
-      };
-    },
-
-    hideAddModal(state, { payload }) {
-      return {
-        ...state,
-        ...payload,
-        modalVisible: false
-      };
-    },
-
     updateSelect(state, { payload }) {
       return {
         ...state,
-        ...payload,
         selectedRowKeys: payload.selectedRowKeys,
         deviceSnList: payload.deviceSnList
       };
@@ -327,7 +356,7 @@ export default {
       return history.listen(({ pathname, query }) => {
         if (pathname === "/devicemanage") {
           dispatch({
-            type: "queryDeviceList",
+            type: "queryDevices",
             payload: {
               page: "1",
               row: "10"

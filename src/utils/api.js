@@ -6,13 +6,13 @@ export default {
 
   // 设备管理
   queryDevices: `${config.apiHost}/device/queryDevices`, // 查询设备
-  deleteDevice: `${config.apiHost}/device/delDeviceById`, // 删除设备
+  delDeviceById: `${config.apiHost}/device/delDeviceById`, // 删除设备
   addDevice: `${config.apiHost}/device/addDevice`, // 添加设备
   modifyDevice: `${config.apiHost}/device/editDeviceById`, // 修改设备
   controlDevice: `${config.apiHost}/device/deviceControl`, //设备控制
   queryDeviceBySn: `${config.apiHost}/device/queryDeviceBySn`, //根据sn查询设备
   queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, //设备控制
-  batchUpdae: `${config.apiHost}/device/deviceUpgradeBatch`, //设备控制批量升级
+  deviceUpgradeBatch: `${config.apiHost}/device/deviceUpgradeBatch`, //设备控制批量升级
   queryDeviceCountByLevel1Area: `${
     config.apiHost
   }/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
@@ -64,5 +64,5 @@ export default {
   addFirmware: `${config.apiHost}/firmware/addFirmware`, //添加升级固件
   queryFirmwareVersion: `${config.apiHost}/device/queryFirmwareForUpgrade`, //设备升级固件查询
   updateFirmwareVersion: `${config.apiHost}/device/deviceUpgrade`, //设备固件升级
-  uploadFirmware: `${config.apiHost}/firmware/uploadFirmware` //上传固件
+  uploadFirmware: `${config.apiHost}/firmware/uploadFirmware` //上传固件,
 };

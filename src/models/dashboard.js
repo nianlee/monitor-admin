@@ -8,7 +8,7 @@ import {
   queryDeviceBySn
 } from "../services/dashboard";
 import {
-  queryDeviceList,
+  queryDevices,
   queryAreaList,
   queryAreaByParentCode,
   queryDeviceType
@@ -86,7 +86,7 @@ export default {
             payload: { needCache: "true", timeType: "DAY" }
           });
           dispatch({
-            type: "queryDeviceList",
+            type: "queryDevices",
             payload: { page: "1", rows: "10" }
           });
           dispatch({ type: "queryAreaList", payload: { level: 1 } });
@@ -135,18 +135,18 @@ export default {
         type: "queryDeviceCountByStateHis",
         payload: { needCache: "true", timeType: "DAY" }
       });
-      yield put({ type: "queryDeviceList", payload: deviceQueryParamsCache });
+      yield put({ type: "queryDevices", payload: deviceQueryParamsCache });
     },
 
     // 查询设备列表
-    *queryDeviceList({ payload }, { call, put, select }) {
+    *queryDevices({ payload }, { call, put, select }) {
       const { deviceQueryParamsCache } = yield select(_ => _.dashboard);
       const data = {
         ...deviceQueryParamsCache,
         ...payload
       };
 
-      const resData = yield call(queryDeviceList, data);
+      const resData = yield call(queryDevices, data);
 
       if (resData.success) {
         const devicesList = resData.data.rows.map(item => {
@@ -294,7 +294,7 @@ export default {
           payload: { deviceDetailInfo }
         });
       } else {
-        message.error(resData.msg);
+        message.error(resData.message);
       }
     },
 
