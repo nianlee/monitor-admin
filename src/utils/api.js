@@ -9,16 +9,11 @@ export default {
   delDeviceById: `${config.apiHost}/device/delDeviceById`, // 删除设备
   addDevice: `${config.apiHost}/device/addDevice`, // 添加设备
   modifyDevice: `${config.apiHost}/device/editDeviceById`, // 修改设备
-  controlDevice: `${config.apiHost}/device/deviceControl`, //设备控制
-  queryDeviceBySn: `${config.apiHost}/device/queryDeviceBySn`, //根据sn查询设备
-  queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, //设备控制
-  deviceUpgradeBatch: `${config.apiHost}/device/deviceUpgradeBatch`, //设备控制批量升级
-  queryDeviceCountByLevel1Area: `${
-    config.apiHost
-  }/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
-  queryDeviceCountByStateHis: `${
-    config.apiHost
-  }/statistic/queryDeviceCountByStateHis`, //11.7统计设备状态对应设备数历史列表
+  controlDevice: `${config.apiHost}/device/deviceControl`, // 设备控制
+  queryDeviceBySn: `${config.apiHost}/device/queryDeviceBySn`, // 根据sn查询设备
+  queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, // 设备控制
+  deviceUpgradeBatch: `${config.apiHost}/device/deviceUpgradeBatch`, // 设备控制批量升级
+  queryAlarmResultHis: `${config.apiHost}/device/queryAlarmResultHis`, // 设备预警历史列表查询
 
   // 统计相关
   queryDeviceCountByState: `${
@@ -28,6 +23,12 @@ export default {
   queryOnlineDevices: `${config.apiHost}/statistic/queryOnlineDevices`, // 统计设备在线列表
   queryAlarmDevices: `${config.apiHost}/statistic/queryAlarmDevices`, // 统计设备预警列表
   queryDeviceCountByArea: `${config.apiHost}/statistic/queryDeviceCountByArea`, // 统计设备区域对应设备数
+  queryDeviceCountByLevel1Area: `${
+    config.apiHost
+  }/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
+  queryDeviceCountByStateHis: `${
+    config.apiHost
+  }/statistic/queryDeviceCountByStateHis`, //11.7统计设备状态对应设备数历史列表
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录

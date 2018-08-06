@@ -2,7 +2,7 @@ import {
   queryDeviceCountByState,
   queryOfflineDevices,
   queryOnlineDevices,
-  queryAlarmDevices,
+  queryAlarmResultHis,
   queryDeviceCountByLevel1Area,
   queryDeviceCountByStateHis,
   queryDeviceBySn
@@ -69,7 +69,7 @@ export default {
             payload: { page: 1, rows: 2 }
           });
           dispatch({
-            type: "queryAlarmDevices",
+            type: "queryAlarmResultHis",
             payload: { page: 1, rows: 4 }
           });
           dispatch({
@@ -125,7 +125,7 @@ export default {
 
       yield put({ type: "queryDeviceCountByState" });
       yield put({ type: "queryOnlineDevices", payload: { page: 1, rows: 2 } });
-      yield put({ type: "queryAlarmDevices", payload: { page: 1, rows: 4 } });
+      yield put({ type: "queryAlarmResultHis", payload: { page: 1, rows: 4 } });
       yield put({ type: "queryOfflineDevices", payload: { page: 1, rows: 2 } });
       yield put({
         type: "queryDeviceCountByLevel1Area",
@@ -455,8 +455,8 @@ export default {
     },
 
     // 统计故障设备列表
-    *queryAlarmDevices({ payload }, { call, put }) {
-      const resData = yield call(queryAlarmDevices, payload);
+    *queryAlarmResultHis({ payload }, { call, put }) {
+      const resData = yield call(queryAlarmResultHis, payload);
       if (resData.success) {
         // 添加key
         const alarmList = resData.data.rows.map(item => {

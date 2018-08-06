@@ -69,7 +69,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
         <Row gutter={24}>
-          <Col span={8}>
+          <Col span={12}>
             <FormItem {...formItemLayout} label="sn码">
               {getFieldDecorator("sn", {
                 rules: [
@@ -83,21 +83,12 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
             </FormItem>
           </Col>
 
-          <Col span={8}>
+          <Col span={12}>
             <FormItem {...formItemLayout} label="设备类型">
               {getFieldDecorator("type", {
                 rules: [{ required: true, message: "请选择设备类型!" }]
               })(
-                <Select
-                  showSearch
-                  placeholder="请选择设备类型"
-                  optionLabelProp="children"
-                  filterOption={(input, option) => {
-                    option.props.children
-                      .toLowerCase()
-                      .indexOf(input.toLowerCase());
-                  }}
-                >
+                <Select showSearch placeholder="请选择设备类型">
                   {deviceTypeLists}
                 </Select>
               )}
@@ -106,12 +97,11 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
         </Row>
 
         <Row gutter={24}>
-          <Col span={8}>
+          <Col span={12}>
             <FormItem {...formItemLayout} label="经度">
               {getFieldDecorator("sn", {
                 rules: [
                   {
-                    //pattern: "([A-Fa-f0-9]{2}-){5}[A-Fa-f0-9]{2}",
                     required: true,
                     message: "请输入设备地址经度"
                   }
@@ -119,17 +109,26 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
               })(<Input placeholder="经度" />)}
             </FormItem>
           </Col>
-          <Col span={8}>
+          <Col span={12}>
             <FormItem {...formItemLayout} label="维度">
               {getFieldDecorator("sn", {
                 rules: [
                   {
-                    //pattern: "([A-Fa-f0-9]{2}-){5}[A-Fa-f0-9]{2}",
                     required: true,
                     message: "请输入设备地址维度!"
                   }
                 ]
               })(<Input placeholder="维度" />)}
+            </FormItem>
+          </Col>
+        </Row>
+
+        <Row gutter={24}>
+          <Col span={12}>
+            <FormItem {...formItemLayout} label="设备编码">
+              {getFieldDecorator("code", {
+                rules: [{ required: true, message: "请输入设备编码" }]
+              })(<Input placeholder="设备编码" />)}
             </FormItem>
           </Col>
         </Row>
@@ -160,38 +159,3 @@ AddDevice.propTypes = {
 const WrappedAdd = Form.create()(AddDevice);
 
 export default connect(({ adddevice }) => ({ adddevice }))(WrappedAdd);
-
-
-/*<Col span={8}>*/
-/*  <FormItem {...formItemLayout} label="详细地址">*/
-/*    {getFieldDecorator("addressObj", { */
-/*      rules: [{ required: true, message: "请输入详细地址！" }]*/
-/*    })(<AddressControl />)}*/
-/*  </FormItem>*/
-/*</Col>*/
-
-/*
-<Row gutter={24}>
-  <Col span={8}>
-    <FormItem {...formItemLayout} label="维护人员 ">
-      {getFieldDecorator("maintainer", {
-        rules: [{ required: true, message: "请选输入维护人员 !" }]
-      })(
-        <Select
-          showSearch
-          placeholder="请选择维护人员"
-          optionLabelProp="children"
-          filterOption={(input, option) => {
-            option.props.children
-              .toLowerCase()
-              .indexOf(input.toLowerCase());
-          }}
-        >
-          <Option value="1">张三</Option>
-          <Option value="2">李四</Option>
-          <Option value="3">王五</Option>
-        </Select>
-      )}
-    </FormItem>
-  </Col>
-</Row>*/

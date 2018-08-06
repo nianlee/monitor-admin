@@ -71,3 +71,12 @@ export function queryDeviceCountByArea(data) {
     url: api.queryDeviceCountByArea
   });
 }
+
+// 设备预警历史列表查询
+export function queryAlarmResultHis(data) {
+  return request({
+    data,
+    method: "get",
+    url: api.queryAlarmResultHis
+  });
+}

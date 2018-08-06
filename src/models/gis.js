@@ -163,8 +163,8 @@ export default {
         const formatedData = resData.data.rows.map(item => {
           let formatedItem = item;
           formatedItem.position = {
-            longitude: item.longitude,
-            latitude: item.latitude
+            longitude: item.longitude || 0,
+            latitude: item.latitude || 0
           };
           return formatedItem;
         });

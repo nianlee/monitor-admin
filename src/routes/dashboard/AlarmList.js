@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import styles from "./style.less";
-import { Table, message, Button, Modal, Input } from "antd";
-import { queryAlarmDevices } from "services/dashboard";
+import { Table, message, Button, Modal, List } from "antd";
+import { queryAlarmResultHis, queryDeviceBySn } from "services/dashboard";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
-const InputGroup = Input.Group;
+const ListItem = List.Item;
+const ListItemMeta = ListItem.Meta;
 
 class AlarmList extends Component {
   constructor(props) {
@@ -20,41 +21,27 @@ class AlarmList extends Component {
       },
       {
         title: "设备预警信息",
-        dataIndex: "alarm_info",
+        dataIndex: "alarmInfo",
         className: styles.center,
-        key: "alarm_info"
+        key: "alarmInfo"
       },
       {
         title: "预警开始时间",
-        dataIndex: "alarm_start_time",
+        dataIndex: "alarmStartTime",
         className: styles.center,
-        key: "alarm_start_time"
+        key: "alarmStartTime"
       },
       {
-        title: "设备类型",
-        dataIndex: "type",
+        title: "预警结束时间",
+        dataIndex: "alarmEndTime",
         className: styles.center,
-        key: "type"
-      },
-      {
-        title: "设备状态",
-        dataIndex: "state",
-        className: styles.center,
-        key: "state",
-        render: (text, record) => {
-          if (record.state == 1) {
-            return "在线";
-          } else if (record.state == 0) {
-            return "离线";
-          } else {
-            return "故障";
-          }
-        }
+        key: "alarmEndTime"
       },
       {
         title: "操作",
         dataIndex: "操作",
         className: styles.center,
+        width: "20%",
         render: (text, record) => this.renderOperation(text, record)
       }
     ];
@@ -69,7 +56,7 @@ class AlarmList extends Component {
         showTotal: total => `共${total}条数据`
       },
       alarmList: [],
-      deviceInfo: "",
+      deviceDetailInfo: {},
       visible: false
     };
 
@@ -85,19 +72,14 @@ class AlarmList extends Component {
     return (
       <div>
         <a
-          href="javascript:;"
-          onClick={() => this.goMap(record.sn)}
+          onClick={() => this.viewDetail(text, record)}
           style={{ marginLeft: 8 }}
         >
-          位置
+          详细信息
         </a>
 
-        <a
-          href="javascript:;"
-          onClick={() => this.checkDevice(text, record)}
-          style={{ marginLeft: 8 }}
-        >
-          查看
+        <a onClick={() => this.goMap(record.sn)} style={{ marginLeft: 8 }}>
+          查看地图位置
         </a>
       </div>
     );
@@ -107,20 +89,74 @@ class AlarmList extends Component {
     this.props.history.push("/gis/" + id);
   }
 
-  checkDevice(t, info) {
-    this.setState({
-      deviceInfo: info
-    });
+  viewDetail(t, info) {
+    queryDeviceBySn({ deviceSn: info.sn }).then(resData => {
+      if (resData.success) {
+        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const deviceDetailInfo = {
+          name: info.name,
+          deviceDetailMetas: []
+        };
 
-    setTimeout(() => {
-      this.setState({
-        visible: true
-      });
-    }, 2000);
+        const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+
+        deviceDetailMetas.push({
+          key: "设备名称",
+          title: "设备名称",
+          description: info.name
+        });
+
+        deviceDetailMetas.push({
+          key: "mac",
+          title: "mac",
+          description: info.mac
+        });
+
+        deviceDetailMetas.push({
+          key: "设备类型",
+          title: "设备类型",
+          description: info.type
+        });
+
+        deviceDetailMetas.push({
+          key: "设备状态",
+          title: "设备状态",
+          description: info.state
+        });
+
+        deviceDetailMetas.push({
+          key: "硬件版本",
+          title: "硬件版本",
+          description: info.hardwareVersion
+        });
+
+        deviceDetailMetas.push({
+          key: "设备地址",
+          title: "设备地址",
+          description: info.detailAddr
+        });
+
+        // 动态属性
+        const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        if (deviceDynamicDTOS) {
+          deviceDynamicDTOS.forEach(item => {
+            deviceDetailMetas.push({
+              key: item.attributeDesc,
+              title: item.attributeName,
+              description: item.attributeValue
+            });
+          });
+        }
+
+        this.setState({ deviceDetailInfo, visible: true });
+      } else {
+        message.error(resData.message);
+      }
+    });
   }
 
   paginationChange(pagination) {
-    queryAlarmDevices({
+    queryAlarmResultHis({
       page: pagination.current,
       rows: pagination.pageSize
     }).then(res => {
@@ -158,11 +194,22 @@ class AlarmList extends Component {
 
   render() {
     const renderTitle = () => {
-      return <span className={styles.tableTitle}>报警设备列表</span>;
+      return (
+        <div>
+          <span className={styles.alarmListTableTitle}>报警设备列表</span>
+          <Button
+            type="primary"
+            onClick={this.onBack.bind(this)}
+            className={styles.backButton}
+          >
+            返回首页
+          </Button>
+        </div>
+      );
     };
 
     return (
-      <div className="alarm">
+      <div style={{ background: "#fff" }}>
         <Table
           bordered
           columns={this.columns}
@@ -172,78 +219,29 @@ class AlarmList extends Component {
           onChange={this.paginationChange.bind(this)}
         />
         <Modal
-          width={800}
-          height={500}
           visible={this.state.visible}
-          title="设备详情"
-          okText="确认"
-          cancelText="取消"
-          onOk={this.hideModal.bind(this)}
-          onCancel={this.hideModal.bind(this)}
+          onCancel={() => this.setState({ visible: false })}
+          footer={false}
         >
-          <InputGroup>
-            <div>
-              <label>sn 码</label>
-              <Input
-                className={styles.InputWrapper}
-                value={this.state.deviceInfo.sn}
-                disabled={true}
-              />
-            </div>
-
-            <div>
-              <label>设备 名称</label>
-              <Input
-                className={styles.InputWrapper}
-                value={this.state.deviceInfo.name}
-                disabled={true}
-              />
-            </div>
-
-            <div>
-              <label>设备 类型</label>
-              <Input
-                className={styles.InputWrapper}
-                value={this.state.deviceInfo.type}
-                disabled={true}
-              />
-            </div>
-
-            <div>
-              <label>设备安装时间</label>
-              <Input
-                className={styles.InputWrapper}
-                value={this.state.deviceInfo.install_time}
-                disabled={true}
-              />
-            </div>
-
-            <div>
-              <label>设备安装地址</label>
-              <Input
-                className={styles.InputWrapper}
-                value={this.state.deviceInfo.detail_addr}
-                disabled={true}
-              />
-            </div>
-
-            <div>
-              <label>预警开始时间</label>
-              <Input
-                className={styles.InputWrapper}
-                value={this.state.deviceInfo.alarm_start_time}
-                disabled={true}
-              />
-            </div>
-          </InputGroup>
+          <List
+            style={{ margin: 20 }}
+            header={
+              <div style={{ fontSize: 18, fontWeight: 600 }}>
+                《{this.state.deviceDetailInfo.name}》的详细信息
+              </div>
+            }
+            bordered
+            dataSource={this.state.deviceDetailInfo.deviceDetailMetas}
+            renderItem={item => (
+              <ListItem>
+                <ListItemMeta
+                  title={item.title}
+                  description={item.description}
+                />
+              </ListItem>
+            )}
+          />
         </Modal>
-        <Button
-          type="primary"
-          onClick={this.onBack.bind(this)}
-          className={styles.backButton}
-        >
-          返回
-        </Button>
       </div>
     );
   }
