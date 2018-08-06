@@ -38,7 +38,8 @@ export default {
   deleteUser: `${config.apiHost}/manager/delManagerById`,
   modifyUserInfo: `${config.apiHost}/manager/editManagerById`,
   queryUserInfo: `${config.apiHost}/manager/queryManagerInfoById`, // 用户详细信息查询
-  addUser: `${config.apiHost}/manager/addManager`,
+  addUser: `${config.apiHost}/manager/addManager`, // 添加用户
+  queryLog: `${config.apiHost}/log/queryLog`, // 日志列表查询
 
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表

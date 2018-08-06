@@ -114,7 +114,7 @@ const routes = [
     component: () => import("./routes/role")
   },
   {
-    path: "/loginlog",
+    path: "/loginlog", // 登录日志查询
     models: () => [import("./models/loginlog")],
     component: () => import("./routes/loginlog")
   },

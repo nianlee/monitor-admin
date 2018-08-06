@@ -1,96 +1,55 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Table } from 'antd'
-import styles from '../style.less'
+import React from "react";
+import PropTypes from "prop-types";
+import { Table } from "antd";
+import styles from "../style.less";
 
-const ReportTable = ({ report, dispatch }) => {
-
-  const dataSource = [];
-
-  for (let i = 0; i <= 100; i++) {
-    dataSource.push({
-      key: i.toString(),
-      sn: `用户${i}`,
-      name: `登录时间${i}`,
-      state: `登出时间${i}`,
-      type: `设备类型${i}`,
-      allAreaId: `区域${i}`,
-      detailAddr: `详细地址${i}`,
-      carrierOperator: `运营商${i}`,
-      manufacturer: `厂商${i}`,
-      createTime: `创建时间${i}`,
-    })
-  }
-
-  const columns = [{
-    title: '用户名',
-    dataIndex: 'sn',
-    className: [styles.center],
-    key: 'sn',
-  }, {
-    title: '登录时间',
-    dataIndex: 'name',
-    className: [styles.center],
-    key: 'name',
-  }, {
-    title: '登出时间',
-    dataIndex: 'state',
-    className: [styles.center],
-    key: 'state',
-  },
-    /*
+const ReportTable = ({ loginlog, dispatch }) => {
+  const columns = [
     {
-    title: '设备类型',
-    className: [styles.center],
-    dataIndex: 'type',
-    key: 'type',
-  }, {
-    title: '区域',
-    dataIndex: 'allAreaId',
-    className: [styles.center],
-    key: 'allAreaId',
-  }, {
-    title: '详细地址',
-    dataIndex: 'detailAddr',
-    className: [styles.center],
-    key: 'detailAddr',
-  }, {
-    title: '运营商',
-    dataIndex: 'carrierOperator',
-    className: [styles.center],
-    key: 'carrierOperator',
-  }, {
-    title: '厂商',
-    dataIndex: 'manufacturer',
-    className: [styles.center],
-    key: 'manufacturer',
-  }, {
-    title: '创建时间',
-    dataIndex: 'createTime',
-    className: [styles.center],
-    key: 'createTime',
-  }, {
-    title: '操作',
-    dataIndex: 'opertor',
-    className: [styles.center],
-    key: 'opertor',
-    render: (text, record) => <a>查看地图位置</a>  // eslint-disable-line
-  }*/
+      title: "用户名",
+      dataIndex: "userName",
+      className: [styles.center],
+      key: "userName"
+    },
+    {
+      title: "登录时间",
+      dataIndex: "loginTime",
+      className: [styles.center],
+      key: "loginTime"
+    },
+    {
+      title: "登录ip",
+      dataIndex: "loginIp",
+      className: [styles.center],
+      key: "loginIp"
+    }
   ];
+
+  const paginationChange = pagination => {
+    dispatch({
+      type: "loginlog/queryLog",
+      payload: {
+        page: pagination.current,
+        rows: pagination.pageSize,
+        loginType: 1
+      }
+    });
+  };
 
   return (
     <Table
       bordered
-      dataSource={dataSource}
+      dataSource={loginlog.userLogList}
       columns={columns}
+      pagination={loginlog.pagination}
+      onChange={paginationChange}
     />
-  )
-}
+  );
+};
 
 ReportTable.propTypes = {
-  report: PropTypes.object,
-  dispatch: PropTypes.func,
-}
+  loginlog: PropTypes.object,
+  dispatch: PropTypes.func
+};
 
-
-export default ReportTable
+export default ReportTable;
