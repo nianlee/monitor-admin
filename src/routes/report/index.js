@@ -1,30 +1,78 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Row } from 'antd'
-import { connect } from 'dva'
+import React, { Component } from "react";
+import { Row, message } from "antd";
+import { queryAlarmResultHis } from "services/dashboard";
 
-import ReportTable from './components/ReportTable'
-import ReportForm from './components/ReportForm'
+import ReportTable from "./components/ReportTable";
+import ReportForm from "./components/ReportForm";
 
-import styles from './style.less'
+import styles from "./style.less";
 
-const Report = ({ report, dispatch }) => {
+class Report extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div style={{ width: '100%' }}>
-      <Row className={styles.searchWrapper}>
-        <ReportForm dispatch={dispatch} report={report}/>
-      </Row>
-      <Row className={styles.tableWrapper}>
-        <ReportTable dispatch={dispatch} report={report}/>
-      </Row>
-    </div>
-  )
+    this.state = {
+      deviceHisList: [], // 预警设备历史数据
+      pagination: {
+        current: 1,
+        pageSize: 10,
+        total: 0,
+        showSizeChanger: true,
+        showQuickJumper: true,
+        showTotal: total => `共${total}条数据`
+      }
+    };
+
+    this.queryAlarmHis({
+      page: this.state.pagination.current,
+      rows: this.state.pagination.pageSize
+    });
+  }
+
+  queryAlarmHis(params) {
+    queryAlarmResultHis(params).then(res => {
+      if (res.success) {
+        const deviceHisList = res.data.rows.map(item => {
+          item.key = item.id + Math.random(1);
+          return item;
+        });
+
+        this.setState({
+          pagination: {
+            ...this.state.pagination,
+            total: res.data.total
+          },
+          deviceHisList
+        });
+      } else {
+        message.error(res.message);
+      }
+    });
+  }
+
+  updateState(payload) {
+    this.setState(payload);
+  }
+
+  render() {
+    return (
+      <div style={{ width: "100%" }}>
+        <Row className={styles.searchWrapper}>
+          <ReportForm
+            dispatch={payload => this.updateState(payload)}
+            report={this.state}
+          />
+        </Row>
+        <Row className={styles.tableWrapper}>
+          <ReportTable
+            dispatch={payload => this.updateState(payload)}
+            queryAlarmHis={params => this.queryAlarmHis(params)}
+            report={this.state}
+          />
+        </Row>
+      </div>
+    );
+  }
 }
 
-Report.propTypes = {
-  report: PropTypes.object,
-  dispatch: PropTypes.func,
-}
-
-export default connect(({ report }) => ({ report }))(Report)
+export default Report;

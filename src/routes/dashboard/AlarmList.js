@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./style.less";
 import { Table, message, Button, Modal, List } from "antd";
-import { queryAlarmResultHis, queryDeviceBySn } from "services/dashboard";
+import { queryAlarmDevices, queryDeviceBySn } from "services/dashboard";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
@@ -21,21 +21,21 @@ class AlarmList extends Component {
       },
       {
         title: "设备预警信息",
-        dataIndex: "alarmInfo",
+        dataIndex: "alarm_info",
         className: styles.center,
-        key: "alarmInfo"
+        key: "alarm_info"
       },
       {
         title: "预警开始时间",
-        dataIndex: "alarmStartTime",
+        dataIndex: "alarm_start_time",
         className: styles.center,
-        key: "alarmStartTime"
+        key: "alarm_start_time"
       },
       {
-        title: "预警结束时间",
-        dataIndex: "alarmEndTime",
+        title: "设备类型",
+        dataIndex: "type",
         className: styles.center,
-        key: "alarmEndTime"
+        key: "type"
       },
       {
         title: "操作",
@@ -156,13 +156,13 @@ class AlarmList extends Component {
   }
 
   paginationChange(pagination) {
-    queryAlarmResultHis({
+    queryAlarmDevices({
       page: pagination.current,
       rows: pagination.pageSize
     }).then(res => {
       if (res.success) {
         const alarmList = res.data.rows.map(item => {
-          item.key = item.id;
+          item.key = item.id + Math.random(1);
           return item;
         });
 
@@ -180,9 +180,7 @@ class AlarmList extends Component {
   }
 
   showModal() {
-    this.setState({
-      visible: true
-    });
+    this.setState({ visible: true });
   }
 
   hideModal() {
@@ -227,7 +225,8 @@ class AlarmList extends Component {
             style={{ margin: 20 }}
             header={
               <div style={{ fontSize: 18, fontWeight: 600 }}>
-                《{this.state.deviceDetailInfo.name}》的详细信息
+                《{this.state.deviceDetailInfo.name}
+                》的详细信息
               </div>
             }
             bordered

@@ -28,7 +28,6 @@ const routes = [
   },
   {
     path: "/report",
-    models: () => [import("./models/report")],
     component: () => import("./routes/report")
   },
   {

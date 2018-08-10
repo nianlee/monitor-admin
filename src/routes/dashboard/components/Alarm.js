@@ -13,21 +13,36 @@ const columns = [
   },
   {
     title: "设备预警信息",
-    dataIndex: "alarmInfo",
+    dataIndex: "alarm_info",
     className: styles.center,
-    key: "alarmInfo"
+    key: "alarm_info"
   },
   {
     title: "预警开始时间",
-    dataIndex: "alarmStartTime",
+    dataIndex: "alarm_start_time",
     className: styles.center,
-    key: "alarmStartTime"
+    key: "alarm_start_time"
   },
   {
-    title: "预警结束时间",
-    dataIndex: "alarmEndTime",
+    title: "设备类型",
+    dataIndex: "type",
     className: styles.center,
-    key: "alarmEndTime"
+    key: "type"
+  },
+  {
+    title: "设备状态",
+    dataIndex: "state",
+    className: styles.center,
+    key: "state",
+    render: (text, record) => {
+      if (record.state == 1) {
+        return "在线";
+      } else if (record.state == 0) {
+        return "离线";
+      } else {
+        return "故障";
+      }
+    }
   }
 ];
 const Alarm = ({ dashboard, dispatch }) => {

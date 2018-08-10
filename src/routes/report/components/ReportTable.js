@@ -2,101 +2,83 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Table } from "antd";
 import styles from "../style.less";
-import { routerRedux } from "dva/router";
 
-const ReportTable = ({ report, dispatch }) => {
-  const dataSource = [];
+// import { routerRedux } from "dva/router";
 
-  for (let i = 0; i <= 100; i++) {
-    dataSource.push({
-      key: i.toString(),
-      sn: `设备编号${i}`,
-      name: `设备名称${i}`,
-      state: `设备状态${i}`,
-      type: `设备类型${i}`,
-      allAreaId: `区域${i}`,
-      detailAddr: `详细地址${i}`,
-      carrierOperator: `运营商${i}`,
-      manufacturer: `厂商${i}`,
-      createTime: `创建时间${i}`
-    });
-  }
+const ReportTable = ({ report, dispatch, queryAlarmHis }) => {
+  const renderOperation = (text, record) => {
+    return (
+      <div>
+        <a
+          onClick={() => this.viewDetail(text, record)}
+          style={{ marginLeft: 8 }}
+        >
+          详细信息
+        </a>
+
+        <a onClick={() => this.goMap(record.sn)} style={{ marginLeft: 8 }}>
+          查看地图位置
+        </a>
+      </div>
+    );
+  };
 
   const columns = [
     {
-      title: "设备编号",
+      title: "设备sn",
       dataIndex: "sn",
       className: styles.center,
       key: "sn"
     },
     {
-      title: "设备名称",
-      dataIndex: "name",
+      title: "设备预警信息",
+      dataIndex: "alarmInfo",
       className: styles.center,
-      key: "name"
+      key: "alarmInfo"
     },
     {
-      title: "设备状态",
-      dataIndex: "state",
+      title: "预警开始时间",
+      dataIndex: "alarmStartTime",
       className: styles.center,
-      key: "state"
+      key: "alarmStartTime"
     },
     {
-      title: "设备类型",
+      title: "预警结束时间",
+      dataIndex: "alarmEndTime",
       className: styles.center,
-      dataIndex: "type",
-      key: "type"
-    },
-    {
-      title: "区域",
-      dataIndex: "allAreaId",
-      className: styles.center,
-      key: "allAreaId"
-    },
-    {
-      title: "详细地址",
-      dataIndex: "detailAddr",
-      className: styles.center,
-      key: "detailAddr"
-    },
-    {
-      title: "运营商",
-      dataIndex: "carrierOperator",
-      className: styles.center,
-      key: "carrierOperator"
-    },
-    {
-      title: "厂商",
-      dataIndex: "manufacturer",
-      className: styles.center,
-      key: "manufacturer"
-    },
-    {
-      title: "创建时间",
-      dataIndex: "createTime",
-      className: styles.center,
-      key: "createTime"
+      key: "alarmEndTime"
     },
     {
       title: "操作",
-      dataIndex: "opertor",
+      dataIndex: "操作",
       className: styles.center,
-      key: "opertor",
-      // eslint-disable-next-line
-      render: (text, record) => (
-        <a onClick={() => dispatch(routerRedux.push(`/gis/${record.sn}`))}>
-          查看地图位置
-        </a>
-      )
+      width: "20%",
+      render: (text, record) => renderOperation(text, record)
     }
   ];
 
-  return <Table bordered dataSource={dataSource} columns={columns} />;
+  const paginationChange = pagination => {
+    queryAlarmHis({
+      page: pagination.current,
+      rows: pagination.pageSize
+    });
+  };
+
+  return (
+    <Table
+      bordered
+      dataSource={report.deviceHisList}
+      columns={columns}
+      pagination={report.pagination}
+      onChange={paginationChange}
+    />
+  );
 };
 
 ReportTable.propTypes = {
   report: PropTypes.object,
-  dispatch: PropTypes.func
+  dispatch: PropTypes.func,
+  queryAlarmHis: PropTypes.func
 };
 
 export default ReportTable;

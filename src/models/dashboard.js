@@ -2,7 +2,7 @@ import {
   queryDeviceCountByState,
   queryOfflineDevices,
   queryOnlineDevices,
-  queryAlarmResultHis,
+  queryAlarmDevices,
   queryDeviceCountByLevel1Area,
   queryDeviceCountByStateHis,
   queryDeviceBySn
@@ -69,7 +69,7 @@ export default {
             payload: { page: 1, rows: 2 }
           });
           dispatch({
-            type: "queryAlarmResultHis",
+            type: "queryAlarmDevices",
             payload: { page: 1, rows: 4 }
           });
           dispatch({
@@ -125,7 +125,7 @@ export default {
 
       yield put({ type: "queryDeviceCountByState" });
       yield put({ type: "queryOnlineDevices", payload: { page: 1, rows: 2 } });
-      yield put({ type: "queryAlarmResultHis", payload: { page: 1, rows: 4 } });
+      yield put({ type: "queryAlarmDevices", payload: { page: 1, rows: 4 } });
       yield put({ type: "queryOfflineDevices", payload: { page: 1, rows: 2 } });
       yield put({
         type: "queryDeviceCountByLevel1Area",
@@ -455,16 +455,16 @@ export default {
     },
 
     // 统计故障设备列表
-    *queryAlarmResultHis({ payload }, { call, put }) {
-      const resData = yield call(queryAlarmResultHis, payload);
+    *queryAlarmDevices({ payload }, { call, put }) {
+      const resData = yield call(queryAlarmDevices, payload);
       if (resData.success) {
         // 添加key
         const alarmList = resData.data.rows.map(item => {
-          item.key = item.id;
+          item.key = item.id + Math.random(1) + ""; // 加上random 确保key值唯一
           return item;
         });
 
-        yield put({ type: "save", payload: { alarmList } });
+        yield put({ type: "save", payload: { alarmList: alarmList.slice() } });
       } else {
         console.log(resData.message);
       }

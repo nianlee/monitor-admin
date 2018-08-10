@@ -26,9 +26,11 @@ export default {
   queryDeviceCountByLevel1Area: `${
     config.apiHost
   }/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
+
+  //11.7统计设备状态对应设备数历史列表
   queryDeviceCountByStateHis: `${
     config.apiHost
-  }/statistic/queryDeviceCountByStateHis`, //11.7统计设备状态对应设备数历史列表
+  }/statistic/queryDeviceCountByStateHis`,
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
