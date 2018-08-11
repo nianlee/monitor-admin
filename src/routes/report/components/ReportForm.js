@@ -6,7 +6,7 @@ import { Form, Button, DatePicker, Row, Col, Input } from "antd";
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 
-const ReportForm = ({ report, dispatch, form }) => {
+const ReportForm = ({ form, queryAlarmHis }) => {
   const { getFieldDecorator } = form;
   const formItemLayout = {
     labelCol: { span: 8 },
@@ -25,6 +25,7 @@ const ReportForm = ({ report, dispatch, form }) => {
         }
 
         delete params.date;
+        queryAlarmHis(params);
       }
     });
   };
@@ -43,9 +44,9 @@ const ReportForm = ({ report, dispatch, form }) => {
           </FormItem>
         </Col>
         <Col span={6}>
-          <FormItem label="位置选择" {...formItemLayout}>
+          <FormItem label="预警信息" {...formItemLayout}>
             {getFieldDecorator("alarmInfo", {})(
-              <Input placeholder="请输入警告信息" />
+              <Input placeholder="请输入预警信息" />
             )}
           </FormItem>
         </Col>
@@ -65,9 +66,8 @@ const ReportForm = ({ report, dispatch, form }) => {
 };
 
 ReportForm.propTypes = {
-  report: PropTypes.object,
-  dispatch: PropTypes.func,
-  form: PropTypes.object
+  form: PropTypes.object,
+  queryAlarmHis: PropTypes.func
 };
 
 const WrapperReportForm = Form.create()(ReportForm);

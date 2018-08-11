@@ -80,3 +80,12 @@ export function queryAlarmResultHis(data) {
     url: api.queryAlarmResultHis
   });
 }
+
+// 一键巡检全量设备
+export function batchInspectionDevices(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.batchInspectionDevices
+  });
+}

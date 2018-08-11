@@ -32,6 +32,9 @@ export default {
     config.apiHost
   }/statistic/queryDeviceCountByStateHis`,
 
+  // 一键巡检全量设备
+  batchInspectionDevices: `${config.apiHost}/device/batchInspectionDevices`,
+
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
   loginout: `${config.apiHost}/manager/logout`, // 用户退出登录

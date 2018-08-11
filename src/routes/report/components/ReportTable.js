@@ -1,22 +1,90 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Table } from "antd";
+import { Table, message } from "antd";
 import styles from "../style.less";
+import { routerRedux } from "dva/router";
+import { queryDeviceBySn } from "services/dashboard";
 
-// import { routerRedux } from "dva/router";
+const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
+  const viewDetail = payload => {
+    queryDeviceBySn(payload).then(resData => {
+      if (resData.success) {
+        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const deviceDetailInfo = {
+          name: info.name,
+          deviceDetailMetas: []
+        };
 
-const ReportTable = ({ report, dispatch, queryAlarmHis }) => {
+        const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+
+        deviceDetailMetas.push({
+          key: "设备名称",
+          title: "设备名称",
+          description: info.name
+        });
+
+        deviceDetailMetas.push({
+          key: "mac",
+          title: "mac",
+          description: info.mac
+        });
+
+        deviceDetailMetas.push({
+          key: "设备类型",
+          title: "设备类型",
+          description: info.type
+        });
+
+        deviceDetailMetas.push({
+          key: "设备状态",
+          title: "设备状态",
+          description: info.state
+        });
+
+        deviceDetailMetas.push({
+          key: "硬件版本",
+          title: "硬件版本",
+          description: info.hardwareVersion
+        });
+
+        deviceDetailMetas.push({
+          key: "设备地址",
+          title: "设备地址",
+          description: info.detailAddr
+        });
+
+        // 动态属性
+        const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        if (deviceDynamicDTOS) {
+          deviceDynamicDTOS.forEach(item => {
+            deviceDetailMetas.push({
+              key: item.attributeDesc,
+              title: item.attributeName,
+              description: item.attributeValue
+            });
+          });
+        }
+        updateState({ deviceDetailInfo, deviceModalVisible: true });
+      } else {
+        message.error(resData.message);
+      }
+    });
+  };
+
   const renderOperation = (text, record) => {
     return (
       <div>
         <a
-          onClick={() => this.viewDetail(text, record)}
+          onClick={() => viewDetail({ deviceSn: record.sn })}
           style={{ marginLeft: 8 }}
         >
           详细信息
         </a>
 
-        <a onClick={() => this.goMap(record.sn)} style={{ marginLeft: 8 }}>
+        <a
+          onClick={() => dispatch(routerRedux.push(`/gis/${record.sn}`))}
+          style={{ marginLeft: 8 }}
+        >
           查看地图位置
         </a>
       </div>
@@ -78,7 +146,8 @@ const ReportTable = ({ report, dispatch, queryAlarmHis }) => {
 ReportTable.propTypes = {
   report: PropTypes.object,
   dispatch: PropTypes.func,
-  queryAlarmHis: PropTypes.func
+  queryAlarmHis: PropTypes.func,
+  updateState: PropTypes.func
 };
 
 export default ReportTable;

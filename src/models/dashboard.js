@@ -5,7 +5,8 @@ import {
   queryAlarmDevices,
   queryDeviceCountByLevel1Area,
   queryDeviceCountByStateHis,
-  queryDeviceBySn
+  queryDeviceBySn,
+  batchInspectionDevices
 } from "../services/dashboard";
 import {
   queryDevices,
@@ -56,7 +57,8 @@ export default {
     deviceQueryParamsCache: {}, // 设备查询参数缓存
 
     deviceModalVisible: false, // 设备详情弹窗
-    deviceDetailInfo: {} // 设备详细信息
+    deviceDetailInfo: {}, // 设备详细信息
+    inspectionLoading: false // 一键巡检 loading
   },
 
   subscriptions: {
@@ -483,6 +485,19 @@ export default {
         yield put({ type: "save", payload: { offlineList } });
       } else {
         console.log(resData.message);
+      }
+    },
+
+    //一键巡检全量设备
+    *batchInspectionDevices({ payload }, { call, put }) {
+      const resData = yield call(batchInspectionDevices, payload);
+      yield put({ type: "save", payload: { inspectionLoading: true } });
+
+      if (resData.success) {
+        message.success("巡检中");
+      } else {
+        message.error(resData.message);
+        yield put({ type: "save", payload: { inspectionLoading: false } });
       }
     }
   },

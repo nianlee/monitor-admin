@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styles from "../style.less";
 import { Card, Button } from "antd";
 
-const EquipmentSummary = ({ dashboard }) => {
+const EquipmentSummary = ({ dashboard, dispatch }) => {
   return (
     <Card title="设备信息汇总" style={{ backgroundColor: "#192c3e" }}>
       <div className={styles.summaryWrapper}>
@@ -24,20 +24,30 @@ const EquipmentSummary = ({ dashboard }) => {
         </div>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备在线率</p>
-          <p className={styles.number}>{dashboard.OnlineRate * 100}%</p>
+          <p className={styles.number}>
+            {(dashboard.OnlineRate * 100).toFixed(2)}%
+          </p>
         </div>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备离线率</p>
-          <p className={styles.number}>{dashboard.OfflineRate * 100}%</p>
+          <p className={styles.number}>
+            {(dashboard.OfflineRate * 100).toFixed(2)}%
+          </p>
         </div>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备故障率</p>
-          <p className={styles.number}>{dashboard.AlarmRate * 100}%</p>
+          <p className={styles.number}>
+            {(dashboard.AlarmRate * 100).toFixed(2)}%
+          </p>
         </div>
         <div className={styles.item}>
           <Button
             style={{ marginLeft: 25, marginTop: 5, width: 100 }}
             type="primary"
+            loading={dashboard.inspectionLoading}
+            onClick={() =>
+              dispatch({ type: "dashboard/batchInspectionDevices" })
+            }
           >
             一键巡检
           </Button>
@@ -48,7 +58,8 @@ const EquipmentSummary = ({ dashboard }) => {
 };
 
 EquipmentSummary.propTypes = {
-  dashboard: PropTypes.object
+  dashboard: PropTypes.object,
+  dispatch: PropTypes.func
 };
 
 export default EquipmentSummary;
