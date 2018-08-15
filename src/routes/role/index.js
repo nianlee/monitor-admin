@@ -39,7 +39,8 @@ const Role = ({ role, dispatch }) => {
       return (
         <div>
           <a onClick={add} className={styles.title}>新增</a>
-          <a onClick={() => update(record)} className={styles.title}>修改</a>
+          <a onClick={() => update(record)} className={styles.title}>修改权限</a>
+          <a onClick={() => deletes(record)} className={styles.title}>删除</a>
         </div>
       )
     }
@@ -52,6 +53,11 @@ const Role = ({ role, dispatch }) => {
   const update = record => {
     dispatch(routerRedux.push(`/manage/role/2/${record.id}`))
   }
+
+  const deletes = record => {
+    dispatch({ type: 'role/deleteRole', payload: {id:record.id}})
+  }
+
 
   function handleTableChange(pagination) {
     dispatch({ type: 'users/updatePagination', payload: pagination})
@@ -80,6 +86,6 @@ const Role = ({ role, dispatch }) => {
 Role.propTypes = {
   role: PropTypes.object,
   dispatch: PropTypes.func,
-}
+};
 
 export default connect(({ role }) => ({ role }))(Role)

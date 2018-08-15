@@ -18,6 +18,14 @@ export function addRole(data) {
   })
 }
 
+export function deleteRole(data) {
+  return request({
+    data,
+    method:'post',
+    url:api.deleteRole,
+  })
+}
+
 // 角色信息查询
 export function queryRoleInfoById(data) {
   return request({

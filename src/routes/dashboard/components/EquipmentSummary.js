@@ -4,12 +4,12 @@ import styles from "../style.less";
 import { Card, Button } from "antd";
 
 const EquipmentSummary = ({ dashboard }) => {
+  const OnlineRates = (dashboard.OnlineRate * 100).toFixed(2) + '%';
+  const OfflineRates = (dashboard.OfflineRate*100).toFixed(2) + '%';
+  const AlarmRates = (dashboard.AlarmRate*100).toFixed(2) + '%';
   return (
     <Card title="设备信息汇总" style={{ backgroundColor: "#192c3e" }}>
       <div className={styles.summaryWrapper}>
-        <div className={styles.item}>
-          <p className={styles.summaryTitle}>渝北区</p>
-        </div>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备总数</p>
           <p className={styles.number}>{dashboard.TotalCount}</p>
@@ -24,15 +24,15 @@ const EquipmentSummary = ({ dashboard }) => {
         </div>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备在线率</p>
-          <p className={styles.number}>{dashboard.OnlineRate * 100}%</p>
+          <p className={styles.number}>{OnlineRates}</p>
         </div>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备离线率</p>
-          <p className={styles.number}>{dashboard.OfflineRate * 100}%</p>
+          <p className={styles.number}>{OfflineRates}</p>
         </div>
         <div className={styles.item}>
           <p className={styles.summaryTitle}>设备故障率</p>
-          <p className={styles.number}>{dashboard.AlarmRate * 100}%</p>
+          <p className={styles.number}>{AlarmRates}</p>
         </div>
         <div className={styles.item}>
           <Button

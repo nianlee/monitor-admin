@@ -94,11 +94,12 @@ export default {
     setup({ dispatch, history }) {
       // dispatch({ type: 'queryRoleList' })
       history.listen(({ pathname }) => {
+
         const match = pathToRegexp('/manage/role/:type').exec(pathname)
         const updateMatch =  pathToRegexp('/manage/role/:type/:id').exec(pathname)
 
         let type
-
+        dispatch({ type:'queryRoleMenuList', payload:{ parentId:0 } });
         if (match && match[1] == '1') {
           type = 'add'
           dispatch({ type: 'clearState' })
@@ -117,6 +118,7 @@ export default {
   },
 
   effects: {
+
     // 查询权限列表
     *queryRoleList({ payload }, { call, put, select }) {
       const { pagination } = yield select(_ => _.role)
@@ -156,7 +158,8 @@ export default {
 
     // 角色菜单查询
     *queryRoleMenuList ({ payload }, { call, put, select }) {
-      const resData = yield call(queryRoleMenuList, payload)
+      const resData = yield call(queryRoleMenuList, payload);
+      console.log('menu',resData);
       if (resData.success) {
         yield put({ type: 'updateState', payload: { allMenus: resData.data.data }})
       } else {
@@ -166,10 +169,10 @@ export default {
 
     // 角色添加
     *addRole({ payload }, { call, put, select }) {
-      const resData = yield call(addRole, payload)
+      const resData = yield call(addRole, payload);
 
       if (resData.success) {
-        message.success('添加成功')
+        message.success('添加成功');
         yield put(routerRedux.push('/manage/role'))
       } else {
         message.error(resData.message)

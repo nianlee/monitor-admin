@@ -53,6 +53,7 @@ export default {
   // 角色管理
   queryRoleList: `${config.apiHost}/role/queryRoleList`, // 角色列表查询
   addRole: `${config.apiHost}/role/addRole`, // 角色添加
+  deleteRole:`${config.apiHost}/role/delRoleById`, // 删除添加
   queryRoleInfoById: `${config.apiHost}/role/queryRoleInfoById`, // 角色信息查询
   editRoleById: `${config.apiHost}/role/editRoleById`, // 角色更新
   queryRoleMenuList: `${config.apiHost}/role/queryRoleMenuList`, // 角色菜单查询
