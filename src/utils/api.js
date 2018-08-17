@@ -27,10 +27,15 @@ export default {
     config.apiHost
   }/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
 
-  //11.7统计设备状态对应设备数历史列表
+  // 统计设备状态对应设备数历史列表
   queryDeviceCountByStateHis: `${
     config.apiHost
   }/statistic/queryDeviceCountByStateHis`,
+
+  // 设备预警数是否变化查询
+  queryAlarmDeviceCountWithLast: `${
+    config.apiHost
+  }/statistic/queryAlarmDeviceCountWithLast`,
 
   // 一键巡检全量设备
   batchInspectionDevices: `${config.apiHost}/device/batchInspectionDevices`,

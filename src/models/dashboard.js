@@ -1,13 +1,12 @@
 import {
   queryDeviceCountByState,
-  queryOfflineDevices,
-  queryOnlineDevices,
   queryAlarmDevices,
   queryDeviceCountByLevel1Area,
   queryDeviceCountByStateHis,
   queryDeviceBySn,
   batchInspectionDevices,
-  queryBatchInspectionDevicesProgress
+  queryBatchInspectionDevicesProgress,
+  queryAlarmDeviceCountWithLast
 } from "../services/dashboard";
 import {
   queryDevices,
@@ -15,7 +14,7 @@ import {
   queryAreaByParentCode,
   queryDeviceType
 } from "../services/manage";
-import { message } from "antd";
+import { message, notification } from "antd";
 import { refreshData, stopRefreshData } from "utils";
 
 export default {
@@ -72,16 +71,8 @@ export default {
         if (pathname == "/dashboard") {
           dispatch({ type: "queryDeviceCountByState" });
           dispatch({
-            type: "queryOnlineDevices",
-            payload: { page: 1, rows: 2 }
-          });
-          dispatch({
             type: "queryAlarmDevices",
             payload: { page: 1, rows: 4 }
-          });
-          dispatch({
-            type: "queryOfflineDevices",
-            payload: { page: 1, rows: 2 }
           });
 
           dispatch({
@@ -129,9 +120,8 @@ export default {
       }
 
       yield put({ type: "queryDeviceCountByState" });
-      yield put({ type: "queryOnlineDevices", payload: { page: 1, rows: 2 } });
+      yield put({ type: "queryAlarmDeviceCountWithLast" });
       yield put({ type: "queryAlarmDevices", payload: { page: 1, rows: 4 } });
-      yield put({ type: "queryOfflineDevices", payload: { page: 1, rows: 2 } });
       yield put({
         type: "queryDeviceCountByLevel1Area",
         payload: { name: "重庆市" }
@@ -443,22 +433,6 @@ export default {
       }
     },
 
-    // 统计设备在线列表
-    *queryOnlineDevices({ payload }, { call, put }) {
-      const resData = yield call(queryOnlineDevices, payload);
-      if (resData.success) {
-        // 添加key
-        const onlineList = resData.data.rows.map(item => {
-          item.key = item.id;
-          return item;
-        });
-
-        yield put({ type: "save", payload: { onlineList } });
-      } else {
-        console.log(resData.message);
-      }
-    },
-
     // 统计故障设备列表
     *queryAlarmDevices({ payload }, { call, put }) {
       const resData = yield call(queryAlarmDevices, payload);
@@ -475,19 +449,16 @@ export default {
       }
     },
 
-    // 离线设备列表
-    *queryOfflineDevices({ payload }, { call, put }) {
-      const resData = yield call(queryOfflineDevices, payload);
+    // 设备预警数是否变化查询
+    *queryAlarmDeviceCountWithLast({ payload }, { call, put }) {
+      const resData = yield call(queryAlarmDeviceCountWithLast, payload);
       if (resData.success) {
-        // 添加key
-        const offlineList = resData.data.rows.map(item => {
-          item.key = item.id;
-          return item;
-        });
-
-        yield put({ type: "save", payload: { offlineList } });
-      } else {
-        console.log(resData.message);
+        if (resData.data.changeFlag) {
+          notification.open({
+            message: "预警通知",
+            description: `预警设备数量:${resData.data.alarmCount}`
+          });
+        }
       }
     },
 
@@ -510,7 +481,7 @@ export default {
     //一键巡检全量设备
     *queryBatchInspectionDevicesProgress({ payload }, { call, put, select }) {
       const resData = yield call(queryBatchInspectionDevicesProgress, payload);
-      console.log("res---", resData);
+      // console.log("res---", resData);
       if (resData.success) {
         yield put({
           type: "save",

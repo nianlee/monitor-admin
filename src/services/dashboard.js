@@ -98,3 +98,12 @@ export function queryBatchInspectionDevicesProgress(data) {
     url: api.queryBatchInspectionDevicesProgress
   });
 }
+
+// 设备预警数是否变化查询
+export function queryAlarmDeviceCountWithLast(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.queryAlarmDeviceCountWithLast
+  });
+}
