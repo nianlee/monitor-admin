@@ -1,6 +1,7 @@
 import modelExtend from "dva-model-extend";
-import { queryRoleList } from "services/role";
+import { queryRoleList, deleteRole } from "services/role";
 import { pageModel } from "./common";
+import { message } from "antd";
 
 export default modelExtend(pageModel, {
   namespace: "role",
@@ -57,6 +58,31 @@ export default modelExtend(pageModel, {
           pageSize: resData.data.pageSize
         }
       });
+    },
+
+    *deleteRole({ payload }, { call, put, select }) {
+      const resData = yield call(deleteRole, { ...payload });
+
+      console.log("delete", resData);
+      if (resData.success) {
+        message.info(resData.message);
+        yield put({
+          type: "queryRoleList",
+          payload: {
+            page: 1,
+            rows: 10
+          }
+        });
+      } else {
+        message.error(resData.message);
+        yield put({
+          type: "queryRoleList",
+          payload: {
+            page: 1,
+            rows: 10
+          }
+        });
+      }
     }
   },
 

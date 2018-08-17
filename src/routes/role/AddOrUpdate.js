@@ -99,7 +99,7 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
 
         <FormItem
           {...formItemLayout}
-          label="角色菜单"
+          label="角色权限"
         >
           {getFieldDecorator('menuIds', {
             // initialValue: initMenuIds(),

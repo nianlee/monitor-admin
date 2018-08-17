@@ -61,6 +61,10 @@ const Role = ({ role, dispatch }) => {
     dispatch(routerRedux.push(`/manage/role/2/${record.id}`));
   };
 
+  // const deletes = record => {
+  //   dispatch({ type: "role/deleteRole", payload: { id: record.id } });
+  // };
+
   function handleTableChange(pagination) {
     dispatch({ type: "users/updatePagination", payload: pagination });
     dispatch({

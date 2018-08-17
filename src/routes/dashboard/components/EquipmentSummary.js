@@ -35,9 +35,6 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
     <Card title="设备信息汇总" style={{ backgroundColor: "#192c3e" }}>
       <div className={styles.summaryWrapper}>
         <div className={styles.item}>
-          <p className={styles.summaryTitle}>渝北区</p>
-        </div>
-        <div className={styles.item}>
           <p className={styles.summaryTitle}>设备总数</p>
           <p className={styles.number}>{dashboard.TotalCount}</p>
         </div>
