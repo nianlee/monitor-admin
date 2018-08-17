@@ -34,6 +34,9 @@ export default {
 
   // 一键巡检全量设备
   batchInspectionDevices: `${config.apiHost}/device/batchInspectionDevices`,
+  queryBatchInspectionDevicesProgress: `${
+    config.apiHost
+  }/device/queryBatchInspectionDevicesProgress`, // 一键巡检全量设备处理进度查询
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录

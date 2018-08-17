@@ -1,12 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Table, Form, Select, Button, Cascader, Card } from "antd";
+import {
+  Row,
+  Col,
+  Table,
+  Form,
+  Select,
+  Button,
+  Cascader,
+  Card,
+  Progress
+} from "antd";
 import { connect } from "dva";
 import Alarm from "./components/Alarm";
 import EquipmentSummary from "./components/EquipmentSummary";
 import { routerRedux } from "dva/router";
 import DeviceDetailModal from "./components/DeviceDetailModal";
 import styles from "./style.less";
+import classNames from "classnames";
 
 const Dashboard = ({ dashboard, dispatch, form }) => {
   const childProps = { dashboard, dispatch };
@@ -238,6 +249,21 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       </Row>
 
       <DeviceDetailModal dispatch={dispatch} dashboard={dashboard} />
+
+      <div
+        className={classNames({
+          [styles.inspectorLoading]: true,
+          [styles.inspectionShow]: dashboard.inspectionShow
+        })}
+      >
+        <Progress
+          type="circle"
+          percent={dashboard.inspectionProgress}
+          status="active"
+          width={150}
+        />
+        <p>巡检中...</p>
+      </div>
     </div>
   );
 };

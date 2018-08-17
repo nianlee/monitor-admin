@@ -6,7 +6,8 @@ import {
   queryDeviceCountByLevel1Area,
   queryDeviceCountByStateHis,
   queryDeviceBySn,
-  batchInspectionDevices
+  batchInspectionDevices,
+  queryBatchInspectionDevicesProgress
 } from "../services/dashboard";
 import {
   queryDevices,
@@ -15,6 +16,7 @@ import {
   queryDeviceType
 } from "../services/manage";
 import { message } from "antd";
+import { refreshData, stopRefreshData } from "utils";
 
 export default {
   namespace: "dashboard",
@@ -58,7 +60,10 @@ export default {
 
     deviceModalVisible: false, // 设备详情弹窗
     deviceDetailInfo: {}, // 设备详细信息
-    inspectionLoading: false // 一键巡检 loading
+    inspectionShow: false, // 一键巡检loading 展示
+    inspectionProgress: 0, // 巡检进度
+    runToken: "", // 巡检token
+    inspectionTimer: null // 巡检 setInterval
   },
 
   subscriptions: {
@@ -101,11 +106,9 @@ export default {
             payload: { page: "1", rows: "100", paramType: "sys-device-state" }
           });
 
-          window.GLOBAL_INTERVAL = setInterval(function() {
-            dispatch({ type: "intervalData" });
-          }, 10 * 1000);
+          refreshData(dispatch);
         } else {
-          clearInterval(window.GLOBAL_INTERVAL);
+          stopRefreshData();
         }
       });
     }
@@ -491,13 +494,40 @@ export default {
     //一键巡检全量设备
     *batchInspectionDevices({ payload }, { call, put }) {
       const resData = yield call(batchInspectionDevices, payload);
-      yield put({ type: "save", payload: { inspectionLoading: true } });
 
       if (resData.success) {
-        message.success("巡检中");
+        yield put({
+          type: "save",
+          payload: { runToken: resData.data, inspectionShow: true }
+        });
+        return resData.data; // 返回runToken
       } else {
         message.error(resData.message);
-        yield put({ type: "save", payload: { inspectionLoading: false } });
+        yield put({ type: "save", payload: { inspectionShow: false } });
+      }
+    },
+
+    //一键巡检全量设备
+    *queryBatchInspectionDevicesProgress({ payload }, { call, put, select }) {
+      const resData = yield call(queryBatchInspectionDevicesProgress, payload);
+      console.log("res---", resData);
+      if (resData.success) {
+        yield put({
+          type: "save",
+          payload: { inspectionProgress: resData.data }
+        });
+      }
+
+      if (!resData.success || (resData.success && resData.data === 100)) {
+        const { inspectionTimer } = yield select(_ => _.dashboard);
+        clearInterval(inspectionTimer);
+
+        yield put({ type: "save", payload: { inspectionShow: false } });
+
+        message.success("巡检成功");
+        return "finish";
+      } else {
+        return "inprogress";
       }
     }
   },

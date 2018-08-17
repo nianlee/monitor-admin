@@ -89,3 +89,12 @@ export function batchInspectionDevices(data) {
     url: api.batchInspectionDevices
   });
 }
+
+// 一键巡检全量设备处理进度查询
+export function queryBatchInspectionDevicesProgress(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.queryBatchInspectionDevicesProgress
+  });
+}

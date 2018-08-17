@@ -3,7 +3,34 @@ import PropTypes from "prop-types";
 import styles from "../style.less";
 import { Card, Button } from "antd";
 
+import { refreshData, stopRefreshData } from "utils";
+
 const EquipmentSummary = ({ dashboard, dispatch }) => {
+  const inspector = () => {
+    dispatch({ type: "dashboard/batchInspectionDevices" }).then(runToken => {
+      if (runToken) {
+        console.log("runtoken--", runToken);
+        stopRefreshData();
+
+        const inspectionTimer = setInterval(() => {
+          dispatch({
+            type: "dashboard/queryBatchInspectionDevicesProgress",
+            payload: { runToken }
+          }).then(progress => {
+            if (progress == "finish") {
+              refreshData(dispatch, true);
+            }
+          });
+        }, 3000);
+
+        dispatch({
+          type: "dashboard/save",
+          payload: { inspectionTimer }
+        });
+      }
+    });
+  };
+
   return (
     <Card title="设备信息汇总" style={{ backgroundColor: "#192c3e" }}>
       <div className={styles.summaryWrapper}>
@@ -45,9 +72,7 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
             style={{ marginLeft: 25, marginTop: 5, width: 100 }}
             type="primary"
             loading={dashboard.inspectionLoading}
-            onClick={() =>
-              dispatch({ type: "dashboard/batchInspectionDevices" })
-            }
+            onClick={inspector}
           >
             一键巡检
           </Button>
