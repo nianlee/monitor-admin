@@ -11,6 +11,7 @@ let database = [
     icon: "user",
     route: "/report"
   },
+
   {
     id: "4",
     name: "GIS信息",
@@ -18,45 +19,44 @@ let database = [
     route: "/gis"
   },
   {
-    id: "5",
-    name: "管理策略",
-    icon: "heart-o",
-    children: [
-      {
-        id: "51",
-        bpid: "5",
-        name: "用户管理",
-        icon: "search",
-        route: "/usermanage"
-      },
-      {
-        id: "52",
-        bpid: "5",
-        name: "设备管理",
-        icon: "search",
-        route: "/devicemanage"
-      },
-      {
-        id: "53",
-        bpid: "5",
-        name: "角色管理",
-        icon: "search",
-        route: "/manage/role"
-      },
-      {
-        id: "54",
-        bpid: "5",
-        name: "区域管理",
-        icon: "search",
-        route: "/region"
-      }
-    ]
+    id: "51",
+    bpid: "5",
+    name: "设备管理",
+    icon: "search",
+    route: "/devicemanage"
   },
   {
-    id: "6",
-    name: "系统设置",
+    id: "52",
+    name: "固件管理",
     icon: "bars",
-    route: "/admin"
+    route: "/firmware"
+  },
+  {
+    id: "53",
+    name: "区域管理",
+    icon: "bars",
+    route: "/region"
+  },
+  {
+    id: "61",
+    bpid: "6",
+    name: "用户管理",
+    icon: "search",
+    route: "/usermanage"
+  },
+  {
+    id: "62",
+    bpid: "6",
+    name: "角色管理",
+    icon: "search",
+    route: "/manage/role"
+  },
+  {
+    id: "63",
+    bpid: "6",
+    name: "登录信息",
+    icon: "search",
+    route: "/loginlog"
   }
 ];
 

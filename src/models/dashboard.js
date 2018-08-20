@@ -426,7 +426,6 @@ export default {
     // 统计设备状态对应设备数
     *queryDeviceCountByState({ payload }, { call, put }) {
       const resData = yield call(queryDeviceCountByState);
-      console.log('count',resData);
       if (resData.success) {
         yield put({ type: "save", payload: { ...resData.data } });
       } else {

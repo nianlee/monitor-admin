@@ -10,68 +10,9 @@ export default {
   state: {
     locationPathname: "",
     locationQuery: {},
-    menu: [
-      {
-        id: "1",
-        icon: "dashboard",
-        name: "首页",
-        route: "/dashboard"
-      },
-      {
-        id: "2",
-        name: "统计报表",
-        icon: "user",
-        route: "/report"
-      },
-
-      {
-        id: "4",
-        name: "GIS信息",
-        icon: "camera-o",
-        route: "/gis"
-      },
-      {
-        id: "51",
-        bpid: "5",
-        name: "设备管理",
-        icon: "search",
-        route: "/devicemanage"
-      },
-      {
-        id: "52",
-        name: "固件管理",
-        icon: "bars",
-        route: "/firmware"
-      },
-      {
-        id: "53",
-        name: "区域管理",
-        icon: "bars",
-        route: "/region"
-      },
-      {
-        id: "61",
-        bpid: "6",
-        name: "用户管理",
-        icon: "search",
-        route: "/usermanage"
-      },
-      {
-        id: "62",
-        bpid: "6",
-        name: "角色管理",
-        icon: "search",
-        route: "/manage/role"
-      },
-      {
-        id: "63",
-        bpid: "6",
-        name: "登录信息",
-        icon: "search",
-        route: "/loginlog"
-      }
-    ], // 菜单
+    menu: [], // 菜单
     user: {
+      id: "",
       userName: ""
     }, // 用户信息
     userInfoModalVisibal: false
@@ -123,10 +64,16 @@ export default {
       const resData = yield call(queryUserInfo, { id: userId });
 
       if (resData.success) {
-        // 用户已登录
-        yield put({ type: "updateState", payload: { user: resData.data } });
-        if (locationPathname === "/login") {
-          yield put(routerRedux.push("/dashboard"));
+        try {
+          const appInitDatas = JSON.parse(localStorage.getItem("mMenu"));
+          // 用户已登录
+          yield put({ type: "updateState", payload: appInitDatas });
+
+          if (locationPathname === "/login") {
+            yield put(routerRedux.push("/dashboard"));
+          }
+        } catch (error) {
+          console.log(error);
         }
       } else if (config.openPages.indexOf(locationPathname) < 0) {
         yield put(
