@@ -32,10 +32,13 @@ export default {
       });
     },
 
-    setup({ dispatch }) {
-      if (config.loginLimit) {
-        dispatch({ type: "query" });
-      }
+    setup({ dispatch, history }) {
+      history.listen(({ pathname }) => {
+        // 非登录也才查询
+        if (config.loginLimit && pathname != "/login") {
+          dispatch({ type: "query" });
+        }
+      });
     }
   },
 

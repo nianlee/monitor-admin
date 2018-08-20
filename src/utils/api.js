@@ -64,11 +64,12 @@ export default {
   // 角色管理
   queryRoleList: `${config.apiHost}/role/queryRoleList`, // 角色列表查询
   addRole: `${config.apiHost}/role/addRole`, // 角色添加
-  deleteRole:`${config.apiHost}/role/delRoleById`, // 删除添加
+  deleteRole: `${config.apiHost}/role/delRoleById`, // 删除添加
   queryRoleInfoById: `${config.apiHost}/role/queryRoleInfoById`, // 角色信息查询
   editRoleById: `${config.apiHost}/role/editRoleById`, // 角色更新
   queryRoleMenuList: `${config.apiHost}/role/queryRoleMenuList`, // 角色菜单查询
   queryRoleListForDropdown: `${config.apiHost}/role/queryRoleListForDropdown`, // 角色列表查询-下拉框
+  queryMenuList: `${config.apiHost}/menu/queryMenuList`, // 查询菜单列表
 
   // 其他
   regeo: "http://restapi.amap.com/v3/geocode/regeo", // 逆地理编码

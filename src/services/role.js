@@ -1,62 +1,72 @@
-import { api, request } from 'utils'
+import { api, request } from "utils";
 
 // 角色列表查询
 export function queryRoleList(data) {
   return request({
     data,
-    method: 'get',
-    url: api.queryRoleList,
-  })
+    method: "get",
+    url: api.queryRoleList
+  });
 }
 
 // 角色添加
 export function addRole(data) {
   return request({
     data,
-    method: 'post',
-    url: api.addRole,
-  })
+    method: "post",
+    url: api.addRole
+  });
 }
 
 export function deleteRole(data) {
   return request({
     data,
-    method:'post',
-    url:api.deleteRole,
-  })
+    method: "post",
+    url: api.deleteRole
+  });
 }
 
 // 角色信息查询
 export function queryRoleInfoById(data) {
   return request({
     data,
-    method: 'post',
-    url: api.queryRoleInfoById,
-  })
+    method: "post",
+    url: api.queryRoleInfoById
+  });
 }
 
 // 角色信息更新
 export function editRoleById(data) {
   return request({
     data,
-    method: 'post',
-    url: api.editRoleById,
-  })
+    method: "post",
+    url: api.editRoleById
+  });
 }
 
 // 角色菜单查询
 export function queryRoleMenuList(data) {
   return request({
     data,
-    method: 'post',
-    url: api.queryRoleMenuList,
-  })
+    method: "post",
+    url: api.queryRoleMenuList
+  });
 }
 
+// 角色列表查询
 export function queryRoleListForDropdown(data) {
   return request({
     data,
-    method:'post',
-    url:api.queryRoleListForDropdown,
-  })
+    method: "post",
+    url: api.queryRoleListForDropdown
+  });
+}
+
+// 查询菜单列表
+export function queryMenuList(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.queryMenuList
+  });
 }

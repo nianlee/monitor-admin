@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { routerRedux } from "dva/router";
-import { Table } from "antd";
+import { Table, Popconfirm } from "antd";
 import { connect } from "dva";
 
 import styles from "./style.less";
@@ -47,6 +47,12 @@ const Role = ({ role, dispatch }) => {
             <a onClick={() => update(record)} className={styles.title}>
               修改
             </a>
+            <Popconfirm
+              title={`您确认删除【${record.roleName}】吗？`}
+              onConfirm={() => deletes(record)}
+            >
+              <a className={styles.title}>删除</a>
+            </Popconfirm>
           </div>
         );
       }
@@ -61,9 +67,9 @@ const Role = ({ role, dispatch }) => {
     dispatch(routerRedux.push(`/manage/role/2/${record.id}`));
   };
 
-  // const deletes = record => {
-  //   dispatch({ type: "role/deleteRole", payload: { id: record.id } });
-  // };
+  const deletes = record => {
+    dispatch({ type: "role/deleteRole", payload: { id: record.id } });
+  };
 
   function handleTableChange(pagination) {
     dispatch({ type: "users/updatePagination", payload: pagination });
