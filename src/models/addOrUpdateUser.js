@@ -47,6 +47,7 @@ export default {
           const id = match[1];
           dispatch({ type: "updateState", payload: { type: "edit" } });
           dispatch({ type: "queryUserInfo", payload: { id } });
+          dispatch({ type: "initArea" });
         }
       });
     }
@@ -68,7 +69,11 @@ export default {
     *queryUserInfo({ payload }, { call, put }) {
       const resData = yield call(queryUserInfo, payload);
       if (resData.success) {
-        yield put({ type: "updateState", payload: { userInfo: resData.data } });
+        const userInfo = {
+          ...resData.data,
+          areaId: resData.data.areaId.split(",")
+        };
+        yield put({ type: "updateState", payload: { userInfo } });
       } else {
         message.error(resData.message);
       }
@@ -91,9 +96,16 @@ export default {
         rows: 100,
         page: 1
       });
-      const roleList = data.rows.map(item => ({ ...item, key: item.id }));
+      const roleList = data.rows.map(item => ({
+        ...item,
+        key: item.id.toString(),
+        id: item.id.toString()
+      }));
       yield put({ type: "updateState", payload: { roleList } });
     },
+
+    // 初始化区域
+    // *initArea({}, { call, put }) {},
 
     // 获取区域
     *queryAreaList({ payload }, { call, put }) {

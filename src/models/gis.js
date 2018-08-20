@@ -158,7 +158,7 @@ export default {
 
       const resData = yield call(queryDevices, data);
 
-      if (resData.success) {
+      if (resData.success && resData.data) {
         // 格式化为marker 所需格式
         const formatedData = resData.data.rows.map(item => {
           let formatedItem = item;
