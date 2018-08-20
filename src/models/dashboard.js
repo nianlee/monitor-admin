@@ -109,7 +109,7 @@ export default {
     // 循环获取数据
     *intervalData({ payload }, { call, put, select }) {
       const { deviceQueryParamsCache } = yield select(_ => _.dashboard);
-
+      //console.log('deviceQueryParamsCache',deviceQueryParamsCache);
       // 没有分页数据时，初始化分页数据
       if (!deviceQueryParamsCache.page) {
         deviceQueryParamsCache.page = 1;

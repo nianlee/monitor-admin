@@ -99,7 +99,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
         <Row gutter={24}>
           <Col span={12}>
             <FormItem {...formItemLayout} label="经度">
-              {getFieldDecorator("sn", {
+              {getFieldDecorator("longitude", {
                 rules: [
                   {
                     required: true,
@@ -110,15 +110,15 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
             </FormItem>
           </Col>
           <Col span={12}>
-            <FormItem {...formItemLayout} label="维度">
-              {getFieldDecorator("sn", {
+            <FormItem {...formItemLayout} label="纬度">
+              {getFieldDecorator("latitude", {
                 rules: [
                   {
                     required: true,
-                    message: "请输入设备地址维度!"
+                    message: "请输入设备地址纬度!"
                   }
                 ]
-              })(<Input placeholder="维度" />)}
+              })(<Input placeholder="纬度" />)}
             </FormItem>
           </Col>
         </Row>
