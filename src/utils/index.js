@@ -18,4 +18,76 @@ export const stopRefreshData = () => {
   clearInterval(window.GLOBAL_INTERVAL);
 };
 
+// 转换区域初始化格式
+export const formatInitAreaData = areaList => {
+  let areaData = [];
+  if (areaList && areaList.length > 0) {
+    const info = areaList[0];
+    if (info.allCode) {
+      areaData = info.allCode.split("_");
+    }
+  }
+  return areaData;
+};
+
+// 初始区域所有数据
+export const initAreaData = codes => {
+  let areaList = [];
+
+  let parentCodes = [0];
+
+  return new Promise((resolve, reject) => {
+    if (codes && codes.length > 0) {
+      const removeLastItem = codes.slice(0, codes.length - 1);
+      parentCodes = parentCodes.concat(removeLastItem);
+
+      Promise.all(
+        parentCodes.map(item =>
+          request({
+            url: api.queryAreaByParentCode,
+            method: "POST",
+            data: { parentCode: item }
+          })
+        )
+      )
+        .then(res => {
+          const formatedAreas = res.map(item => {
+            if (item.success && item.data) {
+              return item.data.map(area => ({
+                ...area,
+                label: area.name,
+                value: area.code,
+                key: area.code
+              }));
+            } else {
+              return [];
+            }
+          });
+
+          formatedAreas.forEach((area, index) => {
+            const currentCode = parentCodes[index + 1]; // 去掉code=0的 根code
+
+            area.forEach(item => {
+              if (item.code == currentCode) {
+                item.children = formatedAreas[index + 1];
+              }
+            });
+
+            if (index === 0) {
+              areaList = area;
+            }
+          });
+
+          resolve(areaList);
+        })
+        .catch(err => {
+          console.log("get area error", err);
+          reject(err);
+        });
+    } else {
+      reject("codes 为空");
+    }
+  });
+};
+
 export { api, config, request };

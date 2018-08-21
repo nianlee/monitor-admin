@@ -27,10 +27,18 @@ const AddOrUpdateDevice = ({ addOrUpdateDevice, dispatch, form }) => {
         console.log("Received values of form: ", payload);
         delete payload.addressCasc;
 
-        dispatch({
-          type: "addOrUpdateDevice/add",
-          payload: { deviceBasicJsonStr: JSON.stringify(payload) }
-        });
+        if (addOrUpdateDevice.type == "add") {
+          dispatch({
+            type: "addOrUpdateDevice/add",
+            payload: { deviceBasicJsonStr: JSON.stringify(payload) }
+          });
+        } else {
+          payload.id = addOrUpdateDevice.deviceId;
+          dispatch({
+            type: "addOrUpdateDevice/editDeviceById",
+            payload: { deviceBasicJsonStr: JSON.stringify(payload) }
+          });
+        }
       }
     });
   };
@@ -170,7 +178,6 @@ AddOrUpdateDevice.propTypes = {
 
 const formOptions = {
   onFieldsChange(props, changedFields) {
-    console.log(changedFields);
     props.dispatch({
       type: "addOrUpdateDevice/updateFormParams",
       payload: { ...changedFields }

@@ -9,6 +9,7 @@ import { queryUserInfo } from "services/user";
 import { queryRoleList } from "services/role";
 import pathToRegexp from "path-to-regexp";
 import { routerRedux } from "dva/router";
+import { formatInitAreaData, initAreaData } from "utils";
 
 export default {
   namespace: "addOrUpdateUser",
@@ -46,7 +47,6 @@ export default {
           const id = match[1];
           dispatch({ type: "updateState", payload: { type: "edit" } });
           dispatch({ type: "queryUserInfo", payload: { id } });
-          dispatch({ type: "initArea" });
         }
       });
     }
@@ -68,11 +68,13 @@ export default {
     *queryUserInfo({ payload }, { call, put }) {
       const resData = yield call(queryUserInfo, payload);
       if (resData.success) {
+        const areaId = formatInitAreaData(resData.data.areaList);
         const userInfo = {
           ...resData.data,
-          areaId: resData.data.areaId.split(",")
+          areaId
         };
         yield put({ type: "updateState", payload: { userInfo } });
+        yield put({ type: "initArea", payload: areaId });
       } else {
         message.error(resData.message);
       }
@@ -104,7 +106,12 @@ export default {
     },
 
     // 初始化区域
-    // *initArea({}, { call, put }) {},
+    *initArea({ payload }, { call, put }) {
+      const regionList = yield call(initAreaData, payload);
+      if (Array.isArray(regionList)) {
+        yield put({ type: "updateState", payload: { regionList } });
+      }
+    },
 
     // 获取区域
     *queryAreaList({ payload }, { call, put }) {

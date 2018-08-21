@@ -49,7 +49,7 @@ export default {
           type: "updatePagination",
           payload: {
             total: resData.data.total,
-            pageIndex: resData.data.curPage,
+            current: resData.data.curPage,
             pageSize: resData.data.pageSize
           }
         });
