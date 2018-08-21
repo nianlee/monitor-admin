@@ -94,8 +94,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           升级
         </a>
 
-        <a onClick={() => modifyDevice(record.id)} style={{ marginLeft: 8 }}>
-          地址修改
+        <a onClick={() => modifyDevice(record.sn)} style={{ marginLeft: 8 }}>
+          设备修改
         </a>
 
         <a onClick={() => checkDevice(record.sn)} style={{ marginLeft: 8 }}>
@@ -113,8 +113,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     dispatch(routerRedux.push(`/updatedevice/${sn}`));
   }
 
-  function modifyDevice(id) {
-    dispatch(routerRedux.push(`/modifydevice/${id}`));
+  function modifyDevice(sn) {
+    dispatch(routerRedux.push(`/device/${sn}`));
   }
 
   // 设备查看

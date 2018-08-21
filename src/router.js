@@ -36,11 +36,6 @@ const routes = [
     component: () => import("./routes/region")
   },
   {
-    path: "/adddevice",
-    models: () => [import("./models/adddevice")],
-    component: () => import("./routes/adddevice")
-  },
-  {
     path: "/controldevice/:sn",
     models: () => [import("./models/controldevice")],
     component: () => import("./routes/controldevice")
@@ -93,19 +88,27 @@ const routes = [
     component: () => import("./routes/firmware/AddFirmware")
   },
   {
+    // 设备管理
     path: "/devicemanage",
     models: () => [import("./models/devices")],
     component: () => import("./routes/devices")
   },
   {
+    // 新增设备信息
+    path: "/adddevice",
+    models: () => [import("./models/addOrUpdateDevice")],
+    component: () => import("./routes/addOrUpdateDevice")
+  },
+  {
+    // 修改设备信息
+    path: "/device/:id",
+    models: () => [import("./models/addOrUpdateDevice")],
+    component: () => import("./routes/addOrUpdateDevice")
+  },
+  {
     path: "/updatedevice/:sn",
     models: () => [import("./models/updatedevice")],
     component: () => import("./routes/updatedevice")
-  },
-  {
-    path: "/modifydevice/:sn",
-    models: () => [import("./models/modifydevice")],
-    component: () => import("./routes/devices/modifydevice")
   },
   {
     path: "/manage/role",

@@ -29,10 +29,9 @@ export default {
         if (addMatch || match) {
           dispatch({
             type: "queryAreaList",
-            payload: {
-              level: 1
-            }
+            payload: { level: 1 }
           });
+
           dispatch({ type: "queryRoleList" });
         }
 

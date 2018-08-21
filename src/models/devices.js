@@ -120,7 +120,7 @@ export default {
     *queryDevices({ payload }, { call, put, select }) {
       const resData = yield call(queryDevices, payload);
 
-      if (resData.success) {
+      if (resData.success && resData.data) {
         const devicesList = resData.data.rows.map((item, index) => {
           if (item.state == "-1") {
             item.state = "故障";

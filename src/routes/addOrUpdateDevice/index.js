@@ -1,16 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
-import { Form, Input, Row, Col, Select, Button } from "antd";
-//import AddressControl from "./components/AddressControl";
+import { Form, Input, Row, Col, Select, Button, Card, Cascader } from "antd";
 import styles from "./style.less";
 import { routerRedux } from "dva/router";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-const AddDevice = ({ adddevice, dispatch, form }) => {
-  const deviceTypeLists = adddevice.deviceTypeList.map(type => (
+const AddOrUpdateDevice = ({ addOrUpdateDevice, dispatch, form }) => {
+  const deviceTypeLists = addOrUpdateDevice.deviceTypeList.map(type => (
     <Option key={type.name}>{type.value}</Option>
   ));
 
@@ -19,34 +18,17 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        //const { addressObj } = values;
+        const { addressCasc } = values;
         const payload = {
           ...values,
-          /*
-          detail_addr: addressObj.address,
-          longitude: addressObj.langitude,
-          latitude: addressObj.latitude,
-
-          province: addressObj.province, //省
-          city: addressObj.city, //市
-          district: addressObj.district, //区
-          township: addressObj.township, //街道，路，镇
-
-          adcode: addressObj.adcode, //区code
-          citycode: addressObj.citycode, // 市code
-          towncode: addressObj.towncode, // 道，路，镇code
-          */
-
-          all_area_id: "1-2-3",
-          hardware_version: "V1.1.1",
-          state: 0
+          installAddr: addressCasc[addressCasc.length - 1]
         };
 
         console.log("Received values of form: ", payload);
-        delete payload.addressObj;
+        delete payload.addressCasc;
 
         dispatch({
-          type: "adddevice/add",
+          type: "addOrUpdateDevice/add",
           payload: { deviceBasicJsonStr: JSON.stringify(payload) }
         });
       }
@@ -65,8 +47,17 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
     }
   };
 
+  const areaLoadData = selectedOptions => {
+    dispatch({
+      type: "addOrUpdateDevice/queryAreaByParentCode",
+      payload: selectedOptions
+    });
+  };
+
   return (
-    <div className={styles.formWrapper}>
+    <Card
+      title={addOrUpdateDevice.type == "edit" ? "修改设备信息" : "新增设备"}
+    >
       <Form onSubmit={handleSubmit} className="login-form">
         <Row gutter={24}>
           <Col span={12}>
@@ -88,9 +79,7 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
               {getFieldDecorator("type", {
                 rules: [{ required: true, message: "请选择设备类型!" }]
               })(
-                <Select showSearch placeholder="请选择设备类型">
-                  {deviceTypeLists}
-                </Select>
+                <Select placeholder="请选择设备类型">{deviceTypeLists}</Select>
               )}
             </FormItem>
           </Col>
@@ -125,6 +114,29 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
 
         <Row gutter={24}>
           <Col span={12}>
+            <FormItem {...formItemLayout} label="区域">
+              {getFieldDecorator("addressCasc", {
+                rules: [{ required: true, message: "请选择区域!" }]
+              })(
+                <Cascader
+                  placeholder="请选择"
+                  options={addOrUpdateDevice.regionList}
+                  loadData={areaLoadData}
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col span={12}>
+            <FormItem {...formItemLayout} label="详细地址">
+              {getFieldDecorator("detail_addr", {
+                rules: [{ required: true, message: "请输入详细地址!" }]
+              })(<Input placeholder="详细地址" />)}
+            </FormItem>
+          </Col>
+        </Row>
+
+        <Row gutter={24}>
+          <Col span={12}>
             <FormItem {...formItemLayout} label="设备编码">
               {getFieldDecorator("code", {
                 rules: [{ required: true, message: "请输入设备编码" }]
@@ -135,14 +147,14 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
 
         <FormItem>
           <Button type="primary" htmlType="submit" className={styles.addButton}>
-            添加
+            {addOrUpdateDevice.type === "edit" ? "修改" : "添加"}
           </Button>
           <Button className={styles.cancelButton} onClick={onCancel}>
             取消
           </Button>
         </FormItem>
       </Form>
-    </div>
+    </Card>
   );
 
   function onCancel() {
@@ -150,12 +162,58 @@ const AddDevice = ({ adddevice, dispatch, form }) => {
   }
 };
 
-AddDevice.propTypes = {
-  adddevice: PropTypes.object,
+AddOrUpdateDevice.propTypes = {
+  addOrUpdateDevice: PropTypes.object,
   dispatch: PropTypes.func,
   form: PropTypes.object
 };
 
-const WrappedAdd = Form.create()(AddDevice);
+const formOptions = {
+  onFieldsChange(props, changedFields) {
+    console.log(changedFields);
+    props.dispatch({
+      type: "addOrUpdateDevice/updateFormParams",
+      payload: { ...changedFields }
+    });
+  },
+  mapPropsToFields(props) {
+    const { formParams } = props.addOrUpdateDevice;
 
-export default connect(({ adddevice }) => ({ adddevice }))(WrappedAdd);
+    return {
+      sn: Form.createFormField({
+        ...formParams.sn,
+        value: formParams.sn.value
+      }),
+      type: Form.createFormField({
+        ...formParams.type,
+        value: formParams.type.value
+      }),
+      longitude: Form.createFormField({
+        ...formParams.longitude,
+        value: formParams.longitude.value
+      }),
+      latitude: Form.createFormField({
+        ...formParams.latitude,
+        value: formParams.latitude.value
+      }),
+      detail_addr: Form.createFormField({
+        ...formParams.detail_addr,
+        value: formParams.detail_addr.value
+      }),
+      code: Form.createFormField({
+        ...formParams.code,
+        value: formParams.code.value
+      }),
+      addressCasc: Form.createFormField({
+        ...formParams.addressCasc,
+        value: formParams.addressCasc.value
+      })
+    };
+  }
+};
+
+const WrappedAdd = Form.create(formOptions)(AddOrUpdateDevice);
+
+export default connect(({ addOrUpdateDevice }) => ({ addOrUpdateDevice }))(
+  WrappedAdd
+);
