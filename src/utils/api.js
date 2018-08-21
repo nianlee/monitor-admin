@@ -14,6 +14,7 @@ export default {
   queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, // 设备控制
   deviceUpgradeBatch: `${config.apiHost}/device/deviceUpgradeBatch`, // 设备控制批量升级
   queryAlarmResultHis: `${config.apiHost}/device/queryAlarmResultHis`, // 设备预警历史列表查询
+  batchUploadDevice:`${config.apiHost}/device/batchAddDevicesFromFile`, // 通过文件批量上传设备信息
 
   // 统计相关
   queryDeviceCountByState: `${

@@ -40,6 +40,7 @@ export default {
   effects: {
     *getMenu({ payload }, { call, put, select }) {
       const resData = yield call(getMenu);
+      console.log('meun',resData);
       yield put({
         type: "updateState",
         payload: {

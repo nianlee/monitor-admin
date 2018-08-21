@@ -135,6 +135,11 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     dispatch(routerRedux.push("/adddevice"));
   }
 
+  //批量添加设备函数
+  function batchHandleAdd() {
+    dispatch(routerRedux.push("/batchadddevice"));
+  }
+
   //删除设备函数
   function onDelete(id) {
     dispatch({
@@ -269,6 +274,11 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         <Button type="primary" onClick={handleAdd}>
           添加
         </Button>
+
+        <Button type="primary" onClick={batchHandleAdd} style={{ marginLeft: 8 }}>
+          批量添加
+        </Button>
+
         <Button
           type="primary"
           onClick={deviceUpgradeBatch}
