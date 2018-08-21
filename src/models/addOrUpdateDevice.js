@@ -3,10 +3,12 @@ import {
   addDevice,
   queryDeviceType,
   queryAreaByParentCode,
-  queryDeviceBySn
+  queryDeviceBySn,
+  editDeviceById
 } from "services/manage/";
 import { routerRedux } from "dva/router";
 import { message } from "antd";
+import { formatInitAreaData, initAreaData } from "utils";
 import pathToRegexp from "path-to-regexp";
 
 export default {
@@ -16,6 +18,7 @@ export default {
     type: "add", // 页面类型，新增- add  修改- edit
     regionList: [],
     deviceTypeList: [],
+    deviceId: "",
 
     formParams: {
       sn: {
@@ -89,9 +92,29 @@ export default {
     *add({ payload }, { call, put }) {
       const resData = yield call(addDevice, payload);
       if (resData.success) {
+        message.success("添加成功");
         yield put(routerRedux.push("/devicemanage"));
       } else {
         message.error(resData.message);
+      }
+    },
+
+    // 修改设备
+    *editDeviceById({ payload }, { call, put }) {
+      const resData = yield call(editDeviceById, payload);
+      if (resData.success) {
+        message.success("修改成功");
+        yield put(routerRedux.push("/devicemanage"));
+      } else {
+        message.error(resData.message);
+      }
+    },
+
+    // 初始化区域
+    *initArea({ payload }, { call, put }) {
+      const regionList = yield call(initAreaData, payload);
+      if (Array.isArray(regionList)) {
+        yield put({ type: "updateState", payload: { regionList } });
       }
     },
 
@@ -144,29 +167,6 @@ export default {
       }
     },
 
-    //获取设备名称
-    *queryDeviceName({ payload }, { call, put }) {
-      const resData = yield call(queryDeviceType, payload);
-      const types = [];
-      if (resData.success) {
-        for (let i = 0; i < resData.data.length; i++) {
-          types.push({
-            id: i,
-            name: resData.data[i].name,
-            value: resData.data[i].value
-          });
-        }
-        yield put({
-          type: "updateState",
-          payload: {
-            deviceNameList: types
-          }
-        });
-      } else {
-        message.error(resData.message);
-      }
-    },
-
     // 区域查询ByParentCode
     *queryAreaByParentCode({ payload }, { call, put }) {
       const addressLength = payload.length;
@@ -198,6 +198,7 @@ export default {
       if (resData.success && resData.data) {
         const infos = resData.data.rows[0].datDeviceDetailDTO;
         if (infos) {
+          const areaCodes = formatInitAreaData([infos.installAreaInfo]);
           yield put({
             type: "updateFormParams",
             payload: {
@@ -220,10 +221,13 @@ export default {
                 value: infos.detailAddr
               },
               addressCasc: {
-                value: []
+                value: areaCodes
               }
             }
           });
+
+          yield put({ type: "initArea", payload: areaCodes });
+          yield put({ type: "updateState", payload: { deviceId: infos.id } });
         }
       } else {
         message.error(resData.message);

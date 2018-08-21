@@ -8,7 +8,7 @@ export default {
   queryDevices: `${config.apiHost}/device/queryDevices`, // 查询设备
   delDeviceById: `${config.apiHost}/device/delDeviceById`, // 删除设备
   addDevice: `${config.apiHost}/device/addDevice`, // 添加设备
-  modifyDevice: `${config.apiHost}/device/editDeviceById`, // 修改设备
+  editDeviceById: `${config.apiHost}/device/editDeviceById`, // 修改设备
   controlDevice: `${config.apiHost}/device/deviceControl`, // 设备控制
   queryDeviceBySn: `${config.apiHost}/device/queryDeviceBySn`, // 根据sn查询设备
   queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, // 设备控制

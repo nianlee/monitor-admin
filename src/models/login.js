@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 // 格式化menu
 const formatMenu = permMenus => {
   return permMenus
+    .filter(item => item.menuType == "2")
     .map(item => {
       return {
         id: item.id,
