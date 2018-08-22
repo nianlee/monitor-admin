@@ -47,15 +47,9 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
           <p className={styles.number}>{dashboard.AlarmCount}</p>
         </div>
         <div className={styles.item}>
-          <p className={styles.summaryTitle}>设备在线率</p>
+          <p className={styles.summaryTitle}>设备正常率</p>
           <p className={styles.number}>
             {(dashboard.OnlineRate * 100).toFixed(2)}%
-          </p>
-        </div>
-        <div className={styles.item}>
-          <p className={styles.summaryTitle}>设备离线率</p>
-          <p className={styles.number}>
-            {(dashboard.OfflineRate * 100).toFixed(2)}%
           </p>
         </div>
         <div className={styles.item}>

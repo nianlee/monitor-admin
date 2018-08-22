@@ -100,6 +100,12 @@ const routes = [
     component: () => import("./routes/addOrUpdateDevice")
   },
   {
+    // 批量新增设备信息
+    path: "/batchadddevice",
+    models: () => [import("./models/batchAddDevice")],
+    component: () => import("./routes/addOrUpdateDevice/batchAddDevice")
+  },
+  {
     // 修改设备信息
     path: "/device/:id",
     models: () => [import("./models/addOrUpdateDevice")],

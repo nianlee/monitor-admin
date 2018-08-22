@@ -17,6 +17,7 @@ export default {
   batchOverhaulDevice: `${config.apiHost}/device/batchOverhaulDevice`, // 批量检修/取消检修设备
   batchControlDoorState: `${config.apiHost}/device/batchControlDoorState`, // 批量控制门禁状态
   batchControlDevice: `${config.apiHost}/device/batchControlDevice`, // 批量控制设备
+  batchUploadDevice: `${config.apiHost}/device/batchAddDevicesFromFile`, // 通过文件批量上传设备信息
 
   // 统计相关
   queryDeviceCountByState: `${

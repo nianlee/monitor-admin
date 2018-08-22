@@ -26,7 +26,7 @@ const findParentId = (datas, id) => {
   return null;
 };
 
-class MenuSelect extends Component {
+class MenuSelect extends Component { // eslint-disable-line
   constructor(props) {
     super(props);
     const value = props.value;
