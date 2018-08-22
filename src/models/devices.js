@@ -398,7 +398,7 @@ export default {
       const firmwareVersionData = yield call(queryFirmwareVersion, payload);
       if (firmwareVersionData.success) {
         const resData = yield call(updateFirmwareVersion, {
-          sn: firmwareVersionData.data.sn,
+          sn: payload.sn,
           firmwareVersion: firmwareVersionData.data.firmwareVersion
         });
         if (resData.success) {
