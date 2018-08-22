@@ -31,7 +31,7 @@ const ReportTable = ({ loginlog, dispatch }) => {
       payload: {
         page: pagination.current,
         rows: pagination.pageSize,
-        loginType: 1
+        logType: 1
       }
     });
   };

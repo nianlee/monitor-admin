@@ -19,7 +19,7 @@ export function queryDeviceBySn(data) {
 }
 
 // 查询固件版本
-export function queryFirmVersion(data) {
+export function queryFirmwareVersion(data) {
   return request({
     data,
     method: "post",
@@ -33,6 +33,33 @@ export function updateFirmwareVersion(data) {
     data,
     method: "post",
     url: api.updateFirmwareVersion
+  });
+}
+
+// 批量检修/取消检修设备
+export function batchOverhaulDevice(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.batchOverhaulDevice
+  });
+}
+
+// 批量控制门禁状态
+export function batchControlDoorState(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.batchControlDoorState
+  });
+}
+
+// 批量控制设备
+export function batchControlDevice(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.batchControlDevice
   });
 }
 

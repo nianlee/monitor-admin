@@ -5,11 +5,15 @@ import {
   queryDeviceType,
   queryAreaList,
   queryAreaByParentCode,
-  deviceUpgradeBatch
-} from "../services/manage"; //eslint-disable-line
+  deviceUpgradeBatch,
+  queryFirmwareVersion,
+  updateFirmwareVersion,
+  batchOverhaulDevice,
+  batchControlDoorState,
+  batchControlDevice
+} from "../services/manage";
 import { routerRedux } from "dva/router";
 import { message } from "antd";
-
 export default {
   namespace: "devices",
 
@@ -35,6 +39,8 @@ export default {
 
     queryParamsCache: null, // 查询参数缓存
 
+    controlParamsModalVisible: false, // 控制设备弹窗
+
     pagination: {
       current: 1,
       pageSize: 10,
@@ -42,6 +48,47 @@ export default {
       showTotal: total => `共${total}条数据`,
       showQuickJumper: true,
       showSizeChanger: true
+    }
+  },
+
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname, query }) => {
+        if (pathname === "/devicemanage") {
+          dispatch({
+            type: "queryDevices",
+            payload: {
+              page: "1",
+              row: "10"
+            }
+          });
+
+          dispatch({
+            type: "queryDeviceType",
+            payload: {
+              page: "1",
+              rows: "100",
+              paramType: "sys-device-type"
+            }
+          });
+
+          dispatch({
+            type: "queryDeviceState",
+            payload: {
+              page: "1",
+              rows: "100",
+              paramType: "sys-device-state"
+            }
+          });
+
+          dispatch({
+            type: "queryAreaList",
+            payload: {
+              level: 1
+            }
+          });
+        }
+      });
     }
   },
 
@@ -303,6 +350,65 @@ export default {
       } else {
         message.error(resData.message);
       }
+    },
+
+    // 批量检修/取消检修设备
+    *batchOverhaulDevice({ payload }, { call, put }) {
+      const resData = yield call(batchOverhaulDevice, payload);
+      if (resData.success) {
+        yield put({
+          type: "updateState"
+        });
+        message.success("批量检修成功");
+      } else {
+        message.error(resData.message);
+      }
+    },
+
+    // 批量控制门禁状态
+    *batchControlDoorState({ payload }, { call, put }) {
+      const resData = yield call(batchControlDoorState, payload);
+      if (resData.success) {
+        yield put({
+          type: "updateState"
+        });
+        message.success("批量开门成功");
+      } else {
+        message.error(resData.message);
+      }
+    },
+
+    // 批量控制设备
+    *batchControlDevice({ payload }, { call, put }) {
+      const resData = yield call(batchControlDevice, payload);
+      if (resData.success) {
+        yield put({ type: "updateState" });
+        yield put({
+          type: "save",
+          payload: { controlParamsModalVisible: false }
+        });
+        message.success("批量重启成功");
+      } else {
+        message.error(resData.message);
+      }
+    },
+
+    // 升级单个设备
+    *upgradeDevice({ payload }, { call, put }) {
+      const firmwareVersionData = yield call(queryFirmwareVersion, payload);
+      if (firmwareVersionData.success) {
+        const resData = yield call(updateFirmwareVersion, {
+          sn: firmwareVersionData.data.sn,
+          firmwareVersion: firmwareVersionData.data.firmwareVersion
+        });
+        if (resData.success) {
+          message.success("升级成功");
+        } else {
+          message.error(resData.message);
+        }
+      } else {
+        message.warn(firmwareVersionData.message);
+      }
     }
   },
 
@@ -347,48 +453,6 @@ export default {
         selectedRowKeys: payload.selectedRowKeys,
         deviceSnList: payload.deviceSnList
       };
-    }
-  },
-
-  subscriptions: {
-    setup({ dispatch, history }) {
-      // eslint-disable-line
-      return history.listen(({ pathname, query }) => {
-        if (pathname === "/devicemanage") {
-          dispatch({
-            type: "queryDevices",
-            payload: {
-              page: "1",
-              row: "10"
-            }
-          });
-
-          dispatch({
-            type: "queryDeviceType",
-            payload: {
-              page: "1",
-              rows: "100",
-              paramType: "sys-device-type"
-            }
-          });
-
-          dispatch({
-            type: "queryDeviceState",
-            payload: {
-              page: "1",
-              rows: "100",
-              paramType: "sys-device-state"
-            }
-          });
-
-          dispatch({
-            type: "queryAreaList",
-            payload: {
-              level: 1
-            }
-          });
-        }
-      });
     }
   }
 };

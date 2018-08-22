@@ -14,6 +14,9 @@ export default {
   queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, // 设备控制
   deviceUpgradeBatch: `${config.apiHost}/device/deviceUpgradeBatch`, // 设备控制批量升级
   queryAlarmResultHis: `${config.apiHost}/device/queryAlarmResultHis`, // 设备预警历史列表查询
+  batchOverhaulDevice: `${config.apiHost}/device/batchOverhaulDevice`, // 批量检修/取消检修设备
+  batchControlDoorState: `${config.apiHost}/device/batchControlDoorState`, // 批量控制门禁状态
+  batchControlDevice: `${config.apiHost}/device/batchControlDevice`, // 批量控制设备
 
   // 统计相关
   queryDeviceCountByState: `${

@@ -12,6 +12,7 @@ import {
   Cascader
 } from "antd";
 import ShowDeviceModal from "./components/ShowDeviceModal";
+import ControlParams from "./components/ControlParams";
 import { routerRedux } from "dva/router";
 import styles from "./style.less";
 
@@ -79,7 +80,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     }
   ];
 
-  function renderOperation(text, record) {
+  const renderOperation = (text, record) => {
     return (
       <div>
         <Popconfirm title="确定删除吗?" onConfirm={() => onDelete(record.id)}>
@@ -90,7 +91,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           控制
         </a>
 
-        <a onClick={() => updateDevice(record.sn)} style={{ marginLeft: 8 }}>
+        <a onClick={() => upgradeDevice(record)} style={{ marginLeft: 8 }}>
           升级
         </a>
 
@@ -103,22 +104,25 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         </a>
       </div>
     );
-  }
+  };
 
-  function controlDevice(sn) {
+  const controlDevice = sn => {
     dispatch(routerRedux.push(`/controlDevice/${sn}`));
-  }
+  };
 
-  function updateDevice(sn) {
-    dispatch(routerRedux.push(`/updatedevice/${sn}`));
-  }
+  const upgradeDevice = record => {
+    dispatch({
+      type: "devices/upgradeDevice",
+      payload: { sn: record.sn }
+    });
+  };
 
-  function modifyDevice(sn) {
+  const modifyDevice = sn => {
     dispatch(routerRedux.push(`/device/${sn}`));
-  }
+  };
 
   // 设备查看
-  function checkDevice(sn) {
+  const checkDevice = sn => {
     dispatch({
       type: "devices/queryDeviceBySn",
       payload: { deviceSn: sn }
@@ -128,23 +132,23 @@ const DeviceManage = ({ devices, dispatch, form }) => {
       type: "devices/save",
       payload: { deviceDetailModalVisible: true }
     });
-  }
+  };
 
   //添加设备函数
-  function handleAdd() {
+  const handleAdd = () => {
     dispatch(routerRedux.push("/adddevice"));
-  }
+  };
 
   //删除设备函数
-  function onDelete(id) {
+  const onDelete = id => {
     dispatch({
       type: "devices/delDeviceById",
       payload: { id: id }
     });
-  }
+  };
 
   // 分页请求
-  function handlePage(pagination) {
+  const handlePage = pagination => {
     dispatch({ type: "devices/updatePagination", payload: pagination });
     dispatch({
       type: "devices/queryDevices",
@@ -153,21 +157,51 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         rows: pagination.pageSize
       }
     });
-  }
+  };
 
   // 批量升级
-  function deviceUpgradeBatch() {
+  const deviceUpgradeBatch = () => {
     dispatch({
       type: "devices/deviceUpgradeBatch",
       payload: { deviceSnList: devices.selectedRowKeys.join(",") }
     });
-  }
+  };
 
-  function handleFormReset() {
+  // 批量检修
+  const batchOverhaul = () => {
+    dispatch({
+      type: "devices/batchOverhaulDevice",
+      payload: {
+        deviceSnArr: devices.selectedRowKeys.join(","),
+        overhaulState: 1 // 1表示检修 0表示不检修
+      }
+    });
+  };
+
+  // 批量开门
+  const batchReopen = () => {
+    dispatch({
+      type: "devices/batchControlDoorState",
+      payload: {
+        deviceSnArr: devices.selectedRowKeys.join(","),
+        doorState: 1 // 1表示开门 0表示关门
+      }
+    });
+  };
+
+  // 批量重启
+  const batchRestart = () => {
+    dispatch({
+      type: "devices/save",
+      payload: { controlParamsModalVisible: true }
+    });
+  };
+
+  const handleFormReset = () => {
     form.resetFields();
-  }
+  };
 
-  function onSelectChange(selectedRowKeys, selectedRows) {
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
     console.log("selectedRowKeys changed: ", selectedRows, selectedRowKeys);
 
     dispatch({
@@ -177,7 +211,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         selectedSns: selectedRows.sn
       }
     });
-  }
+  };
 
   const rowSelection = {
     selectedRowKeys,
@@ -281,7 +315,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           type="primary"
           disabled={!hasSelected}
           style={{ marginLeft: 8 }}
-          onClick={() => {}}
+          onClick={batchRestart}
         >
           批量重启
         </Button>
@@ -289,7 +323,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           type="primary"
           disabled={!hasSelected}
           style={{ marginLeft: 8 }}
-          onClick={() => {}}
+          onClick={batchReopen}
         >
           批量开门
         </Button>
@@ -297,7 +331,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           type="primary"
           disabled={!hasSelected}
           style={{ marginLeft: 8 }}
-          onClick={() => {}}
+          onClick={batchOverhaul}
         >
           批量检修
         </Button>
@@ -314,6 +348,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         onChange={handlePage}
         style={{ background: "#fff" }}
       />
+
+      <ControlParams dispatch={dispatch} devices={devices} />
     </div>
   );
 };
