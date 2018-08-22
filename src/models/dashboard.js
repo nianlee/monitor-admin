@@ -75,10 +75,10 @@ export default {
             payload: { page: 1, rows: 4 }
           });
 
-          dispatch({
-            type: "queryDeviceCountByLevel1Area",
-            payload: { name: "重庆市" }
-          });
+          // dispatch({
+          //   type: "queryDeviceCountByLevel1Area",
+          //   payload: { name: "重庆市" }
+          // });
           dispatch({
             type: "queryDeviceCountByStateHis",
             payload: { needCache: "true", timeType: "DAY" }
@@ -122,10 +122,10 @@ export default {
       yield put({ type: "queryDeviceCountByState" });
       yield put({ type: "queryAlarmDeviceCountWithLast" });
       yield put({ type: "queryAlarmDevices", payload: { page: 1, rows: 4 } });
-      yield put({
-        type: "queryDeviceCountByLevel1Area",
-        payload: { name: "重庆市" }
-      });
+      // yield put({
+      //   type: "queryDeviceCountByLevel1Area",
+      //   payload: { name: "重庆市" }
+      // });
       yield put({
         type: "queryDeviceCountByStateHis",
         payload: { needCache: "true", timeType: "DAY" }
