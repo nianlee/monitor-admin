@@ -226,9 +226,9 @@ export default {
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
       const resData = yield call(queryDeviceBySn, payload);
-
       if (resData.success) {
         const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+
         const deviceDetailInfo = {
           name: info.name,
           deviceDetailMetas: []
