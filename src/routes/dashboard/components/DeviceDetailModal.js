@@ -6,6 +6,7 @@ const ListItem = List.Item;
 const ListItemMeta = ListItem.Meta;
 
 const DeviceDetailModal = ({ dispatch, dashboard }) => {
+  //console.log('detail',dashboard.deviceDetailInfo.deviceDetailMetas)
   return (
     <Modal
       visible={dashboard.deviceModalVisible}

@@ -81,6 +81,15 @@ export function queryAlarmResultHis(data) {
   });
 }
 
+// 报表导出异常设备表格
+export  function exportData(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.exportData
+  });
+}
+
 // 一键巡检全量设备
 export function batchInspectionDevices(data) {
   return request({

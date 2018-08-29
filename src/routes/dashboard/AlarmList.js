@@ -14,10 +14,10 @@ class AlarmList extends Component {
 
     this.columns = [
       {
-        title: "设备sn",
-        dataIndex: "sn",
+        title: "设备编码",
+        dataIndex: "code",
         className: styles.center,
-        key: "sn"
+        key: "code"
       },
       {
         title: "设备预警信息",
@@ -32,10 +32,10 @@ class AlarmList extends Component {
         key: "alarm_start_time"
       },
       {
-        title: "设备类型",
-        dataIndex: "type",
+        title: "安装地址",
+        dataIndex: "detailAddr",
         className: styles.center,
-        key: "type"
+        key: "detailAddr"
       },
       {
         title: "操作",

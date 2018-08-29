@@ -25,9 +25,9 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
   //定义列
   const columns = [
     {
-      title: "设备编号",
-      dataIndex: "sn",
-      key: "sn",
+      title: "设备编码",
+      dataIndex: "code",
+      key: "code",
       className: styles.columnCenter
     },
     {
@@ -72,6 +72,19 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       dataIndex: "leakageState",
       key: "leakageState",
       className: styles.columnCenter
+    },
+    {
+      title: "设备检修",
+      dataIndex: "overhaulState",
+      className: styles.center,
+      key: "overhaulState",
+      render: (text, record) => {
+        if (record.overhaulState == 1) {
+          return "检修";
+        } else if (record.overhaulState == 0) {
+          return "正常";
+        }
+      }
     },
     {
       title: "操作",
@@ -167,7 +180,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
   }
 
   return (
-    <div className="dashboard">
+    <div>
       <Row gutter={24} style={{ marginTop: "-5px" }}>
         <Col>
           <EquipmentSummary {...childProps} />

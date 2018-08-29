@@ -47,9 +47,9 @@ const DeviceManage = ({ devices, dispatch, form }) => {
       className: styles.columnCenter
     },
     {
-      title: "设备sn编码",
-      dataIndex: "sn",
-      key: "sn",
+      title: "设备编码",
+      dataIndex: "code",
+      key: "code",
       className: styles.columnCenter
     },
     {
@@ -87,7 +87,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           <a>删除</a>
         </Popconfirm>
 
-        <a onClick={() => controlDevice(record.sn)} style={{ marginLeft: 8 }}>
+        <a onClick={() => controlDevice(record.detailAddr)} style={{ marginLeft: 8 }}>
           控制
         </a>
 

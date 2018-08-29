@@ -6,10 +6,10 @@ import styles from "../style.less";
 
 const columns = [
   {
-    title: "设备sn",
-    dataIndex: "sn",
+    title: "设备编码",
+    dataIndex: "code",
     className: styles.center,
-    key: "sn"
+    key: "code"
   },
   {
     title: "设备预警信息",
@@ -24,46 +24,31 @@ const columns = [
     key: "alarm_start_time"
   },
   {
-    title: "设备类型",
-    dataIndex: "type",
+    title: "安装地址",
+    dataIndex: "detailAddr",
     className: styles.center,
-    key: "type"
+    key: "detailAddr"
   },
-  {
-    title: "设备状态",
-    dataIndex: "state",
-    className: styles.center,
-    key: "state",
-    render: (text, record) => {
-      if (record.state == 1) {
-        return "在线";
-      } else if (record.state == 0) {
-        return "离线";
-      } else {
-        return "故障";
-      }
-    }
-  }
 ];
 const Alarm = ({ dashboard, dispatch }) => {
-  const goMore = () => {
+  const onMore = () => {
     dispatch(routerRedux.push("/alarmlist"));
   };
 
   const renderFooter = () => {
     return (
-      <a className={styles.more} onClick={goMore}>
+      <a className={styles.more} onClick={onMore}>
         查看更多
       </a>
     );
   };
 
   const renderTitle = () => {
-    return <span className={styles.tableTitle}>报警设备列表</span>;
+    return <span>报警设备列表</span>;
   };
 
   return (
-    <div className={styles.tableWrapper}>
+    <div>
       <Table
         bordered
         columns={columns}

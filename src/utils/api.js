@@ -19,6 +19,9 @@ export default {
   batchControlDevice: `${config.apiHost}/device/batchControlDevice`, // 批量控制设备
   batchUploadDevice: `${config.apiHost}/device/batchAddDevicesFromFile`, // 通过文件批量上传设备信息
 
+  // 报表查询导出
+  exportData: `${config.apiHost}/device/exportDeviceAlarmResultHis2Excel`, // 通过文件批量上传设备信息
+
   // 统计相关
   queryDeviceCountByState: `${
     config.apiHost

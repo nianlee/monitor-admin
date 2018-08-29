@@ -169,12 +169,21 @@ export default {
 
       if (resData.success && resData.data) {
         const devicesList = resData.data.rows.map((item, index) => {
+
+          console.log('tt',item);
+
           if (item.state == "-1") {
             item.state = "故障";
           } else if (item.state == "0") {
             item.state = "离线";
           } else {
             item.state = "正常";
+          }
+
+          if (item.overhaulState == "1") {
+            item.overhaulState = "检修";
+          } else if (item.overhaulState == "0") {
+            item.overhaulState = "正常";
           }
 
           item.key = item.sn;

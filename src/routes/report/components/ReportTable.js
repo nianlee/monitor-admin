@@ -99,6 +99,12 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
       key: "sn"
     },
     {
+      title: "报警类型",
+      dataIndex: "alarmCategoryName",
+      className: styles.center,
+      key: "alarmCategoryName"
+    },
+    {
       title: "设备预警信息",
       dataIndex: "alarmInfo",
       className: styles.center,
