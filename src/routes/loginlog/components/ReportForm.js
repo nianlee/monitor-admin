@@ -46,7 +46,6 @@ const ReportForm = ({ report, dispatch, form }) => {
             >
               查询
             </Button>
-            <Button style={{ marginLeft: 12 }} type="primary">导出查询数据</Button>
           </FormItem>
         </Col>
       </Row>

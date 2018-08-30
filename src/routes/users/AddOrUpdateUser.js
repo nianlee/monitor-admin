@@ -107,7 +107,10 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
             <FormItem {...formItemLayout} label="电子邮件">
               {getFieldDecorator("email", {
                 initialValue: userInfo.email,
-                rules: [{ required: true, message: "请输入电子邮件" }]
+                rules: [{
+                  pattern: "^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$",
+                  required: true,
+                  message: "请输入电子邮件" }]
               })(<Input placeholder="请输入电子邮件" />)}
             </FormItem>
           </Col>

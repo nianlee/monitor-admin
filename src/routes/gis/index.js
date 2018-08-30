@@ -21,8 +21,8 @@ const Gis = ({ gis, dispatch }) => {
 
   const checkBoxOptions = [
     { label: "正常设备", value: "1" },
-    { label: "异常设备", value: "0" },
-    { label: "离线设备", value: "-1" }
+    //{ label: "异常设备", value: "0" },
+    { label: "故障设备", value: "-1" }
   ];
 
   const checkBoxChange = checkedValues => {
