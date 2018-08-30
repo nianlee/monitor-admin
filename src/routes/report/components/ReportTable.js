@@ -4,12 +4,13 @@ import { Table, message } from "antd";
 import styles from "../style.less";
 import { routerRedux } from "dva/router";
 import { queryDeviceBySn } from "services/dashboard";
+import { formatState } from "utils";
 
 const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
   const viewDetail = payload => {
     queryDeviceBySn(payload).then(resData => {
       if (resData.success) {
-        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
         const deviceDetailInfo = {
           name: info.name,
           deviceDetailMetas: []
@@ -57,6 +58,7 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
+            item = formatState(item);
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
@@ -64,6 +66,35 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
             });
           });
         }
+
+        const newDeviceDetailMetas = [];
+        const length = deviceDetailMetas.length;
+        let child = [];
+
+        // 分割数组，每三个元素为一个子元素
+        deviceDetailMetas.forEach((item, index) => {
+          if (index % 3 === 0) {
+            child.push(item);
+            if (index == length - 1) {
+              // 如果是最后一个元素，添加进去
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 1) {
+            child.push(item);
+            if (index == length - 1) {
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 2) {
+            child.push(item);
+            newDeviceDetailMetas.push(child);
+            child = [];
+          }
+        });
+
+        deviceDetailInfo.deviceDetailMetas = newDeviceDetailMetas;
+
         updateState({ deviceDetailInfo, deviceModalVisible: true });
       } else {
         message.error(resData.message);

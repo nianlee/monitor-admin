@@ -11,6 +11,7 @@ const DeviceDetailModal = ({ updateState, report }) => {
       visible={report.deviceModalVisible}
       onCancel={() => updateState({ deviceModalVisible: false })}
       footer={false}
+      width={800}
     >
       <List
         style={{ margin: 20 }}
@@ -24,7 +25,13 @@ const DeviceDetailModal = ({ updateState, report }) => {
         dataSource={report.deviceDetailInfo.deviceDetailMetas}
         renderItem={item => (
           <ListItem>
-            <ListItemMeta title={item.title} description={item.description} />
+            {item.map(info => (
+              <ListItemMeta
+                key={info.key}
+                title={info.title}
+                description={info.description}
+              />
+            ))}
           </ListItem>
         )}
       />

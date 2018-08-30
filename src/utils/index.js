@@ -30,6 +30,55 @@ export const formatInitAreaData = areaList => {
   return areaData;
 };
 
+// 将状态数字，改为中文表示
+export const formatState = item => {
+  if (item.state == "-1") {
+    item.state = "故障";
+  } else if (item.state == "0") {
+    item.state = "离线";
+  } else {
+    item.state = "正常";
+  }
+
+  if (item.powerSupplyState == "1") {
+    item.powerSupplyState = "正常";
+  } else {
+    item.powerSupplyState = "异常";
+  }
+
+  if (item.environmentState == "1") {
+    item.environmentState = "风扇开";
+  } else {
+    item.environmentState = "风扇关";
+  }
+
+  if (item.networkState == "1") {
+    item.networkState = "正常";
+  } else {
+    item.networkState = "异常";
+  }
+
+  if (item.securityState == "1") {
+    item.securityState = "正常";
+  } else {
+    item.securityState = "异常";
+  }
+
+  if (item.lightningProtectionState == "1") {
+    item.lightningProtectionState = "正常";
+  } else {
+    item.lightningProtectionState = "异常";
+  }
+
+  if (item.leakageState == "1") {
+    item.leakageState = "正常";
+  } else {
+    item.leakageState = "异常";
+  }
+
+  return item;
+};
+
 // 初始区域所有数据
 export const initAreaData = codes => {
   let areaList = [];

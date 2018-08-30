@@ -20,6 +20,9 @@ class Report extends Component {
       deviceModalVisible: false, // 详情modal visible
       deviceDetailInfo: {}, // 设备详情
 
+      alarmStartTime: "",
+      alarmEndTime: "",
+
       pagination: {
         current: 1,
         pageSize: 10,
@@ -69,7 +72,11 @@ class Report extends Component {
     return (
       <div style={{ width: "100%" }}>
         <Row className={styles.searchWrapper}>
-          <ReportForm queryAlarmHis={params => this.queryAlarmHis(params)} />
+          <ReportForm
+            queryAlarmHis={params => this.queryAlarmHis(params)}
+            report={this.state}
+            updateState={payload => this.updateState(payload)}
+          />
         </Row>
         <Row className={styles.tableWrapper}>
           <ReportTable

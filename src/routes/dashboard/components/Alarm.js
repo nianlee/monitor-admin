@@ -28,7 +28,7 @@ const columns = [
     dataIndex: "detailAddr",
     className: styles.center,
     key: "detailAddr"
-  },
+  }
 ];
 const Alarm = ({ dashboard, dispatch }) => {
   const onMore = () => {
@@ -48,7 +48,7 @@ const Alarm = ({ dashboard, dispatch }) => {
   };
 
   return (
-    <div>
+    <div style={{ background: "#fff" }}>
       <Table
         bordered
         columns={columns}

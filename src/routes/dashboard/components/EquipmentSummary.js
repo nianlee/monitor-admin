@@ -9,7 +9,6 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
   const inspector = () => {
     dispatch({ type: "dashboard/batchInspectionDevices" }).then(runToken => {
       if (runToken) {
-        console.log("runtoken--", runToken);
         stopRefreshData();
 
         const inspectionTimer = setInterval(() => {

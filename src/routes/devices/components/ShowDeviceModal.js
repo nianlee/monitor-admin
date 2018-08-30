@@ -15,6 +15,7 @@ const DeviceDetailModal = ({ dispatch, devices }) => {
           payload: { deviceDetailModalVisible: false }
         })
       }
+      width={800}
       footer={false}
     >
       <List
@@ -22,13 +23,20 @@ const DeviceDetailModal = ({ dispatch, devices }) => {
         style={{ margin: 20 }}
         header={
           <div style={{ fontSize: 18, fontWeight: 600 }}>
-            《{devices.deviceDetailInfo.name}》的详细信息
+            《{devices.deviceDetailInfo.name}
+            》的详细信息
           </div>
         }
         dataSource={devices.deviceDetailInfo.deviceDetailMetas}
         renderItem={item => (
           <ListItem>
-            <ListItemMeta title={item.title} description={item.description} />
+            {item.map(info => (
+              <ListItemMeta
+                key={info.key}
+                title={info.title}
+                description={info.description}
+              />
+            ))}
           </ListItem>
         )}
       />

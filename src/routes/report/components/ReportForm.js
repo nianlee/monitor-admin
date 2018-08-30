@@ -1,35 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Form, Button, DatePicker, Row, Col } from "antd";
-//import { exportData } from "services/dashboard";
-// import exportDate from './style.less'
+import { api } from "utils";
 
 const FormItem = Form.Item;
 const RangePicker = DatePicker.RangePicker;
 
-const ReportForm = ({ form,queryAlarmHis }) => {
+const ReportForm = ({ form, queryAlarmHis, report, updateState }) => {
   const { getFieldDecorator } = form;
   const formItemLayout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
   };
 
-  //var startTime = '';
-  //var endTime = '';
-
   const handleSubmit = event => {
     event.preventDefault();
-    console.log('event',event);
     form.validateFieldsAndScroll((errs, values) => {
       if (!errs) {
         const params = { ...values };
         if (values.date) {
           params.alarmStartTime = values.date[0].format("YYYY-MM-DD hh:mm:ss");
           params.alarmEndTime = values.date[1].format("YYYY-MM-DD hh:mm:ss");
-          //startTime = values.date[0].format("YYYY-MM-DD hh:mm:ss");
-          //endTime = values.date[1].format("YYYY-MM-DD hh:mm:ss");
-
         }
+
+        updateState(params);
 
         delete params.date;
         queryAlarmHis(params);
@@ -37,17 +31,13 @@ const ReportForm = ({ form,queryAlarmHis }) => {
     });
   };
 
-  /*
-  function exportDatas() {
-
-    const data = {alarmStartTime:startTime,alarmEndTime:endTime};
-    console.log('startTime2',data);
-    if(startTime.length >0 && endTime.length > 0) {
-      exportData(data).then(res => {
-        console.log('res',res)
-      });
-    }
-  }*/
+  const exportDatas = () => {
+    window.location.href =
+      api.exportData +
+      `?alarmStartTime=${report.alarmStartTime}&alarmEndTime=${
+        report.alarmEndTime
+      }`;
+  };
 
   return (
     <Form className="table-form" onSubmit={handleSubmit}>
@@ -62,7 +52,7 @@ const ReportForm = ({ form,queryAlarmHis }) => {
             <Button id="btn1" type="primary" htmlType="submit">
               查询
             </Button>
-            <Button id="btn2" style={{ marginLeft: 12 }} htmlType="submit" type="primary">
+            <Button id="btn2" style={{ marginLeft: 12 }} onClick={exportDatas}>
               导出查询数据
             </Button>
           </FormItem>
@@ -74,16 +64,11 @@ const ReportForm = ({ form,queryAlarmHis }) => {
 
 ReportForm.propTypes = {
   form: PropTypes.object,
-  queryAlarmHis: PropTypes.func
+  queryAlarmHis: PropTypes.func,
+  report: PropTypes.object,
+  updateState: PropTypes.func
 };
 
 const WrapperReportForm = Form.create()(ReportForm);
 
 export default WrapperReportForm;
-
-/*
-        <Col span={6}>
-          <FormItem label="设备sn" {...formItemLayout}>
-            {getFieldDecorator("sn", {})(<Input placeholder="请输入设备sn" />)}
-          </FormItem>
-        </Col>*/

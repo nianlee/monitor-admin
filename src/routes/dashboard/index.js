@@ -181,7 +181,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
 
   return (
     <div>
-      <Row gutter={24} style={{ marginTop: "-5px" }}>
+      <Row gutter={24} style={{ marginTop: 5 }}>
         <Col>
           <EquipmentSummary {...childProps} />
         </Col>

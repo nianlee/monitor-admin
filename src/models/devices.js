@@ -14,6 +14,8 @@ import {
 } from "../services/manage";
 import { routerRedux } from "dva/router";
 import { message } from "antd";
+import { formatState } from "utils";
+
 export default {
   namespace: "devices",
 
@@ -98,7 +100,7 @@ export default {
       const resData = yield call(queryDeviceBySn, payload);
 
       if (resData.success) {
-        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
         const deviceDetailInfo = {
           name: info.name,
           deviceDetailMetas: []
@@ -144,8 +146,11 @@ export default {
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
+            item = formatState(item);
+
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
@@ -153,6 +158,34 @@ export default {
             });
           });
         }
+
+        const newDeviceDetailMetas = [];
+        const length = deviceDetailMetas.length;
+        let child = [];
+
+        // 分割数组，每三个元素为一个子元素
+        deviceDetailMetas.forEach((item, index) => {
+          if (index % 3 === 0) {
+            child.push(item);
+            if (index == length - 1) {
+              // 如果是最后一个元素，添加进去
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 1) {
+            child.push(item);
+            if (index == length - 1) {
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 2) {
+            child.push(item);
+            newDeviceDetailMetas.push(child);
+            child = [];
+          }
+        });
+
+        deviceDetailInfo.deviceDetailMetas = newDeviceDetailMetas;
 
         yield put({
           type: "save",
@@ -169,22 +202,7 @@ export default {
 
       if (resData.success && resData.data) {
         const devicesList = resData.data.rows.map((item, index) => {
-
-          console.log('tt',item);
-
-          if (item.state == "-1") {
-            item.state = "故障";
-          } else if (item.state == "0") {
-            item.state = "离线";
-          } else {
-            item.state = "正常";
-          }
-
-          if (item.overhaulState == "1") {
-            item.overhaulState = "检修";
-          } else if (item.overhaulState == "0") {
-            item.overhaulState = "正常";
-          }
+          item = formatState(item);
 
           item.key = item.sn;
           item.index = index + 1;
@@ -194,19 +212,14 @@ export default {
 
         yield put({
           type: "updateState",
-          payload: {
-            dataSource: devicesList,
-            total: resData.data.total,
-            pageSize: resData.data.pageSize,
-            currentPage: resData.data.curPage
-          }
+          payload: { dataSource: devicesList }
         });
 
         yield put({
           type: "updatePagination",
           payload: {
             total: resData.data.total,
-            pageIndex: resData.data.curPage,
+            current: resData.data.curPage,
             pageSize: resData.data.pageSize
           }
         });

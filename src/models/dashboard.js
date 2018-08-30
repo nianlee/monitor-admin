@@ -15,7 +15,7 @@ import {
   queryDeviceType
 } from "../services/manage";
 import { message, notification } from "antd";
-import { refreshData, stopRefreshData } from "utils";
+import { refreshData, stopRefreshData, formatState } from "utils";
 
 export default {
   namespace: "dashboard",
@@ -74,11 +74,6 @@ export default {
             type: "queryAlarmDevices",
             payload: { page: 1, rows: 4 }
           });
-
-          // dispatch({
-          //   type: "queryDeviceCountByLevel1Area",
-          //   payload: { name: "重庆市" }
-          // });
           dispatch({
             type: "queryDeviceCountByStateHis",
             payload: { needCache: "true", timeType: "DAY" }
@@ -122,10 +117,6 @@ export default {
       yield put({ type: "queryDeviceCountByState" });
       yield put({ type: "queryAlarmDeviceCountWithLast" });
       yield put({ type: "queryAlarmDevices", payload: { page: 1, rows: 4 } });
-      // yield put({
-      //   type: "queryDeviceCountByLevel1Area",
-      //   payload: { name: "重庆市" }
-      // });
       yield put({
         type: "queryDeviceCountByStateHis",
         payload: { needCache: "true", timeType: "DAY" }
@@ -144,51 +135,11 @@ export default {
       const resData = yield call(queryDevices, data);
 
       if (resData.success) {
+        if (!resData.data || !resData.data.rows) {
+          return;
+        }
         const devicesList = resData.data.rows.map(item => {
-          if (item.state == "-1") {
-            item.state = "故障";
-          } else if (item.state == "0") {
-            item.state = "离线";
-          } else {
-            item.state = "正常";
-          }
-
-          if (item.powerSupplyState == "1") {
-            item.powerSupplyState = "正常";
-          } else {
-            item.powerSupplyState = "异常";
-          }
-
-          if (item.environmentState == "1") {
-            item.environmentState = "风扇开";
-          } else {
-            item.environmentState = "风扇关";
-          }
-
-          if (item.networkState == "1") {
-            item.networkState = "正常";
-          } else {
-            item.networkState = "异常";
-          }
-
-          if (item.securityState == "1") {
-            item.securityState = "正常";
-          } else {
-            item.securityState = "异常";
-          }
-
-          if (item.lightningProtectionState == "1") {
-            item.lightningProtectionState = "正常";
-          } else {
-            item.lightningProtectionState = "异常";
-          }
-
-          if (item.leakageState == "1") {
-            item.leakageState = "正常";
-          } else {
-            item.leakageState = "异常";
-          }
-
+          item = formatState(item);
           item.key = item.sn;
 
           return item;
@@ -227,7 +178,7 @@ export default {
     *queryDeviceBySn({ payload }, { call, put }) {
       const resData = yield call(queryDeviceBySn, payload);
       if (resData.success) {
-        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
 
         const deviceDetailInfo = {
           name: info.name,
@@ -276,6 +227,7 @@ export default {
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
+            item = formatState(item);
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
@@ -283,6 +235,35 @@ export default {
             });
           });
         }
+
+        const newDeviceDetailMetas = [];
+
+        const length = deviceDetailMetas.length;
+        let child = [];
+
+        // 分割数组，每三个元素为一个子元素
+        deviceDetailMetas.forEach((item, index) => {
+          if (index % 3 === 0) {
+            child.push(item);
+            if (index == length - 1) {
+              // 如果是最后一个元素，添加进去
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 1) {
+            child.push(item);
+            if (index == length - 1) {
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 2) {
+            child.push(item);
+            newDeviceDetailMetas.push(child);
+            child = [];
+          }
+        });
+
+        deviceDetailInfo.deviceDetailMetas = newDeviceDetailMetas;
 
         yield put({
           type: "updateState",
@@ -478,10 +459,9 @@ export default {
       }
     },
 
-    //一键巡检全量设备
+    //一键巡检全量设备进度查询
     *queryBatchInspectionDevicesProgress({ payload }, { call, put, select }) {
       const resData = yield call(queryBatchInspectionDevicesProgress, payload);
-      // console.log("res---", resData);
       if (resData.success) {
         yield put({
           type: "save",
