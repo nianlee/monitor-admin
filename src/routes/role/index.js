@@ -41,9 +41,6 @@ const Role = ({ role, dispatch }) => {
       render: (text, record) => {
         return (
           <div>
-            <a onClick={add} className={styles.title}>
-              新增
-            </a>
             <a onClick={() => update(record)} className={styles.title}>
               修改
             </a>
@@ -58,10 +55,6 @@ const Role = ({ role, dispatch }) => {
       }
     }
   ];
-
-  const add = () => {
-    dispatch(routerRedux.push(`/manage/role/1`));
-  };
 
   const update = record => {
     dispatch(routerRedux.push(`/manage/role/2/${record.id}`));
@@ -101,3 +94,12 @@ Role.propTypes = {
 };
 
 export default connect(({ role }) => ({ role }))(Role);
+
+/*
+ const add = () => {
+    dispatch(routerRedux.push(`/manage/role/1`));
+  };
+  <a onClick={add} className={styles.title}>
+    新增
+  </a>
+ */
