@@ -4,6 +4,7 @@ import { Table, message, Button, Modal, List } from "antd";
 import { queryAlarmDevices, queryDeviceBySn } from "services/dashboard";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import { formatState } from "utils";
 
 const ListItem = List.Item;
 const ListItemMeta = ListItem.Meta;
@@ -92,7 +93,7 @@ class AlarmList extends Component {
   viewDetail(t, info) {
     queryDeviceBySn({ deviceSn: info.sn }).then(resData => {
       if (resData.success) {
-        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
         const deviceDetailInfo = {
           name: info.name,
           deviceDetailMetas: []
@@ -140,6 +141,7 @@ class AlarmList extends Component {
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
+            item = formatState(item);
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
@@ -147,6 +149,34 @@ class AlarmList extends Component {
             });
           });
         }
+
+        const newDeviceDetailMetas = [];
+        const length = deviceDetailMetas.length;
+        let child = [];
+
+        // 分割数组，每三个元素为一个子元素
+        deviceDetailMetas.forEach((item, index) => {
+          if (index % 3 === 0) {
+            child.push(item);
+            if (index == length - 1) {
+              // 如果是最后一个元素，添加进去
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 1) {
+            child.push(item);
+            if (index == length - 1) {
+              newDeviceDetailMetas.push(child);
+            }
+          }
+          if (index % 3 === 2) {
+            child.push(item);
+            newDeviceDetailMetas.push(child);
+            child = [];
+          }
+        });
+
+        deviceDetailInfo.deviceDetailMetas = newDeviceDetailMetas;
 
         this.setState({ deviceDetailInfo, visible: true });
       } else {
@@ -220,6 +250,7 @@ class AlarmList extends Component {
           visible={this.state.visible}
           onCancel={() => this.setState({ visible: false })}
           footer={false}
+          width={800}
         >
           <List
             style={{ margin: 20 }}
@@ -233,10 +264,13 @@ class AlarmList extends Component {
             dataSource={this.state.deviceDetailInfo.deviceDetailMetas}
             renderItem={item => (
               <ListItem>
-                <ListItemMeta
-                  title={item.title}
-                  description={item.description}
-                />
+                {item.map(info => (
+                  <ListItemMeta
+                    key={info.key}
+                    title={info.title}
+                    description={info.description}
+                  />
+                ))}
               </ListItem>
             )}
           />

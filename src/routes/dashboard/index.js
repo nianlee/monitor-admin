@@ -22,6 +22,14 @@ import classNames from "classnames";
 const Dashboard = ({ dashboard, dispatch, form }) => {
   const childProps = { dashboard, dispatch };
 
+  const render = (text, record) => {
+    if (text === "异常") {
+      return <span style={{ color: "red" }}>{text}</span>;
+    } else {
+      return text;
+    }
+  };
+
   //定义列
   const columns = [
     {
@@ -41,37 +49,43 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       title: "供电",
       dataIndex: "powerSupplyState",
       key: "powerSupplyState",
-      className: styles.columnCenter
+      className: styles.columnCenter,
+      render: render
     },
     {
       title: "环境",
       dataIndex: "environmentState",
       key: "environmentState",
-      className: styles.columnCenter
+      className: styles.columnCenter,
+      render: render
     },
     {
       title: "网络",
       dataIndex: "networkState",
       key: "networkState",
-      className: styles.columnCenter
+      className: styles.columnCenter,
+      render: render
     },
     {
       title: "安防",
       dataIndex: "securityState",
       key: "securityState",
-      className: styles.columnCenter
+      className: styles.columnCenter,
+      render: render
     },
     {
       title: "防雷",
       dataIndex: "lightningProtectionState",
       key: "lightningProtectionState",
-      className: styles.columnCenter
+      className: styles.columnCenter,
+      render: render
     },
     {
       title: "漏电",
       dataIndex: "leakageState",
       key: "leakageState",
-      className: styles.columnCenter
+      className: styles.columnCenter,
+      render: render
     },
     {
       title: "设备检修",
@@ -251,6 +265,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
               columns={columns}
               pagination={dashboard.pagination}
               onChange={handlePage}
+              size="small"
             />
           </Card>
         </Col>

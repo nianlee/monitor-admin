@@ -56,6 +56,7 @@ const Alarm = ({ dashboard, dispatch }) => {
         pagination={false}
         title={renderTitle}
         footer={renderFooter}
+        size="small"
       />
     </div>
   );

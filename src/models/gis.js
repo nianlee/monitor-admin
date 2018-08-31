@@ -6,6 +6,7 @@ import {
 } from "services/gis";
 import { message } from "antd";
 import pathToRegexp from "path-to-regexp";
+import { formatState } from "utils";
 
 const maxCount = 5000; // 显示设备的最大条数
 
@@ -71,7 +72,7 @@ export default {
       const resData = yield call(queryDeviceBySn, payload);
 
       if (resData.success) {
-        const info = resData.data.rows[0].datDeviceDetailDTO; // 固定属性
+        const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
         const equitmentInfo = [];
         // 带sn 的页面跳转，初始化dataList 为sn 对应的详细数据，设置marker，以及地图中心
         if (payload.sourceType === "init") {
@@ -92,46 +93,45 @@ export default {
         });
 
         equitmentInfo.push({
-          key: "mac",
-          title: "mac",
-          description: info.mac
-        });
-
-        equitmentInfo.push({
-          key: "设备类型",
-          title: "设备类型",
-          description: info.type
-        });
-
-        equitmentInfo.push({
-          key: "设备状态",
-          title: "设备状态",
-          description: info.state
-        });
-
-        equitmentInfo.push({
-          key: "硬件版本",
-          title: "硬件版本",
-          description: info.hardwareVersion
-        });
-
-        equitmentInfo.push({
           key: "设备地址",
           title: "设备地址",
           description: info.detailAddr
         });
 
-        // 动态属性
-        const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
-        if (deviceDynamicDTOS) {
-          deviceDynamicDTOS.forEach(item => {
-            equitmentInfo.push({
-              key: item.attributeDesc,
-              title: item.attributeName,
-              description: item.attributeValue
-            });
-          });
-        }
+        equitmentInfo.push({
+          key: "供电",
+          title: "供电",
+          description: info.powerSupplyState
+        });
+
+        equitmentInfo.push({
+          key: "环境",
+          title: "环境",
+          description: info.environmentState
+        });
+        equitmentInfo.push({
+          key: "网络",
+          title: "网络",
+          description: info.networkState
+        });
+
+        equitmentInfo.push({
+          key: "安防",
+          title: "安防",
+          description: info.securityState
+        });
+
+        equitmentInfo.push({
+          key: "防雷",
+          title: "防雷",
+          description: info.lightningProtectionState
+        });
+
+        equitmentInfo.push({
+          key: "漏电",
+          title: "漏电",
+          description: info.leakageState
+        });
 
         yield put({
           type: "updateState",

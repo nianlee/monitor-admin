@@ -107,7 +107,10 @@ const AddOrUpdateUser = ({ form, dispatch, addOrUpdateUser }) => {
             <FormItem {...formItemLayout} label="电子邮件">
               {getFieldDecorator("email", {
                 initialValue: userInfo.email,
-                rules: [{ required: true, message: "请输入电子邮件" }]
+                rules: [
+                  { required: true, message: "请输入电子邮件" },
+                  { type: "email", message: "请输入正确的电子邮件" }
+                ]
               })(<Input placeholder="请输入电子邮件" />)}
             </FormItem>
           </Col>

@@ -237,7 +237,6 @@ export default {
         }
 
         const newDeviceDetailMetas = [];
-
         const length = deviceDetailMetas.length;
         let child = [];
 
