@@ -1,4 +1,4 @@
-import { queryFirmVersion, updateFirmwareVersion } from "../services/manage";
+import { updateFirmwareVersion,queryFirmwareVersion } from "../services/manage";
 import pathToRegexp from "path-to-regexp";
 import { message } from "antd";
 
@@ -14,8 +14,7 @@ export default {
 
   effects: {
     *firmVersion({ payload }, { call, put }) {
-      // eslint-disable-line
-      const resData = yield call(queryFirmVersion, payload);
+      const resData = yield call(queryFirmwareVersion, payload);
       if (resData.success) {
         if (resData.data != null) {
           yield put({
