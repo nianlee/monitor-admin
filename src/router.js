@@ -36,7 +36,7 @@ const routes = [
     component: () => import("./routes/region")
   },
   {
-    path: "/controldevice/:sn",
+    path: "/controldevice/:s/:sn",
     models: () => [import("./models/controldevice")],
     component: () => import("./routes/controldevice")
   },

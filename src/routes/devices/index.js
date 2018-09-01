@@ -87,7 +87,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           <a>删除</a>
         </Popconfirm>
 
-        <a onClick={() => controlDevice(record.detailAddr)} style={{ marginLeft: 8 }}>
+        <a onClick={() => controlDevice(record.sn)} style={{ marginLeft: 8 }}>
           控制
         </a>
 
@@ -107,7 +107,13 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   };
 
   const controlDevice = sn => {
-    dispatch(routerRedux.push(`/controlDevice/${sn}`));
+    dispatch(routerRedux.push(`/controlDevice/one/${sn}`)); // 1 为单个控制
+  };
+
+  const sns = devices.selectedRowKeys.join(",");
+  // 批量控制
+  const batchControl = () => {
+    dispatch(routerRedux.push(`/controlDevice/batch/${sns}`)); // 2 为批量控制
   };
 
   const upgradeDevice = record => {
@@ -179,6 +185,17 @@ const DeviceManage = ({ devices, dispatch, form }) => {
       payload: {
         deviceSnArr: devices.selectedRowKeys.join(","),
         overhaulState: 1 // 1表示检修 0表示不检修
+      }
+    });
+  };
+
+  // 取消批量检修
+  const cancelBatchOverhaul = () => {
+    dispatch({
+      type: "devices/batchOverhaulDevice",
+      payload: {
+        deviceSnArr: devices.selectedRowKeys.join(","),
+        overhaulState: 0 // 1表示检修 0表示不检修
       }
     });
   };
@@ -344,6 +361,23 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           onClick={batchOverhaul}
         >
           批量检修
+        </Button>
+
+        <Button
+          type="primary"
+          disabled={!hasSelected}
+          style={{ marginLeft: 8 }}
+          onClick={cancelBatchOverhaul}
+        >
+          取消批量检修
+        </Button>
+        <Button
+          type="primary"
+          disabled={!hasSelected}
+          style={{ marginLeft: 8 }}
+          onClick={batchControl}
+        >
+          批量控制
         </Button>
       </div>
 

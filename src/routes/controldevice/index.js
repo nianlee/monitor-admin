@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "dva";
-import { Form, Row, Col, Select, Button, Input, Modal } from "antd";
+import { Form, Row, Col, Select, Button, Modal } from "antd";
 import styles from "./style.less";
 import { routerRedux } from "dva/router";
 
@@ -10,16 +10,27 @@ const Option = Select.Option;
 
 const ControlDevice = ({ controldevice, dispatch, form }) => {
 
-  // 添加设备请求
+  // 控制设备请求
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
-        dispatch({
-          type: "controldevice/control",
-          payload: { ...values }
-        });
+        if(controldevice.type === 'one') {
+          const value = {...values,...controldevice.sn};
+
+          dispatch({
+            type: "controldevice/control",
+            payload: { ...value }
+          });
+        } else {
+          const value = {...values,...controldevice.deviceSnArr};
+
+          dispatch({
+            type: "controldevice/batchControlDevice",
+            payload: { ...value }
+          });
+        }
+
       }
     });
   };
@@ -44,13 +55,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
     <div className={styles.formWrapper}>
       <Form onSubmit={handleSubmit} className="login-form">
         <Row gutter={24}>
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="设备地址">
-              {getFieldDecorator("detailAddr", {
-                initialValue: controldevice.sn.sn
-              })(<Input disabled={true} />)}
-            </FormItem>
-          </Col>
+
 
           <Col span={12}>
             <FormItem {...formItemLayout} label="第1路交流控制">
@@ -176,7 +181,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
 
         <FormItem>
           <Button className={styles.cancelButton} onClick={handle}>
-            取消
+            返回
           </Button>
           <Button type="primary" htmlType="submit" className={styles.addButton}>
             确认
@@ -205,3 +210,13 @@ ControlDevice.propTypes = {
 const WrappedAdd = Form.create()(ControlDevice);
 
 export default connect(({ controldevice }) => ({ controldevice }))(WrappedAdd);
+
+/*
+<Col span={12}>
+            <FormItem {...formItemLayout} label="设备地址">
+              {getFieldDecorator("sn", {
+                initialValue: controldevice.sn.sn
+              })(<Input disabled={true} />)}
+            </FormItem>
+          </Col>
+ */

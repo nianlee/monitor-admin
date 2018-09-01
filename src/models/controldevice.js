@@ -1,4 +1,4 @@
-import { controlDevice } from "../services/manage";
+import { controlDevice,batchControlDevice } from "../services/manage";
 import pathToRegexp from 'path-to-regexp'
 
 export default {
@@ -7,14 +7,26 @@ export default {
 
   state: {
     sn:null,
+    deviceSnArr:null,
+    type:'',
     modalVisible:false,
     messages:{},
   },
 
   effects: {
     *control({ payload }, { call, put }) {  // eslint-disable-line
-      const  resData = yield call(controlDevice,payload)
+      const  resData = yield call(controlDevice,payload);
       console.log('resData',resData)
+      yield put({
+        type:'updateState',
+        payload:{
+          messages:resData.message,
+        }
+      })
+    },
+
+    *batchControlDevice({ payload }, { call, put }) {
+      const resData = yield call(batchControlDevice,payload);
       yield put({
         type:'updateState',
         payload:{
@@ -43,6 +55,7 @@ export default {
         ...state,
         ...payload,
         sn:payload,
+        deviceSnArr:payload,
         modalVisible:false
       }
     },
@@ -60,10 +73,13 @@ export default {
     setup({ dispatch, history }) {  // eslint-disable-line
       return history.listen(({pathname,query}) => {
 
-        const match = pathToRegexp('/controldevice/:sn').exec(pathname)
-        console.log('match',match)
-        if (match) {
-          dispatch({ type: 'update', payload: { sn: match[1] } })
+        const match = pathToRegexp('/controldevice/:s/:sn').exec(pathname);
+        if(match && match[1]) {
+          if (match[1] === "one") { // 控制单个设备
+            dispatch({ type: 'update', payload: { sn: match[2],type:'one' } })
+          } else { // 批量控制设备
+            dispatch({ type: 'update', payload: { deviceSnArr: match[2],type:'batch' } })
+          }
         }
       });
     },
