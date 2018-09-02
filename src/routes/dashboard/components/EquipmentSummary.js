@@ -37,7 +37,7 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
         <p className={styles.number}>{dashboard.TotalCount}</p>
       </div>
       <div className={styles.item}>
-        <p className={styles.summaryTitle}>设备在线数</p>
+        <p className={styles.summaryTitle}>设备正常数</p>
         <p className={styles.number}>{dashboard.OnlineCount}</p>
       </div>
       <div className={styles.item}>

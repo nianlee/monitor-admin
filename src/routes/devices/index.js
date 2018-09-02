@@ -326,14 +326,14 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           添加
         </Button>
 
-        <Button type="primary" onClick={batchHandleAdd} style={{ marginLeft: 8 }}>
+        <Button type="primary" onClick={batchHandleAdd} style={{ marginLeft: 15 }}>
           批量添加
         </Button>
 
         <Button
           type="primary"
           onClick={deviceUpgradeBatch}
-          style={{ marginLeft: 8 }}
+          style={{ marginLeft: 15 }}
           disabled={!hasSelected}
         >
           批量升级
@@ -341,7 +341,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         <Button
           type="primary"
           disabled={!hasSelected}
-          style={{ marginLeft: 8 }}
+          style={{ marginLeft: 15 }}
           onClick={batchRestart}
         >
           批量重启
@@ -349,7 +349,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         <Button
           type="primary"
           disabled={!hasSelected}
-          style={{ marginLeft: 8 }}
+          style={{ marginLeft: 15 }}
           onClick={batchReopen}
         >
           批量开门
@@ -357,7 +357,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         <Button
           type="primary"
           disabled={!hasSelected}
-          style={{ marginLeft: 8 }}
+          style={{ marginLeft: 15 }}
           onClick={batchOverhaul}
         >
           批量检修
@@ -366,7 +366,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         <Button
           type="primary"
           disabled={!hasSelected}
-          style={{ marginLeft: 8 }}
+          style={{ marginLeft: 15 }}
           onClick={cancelBatchOverhaul}
         >
           取消批量检修
@@ -374,7 +374,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         <Button
           type="primary"
           disabled={!hasSelected}
-          style={{ marginLeft: 8 }}
+          style={{ marginLeft: 15 }}
           onClick={batchControl}
         >
           批量控制
