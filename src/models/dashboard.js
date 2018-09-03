@@ -177,6 +177,7 @@ export default {
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
       const resData = yield call(queryDeviceBySn, payload);
+      console.log('resData',resData);
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
 
@@ -218,6 +219,12 @@ export default {
         });
 
         deviceDetailMetas.push({
+          key: "固件版本",
+          title: "固件版本",
+          description: info.firmwareVersion
+        });
+
+        deviceDetailMetas.push({
           key: "设备地址",
           title: "设备地址",
           description: info.detailAddr
@@ -225,13 +232,14 @@ export default {
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
             item = formatState(item);
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
-              description: item.attributeValue
+              description: item.state
             });
           });
         }
