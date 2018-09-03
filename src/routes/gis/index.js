@@ -11,12 +11,11 @@ const CheckboxGroup = Checkbox.Group;
 
 const Gis = ({ gis, dispatch }) => {
   const handleSearch = value => {
-    if (value.length > 0) {
-      dispatch({
-        type: "gis/queryDevices",
-        payload: { queryKey: value, sourceType: "fuzzyQuery" }
-      });
-    }
+    let queryKey = value || "";
+    dispatch({
+      type: "gis/queryDevices",
+      payload: { queryKey, sourceType: "fuzzyQuery" }
+    });
   };
 
   const checkBoxOptions = [
