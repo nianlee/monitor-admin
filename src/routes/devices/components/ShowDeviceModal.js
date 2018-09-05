@@ -23,7 +23,7 @@ const DeviceDetailModal = ({ dispatch, devices }) => {
         style={{ margin: 20 }}
         header={
           <div style={{ fontSize: 18, fontWeight: 600 }}>
-            《{devices.deviceDetailInfo.name}
+            《{devices.deviceDetailInfo.code}
             》的详细信息
           </div>
         }

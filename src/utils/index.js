@@ -23,7 +23,7 @@ export const formatInitAreaData = areaList => {
   let areaData = [];
   if (areaList && areaList.length > 0) {
     const info = areaList[0];
-    if (info.allCode) {
+    if (info && info.allCode) {
       areaData = info.allCode.split("_");
     }
   }

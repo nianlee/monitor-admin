@@ -137,6 +137,11 @@ export default {
           title: "硬件版本",
           description: info.hardwareVersion
         });
+        deviceDetailMetas.push({
+          key: "固件版本",
+          title: "固件版本",
+          description: info.firmwareVersion
+        });
 
         deviceDetailMetas.push({
           key: "设备地址",
@@ -154,7 +159,7 @@ export default {
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
-              description: item.attributeValue
+              description: item.state
             });
           });
         }
