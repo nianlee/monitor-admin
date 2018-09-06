@@ -159,7 +159,7 @@ export default {
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
-              description: item.state
+              description: item.attributeValue
             });
           });
         }
