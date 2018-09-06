@@ -6,7 +6,7 @@ const ListItem = List.Item;
 const ListItemMeta = ListItem.Meta;
 
 const DeviceDetailModal = ({ dispatch, dashboard }) => {
-  //console.log('detail',dashboard.deviceDetailInfo.deviceDetailMetas)
+
   return (
     <Modal
       visible={dashboard.deviceModalVisible}
@@ -23,7 +23,7 @@ const DeviceDetailModal = ({ dispatch, dashboard }) => {
         style={{ margin: 20 }}
         header={
           <div style={{ fontSize: 18, fontWeight: 600 }}>
-            《{dashboard.deviceDetailInfo.code}
+            《{dashboard.deviceDetailInfo.name}
             》的详细信息
           </div>
         }

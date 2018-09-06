@@ -176,16 +176,27 @@ export default {
 
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
+      console.log('payload',payload)
       const resData = yield call(queryDeviceBySn, payload);
+      console.log('resData',resData)
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
-
+        console.log('info',info)
         const deviceDetailInfo = {
           name: info.name,
           deviceDetailMetas: []
         };
 
+
+
         const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+
+
+        deviceDetailMetas.push({
+          key: "设备code",
+          title: "设备code",
+          description: info.code
+        });
 
         deviceDetailMetas.push({
           key: "设备名称",
@@ -229,8 +240,10 @@ export default {
           description: info.detailAddr
         });
 
+
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        console.log('deviceDynamicDTOS',deviceDynamicDTOS)
 
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
@@ -238,7 +251,7 @@ export default {
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
-              description: item.state
+              description: item.attributeValue
             });
           });
         }
@@ -249,6 +262,64 @@ export default {
 
         // 分割数组，每三个元素为一个子元素
         deviceDetailMetas.forEach((item, index) => {
+          /*
+          if(item.title === '风扇状态') {
+            if(item.description === -1) {
+              item.description = '异常'
+            } else if(item.description === 0){
+              item.description = '未知'
+            } else {
+              item.description = '正常'
+            }
+          }
+
+          if(item.title === '门磁状态') {
+            if(item.description === -1) {
+              item.description = '异常'
+            } else if(item.description === 0){
+              item.description = '未知'
+            } else {
+              item.description = '正常'
+            }
+          }
+
+          if(item.title === '交流状态') {
+            if(item.description === -1) {
+              item.description = '异常'
+            } else if(item.description === 0) {
+              item.description = '未知'
+            } else {
+              item.description = '正常'
+            }
+          }
+
+          if(item.title === '倾斜状态') {
+            if(item.description === -1) {
+              item.description = '异常'
+            } else if(item.description === 0){
+              item.description = '未知'
+            } else {
+              item.description = '正常'
+            }
+          }
+
+          if(item.title === '门禁状态') {
+            if(item.description === 0) {
+              item.description = '关'
+            } else {
+              item.description = '开'
+            }
+          }
+
+          if(item.title === '防雷状态') {
+            if(item.description === 0) {
+              item.description = '关'
+            } else {
+              item.description = '开'
+            }
+          }
+          */
+
           if (index % 3 === 0) {
             child.push(item);
             if (index == length - 1) {
