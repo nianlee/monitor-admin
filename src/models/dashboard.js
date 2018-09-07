@@ -74,10 +74,12 @@ export default {
             type: "queryAlarmDevices",
             payload: { page: 1, rows: 4 }
           });
+          /*
           dispatch({
             type: "queryDeviceCountByStateHis",
             payload: { needCache: "true", timeType: "DAY" }
           });
+          */
           dispatch({
             type: "queryDevices",
             payload: { page: "1", rows: "10" }
@@ -238,6 +240,12 @@ export default {
           key: "设备地址",
           title: "设备地址",
           description: info.detailAddr
+        });
+
+        deviceDetailMetas.push({
+          key: "上报时间",
+          title: "上报时间",
+          description: info.dataUpTime
         });
 
 
