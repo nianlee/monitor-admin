@@ -46,6 +46,13 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       width: "30%"
     },
     {
+      title: "网络",
+      dataIndex: "networkState",
+      key: "networkState",
+      className: styles.columnCenter,
+      render: render
+    },
+    {
       title: "供电",
       dataIndex: "powerSupplyState",
       key: "powerSupplyState",
@@ -56,13 +63,6 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       title: "环境",
       dataIndex: "environmentState",
       key: "environmentState",
-      className: styles.columnCenter,
-      render: render
-    },
-    {
-      title: "网络",
-      dataIndex: "networkState",
-      key: "networkState",
       className: styles.columnCenter,
       render: render
     },
