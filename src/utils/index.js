@@ -79,6 +79,30 @@ export const formatState = item => {
   return item;
 };
 
+
+// 当网络异常的时候全部显示"--"
+export const networkformatState = item => {
+  if (item.state == "-1") {
+    item.state = "故障";
+  } else if (item.state == "0") {
+    item.state = "离线";
+  } else {
+    item.state = "正常";
+  }
+
+  if (item.networkState == "-1") {
+    item.networkState = "异常";
+    item.powerSupplyState = "--";
+    item.environmentState = "--";
+    item.securityState = "--";
+    item.lightningProtectionState = "--";
+    item.leakageState = "--";
+  } else {
+    item.networkState = "正常";
+  }
+  return item;
+};
+
 // 初始区域所有数据
 export const initAreaData = codes => {
   let areaList = [];

@@ -95,7 +95,7 @@ const batchAddDevice = ({ batchAddDevice, dispatch,form }) => {
         </div>
 
         <Button className={styles.cancelButton} onClick={onCancel}>
-          取消
+          返回
         </Button>
 
       </div>

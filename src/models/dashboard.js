@@ -15,7 +15,7 @@ import {
   queryDeviceType
 } from "../services/manage";
 import { message, notification } from "antd";
-import { refreshData, stopRefreshData, formatState } from "utils";
+import { refreshData, stopRefreshData, formatState,networkformatState } from "utils";
 
 export default {
   namespace: "dashboard",
@@ -59,6 +59,7 @@ export default {
 
     deviceModalVisible: false, // 设备详情弹窗
     deviceDetailInfo: {}, // 设备详细信息
+    checkDeviceSn:'', // 查看详情sn
     inspectionShow: false, // 一键巡检loading 展示
     inspectionProgress: 0, // 巡检进度
     runToken: "", // 巡检token
@@ -141,9 +142,14 @@ export default {
           return;
         }
         const devicesList = resData.data.rows.map(item => {
-          item = formatState(item);
-          item.key = item.sn;
 
+          if(item.networkState == '-1') {
+            item = networkformatState(item);
+            item.key = item.sn;
+          } else {
+            item = formatState(item);
+            item.key = item.sn;
+          }
           return item;
         });
 
@@ -178,21 +184,19 @@ export default {
 
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
-      console.log('payload',payload)
       const resData = yield call(queryDeviceBySn, payload);
-      console.log('resData',resData)
+      console.log('resData',resData);
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
-        console.log('info',info)
+        console.log('info',info);
+
+        const checkDeSn = info.sn;
         const deviceDetailInfo = {
           name: info.name,
           deviceDetailMetas: []
         };
 
-
-
         const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
-
 
         deviceDetailMetas.push({
           key: "设备code",
@@ -256,10 +260,14 @@ export default {
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
             item = formatState(item);
+            let arr = new Array();
+            arr.push(item.attributeValue);
+            arr.push(item.attributeUnit);
+
             deviceDetailMetas.push({
               key: item.attributeDesc,
               title: item.attributeName,
-              description: item.attributeValue
+              description: arr.join("")
             });
           });
         }
@@ -352,7 +360,9 @@ export default {
 
         yield put({
           type: "updateState",
-          payload: { deviceDetailInfo }
+          payload: { deviceDetailInfo,
+                      checkDeviceSn:checkDeSn
+          }
         });
       } else {
         message.error(resData.message);
