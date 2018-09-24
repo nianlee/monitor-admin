@@ -59,7 +59,7 @@ export default {
 
     deviceModalVisible: false, // 设备详情弹窗
     deviceDetailInfo: {}, // 设备详细信息
-    checkDeviceSn:'', // 查看详情sn
+    checkDeviceSn: "", // 查看详情sn
     inspectionShow: false, // 一键巡检loading 展示
     inspectionProgress: 0, // 巡检进度
     runToken: "", // 巡检token
@@ -138,12 +138,10 @@ export default {
       const resData = yield call(queryDevices, data);
 
       if (resData.success) {
-        console.log('res',resData);
         if (!resData.data || !resData.data.rows) {
           return;
         }
         const devicesList = resData.data.rows.map(item => {
-
           item = formatState(item);
           item.key = item.sn;
 
@@ -188,10 +186,8 @@ export default {
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
       const resData = yield call(queryDeviceBySn, payload);
-      console.log('resData',resData);
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
-        console.log('info',info);
 
         const checkDeSn = info.sn;
         const deviceDetailInfo = {
@@ -255,10 +251,8 @@ export default {
           description: info.dataUpTime
         });
 
-
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
-        console.log('deviceDynamicDTOS',deviceDynamicDTOS)
 
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
@@ -281,100 +275,100 @@ export default {
 
         // 分割数组，每三个元素为一个子元素
         deviceDetailMetas.forEach((item, index) => {
-
-          if(item.title === '风扇状态') {
-            if(item.description === 0) {
-              item.description = '关'
-            } else if(item.description === 1){
-              item.description = '开'
+          if (item.title === "风扇状态") {
+            if (item.description === 0) {
+              item.description = "关";
+            } else if (item.description === 1) {
+              item.description = "开";
             } else {
-              item.description = '异常'
+              item.description = "异常";
             }
           }
 
-          if(item.title === '门磁状态') {
-            if(item.description === 0) {
-              item.description = '关'
-            } else if(item.description === 1){
-              item.description = '开'
+          if (item.title === "门磁状态") {
+            if (item.description === 0) {
+              item.description = "关";
+            } else if (item.description === 1) {
+              item.description = "开";
             } else {
-              item.description = '异常'
+              item.description = "异常";
             }
           }
 
-          if(item.title === '交流供电') {
-            if(item.description === 0) {
-              item.description = '正常'
+          if (item.title === "交流供电") {
+            if (item.description === 0) {
+              item.description = "正常";
             } else {
-              item.description = '异常'
+              item.description = "异常";
             }
           }
 
-          if(item.title === '倾斜状态') {
-            if(item.description === 0) {
-              item.description = '正常'
+          if (item.title === "倾斜状态") {
+            if (item.description === 0) {
+              item.description = "正常";
             } else {
-              item.description = '异常'
+              item.description = "异常";
             }
           }
 
-          if(item.title === '门禁状态') {
-            if(item.description === 0) {
-              item.description = '关'
+          if (item.title === "门禁状态") {
+            if (item.description === 0) {
+              item.description = "关";
             } else {
-              item.description = '开'
+              item.description = "开";
             }
           }
 
-          if(item.title === '防雷状态') {
-            if(item.description === 0) {
-              item.description = '正常'
+          if (item.title === "防雷状态") {
+            if (item.description === 0) {
+              item.description = "正常";
             } else {
-              item.description = '异常'
+              item.description = "异常";
             }
           }
 
           //---------------------
-          if(item.title === '第1路交流控制') {
-            if(item.description === 0) {
-              item.description = '关'
+          if (item.title === "第1路交流控制") {
+            if (item.description === 0) {
+              item.description = "关";
             } else {
-              item.description = '开'
+              item.description = "开";
             }
           }
 
-          if(item.title === '第2路交流控制') {
-            if(item.description === 0) {
-              item.description = '关'
+          if (item.title === "第2路交流控制") {
+            if (item.description === 0) {
+              item.description = "关";
             } else {
-              item.description = '开'
+              item.description = "开";
             }
           }
-          if(item.title === '第1路直流控制') {
-            if(item.description === 0) {
-              item.description = '关'
+          if (item.title === "第1路直流控制") {
+            if (item.description === 0) {
+              item.description = "关";
             } else {
-              item.description = '开'
+              item.description = "开";
             }
           }
-          if(item.title === '第2路直流控制') {
-            if(item.description === 0) {
-              item.description = '关'
+          if (item.title === "第2路直流控制") {
+            if (item.description === 0) {
+              item.description = "关";
             } else {
-              item.description = '开'
+              item.description = "开";
             }
           }
-          if(item.title === '第3路直流控制') {
-            if(item.description === 0) {
-              item.description = '关'
+          if (item.title === "第3路直流控制") {
+            if (item.description === 0) {
+              item.description = "关";
             } else {
-              item.description = '开'
+              item.description = "开";
             }
-          }if(item.title === '第4路直流控制') {
-            if(item.description === 0) {
-              item.description = '关'
+          }
+          if (item.title === "第4路直流控制") {
+            if (item.description === 0) {
+              item.description = "关";
             } else {
-              item.description = '开'
+              item.description = "开";
             }
           }
 
@@ -402,8 +396,9 @@ export default {
 
         yield put({
           type: "updateState",
-          payload: { deviceDetailInfo,
-                      checkDeviceSn:checkDeSn
+          payload: {
+            deviceDetailInfo,
+            checkDeviceSn: checkDeSn
           }
         });
       } else {
@@ -513,8 +508,6 @@ export default {
 
       if (resData.success) {
         yield put({ type: "save", payload: { ...resData.data } });
-      } else {
-        console.log(resData.message);
       }
     },
 

@@ -32,8 +32,6 @@ export const formatInitAreaData = areaList => {
 
 // 将状态数字，改为中文表示
 export const formatState = item => {
-
-  console.log('item',item)
   if (item.state == "-1") {
     item.state = "故障";
   } else if (item.state == "0") {
@@ -45,9 +43,9 @@ export const formatState = item => {
   // 供电
   if (item.powerSupplyState == "1") {
     item.powerSupplyState = "正常";
-  } else if(item.powerSupplyState == "-1") {
+  } else if (item.powerSupplyState == "-1") {
     item.powerSupplyState = "异常";
-  } else if(item.powerSupplyState == "-2"){
+  } else if (item.powerSupplyState == "-2") {
     item.powerSupplyState = "--";
   } else {
     item.powerSupplyState = "--";
@@ -56,11 +54,11 @@ export const formatState = item => {
   // 环境
   if (item.environmentState == "1") {
     item.environmentState = "风扇开";
-  } else if(item.environmentState == "-2") {
+  } else if (item.environmentState == "-2") {
     item.environmentState = "--";
-  } else if(item.environmentState == "-1") {
+  } else if (item.environmentState == "-1") {
     item.environmentState = "异常";
-  } else{
+  } else {
     item.environmentState = "风扇关";
   }
 
@@ -76,9 +74,9 @@ export const formatState = item => {
   // 安防
   if (item.securityState == "-1") {
     item.securityState = "异常";
-  } else if(item.securityState == "-2"){
+  } else if (item.securityState == "-2") {
     item.securityState = "--";
-  } else if(item.securityState == "0"){
+  } else if (item.securityState == "0") {
     item.securityState = "正常";
   } else {
     item.securityState = "异常";
@@ -87,7 +85,7 @@ export const formatState = item => {
   // 防雷
   if (item.lightningProtectionState == "-1") {
     item.lightningProtectionState = "异常";
-  } else if (item.lightningProtectionState == "-2"){
+  } else if (item.lightningProtectionState == "-2") {
     item.lightningProtectionState = "--";
   } else if (item.lightningProtectionState == "0") {
     item.lightningProtectionState = "正常";
@@ -98,7 +96,7 @@ export const formatState = item => {
   // 漏电
   if (item.leakageState == "0") {
     item.leakageState = "正常";
-  } else if (item.leakageState == "1"){
+  } else if (item.leakageState == "1") {
     item.leakageState = "异常";
   } else if (item.leakageState == "-2") {
     item.leakageState = "--";
@@ -107,7 +105,6 @@ export const formatState = item => {
   }
   return item;
 };
-
 
 /*
 当网络异常的时候全部显示"--"
@@ -183,7 +180,6 @@ export const initAreaData = codes => {
           resolve(areaList);
         })
         .catch(err => {
-          console.log("get area error", err);
           reject(err);
         });
     } else {

@@ -224,8 +224,6 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   };
 
   const onSelectChange = (selectedRowKeys, selectedRows) => {
-    console.log("selectedRowKeys changed: ", selectedRows, selectedRowKeys);
-
     dispatch({
       type: "devices/updateSelect",
       payload: {
@@ -326,7 +324,11 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           添加
         </Button>
 
-        <Button type="primary" onClick={batchHandleAdd} style={{ marginLeft: 15 }}>
+        <Button
+          type="primary"
+          onClick={batchHandleAdd}
+          style={{ marginLeft: 15 }}
+        >
           批量添加
         </Button>
 

@@ -70,7 +70,6 @@ export default {
     // 查询单个固件信息
     *queryFirmwaresInfo({ payload }, { call, put }) {
       const resData = yield call(queryFirmwaresInfo, payload);
-      console.log("queryFirmwaresInfo", resData);
       if (resData.success) {
         const firmware = resData.data;
         yield put({

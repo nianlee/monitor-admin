@@ -1,45 +1,52 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'dva'
-import { Row, Col,Select,Avatar,Card} from 'antd'
-import MonitorBlock from './components/MonitorBlock'
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "dva";
+import { Row, Col, Select, Avatar, Card } from "antd";
+import MonitorBlock from "./components/MonitorBlock";
 import Block from "../../components/Block";
 
-const Option = Select.Option
+const Option = Select.Option;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
-const Monitor = ({
-                   app,
-                 }) => {
-
+const Monitor = ({ app }) => {
   return (
-
     <div>
       <Row>
-
-        <Col span="16" style={{height:'100%',background:'gray'}}>
-          <Col span="8"><MonitorBlock/></Col>
-          <Col span="8"><MonitorBlock/></Col>
-          <Col span="8"><MonitorBlock/></Col>
-          <Col span="8"><MonitorBlock/></Col>
-          <Col span="8"><MonitorBlock/></Col>
-          <Col span="8"><MonitorBlock/></Col>
+        <Col span="16" style={{ height: "100%", background: "gray" }}>
+          <Col span="8">
+            <MonitorBlock />
+          </Col>
+          <Col span="8">
+            <MonitorBlock />
+          </Col>
+          <Col span="8">
+            <MonitorBlock />
+          </Col>
+          <Col span="8">
+            <MonitorBlock />
+          </Col>
+          <Col span="8">
+            <MonitorBlock />
+          </Col>
+          <Col span="8">
+            <MonitorBlock />
+          </Col>
         </Col>
 
         <Col span="8">
           <div>
-            <Select defaultValue="设置1" style={{ width: '100%' }} onChange={handleChange}>
+            <Select defaultValue="设置1" style={{ width: "100%" }}>
               <Option value="设置1">设置1</Option>
               <Option value="设置2">设置2</Option>
               <Option value="设置3">设置3</Option>
               <Option value="设置3">设置4</Option>
             </Select>
-            <Block style={{margin:'5px auto',textAlign:'center'}}>
-              <Avatar src={require("./img/cam.png")} alt="" ></Avatar>
-              <Card title="设备详情" bordered={false} style={{ width: '100%',background:'light-blue'}}>
+            <Block style={{ margin: "5px auto", textAlign: "center" }}>
+              <Avatar src={require("./img/cam.png")} alt="" />
+              <Card
+                title="设备详情"
+                bordered={false}
+                style={{ width: "100%", background: "light-blue" }}
+              >
                 <p>温度：1℃</p>
                 <p>湿度：10</p>
                 <p>3路交流电流：3i</p>
@@ -58,11 +65,11 @@ const Monitor = ({
         </Col>
       </Row>
     </div>
-  )
-}
+  );
+};
 
 Monitor.propTypes = {
-  app: PropTypes.object,
-}
+  app: PropTypes.object
+};
 
-export default connect(({app}) => ({app}))(Monitor)
+export default connect(({ app }) => ({ app }))(Monitor);

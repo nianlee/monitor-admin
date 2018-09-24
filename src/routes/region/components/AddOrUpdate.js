@@ -23,7 +23,6 @@ const AddOrUpdate = ({ region, dispatch, form }) => {
       }
 
       if (region.operateType === "add") {
-        console.log("Received values of form: ", fieldsValue);
         dispatch({
           type: "region/addArea",
           payload: {

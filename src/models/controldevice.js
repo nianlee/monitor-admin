@@ -1,88 +1,91 @@
-import { controlDevice,batchControlDevice } from "../services/manage";
-import pathToRegexp from 'path-to-regexp'
+import { controlDevice, batchControlDevice } from "../services/manage";
+import pathToRegexp from "path-to-regexp";
 
 export default {
-
-  namespace: 'controldevice',
+  namespace: "controldevice",
 
   state: {
-    sn:null,
-    deviceSnArr:null,
-    type:'',
-    modalVisible:false,
-    messages:{},
+    sn: null,
+    deviceSnArr: null,
+    type: "",
+    modalVisible: false,
+    messages: {}
   },
 
   effects: {
-    *control({ payload }, { call, put }) {  // eslint-disable-line
-      const  resData = yield call(controlDevice,payload);
-      console.log('resData',resData)
+    *control({ payload }, { call, put }) {
+      // eslint-disable-line
+      const resData = yield call(controlDevice, payload);
       yield put({
-        type:'updateState',
-        payload:{
-          messages:resData.message,
+        type: "updateState",
+        payload: {
+          messages: resData.message
         }
-      })
+      });
     },
 
     *batchControlDevice({ payload }, { call, put }) {
-      const resData = yield call(batchControlDevice,payload);
+      const resData = yield call(batchControlDevice, payload);
       yield put({
-        type:'updateState',
-        payload:{
-          messages:resData.message,
+        type: "updateState",
+        payload: {
+          messages: resData.message
         }
-      })
+      });
     },
 
-    *query({ payload }, { call, put }) {
-      yield console.log(payload)
-    }
+    *query({ payload }, { call, put }) {}
   },
 
   reducers: {
-
     updateState(state, { payload }) {
       return {
         ...state,
         ...payload,
-        modalVisible:true
-      }
+        modalVisible: true
+      };
     },
 
     update(state, { payload }) {
       return {
         ...state,
         ...payload,
-        sn:payload,
-        deviceSnArr:payload,
-        modalVisible:false
-      }
+        sn: payload,
+        deviceSnArr: payload,
+        modalVisible: false
+      };
     },
 
-    hideModal(state,{ payload }) {
+    hideModal(state, { payload }) {
       return {
         ...state,
         ...payload,
-        modalVisible:false
-      }
-    },
+        modalVisible: false
+      };
+    }
   },
 
   subscriptions: {
-    setup({ dispatch, history }) {  // eslint-disable-line
-      return history.listen(({pathname,query}) => {
-
-        const match = pathToRegexp('/controldevice/:s/:sn').exec(pathname);
-        if(match && match[1]) {
-          if (match[1] === "one") { // 控制单个设备
-            dispatch({ type: 'update', payload: { sn: match[2],type:'one' } })
-          } else { // 批量控制设备
-            dispatch({ type: 'update', payload: { deviceSnArr: match[2],type:'batch' } })
+    setup({ dispatch, history }) {
+      // eslint-disable-line
+      return history.listen(({ pathname, query }) => {
+        const match = pathToRegexp("/controldevice/:s/:sn").exec(pathname);
+        if (match && match[1]) {
+          if (match[1] === "one") {
+            // 控制单个设备
+            dispatch({
+              type: "update",
+              payload: { sn: match[2], type: "one" }
+            });
+          } else {
+            // 批量控制设备
+            dispatch({
+              type: "update",
+              payload: { deviceSnArr: match[2], type: "batch" }
+            });
           }
         }
       });
-    },
-  },
-
+    }
+  }
 };

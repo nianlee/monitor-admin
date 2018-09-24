@@ -190,7 +190,6 @@ export default {
         });
       } else {
         // 没有查询到数据，设置dataList 为空
-        console.log(resData.message);
         yield put({ type: "updateState", payload: { dataList: [] } });
       }
     },

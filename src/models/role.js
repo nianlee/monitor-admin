@@ -62,8 +62,6 @@ export default modelExtend(pageModel, {
 
     *deleteRole({ payload }, { call, put, select }) {
       const resData = yield call(deleteRole, { ...payload });
-
-      console.log("delete", resData);
       if (resData.success) {
         message.info(resData.message);
         yield put({

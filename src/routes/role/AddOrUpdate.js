@@ -44,8 +44,6 @@ const AddOrUpdate = ({ addOrUpdateRole, dispatch, form }) => {
         };
         dispatch({ type: "addOrUpdateRole/editRoleById", payload: payload });
       }
-
-      console.log("Received values of form: ", fieldsValue);
     });
   };
 

@@ -11,7 +11,6 @@ const Login = ({ login, dispatch, form }) => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
-        console.log("Received values of form: ", values);
         dispatch({
           type: "login/loginLoad",
           payload: { ...values }

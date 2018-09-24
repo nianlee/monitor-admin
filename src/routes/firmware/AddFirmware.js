@@ -27,8 +27,6 @@ const AddFirmware = ({ form, dispatch, addFirmware }) => {
     form.validateFields((err, values) => {
       if (!err) {
         const payload = { ...values, ...addFirmware.firmwareInfo };
-
-        console.log('pay',payload)
         dispatch({ type: "addFirmware/add", payload });
       }
     });
@@ -91,8 +89,6 @@ const AddFirmware = ({ form, dispatch, addFirmware }) => {
             type: "addFirmware/updateFirmwareInfo",
             payload: { ...response.data }
           });
-          console.log('res',response)
-
           message.success(`${info.file.name} 上传成功`);
         }
       } else if (info.file.status === "error") {

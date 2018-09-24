@@ -23,8 +23,6 @@ const AddOrUpdateDevice = ({ addOrUpdateDevice, dispatch, form }) => {
           ...values,
           installAddr: addressCasc[addressCasc.length - 1]
         };
-
-        console.log("Received values of form: ", payload);
         delete payload.addressCasc;
 
         if (addOrUpdateDevice.type == "add") {

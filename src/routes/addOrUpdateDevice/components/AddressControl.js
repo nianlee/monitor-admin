@@ -18,7 +18,6 @@ class AddressControl extends Component {
   }
 
   modalOk() {
-    console.log("ok");
     this.setState({ mapVisible: false });
   }
 
@@ -27,7 +26,6 @@ class AddressControl extends Component {
   }
 
   onTrigger(value) {
-    console.log(value);
     this.setState({ value: value });
     this.props.onChange(value);
   }
