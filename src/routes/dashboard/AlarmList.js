@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import styles from "./style.less";
-import { Table, message, Button, Modal, List } from "antd";
+import { Table, message, Button } from "antd";
 import { queryAlarmDevices, queryDeviceBySn } from "services/dashboard";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import { formatState } from "utils";
-
-const ListItem = List.Item;
-const ListItemMeta = ListItem.Meta;
+import { formatState, formateDynamic } from "utils";
+import DeviceDetail from "components/device-detail";
 
 class AlarmList extends Component {
   constructor(props) {
@@ -94,89 +92,98 @@ class AlarmList extends Component {
     queryDeviceBySn({ deviceSn: info.sn }).then(resData => {
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
+
         const deviceDetailInfo = {
           name: info.name,
-          deviceDetailMetas: []
+          baseInfo: [],
+          statusInfo: [],
+          dynamicInfo: []
         };
 
-        const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+        const baseInfo = deviceDetailInfo.baseInfo;
 
-        deviceDetailMetas.push({
-          key: "设备名称",
-          title: "设备名称",
-          description: info.name
+        baseInfo.push({
+          key: "设备编码",
+          label: "设备编码",
+          value: info.code
         });
 
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "mac",
-          title: "mac",
-          description: info.mac
+          label: "mac",
+          value: info.mac
         });
 
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "设备类型",
-          title: "设备类型",
-          description: info.type
+          label: "设备类型",
+          value: info.type
         });
 
-        deviceDetailMetas.push({
-          key: "设备状态",
-          title: "设备状态",
-          description: info.state
+        baseInfo.push({
+          key: "固件版本",
+          label: "固件版本",
+          value: info.firmwareVersion
         });
 
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "硬件版本",
-          title: "硬件版本",
-          description: info.hardwareVersion
+          label: "硬件版本",
+          value: info.hardwareVersion
         });
 
-        deviceDetailMetas.push({
-          key: "设备地址",
-          title: "设备地址",
-          description: info.detailAddr
+        baseInfo.push({
+          key: "设备状态",
+          label: "设备状态",
+          value: info.state
+        });
+
+        baseInfo.push({
+          key: "安装地址",
+          label: "安装地址",
+          value: (info.installAreaInfo && info.installAreaInfo.allName) || ""
+        });
+        baseInfo.push({
+          key: "更新时间",
+          label: "安装地址",
+          value: info.dataUpTime
         });
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        const dynamicInfo = [];
+        const statusInfo = [];
+
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
-            item = formatState(item);
-            deviceDetailMetas.push({
-              key: item.attributeDesc,
-              title: item.attributeName,
-              description: item.attributeValue
-            });
+            item = formateDynamic(item);
+
+            // 状态信息
+            if (
+              item.attributeCode == "ACInput" ||
+              item.attributeCode == "leakageState" ||
+              item.attributeCode == "DI1" ||
+              item.attributeCode == "incline" ||
+              item.attributeCode == "DI2"
+            ) {
+              statusInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            } else {
+              // 动态信息
+              dynamicInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            }
           });
         }
 
-        const newDeviceDetailMetas = [];
-        const length = deviceDetailMetas.length;
-        let child = [];
-
-        // 分割数组，每三个元素为一个子元素
-        deviceDetailMetas.forEach((item, index) => {
-          if (index % 3 === 0) {
-            child.push(item);
-            if (index == length - 1) {
-              // 如果是最后一个元素，添加进去
-              newDeviceDetailMetas.push(child);
-            }
-          }
-          if (index % 3 === 1) {
-            child.push(item);
-            if (index == length - 1) {
-              newDeviceDetailMetas.push(child);
-            }
-          }
-          if (index % 3 === 2) {
-            child.push(item);
-            newDeviceDetailMetas.push(child);
-            child = [];
-          }
-        });
-
-        deviceDetailInfo.deviceDetailMetas = newDeviceDetailMetas;
+        deviceDetailInfo.statusInfo = statusInfo;
+        deviceDetailInfo.dynamicInfo = dynamicInfo;
 
         this.setState({ deviceDetailInfo, visible: true });
       } else {
@@ -209,17 +216,6 @@ class AlarmList extends Component {
     });
   }
 
-  showModal() {
-    this.setState({ visible: true });
-  }
-
-  hideModal() {
-    this.setState({
-      visible: false,
-      deviceInfo: ""
-    });
-  }
-
   render() {
     const renderTitle = () => {
       return (
@@ -246,35 +242,14 @@ class AlarmList extends Component {
           title={renderTitle}
           onChange={this.paginationChange.bind(this)}
         />
-        <Modal
+
+        <DeviceDetail
           visible={this.state.visible}
-          onCancel={() => this.setState({ visible: false })}
-          footer={false}
-          width={800}
-        >
-          <List
-            style={{ margin: 20 }}
-            header={
-              <div style={{ fontSize: 18, fontWeight: 600 }}>
-                《{this.state.deviceDetailInfo.name}
-                》的详细信息
-              </div>
-            }
-            bordered
-            dataSource={this.state.deviceDetailInfo.deviceDetailMetas}
-            renderItem={item => (
-              <ListItem>
-                {item.map(info => (
-                  <ListItemMeta
-                    key={info.key}
-                    title={info.title}
-                    description={info.description}
-                  />
-                ))}
-              </ListItem>
-            )}
-          />
-        </Modal>
+          detailInfo={this.state.deviceDetailInfo}
+          closeFun={() => {
+            this.setState({ visible: false });
+          }}
+        />
       </div>
     );
   }

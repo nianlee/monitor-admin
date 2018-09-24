@@ -103,6 +103,109 @@ export const formatState = item => {
   } else {
     item.leakageState = "异常";
   }
+
+  return item;
+};
+
+// 动态属性，数字状态修改
+export const formateDynamic = item => {
+  if (item.attributeCode == "fanState") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else if (item.attributeValue == "1") {
+      item.attributeValue = "开";
+    } else {
+      item.attributeValue = "异常";
+    }
+  }
+
+  if (item.attributeCode == "DCCtrl6") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else if (item.attributeValue == "1") {
+      item.attributeValue = "开";
+    } else {
+      item.attributeValue = "异常";
+    }
+  }
+
+  if (item.attributeCode == "交流供电") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "正常";
+    } else {
+      item.attributeValue = "异常";
+    }
+  }
+
+  if (item.attributeCode == "incline") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "正常";
+    } else {
+      item.attributeValue = "异常";
+    }
+  }
+
+  if (item.attributeCode == "DI1") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+
+  if (item.attributeCode == "DI2") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "正常";
+    } else {
+      item.attributeValue = "异常";
+    }
+  }
+
+  //---------------------
+  if (item.attributeCode == "ACCtrl1") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+
+  if (item.attributeCode == "ACCtrl2") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+  if (item.attributeCode == "第1路直流控制") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+  if (item.attributeCode == "第2路直流控制") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+  if (item.attributeCode == "第3路直流控制") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+  if (item.attributeCode == "第4路直流控制") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+
   return item;
 };
 
@@ -172,7 +275,7 @@ export const initAreaData = codes => {
               }
             });
 
-            if (index === 0) {
+            if (index == "0") {
               areaList = area;
             }
           });

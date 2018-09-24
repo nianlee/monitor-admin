@@ -11,10 +11,10 @@ import {
   Select,
   Cascader
 } from "antd";
-import ShowDeviceModal from "./components/ShowDeviceModal";
 import ControlParams from "./components/ControlParams";
 import { routerRedux } from "dva/router";
 import styles from "./style.less";
+import DeviceDetail from "components/device-detail";
 
 const DeviceManage = ({ devices, dispatch, form }) => {
   const FormItem = Form.Item;
@@ -383,7 +383,16 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         </Button>
       </div>
 
-      <ShowDeviceModal dispatch={dispatch} devices={devices} />
+      <DeviceDetail
+        visible={devices.deviceDetailModalVisible}
+        closeFun={() => {
+          dispatch({
+            type: "devices/save",
+            payload: { deviceDetailModalVisible: false }
+          });
+        }}
+        detailInfo={devices.deviceDetailInfo}
+      />
 
       <Table
         bordered

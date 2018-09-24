@@ -15,7 +15,12 @@ import {
   queryDeviceType
 } from "../services/manage";
 import { message, notification } from "antd";
-import { refreshData, stopRefreshData, formatState } from "utils";
+import {
+  refreshData,
+  stopRefreshData,
+  formatState,
+  formateDynamic
+} from "utils";
 
 export default {
   namespace: "dashboard",
@@ -188,211 +193,99 @@ export default {
       const resData = yield call(queryDeviceBySn, payload);
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
-
         const checkDeSn = info.sn;
+
         const deviceDetailInfo = {
           name: info.name,
-          deviceDetailMetas: []
+          baseInfo: [],
+          statusInfo: [],
+          dynamicInfo: []
         };
 
-        const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+        const baseInfo = deviceDetailInfo.baseInfo;
 
-        deviceDetailMetas.push({
-          key: "设备code",
-          title: "设备code",
-          description: info.code
+        baseInfo.push({
+          key: "设备编码",
+          label: "设备编码",
+          value: info.code
         });
 
-        deviceDetailMetas.push({
-          key: "设备名称",
-          title: "设备名称",
-          description: info.name
-        });
-
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "mac",
-          title: "mac",
-          description: info.mac
+          label: "mac",
+          value: info.mac
         });
 
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "设备类型",
-          title: "设备类型",
-          description: info.type
+          label: "设备类型",
+          value: info.type
         });
 
-        deviceDetailMetas.push({
-          key: "设备状态",
-          title: "设备状态",
-          description: info.state
-        });
-
-        deviceDetailMetas.push({
-          key: "硬件版本",
-          title: "硬件版本",
-          description: info.hardwareVersion
-        });
-
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "固件版本",
-          title: "固件版本",
-          description: info.firmwareVersion
+          label: "固件版本",
+          value: info.firmwareVersion
         });
 
-        deviceDetailMetas.push({
-          key: "设备地址",
-          title: "设备地址",
-          description: info.detailAddr
+        baseInfo.push({
+          key: "硬件版本",
+          label: "硬件版本",
+          value: info.hardwareVersion
         });
 
-        deviceDetailMetas.push({
-          key: "上报时间",
-          title: "上报时间",
-          description: info.dataUpTime
+        baseInfo.push({
+          key: "设备状态",
+          label: "设备状态",
+          value: info.state
+        });
+
+        baseInfo.push({
+          key: "安装地址",
+          label: "安装地址",
+          value: (info.installAreaInfo && info.installAreaInfo.allName) || ""
+        });
+        baseInfo.push({
+          key: "更新时间",
+          label: "安装地址",
+          value: info.dataUpTime
         });
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        const dynamicInfo = [];
+        const statusInfo = [];
 
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
-            item = formatState(item);
-            let arr = new Array();
-            arr.push(item.attributeValue);
-            arr.push(item.attributeUnit);
+            item = formateDynamic(item);
 
-            deviceDetailMetas.push({
-              key: item.attributeDesc,
-              title: item.attributeName,
-              description: arr.join("")
-            });
+            // 状态信息
+            if (
+              item.attributeCode == "ACInput" ||
+              item.attributeCode == "leakageState" ||
+              item.attributeCode == "DI1" ||
+              item.attributeCode == "incline" ||
+              item.attributeCode == "DI2"
+            ) {
+              statusInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            } else {
+              // 动态信息
+              dynamicInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            }
           });
         }
 
-        const newDeviceDetailMetas = [];
-        const length = deviceDetailMetas.length;
-        let child = [];
-
-        // 分割数组，每三个元素为一个子元素
-        deviceDetailMetas.forEach((item, index) => {
-          if (item.title === "风扇状态") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else if (item.description === 1) {
-              item.description = "开";
-            } else {
-              item.description = "异常";
-            }
-          }
-
-          if (item.title === "门磁状态") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else if (item.description === 1) {
-              item.description = "开";
-            } else {
-              item.description = "异常";
-            }
-          }
-
-          if (item.title === "交流供电") {
-            if (item.description === 0) {
-              item.description = "正常";
-            } else {
-              item.description = "异常";
-            }
-          }
-
-          if (item.title === "倾斜状态") {
-            if (item.description === 0) {
-              item.description = "正常";
-            } else {
-              item.description = "异常";
-            }
-          }
-
-          if (item.title === "门禁状态") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else {
-              item.description = "开";
-            }
-          }
-
-          if (item.title === "防雷状态") {
-            if (item.description === 0) {
-              item.description = "正常";
-            } else {
-              item.description = "异常";
-            }
-          }
-
-          //---------------------
-          if (item.title === "第1路交流控制") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else {
-              item.description = "开";
-            }
-          }
-
-          if (item.title === "第2路交流控制") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else {
-              item.description = "开";
-            }
-          }
-          if (item.title === "第1路直流控制") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else {
-              item.description = "开";
-            }
-          }
-          if (item.title === "第2路直流控制") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else {
-              item.description = "开";
-            }
-          }
-          if (item.title === "第3路直流控制") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else {
-              item.description = "开";
-            }
-          }
-          if (item.title === "第4路直流控制") {
-            if (item.description === 0) {
-              item.description = "关";
-            } else {
-              item.description = "开";
-            }
-          }
-
-          if (index % 3 === 0) {
-            child.push(item);
-            if (index == length - 1) {
-              // 如果是最后一个元素，添加进去
-              newDeviceDetailMetas.push(child);
-            }
-          }
-          if (index % 3 === 1) {
-            child.push(item);
-            if (index == length - 1) {
-              newDeviceDetailMetas.push(child);
-            }
-          }
-          if (index % 3 === 2) {
-            child.push(item);
-            newDeviceDetailMetas.push(child);
-            child = [];
-          }
-        });
-
-        deviceDetailInfo.deviceDetailMetas = newDeviceDetailMetas;
+        deviceDetailInfo.statusInfo = statusInfo;
+        deviceDetailInfo.dynamicInfo = dynamicInfo;
 
         yield put({
           type: "updateState",

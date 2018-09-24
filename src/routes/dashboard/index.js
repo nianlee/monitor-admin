@@ -15,9 +15,9 @@ import { connect } from "dva";
 import Alarm from "./components/Alarm";
 import EquipmentSummary from "./components/EquipmentSummary";
 import { routerRedux } from "dva/router";
-import DeviceDetailModal from "./components/DeviceDetailModal";
 import styles from "./style.less";
 import classNames from "classnames";
+import DeviceDetail from "components/device-detail";
 
 const Dashboard = ({ dashboard, dispatch, form }) => {
   const childProps = { dashboard, dispatch };
@@ -276,7 +276,16 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
         </Col>
       </Row>
 
-      <DeviceDetailModal dispatch={dispatch} dashboard={dashboard} />
+      <DeviceDetail
+        visible={dashboard.deviceModalVisible}
+        detailInfo={dashboard.deviceDetailInfo}
+        closeFun={() => {
+          dispatch({
+            type: "dashboard/updateState",
+            payload: { deviceModalVisible: false }
+          });
+        }}
+      />
 
       <div
         className={classNames({

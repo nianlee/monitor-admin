@@ -14,7 +14,7 @@ import {
 } from "../services/manage";
 import { routerRedux } from "dva/router";
 import { message } from "antd";
-import { formatState } from "utils";
+import { formatState, formateDynamic } from "utils";
 
 export default {
   namespace: "devices",
@@ -101,96 +101,98 @@ export default {
 
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
+
         const deviceDetailInfo = {
           name: info.name,
-          deviceDetailMetas: []
+          baseInfo: [],
+          statusInfo: [],
+          dynamicInfo: []
         };
 
-        const deviceDetailMetas = deviceDetailInfo.deviceDetailMetas;
+        const baseInfo = deviceDetailInfo.baseInfo;
 
-        deviceDetailMetas.push({
-          key: "设备名称",
-          title: "设备名称",
-          description: info.name
+        baseInfo.push({
+          key: "设备编码",
+          label: "设备编码",
+          value: info.code
         });
 
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "mac",
-          title: "mac",
-          description: info.mac
+          label: "mac",
+          value: info.mac
         });
 
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "设备类型",
-          title: "设备类型",
-          description: info.type
+          label: "设备类型",
+          value: info.type
         });
 
-        deviceDetailMetas.push({
-          key: "设备状态",
-          title: "设备状态",
-          description: info.state
-        });
-
-        deviceDetailMetas.push({
-          key: "硬件版本",
-          title: "硬件版本",
-          description: info.hardwareVersion
-        });
-        deviceDetailMetas.push({
+        baseInfo.push({
           key: "固件版本",
-          title: "固件版本",
-          description: info.firmwareVersion
+          label: "固件版本",
+          value: info.firmwareVersion
         });
 
-        deviceDetailMetas.push({
-          key: "设备地址",
-          title: "设备地址",
-          description: info.detailAddr
+        baseInfo.push({
+          key: "硬件版本",
+          label: "硬件版本",
+          value: info.hardwareVersion
+        });
+
+        baseInfo.push({
+          key: "设备状态",
+          label: "设备状态",
+          value: info.state
+        });
+
+        baseInfo.push({
+          key: "安装地址",
+          label: "安装地址",
+          value: (info.installAreaInfo && info.installAreaInfo.allName) || ""
+        });
+        baseInfo.push({
+          key: "更新时间",
+          label: "安装地址",
+          value: info.dataUpTime
         });
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        const dynamicInfo = [];
+        const statusInfo = [];
 
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
-            item = formatState(item);
+            item = formateDynamic(item);
 
-            deviceDetailMetas.push({
-              key: item.attributeDesc,
-              title: item.attributeName,
-              description: item.attributeValue
-            });
+            // 状态信息
+            if (
+              item.attributeCode == "ACInput" ||
+              item.attributeCode == "leakageState" ||
+              item.attributeCode == "DI1" ||
+              item.attributeCode == "incline" ||
+              item.attributeCode == "DI2"
+            ) {
+              statusInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            } else {
+              // 动态信息
+              dynamicInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            }
           });
         }
 
-        const newDeviceDetailMetas = [];
-        const length = deviceDetailMetas.length;
-        let child = [];
-
-        // 分割数组，每三个元素为一个子元素
-        deviceDetailMetas.forEach((item, index) => {
-          if (index % 3 === 0) {
-            child.push(item);
-            if (index == length - 1) {
-              // 如果是最后一个元素，添加进去
-              newDeviceDetailMetas.push(child);
-            }
-          }
-          if (index % 3 === 1) {
-            child.push(item);
-            if (index == length - 1) {
-              newDeviceDetailMetas.push(child);
-            }
-          }
-          if (index % 3 === 2) {
-            child.push(item);
-            newDeviceDetailMetas.push(child);
-            child = [];
-          }
-        });
-
-        deviceDetailInfo.deviceDetailMetas = newDeviceDetailMetas;
+        deviceDetailInfo.statusInfo = statusInfo;
+        deviceDetailInfo.dynamicInfo = dynamicInfo;
 
         yield put({
           type: "save",
