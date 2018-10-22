@@ -247,7 +247,7 @@ export default {
         });
         baseInfo.push({
           key: "更新时间",
-          label: "安装地址",
+          label: "更新时间",
           value: info.dataUpTime
         });
 
