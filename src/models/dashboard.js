@@ -251,6 +251,9 @@ export default {
           value: info.dataUpTime
         });
 
+
+
+
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
         const dynamicInfo = [];
