@@ -101,6 +101,11 @@ export default {
           });
 
           refreshData(dispatch);
+
+          window.GLOBAL_INTERVAL = setInterval(function() {
+            dispatch({ type: "batchInspectionDevices" });
+          }, 10 * 1000);
+
         } else {
           stopRefreshData();
         }
@@ -130,6 +135,10 @@ export default {
         payload: { needCache: "true", timeType: "DAY" }
       });
       yield put({ type: "queryDevices", payload: deviceQueryParamsCache });
+    },
+
+    *setRefreshTime({ payload }, { call, put }) {
+
     },
 
     // 查询设备列表

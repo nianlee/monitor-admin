@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "../style.less";
-import { Button } from "antd";
+import {Button, Input} from "antd";
 
 import { refreshData, stopRefreshData } from "utils";
 
@@ -26,9 +26,23 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
           type: "dashboard/save",
           payload: { inspectionTimer }
         });
+
+        // 巡检完毕过后在刷新一次设备列表
+        dispatch({
+          type: "queryDevices",
+          payload: { page: "1", rows: "10" }
+        });
+
       }
     });
   };
+
+  const setRefreshTime = () => {
+    dispatch({
+      type: "queryDevices",
+      payload: { page: "1", rows: "10" }
+    });
+  }
 
   return (
     <div className={styles.summaryWrapper}>
@@ -64,6 +78,17 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
           onClick={inspector}
         >
           一键巡检
+        </Button>
+      </div>
+
+      <div className={styles.summaryWrapper}>
+        <Input placeholder="设定巡检时间" />
+        <Button
+          style={{width: 100,marginLeft: 5}}
+          type="primary"
+          onClick={setRefreshTime}
+        >
+          确定
         </Button>
       </div>
     </div>
