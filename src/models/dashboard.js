@@ -101,11 +101,6 @@ export default {
           });
 
           refreshData(dispatch);
-
-          window.GLOBAL_INTERVAL = setInterval(function() {
-            dispatch({ type: "batchInspectionDevices" });
-          }, 10 * 1000);
-
         } else {
           stopRefreshData();
         }
