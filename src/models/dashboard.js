@@ -47,6 +47,7 @@ export default {
     offlineRateList: [], //离线率数组
     alarmRateList: [], //预警率数组
     healthRateList: [], //健康度数组
+    inspectionTime: '', // 巡检启动循环时间
 
     dataSource: [], // 设备列表
     regionList: [], // 区域列表
@@ -68,7 +69,8 @@ export default {
     inspectionShow: false, // 一键巡检loading 展示
     inspectionProgress: 0, // 巡检进度
     runToken: "", // 巡检token
-    inspectionTimer: null // 巡检 setInterval
+    inspectionTimer: null, // 巡检 setInterval
+    inspectionOpenTimer: null, // 一键巡检启动 setInterval
   },
 
   subscriptions: {

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "../style.less";
-import {Button, Input} from "antd";
+import { Button, Input, message } from "antd";
 
 import { refreshData, stopRefreshData } from "utils";
 
@@ -10,6 +10,10 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
     dispatch({ type: "dashboard/batchInspectionDevices" }).then(runToken => {
       if (runToken) {
         stopRefreshData();
+
+        if (dashboard.inspectionTimer) {
+          clearInterval(dashboard.inspectionTimer);
+        }
 
         const inspectionTimer = setInterval(() => {
           dispatch({
@@ -29,19 +33,48 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
 
         // 巡检完毕过后在刷新一次设备列表
         dispatch({
-          type: "queryDevices",
+          type: "dashboard/queryDevices",
           payload: { page: "1", rows: "10" }
         });
-
       }
     });
   };
 
   const setRefreshTime = () => {
+    const value = Number(dashboard.inspectionTime)
+    if (Number.isNaN(value)) {
+      message.error('巡检时间为数字')
+      return
+    }
+    if (!value) {
+      message.error('请输入巡检时间')
+      return
+    }
+    message.success('设置成功');
+
+    if (dashboard.inspectionOpenTimer) {
+      clearInterval(dashboard.inspectionOpenTimer)
+    }
+
+    const timer = setInterval(() => {
+      inspector()
+    }, value * 60 * 1000)
+
     dispatch({
-      type: "queryDevices",
-      payload: { page: "1", rows: "10" }
-    });
+      type: "dashboard/save",
+      payload: {
+        inspectionOpenTimer: timer
+      }
+    })
+  }
+
+  const inspectionHandle = e => {
+    dispatch({
+      type: "dashboard/save",
+      payload: {
+        inspectionTime: e.target.value
+      }
+    })
   }
 
   return (
@@ -82,9 +115,9 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
       </div>
 
       <div className={styles.summaryWrapper}>
-        <Input placeholder="设定巡检时间" />
+        <Input placeholder="设定巡检时间" value={dashboard.inspectionTime} onChange={e => inspectionHandle(e)} />
         <Button
-          style={{width: 100,marginLeft: 5}}
+          style={{ width: 100, marginLeft: 5 }}
           type="primary"
           onClick={setRefreshTime}
         >

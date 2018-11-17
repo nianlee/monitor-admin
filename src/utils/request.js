@@ -54,7 +54,7 @@ const fetch = (options) => {
   }
 }
 
-export default function request (options) {
+export default function request(options) {
   return fetch(options).then((response) => {
     const { data, statusText, status } = response
     if (data && data.code === 1000) {
