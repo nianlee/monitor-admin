@@ -148,8 +148,6 @@ export default {
 
       const resData = yield call(queryDevices, data);
 
-      console.log('查询设备列表信息',resData);
-
       if (resData.success) {
         if (!resData.data || !resData.data.rows) {
           return;

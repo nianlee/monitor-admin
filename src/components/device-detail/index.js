@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
 import Table from "./table";
-// import Tables from "./STable";
+import Tables from "./STable";
 
 // let dataSource = [];
 // for (let i = 0; i < 30; i++) {
@@ -14,7 +14,7 @@ import Table from "./table";
 // }
 
 const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
-  console.log('detailInfo', detailInfo.dynamicInfo);
+
   let dynamicInfo = [];
   if (detailInfo && detailInfo.dynamicInfo) {
     dynamicInfo = detailInfo.dynamicInfo.sort(
@@ -25,6 +25,36 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       )
     )
   }
+
+
+  let statusInfos = detailInfo.statusInfo;
+  if(statusInfos && statusInfos[0].key =='ACInput') {
+    if(statusInfos[0].value=='0') {
+      statusInfos[0].value = '正常'
+    } else {
+      statusInfos[0].value = '异常'
+    }
+  }
+
+  if(statusInfos && statusInfos[5].key =='leakageState') {
+    if(statusInfos[5].value=='0') {
+      statusInfos[5].value = '正常'
+    } else {
+      statusInfos[5].value = '异常'
+    }
+  }
+
+  let stateInfo = [];
+  if(statusInfos) {
+    stateInfo = statusInfos.sort(
+      (a,b) => a.key.localeCompare(
+        b.key,
+        'zh-Hans-CN',
+        {sensitivity:'accent'}
+      )
+    )
+  }
+
   return (
     <Modal
       visible={visible}
@@ -45,7 +75,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       <Row gutter={24}>
         <Col span={24}>
           <Card title="状态信息">
-            <Table column={6} dataSource={detailInfo.statusInfo} />
+            <Tables column={6} dataSource={stateInfo} />
           </Card>
         </Col>
       </Row>
