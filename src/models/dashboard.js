@@ -514,7 +514,7 @@ export default {
         const { inspectionTimer } = yield select(_ => _.dashboard);
         clearInterval(inspectionTimer);
 
-        yield put({ type: "save", payload: { inspectionShow: false } });
+        yield put({ type: "save", payload: { inspectionShow: false, inspectionProgress: 0 } });
 
         message.success("巡检成功");
         return "finish";

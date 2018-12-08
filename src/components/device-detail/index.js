@@ -2,18 +2,29 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
 import Table from "./table";
-import Tables from "./STable";
+// import Tables from "./STable";
 
-let dataSource = [];
-for (let i = 0; i < 30; i++) {
-  dataSource.push({
-    label: "label-" + i,
-    key: "key" + i,
-    value: "value" + i
-  });
-}
+// let dataSource = [];
+// for (let i = 0; i < 30; i++) {
+//   dataSource.push({
+//     label: "label-" + i,
+//     key: "key" + i,
+//     value: "value" + i
+//   });
+// }
 
 const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
+  console.log('detailInfo', detailInfo.dynamicInfo);
+  let dynamicInfo = [];
+  if (detailInfo && detailInfo.dynamicInfo) {
+    dynamicInfo = detailInfo.dynamicInfo.sort(
+      (a, b) => a.key.localeCompare(
+        b.key,
+        'zh-Hans-CN',
+        { sensitivity: 'accent' }
+      )
+    )
+  }
   return (
     <Modal
       visible={visible}
@@ -34,7 +45,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       <Row gutter={24}>
         <Col span={24}>
           <Card title="状态信息">
-            <Tables column={6} dataSource={detailInfo.statusInfo} />
+            <Table column={6} dataSource={detailInfo.statusInfo} />
           </Card>
         </Col>
       </Row>
@@ -43,7 +54,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       <Row gutter={24}>
         <Col span={24}>
           <Card title="模拟量信息">
-            <Table column={3} dataSource={detailInfo.dynamicInfo} />
+            <Table column={3} dataSource={dynamicInfo} />
           </Card>
         </Col>
       </Row>
