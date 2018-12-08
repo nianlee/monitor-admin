@@ -17,7 +17,7 @@ const Table = ({ column, dataSource }) => {
     });
 
   return (
-    <table style={{ width: "100%" }}>
+    <table style={{ width: "100%",border:"1"}}>
       <tbody>
         {rows.map((row, index) => (
           <tr key={index}>

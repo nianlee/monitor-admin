@@ -384,6 +384,7 @@ export default {
     // 批量检修/取消检修设备
     *batchOverhaulDevice({ payload }, { call, put }) {
       const resData = yield call(batchOverhaulDevice, payload);
+      console.log('批量检修信息',resData);
       if (resData.success) {
         yield put({
           type: "updateState"
@@ -410,6 +411,9 @@ export default {
     // 批量控制设备
     *batchControlDevice({ payload }, { call, put }) {
       const resData = yield call(batchControlDevice, payload);
+
+      console.log('批量重启信息',resData);
+
       if (resData.success) {
         yield put({ type: "updateState" });
         yield put({

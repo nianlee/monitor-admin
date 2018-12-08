@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
 import Table from "./table";
+import Tables from "./STable";
 
 let dataSource = [];
 for (let i = 0; i < 30; i++) {
@@ -22,17 +23,22 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       footer={null}
     >
       <Row gutter={24}>
-        <Col span={14}>
+        <Col span={24}>
           <Card title="基本信息">
             <Table column={2} dataSource={detailInfo.baseInfo} />
           </Card>
         </Col>
-        <Col span={10}>
+      </Row>
+
+      <div style={{ height: 10, width: "100%" }} />
+      <Row gutter={24}>
+        <Col span={24}>
           <Card title="状态信息">
-            <Table column={2} dataSource={detailInfo.statusInfo} />
+            <Tables column={6} dataSource={detailInfo.statusInfo} />
           </Card>
         </Col>
       </Row>
+
       <div style={{ height: 10, width: "100%" }} />
       <Row gutter={24}>
         <Col span={24}>

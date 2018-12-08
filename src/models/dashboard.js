@@ -148,6 +148,8 @@ export default {
 
       const resData = yield call(queryDevices, data);
 
+      console.log('查询设备列表信息',resData);
+
       if (resData.success) {
         if (!resData.data || !resData.data.rows) {
           return;
@@ -201,12 +203,17 @@ export default {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
         const checkDeSn = info.sn;
 
+        console.log('设备详情信息',info);
+
         const deviceDetailInfo = {
           name: info.name,
           baseInfo: [],
           statusInfo: [],
-          dynamicInfo: []
+          dynamicInfo: [],
+          testInfo:[]
         };
+
+        console.log('设备详情信息2',deviceDetailInfo);
 
         const baseInfo = deviceDetailInfo.baseInfo;
 
@@ -262,6 +269,7 @@ export default {
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
+        console.log('state',deviceDynamicDTOS);
         const dynamicInfo = [];
         const statusInfo = [];
 
@@ -271,11 +279,12 @@ export default {
 
             // 状态信息
             if (
-              item.attributeCode == "ACInput" ||
-              item.attributeCode == "leakageState" ||
-              item.attributeCode == "DI1" ||
-              item.attributeCode == "incline" ||
-              item.attributeCode == "DI2"
+              item.attributeCode == "ACInput" || //交流输入状态
+              item.attributeCode == "leakageState" || //漏电状态
+              item.attributeCode == "DI1" || //门禁状态
+              item.attributeCode == "incline" || //箱体倾斜状态
+              item.attributeCode == "DI2" ||   //防雷状态
+              item.attributeCode == "fanState" //风扇状态
             ) {
               statusInfo.push({
                 key: item.attributeCode,

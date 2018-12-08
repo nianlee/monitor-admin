@@ -36,6 +36,8 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
           type: "dashboard/queryDevices",
           payload: { page: "1", rows: "10" }
         });
+
+
       }
     });
   };
