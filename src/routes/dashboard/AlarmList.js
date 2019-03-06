@@ -165,6 +165,7 @@ class AlarmList extends Component {
               item.attributeCode == "DI1" ||
               item.attributeCode == "incline" ||
               item.attributeCode == "DI2"
+
             ) {
               statusInfo.push({
                 key: item.attributeCode,
