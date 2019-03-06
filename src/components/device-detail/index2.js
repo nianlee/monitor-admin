@@ -13,7 +13,7 @@ import Tables from "./STable";
 //   });
 // }
 
-const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
+const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
 
   let dynamicInfo = [];
   if (detailInfo && detailInfo.dynamicInfo) {
@@ -26,6 +26,8 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
     )
   }
 
+  console.log('statusInfo',detailInfo.statusInfo);
+
   let statusInfos = detailInfo.statusInfo;
   if(statusInfos && statusInfos[0].key =='ACInput') {
     if(statusInfos[0].value=='0') {
@@ -35,11 +37,11 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
     }
   }
 
-  if(statusInfos && statusInfos[5].key =='leakageState') {
-    if(statusInfos[5].value=='0') {
-      statusInfos[5].value = '正常'
+  if(statusInfos && statusInfos[2].key =='leakageState') {
+    if(statusInfos[2].value=='0') {
+      statusInfos[2].value = '正常'
     } else {
-      statusInfos[5].value = '异常'
+      statusInfos[2].value = '异常'
     }
   }
 
@@ -91,10 +93,10 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
   );
 };
 
-DeviceDetail.propTypes = {
+DeviceDetail2.propTypes = {
   visible: PropTypes.bool,
   detailInfo: PropTypes.object,
   closeFun: PropTypes.func
 };
 
-export default DeviceDetail;
+export default DeviceDetail2;

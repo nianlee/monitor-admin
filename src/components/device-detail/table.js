@@ -6,7 +6,8 @@ const Table = ({ column, dataSource }) => {
   let rows = [];
   dataSource &&
     dataSource.forEach((item, index) => {
-      if ((index + 1) % column != 0) {
+
+      if ((index) % column != 0) {
         // 每 column 列为一行，index 以1开始
         row.push(item);
       } else {
@@ -15,6 +16,7 @@ const Table = ({ column, dataSource }) => {
         row = [];
       }
     });
+
 
   return (
     <table style={{ width: "100%",border:"1"}}>
