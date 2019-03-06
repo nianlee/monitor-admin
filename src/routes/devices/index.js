@@ -14,7 +14,7 @@ import {
 import ControlParams from "./components/ControlParams";
 import { routerRedux } from "dva/router";
 import styles from "./style.less";
-import DeviceDetail from "components/device-detail";
+import DeviceDetail2 from "components/device-detail/index2";
 
 const DeviceManage = ({ devices, dispatch, form }) => {
   const FormItem = Form.Item;
@@ -383,7 +383,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         </Button>
       </div>
 
-      <DeviceDetail
+      <DeviceDetail2
         visible={devices.deviceDetailModalVisible}
         closeFun={() => {
           dispatch({
