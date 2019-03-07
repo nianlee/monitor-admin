@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
 import Table from "./table2";
-import Tables from "./STable";
+import Tables from "./STable2";
 
 // let dataSource = [];
 // for (let i = 0; i < 30; i++) {
@@ -37,11 +37,11 @@ const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
     }
   }
 
-  if(statusInfos && statusInfos[2].key =='leakageState') {
-    if(statusInfos[2].value=='0') {
-      statusInfos[2].value = '正常'
+  if(statusInfos && statusInfos[4].key =='leakageState') {
+    if(statusInfos[4].value=='0') {
+      statusInfos[4].value = '正常'
     } else {
-      statusInfos[2].value = '异常'
+      statusInfos[4].value = '异常'
     }
   }
 
@@ -55,6 +55,8 @@ const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
       )
     )
   }
+
+  console.log('stateInfo',stateInfo);
 
   return (
     <Modal
