@@ -5,7 +5,7 @@ import { queryAlarmDevices, queryDeviceBySn } from "services/dashboard";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { formatState, formateDynamic } from "utils";
-import DeviceDetail from "components/device-detail";
+import DeviceDetail from "components/device-detail/index2";
 
 class AlarmList extends Component {
   constructor(props) {
