@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
-import Table from "./table";
+import Table from "./table2";
 import Tables from "./STable";
 
 // let dataSource = [];
@@ -15,6 +15,8 @@ import Tables from "./STable";
 
 const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
 
+  console.log('index2',detailInfo);
+
   let dynamicInfo = [];
   if (detailInfo && detailInfo.dynamicInfo) {
     dynamicInfo = detailInfo.dynamicInfo.sort(
@@ -25,8 +27,6 @@ const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
       )
     )
   }
-
-  console.log('statusInfo',detailInfo.statusInfo);
 
   let statusInfos = detailInfo.statusInfo;
   if(statusInfos && statusInfos[0].key =='ACInput') {
