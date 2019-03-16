@@ -261,6 +261,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     });
   };
 
+  console.log('devices',devices.deviceDetailInfo);
 
   return (
     <div>

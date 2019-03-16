@@ -54,8 +54,7 @@ const ControlParams = ({ dispatch, devices, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
+                  <Option value="0">&nbsp;</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
@@ -68,27 +67,13 @@ const ControlParams = ({ dispatch, devices, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
+                  <Option value="0">&nbsp;</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
           </Col>
 
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="第3路交流控制">
-              {getFieldDecorator("ACCtrl3", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
 
           <Col span={12}>
             <FormItem {...formItemLayout} label="第1路直流控制">
@@ -96,8 +81,7 @@ const ControlParams = ({ dispatch, devices, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
+                  <Option value="0">&nbsp;</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
@@ -110,8 +94,7 @@ const ControlParams = ({ dispatch, devices, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
+                  <Option value="0">&nbsp;</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
@@ -124,8 +107,7 @@ const ControlParams = ({ dispatch, devices, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
+                  <Option value="0">&nbsp;</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
@@ -138,64 +120,7 @@ const ControlParams = ({ dispatch, devices, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="第5路直流控制">
-              {getFieldDecorator("DCCtrl5", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="第6路直流控制 ">
-              {getFieldDecorator("DCCtrl6", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="第7路直流控制 ">
-              {getFieldDecorator("DCCtrl7", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="第8路直流控制 ">
-              {getFieldDecorator("DCCtrl8", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
+                  <Option value="0">&nbsp;</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
@@ -216,3 +141,83 @@ ControlParams.propTypes = {
 const WarpperControlParams = Form.create()(ControlParams);
 
 export default WarpperControlParams;
+
+
+/*
+* <Col span={12}>
+            <FormItem {...formItemLayout} label="第3路交流控制">
+              {getFieldDecorator("ACCtrl3", {
+                rules: [{ required: false, message: "请选择状态 !" }]
+              })(
+                <Select showSearch placeholder="请选择状态">
+                  <Option value="0">关</Option>
+                  <Option value="1">开</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+* */
+
+/*
+* <Col span={12}>
+            <FormItem {...formItemLayout} label="第7路直流控制 ">
+              {getFieldDecorator("DCCtrl7", {
+                rules: [{ required: false, message: "请选择状态 !" }]
+              })(
+                <Select showSearch placeholder="请选择状态">
+                  <Option value="0">关</Option>
+                  <Option value="1">开</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+* */
+
+/*
+* <Col span={12}>
+            <FormItem {...formItemLayout} label="第8路直流控制 ">
+              {getFieldDecorator("DCCtrl8", {
+                rules: [{ required: false, message: "请选择状态 !" }]
+              })(
+                <Select showSearch placeholder="请选择状态">
+                  <Option value="0">关</Option>
+                  <Option value="1">开</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+* */
+
+/**
+ *
+ * <Col span={12}>
+ <FormItem {...formItemLayout} label="第5路直流控制">
+ {getFieldDecorator("DCCtrl5", {
+                rules: [{ required: false, message: "请选择状态 !" }]
+              })(
+                <Select showSearch placeholder="请选择状态">
+                  <Option value="0">关</Option>
+                  <Option value="1">开</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+ </FormItem>
+ </Col>
+
+ <Col span={12}>
+ <FormItem {...formItemLayout} label="第6路直流控制 ">
+ {getFieldDecorator("DCCtrl6", {
+                rules: [{ required: false, message: "请选择状态 !" }]
+              })(
+                <Select showSearch placeholder="请选择状态">
+                  <Option value="0">关</Option>
+                  <Option value="1">开</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+ </FormItem>
+ </Col>
+ */
