@@ -28,20 +28,22 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
 
   let statusInfos = detailInfo.statusInfo;
   if(statusInfos && statusInfos[0].key =='ACInput') {
-    if(statusInfos[0].value=='0') {
+    if(statusInfos[0].value=='0' || statusInfos[0].value == '正常') {
       statusInfos[0].value = '正常'
     } else {
       statusInfos[0].value = '异常'
     }
   }
 
+
   if(statusInfos && statusInfos[5].key =='leakageState') {
-    if(statusInfos[5].value=='0') {
+    if(statusInfos[5].value=='0' || statusInfos[5].value == '正常') {
       statusInfos[5].value = '正常'
-    } else {
+    } else{
       statusInfos[5].value = '异常'
     }
   }
+
 
   let stateInfo = [];
   if(statusInfos) {
@@ -53,6 +55,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       )
     )
   }
+
 
   return (
     <Modal
