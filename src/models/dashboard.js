@@ -180,7 +180,7 @@ export default {
           payload: {
             total: resData.data.total,
             pageIndex: resData.data.curPage,
-            pageSize: resData.data.pageSize
+            pageSize: resData.data.pageSizedeviceDetailInfo
           }
         });
       } else {
@@ -201,8 +201,6 @@ export default {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
         const checkDeSn = info.sn;
 
-        console.log('设备详情信息',info);
-
         const deviceDetailInfo = {
           name: info.name,
           baseInfo: [],
@@ -210,8 +208,6 @@ export default {
           dynamicInfo: [],
           testInfo:[]
         };
-
-        console.log('设备详情信息2',deviceDetailInfo);
 
         const baseInfo = deviceDetailInfo.baseInfo;
 
@@ -267,7 +263,7 @@ export default {
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
-        console.log('state',deviceDynamicDTOS);
+        //console.log('state',deviceDynamicDTOS);
         const dynamicInfo = [];
         const statusInfo = [];
 
