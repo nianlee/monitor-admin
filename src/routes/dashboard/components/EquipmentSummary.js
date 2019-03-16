@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "../style.less";
-import { Button, Input, message } from "antd";
+import { Button, Input, message,Tag } from "antd";
 
 import { refreshData, stopRefreshData } from "utils";
 
@@ -70,6 +70,13 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
     })
   }
 
+  const stopRefreshTime = () => {
+
+    if (dashboard.inspectionOpenTimer) {
+      clearInterval(dashboard.inspectionOpenTimer) //直接停止循环
+    }
+  }
+
   const inspectionHandle = e => {
     dispatch({
       type: "dashboard/save",
@@ -117,13 +124,22 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
       </div>
 
       <div className={styles.summaryWrapper}>
-        <Input placeholder="设定巡检时间" value={dashboard.inspectionTime} onChange={e => inspectionHandle(e)} />
+        <Input placeholder="设定巡检时间" value={dashboard.inspectionTime} style={{ width: 120, height:30 }} onChange={e => inspectionHandle(e)} />
+        <Tag style={{height:30}}>分钟</Tag>
         <Button
           style={{ width: 100, marginLeft: 5 }}
           type="primary"
           onClick={setRefreshTime}
         >
-          确定
+          定时巡检
+        </Button>
+
+        <Button
+          style={{ width: 100, marginLeft: 5 }}
+          type="primary"
+          onClick={stopRefreshTime}
+        >
+          停止巡检
         </Button>
       </div>
     </div>
