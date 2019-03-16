@@ -19,13 +19,13 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
 
       if (!err) {
         if(controldevice.type === 'one') {
-          const ACC = values.DDCC3;
-          delete values.DDCC3;
-          values.ACCtrl1 = ACC;
+
+          //const ACC = values.DDCC3;
+          //delete values.DDCC3;
+          //values.ACCtrl1 = ACC;
           const value = {...values,...controldevice.sn,};
 
-
-          console.log('DD',value);
+          //console.log('DD',value);
 
           dispatch({
             type: "controldevice/control",
@@ -131,21 +131,19 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             </FormItem>
           </Col>
 
-
           <Col span={12}>
-            <FormItem {...formItemLayout} label="第3路交流摄像机">
-              {getFieldDecorator("DDCC3", {
+            <FormItem {...formItemLayout} label="交换机">
+              {getFieldDecorator("DCCtrl4", {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
                   <Option value="4">&nbsp;</Option>
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
           </Col>
+
 
           <Col span={12}>
             <FormItem {...formItemLayout} label="第3路直流摄像机">
@@ -162,36 +160,8 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
             </FormItem>
           </Col>
 
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="第4路交流摄像机">
-              {getFieldDecorator("ACCtrl2", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
 
 
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="交换机">
-              {getFieldDecorator("DCCtrl4", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
 
           <Col span={12}>
             <FormItem {...formItemLayout} label="风扇">
@@ -209,7 +179,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           </Col>
 
           <Col span={12}>
-            <FormItem {...formItemLayout} label="门磁">
+            <FormItem {...formItemLayout} label="门锁">
               {getFieldDecorator("DCCtrl6", {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
@@ -265,3 +235,38 @@ export default connect(({ controldevice }) => ({ controldevice }))(WrappedAdd);
             </FormItem>
           </Col>
  */
+
+
+/*
+          <Col span={12}>
+            <FormItem {...formItemLayout} label="第3路交流摄像机">
+              {getFieldDecorator("DDCC3", {
+                rules: [{ required: false, message: "请选择状态 !" }]
+              })(
+                <Select showSearch placeholder="请选择状态">
+                  <Option value="4">&nbsp;</Option>
+                  <Option value="0">关</Option>
+                  <Option value="1">开</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Col>
+          */
+
+/*
+<Col span={12}>
+  <FormItem {...formItemLayout} label="第4路交流摄像机">
+    {getFieldDecorator("ACCtrl2", {
+      rules: [{ required: false, message: "请选择状态 !" }]
+    })(
+      <Select showSearch placeholder="请选择状态">
+        <Option value="4">&nbsp;</Option>
+        <Option value="0">关</Option>
+        <Option value="1">开</Option>
+        <Option value="2">重启</Option>
+      </Select>
+    )}
+  </FormItem>
+</Col>
+*/
