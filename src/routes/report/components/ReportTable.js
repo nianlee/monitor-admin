@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Table, message } from "antd";
+import { Table } from "antd";
 import styles from "../style.less";
-import { routerRedux } from "dva/router";
-import { queryDeviceBySn } from "services/dashboard";
-import { formatState } from "utils";
+//import { routerRedux } from "dva/router";
+//import { queryDeviceBySn } from "services/dashboard";
+//import { formatState } from "utils";
 
 const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
-  const viewDetail = payload => {
+  /*const viewDetail = payload => {
     queryDeviceBySn(payload).then(resData => {
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
@@ -100,24 +100,12 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
         message.error(resData.message);
       }
     });
-  };
+  };*/
 
   const renderOperation = (text, record) => {
     return (
       <div>
-        <a
-          onClick={() => viewDetail({ deviceSn: record.sn })}
-          style={{ marginLeft: 8 }}
-        >
-          详细信息
-        </a>
 
-        <a
-          onClick={() => dispatch(routerRedux.push(`/gis/${record.sn}`))}
-          style={{ marginLeft: 8 }}
-        >
-          查看地图位置
-        </a>
       </div>
     );
   };
@@ -188,3 +176,20 @@ ReportTable.propTypes = {
 };
 
 export default ReportTable;
+
+/**
+ *
+ <a
+ onClick={() => viewDetail({ deviceSn: record.sn })}
+ style={{ marginLeft: 8 }}
+ >
+ 详细信息
+ </a>
+
+ <a
+ onClick={() => dispatch(routerRedux.push(`/gis/${record.sn}`))}
+ style={{ marginLeft: 8 }}
+ >
+ 查看地图位置
+ </a>
+ */
