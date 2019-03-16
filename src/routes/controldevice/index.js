@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "dva";
 import { Form, Row, Col, Select, Button, Modal } from "antd";
 import styles from "./style.less";
-import { routerRedux } from "dva/router";
+//import { routerRedux } from "dva/router";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -61,7 +61,10 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
   };
 
   function handle() {
-    dispatch(routerRedux.push("/devicemanage"));
+    //dispatch(routerRedux.push("/devicemanage"));
+    dispatch({
+      type:"controldevice/hideModal"
+    });
   }
 
   return (
@@ -71,7 +74,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
 
 
           <Col span={12}>
-            <FormItem {...formItemLayout} label="第1路交流摄像机">
+            <FormItem {...formItemLayout} label="第1路交流">
               {getFieldDecorator("ACCtrl1", {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
@@ -86,7 +89,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           </Col>
 
           <Col span={12}>
-            <FormItem {...formItemLayout} label="第1路直流摄像机">
+            <FormItem {...formItemLayout} label="第1路直流">
               {getFieldDecorator("DCCtrl1", {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
@@ -102,7 +105,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
 
 
           <Col span={12}>
-            <FormItem {...formItemLayout} label="第2路交流摄像机">
+            <FormItem {...formItemLayout} label="第2路交流">
               {getFieldDecorator("ACCtrl2", {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
@@ -117,7 +120,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
           </Col>
 
           <Col span={12}>
-            <FormItem {...formItemLayout} label="第2路直流摄像机">
+            <FormItem {...formItemLayout} label="第2路直流">
               {getFieldDecorator("DCCtrl2", {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
@@ -146,7 +149,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
 
 
           <Col span={12}>
-            <FormItem {...formItemLayout} label="第3路直流摄像机">
+            <FormItem {...formItemLayout} label="第3路直流">
               {getFieldDecorator("DCCtrl3", {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
