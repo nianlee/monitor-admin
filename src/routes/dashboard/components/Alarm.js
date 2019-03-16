@@ -12,7 +12,7 @@ const columns = [
     key: "code"
   },
   {
-    title: "设备预警信息",
+    title: "设备报警信息",
     dataIndex: "alarm_info",
     className: styles.center,
     key: "alarm_info"
@@ -25,9 +25,9 @@ const columns = [
   },
   {
     title: "安装地址",
-    dataIndex: "detailAddr",
+    dataIndex: "detail_addr",
     className: styles.center,
-    key: "detailAddr"
+    key: "detail_addr"
   }
 ];
 const Alarm = ({ dashboard, dispatch }) => {
