@@ -61,6 +61,8 @@ export default {
   addUser: `${config.apiHost}/manager/addManager`, // 添加用户
   queryLog: `${config.apiHost}/log/queryLog`, // 日志列表查询
 
+  checkUpgradePassword:`${config.apiHost}/manager/verifyUserPassword`, // 设备升级的时候密码教研接口
+
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表
   queryAreaByParentCode: `${config.apiHost}/area/queryAreaByParentCode`, // 区域查询ByParentCode

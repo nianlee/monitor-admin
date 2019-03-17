@@ -161,7 +161,24 @@ export const formateDynamic = item => {
     }
   }
 
-  //---------------------
+  // 漏电
+  if (item.attributeCode == "ACInput") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "正常";
+    } else {
+      item.attributeValue = "异常";
+    }
+  }
+
+  if (item.attributeCode == "leakageState") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "正常";
+    } else {
+      item.attributeValue = "异常";
+    }
+  }
+
+  //控制变量
   if (item.attributeCode == "ACCtrl1") {
     if (item.attributeValue == "0") {
       item.attributeValue = "关";
@@ -177,28 +194,42 @@ export const formateDynamic = item => {
       item.attributeValue = "开";
     }
   }
-  if (item.attributeCode == "第1路直流控制") {
+  if (item.attributeCode == "DCCtrl1") {
     if (item.attributeValue == "0") {
       item.attributeValue = "关";
     } else {
       item.attributeValue = "开";
     }
   }
-  if (item.attributeCode == "第2路直流控制") {
+  if (item.attributeCode == "DCCtrl2") {
     if (item.attributeValue == "0") {
       item.attributeValue = "关";
     } else {
       item.attributeValue = "开";
     }
   }
-  if (item.attributeCode == "第3路直流控制") {
+  if (item.attributeCode == "DCCtrl3") {
     if (item.attributeValue == "0") {
       item.attributeValue = "关";
     } else {
       item.attributeValue = "开";
     }
   }
-  if (item.attributeCode == "第4路直流控制") {
+  if (item.attributeCode == "DCCtrl4") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+  if (item.attributeCode == "DCCtrl5") {
+    if (item.attributeValue == "0") {
+      item.attributeValue = "关";
+    } else {
+      item.attributeValue = "开";
+    }
+  }
+  if (item.attributeCode == "DCCtrl6") {
     if (item.attributeValue == "0") {
       item.attributeValue = "关";
     } else {
