@@ -15,9 +15,8 @@ import Tables from "./STable2";
 
 const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
 
-  console.log('index2',detailInfo);
-
   let dynamicInfo = [];
+  let statusInfos = detailInfo.statusInfo;
   if (detailInfo && detailInfo.dynamicInfo) {
     dynamicInfo = detailInfo.dynamicInfo.sort(
       (a, b) => a.key.localeCompare(
@@ -28,6 +27,7 @@ const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
     )
   }
 
+  /*
   let statusInfos = detailInfo.statusInfo;
   if(statusInfos && statusInfos[0].key =='ACInput') {
     if(statusInfos[0].value=='0') {
@@ -44,6 +44,7 @@ const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
       statusInfos[4].value = '异常'
     }
   }
+  */
 
   let stateInfo = [];
   if(statusInfos) {
@@ -55,8 +56,6 @@ const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
       )
     )
   }
-
-  console.log('stateInfo',stateInfo);
 
   return (
     <Modal

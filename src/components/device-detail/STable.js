@@ -7,7 +7,8 @@ const STable = ({ column, dataSource }) => {
   let rows = [];
   dataSource &&
   dataSource.forEach((item, index) => {
-    if ((index + 1) % column != 0) {
+
+    if ((index+1) % column != 0) {
       // 每 column 列为一行，index 以1开始
       row.push(item);
     } else {
@@ -17,26 +18,16 @@ const STable = ({ column, dataSource }) => {
     }
   });
 
-  const sst = { width: "100%",border:"5px"}
-  //{ width: "100%",border:"1"}
+
   return (
-    <table style={sst}>
+    <table style={{ width: "100%",border:"1"}}>
       <tbody>
       {rows.map((row, index) => (
         <tr key={index}>
           {row.map(item => (
             <React.Fragment key={item.key}>
-              <td key={item.key}>{item.label}</td>
-            </React.Fragment>
-          ))}
-        </tr>
-      ))}
-
-      {rows.map((row, index) => (
-        <tr key={index}>
-          {row.map(item => (
-            <React.Fragment key={item.key}>
-              <td key={item.value}>{item.value}</td>
+              <td key={item.key}>{item.label}:</td>
+              <td style={{color:'#000c17',fontWeight:"bold"}} key={item.value}>{item.value}</td>
             </React.Fragment>
           ))}
         </tr>

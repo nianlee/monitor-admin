@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+//import styles from './stable.less'
 
 const Table = ({ column, dataSource }) => {
   let row = [];
@@ -7,7 +8,7 @@ const Table = ({ column, dataSource }) => {
   dataSource &&
     dataSource.forEach((item, index) => {
 
-      if ((index) % column != 0) {
+      if ((index+2) % column != 0) {
         // 每 column 列为一行，index 以1开始
         row.push(item);
       } else {
@@ -26,7 +27,7 @@ const Table = ({ column, dataSource }) => {
             {row.map(item => (
               <React.Fragment key={item.key}>
                 <td key={item.key}>{item.label}:</td>
-                <td key={item.value}>{item.value}</td>
+                <td style={{color:'#000c17',fontWeight:"bold"}} key={item.value}>{item.value}</td>
               </React.Fragment>
             ))}
           </tr>

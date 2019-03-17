@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
 import Table from "./table";
-import Tables from "./STable";
+import STable from "./STable";
+//import SSTable from "./STable2";
 
 // let dataSource = [];
 // for (let i = 0; i < 30; i++) {
@@ -15,6 +16,8 @@ import Tables from "./STable";
 
 const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
 
+  let statusInfos = detailInfo.statusInfo;
+  let controlInfos = detailInfo.controlInfo;
   let dynamicInfo = [];
   if (detailInfo && detailInfo.dynamicInfo) {
     dynamicInfo = detailInfo.dynamicInfo.sort(
@@ -26,7 +29,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
     )
   }
 
-  let statusInfos = detailInfo.statusInfo;
+  /*
   if(statusInfos && statusInfos[0].key =='ACInput') {
     if(statusInfos[0].value=='0' || statusInfos[0].value == '正常') {
       statusInfos[0].value = '正常'
@@ -43,6 +46,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       statusInfos[5].value = '异常'
     }
   }
+  */
 
 
   let stateInfo = [];
@@ -60,7 +64,8 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
   return (
     <Modal
       visible={visible}
-      title={`《${detailInfo.name}》的详细信息`}
+      //title={`《${detailInfo.name}》的详细信息`}
+      title="设备详细信息"
       width={900}
       onCancel={closeFun}
       footer={null}
@@ -68,7 +73,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       <Row gutter={24}>
         <Col span={24}>
           <Card title="基本信息">
-            <Table column={2} dataSource={detailInfo.baseInfo} />
+            <STable column={2} dataSource={detailInfo.baseInfo} />
           </Card>
         </Col>
       </Row>
@@ -77,12 +82,21 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       <Row gutter={24}>
         <Col span={24}>
           <Card title="状态信息">
-            <Tables column={6} dataSource={stateInfo} />
+            <Table column={6} dataSource={stateInfo} />
           </Card>
         </Col>
       </Row>
 
-      <div style={{ height: 50, width: "100%" }} />
+      <div style={{ height: 10, width: "100%" }} />
+      <Row gutter={24}>
+        <Col span={24}>
+          <Card title="控制信息">
+            <STable column={4} dataSource={controlInfos} />
+          </Card>
+        </Col>
+      </Row>
+
+      <div style={{ height: 10, width: "100%" }} />
       <Row gutter={24}>
         <Col span={24}>
           <Card title="模拟量信息">
