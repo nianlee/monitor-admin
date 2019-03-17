@@ -29,26 +29,6 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
     )
   }
 
-  /*
-  if(statusInfos && statusInfos[0].key =='ACInput') {
-    if(statusInfos[0].value=='0' || statusInfos[0].value == '正常') {
-      statusInfos[0].value = '正常'
-    } else {
-      statusInfos[0].value = '异常'
-    }
-  }
-
-
-  if(statusInfos && statusInfos[5].key =='leakageState') {
-    if(statusInfos[5].value=='0' || statusInfos[5].value == '正常') {
-      statusInfos[5].value = '正常'
-    } else{
-      statusInfos[5].value = '异常'
-    }
-  }
-  */
-
-
   let stateInfo = [];
   if(statusInfos) {
     stateInfo = statusInfos.sort(

@@ -27,25 +27,6 @@ const DeviceDetail2 = ({ visible, detailInfo, closeFun }) => {
     )
   }
 
-  /*
-  let statusInfos = detailInfo.statusInfo;
-  if(statusInfos && statusInfos[0].key =='ACInput') {
-    if(statusInfos[0].value=='0') {
-      statusInfos[0].value = '正常'
-    } else {
-      statusInfos[0].value = '异常'
-    }
-  }
-
-  if(statusInfos && statusInfos[4].key =='leakageState') {
-    if(statusInfos[4].value=='0') {
-      statusInfos[4].value = '正常'
-    } else {
-      statusInfos[4].value = '异常'
-    }
-  }
-  */
-
   let stateInfo = [];
   if(statusInfos) {
     stateInfo = statusInfos.sort(
