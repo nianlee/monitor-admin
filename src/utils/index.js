@@ -99,10 +99,11 @@ export const formatState = item => {
   } else if (item.leakageState == "1") {
     item.leakageState = "异常";
   } else if (item.leakageState == "-2") {
-    item.leakageState = "--";
+    item.leakageState = "异常";
   } else {
     item.leakageState = "异常";
   }
+
 
   return item;
 };
@@ -161,7 +162,7 @@ export const formateDynamic = item => {
     }
   }
 
-  // 漏电
+
   if (item.attributeCode == "ACInput") {
     if (item.attributeValue == "0") {
       item.attributeValue = "正常";
@@ -170,7 +171,10 @@ export const formateDynamic = item => {
     }
   }
 
+
+  // 漏电
   if (item.attributeCode == "leakageState") {
+    console.log('ssssss',item.attributeValue);
     if (item.attributeValue == "0") {
       item.attributeValue = "正常";
     } else {
