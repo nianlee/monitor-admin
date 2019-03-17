@@ -14,7 +14,8 @@ import {
 import ControlParams from "./components/ControlParams";
 import { routerRedux } from "dva/router";
 import styles from "./style.less";
-import DeviceDetail from "components/device-detail/index2";
+import DeviceDetail from "components/device-detail/index";
+import PasswordModal from "./components/PasswordModal";
 
 const DeviceManage = ({ devices, dispatch, form }) => {
   const FormItem = Form.Item;
@@ -22,6 +23,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   const { getFieldDecorator } = form;
   const { selectedRowKeys } = devices;
 
+  //console.log('devices',devices);
   const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
   const deviceTypeLists = devices.deviceTypes.map(type => (
     <Option key={type.name}>{type.value}</Option>
@@ -37,6 +39,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
       payload: selectedOptions
     });
   };
+
 
   //定义列
   const columns = [
@@ -116,11 +119,24 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     dispatch(routerRedux.push(`/controlDevice/batch/${sns}`)); // 2 为批量控制
   };
 
+
+  // 单个设备升级
   const upgradeDevice = record => {
+    dispatch({
+      type: "devices/save",
+      payload: {
+        passwordModalVisible: true,
+        upgradeSn:record.sn
+      }
+    });
+
+    /*
     dispatch({
       type: "devices/upgradeDevice",
       payload: { sn: record.sn }
     });
+    */
+
   };
 
   const modifyDevice = sn => {
@@ -172,9 +188,31 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
   // 批量升级
   const deviceUpgradeBatch = () => {
+
+
+    dispatch({
+      type: "devices/save",
+      payload: {
+        passwordModalVisible: true,
+        //deviceSnList:devices.selectedRowKeys.join(",")
+      }
+    });
+
+    /*
     dispatch({
       type: "devices/deviceUpgradeBatch",
       payload: { deviceSnList: devices.selectedRowKeys.join(",") }
+    });
+    */
+  };
+
+  const onSelectChange = (selectedRowKeys, selectedRows) => {
+    dispatch({
+      type: "devices/updateSelect",
+      payload: {
+        selectedRowKeys: selectedRowKeys,
+        selectedSns: selectedRows.sn
+      }
     });
   };
 
@@ -223,16 +261,6 @@ const DeviceManage = ({ devices, dispatch, form }) => {
     form.resetFields();
   };
 
-  const onSelectChange = (selectedRowKeys, selectedRows) => {
-    dispatch({
-      type: "devices/updateSelect",
-      payload: {
-        selectedRowKeys: selectedRowKeys,
-        selectedSns: selectedRows.sn
-      }
-    });
-  };
-
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange
@@ -260,8 +288,6 @@ const DeviceManage = ({ devices, dispatch, form }) => {
       }
     });
   };
-
-  console.log('devices',devices.deviceDetailInfo);
 
   return (
     <div>
@@ -407,6 +433,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
       />
 
       <ControlParams dispatch={dispatch} devices={devices} />
+      <PasswordModal dispatch={dispatch} devices={devices} />
     </div>
   );
 };
