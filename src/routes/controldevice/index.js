@@ -171,7 +171,6 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                   <Option value="">&nbsp;</Option>
                   <Option value="0">关</Option>
                   <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
                 </Select>
               )}
             </FormItem>
