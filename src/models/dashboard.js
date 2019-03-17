@@ -200,6 +200,7 @@ export default {
     *queryDeviceBySn({ payload }, { call, put }) {
 
       const resData = yield call(queryDeviceBySn, payload);
+      console.log('queryDeviceBySn',resData);
 
       if (resData.success) {
 
