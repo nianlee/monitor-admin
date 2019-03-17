@@ -77,11 +77,13 @@ export default {
     setup({ dispatch, history }) {
       history.listen(({ pathname }) => {
         if (pathname == "/dashboard") {
+
           dispatch({ type: "queryDeviceCountByState" });
           dispatch({
             type: "queryAlarmDevices",
             payload: { page: 1, rows: 4 }
           });
+
           /*
           dispatch({
             type: "queryDeviceCountByStateHis",
@@ -196,8 +198,11 @@ export default {
 
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
+
       const resData = yield call(queryDeviceBySn, payload);
+
       if (resData.success) {
+
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
         const checkDeSn = info.sn;
 
@@ -206,6 +211,7 @@ export default {
           baseInfo: [],
           statusInfo: [],
           dynamicInfo: [],
+          controlInfo:[],
           testInfo:[]
         };
 
@@ -250,7 +256,7 @@ export default {
         baseInfo.push({
           key: "安装地址",
           label: "安装地址",
-          value: (info.installAreaInfo && info.installAreaInfo.allName) || ""
+          value: info.detailAddr
         });
         baseInfo.push({
           key: "更新时间",
@@ -263,9 +269,9 @@ export default {
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
-        //console.log('state',deviceDynamicDTOS);
         const dynamicInfo = [];
         const statusInfo = [];
+        const controlInfo = [];
 
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
@@ -276,11 +282,28 @@ export default {
               item.attributeCode == "ACInput" || //交流输入状态
               item.attributeCode == "leakageState" || //漏电状态
               item.attributeCode == "DI1" || //门禁状态
-              item.attributeCode == "incline" || //箱体倾斜状态
+              //item.attributeCode == "incline" || //箱体倾斜状态
               item.attributeCode == "DI2" ||   //防雷状态
               item.attributeCode == "fanState" //风扇状态
+
             ) {
               statusInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            } else if(
+              item.attributeCode == "ACCtrl1" || //第1路交流控制
+              item.attributeCode == "ACCtrl2" || //第2路交流控制
+              item.attributeCode == "DCCtrl1" || //第1路直流控制
+              item.attributeCode == "DCCtrl2" || //第2路直流控制
+              item.attributeCode == "DCCtrl3" || //第3路直流控制
+              item.attributeCode == "DCCtrl4" || //交换机控制
+              item.attributeCode == "DCCtrl5" || //风扇控制
+              item.attributeCode == "DCCtrl6"    //门锁控制
+            ) {
+              //控制信息
+              controlInfo.push({
                 key: item.attributeCode,
                 label: item.attributeName,
                 value: item.attributeValue
@@ -298,6 +321,7 @@ export default {
 
         deviceDetailInfo.statusInfo = statusInfo;
         deviceDetailInfo.dynamicInfo = dynamicInfo;
+        deviceDetailInfo.controlInfo = controlInfo;
 
         yield put({
           type: "updateState",

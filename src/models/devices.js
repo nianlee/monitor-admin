@@ -10,7 +10,8 @@ import {
   updateFirmwareVersion,
   batchOverhaulDevice,
   batchControlDoorState,
-  batchControlDevice
+  batchControlDevice,
+  checkUpgradePassword
 } from "../services/manage";
 import { routerRedux } from "dva/router";
 import { message } from "antd";
@@ -30,7 +31,7 @@ export default {
     deviceDynamicDTOS: [],
     sn: {},
     selectedRowKeys: [], // 选中的keys, sn string array
-    deviceSnList: [],
+    deviceSnList: [],// 需要批量升级的设备的sn号列表
 
     deviceTypes: [],
     deviceState: [],
@@ -42,6 +43,9 @@ export default {
     queryParamsCache: null, // 查询参数缓存
 
     controlParamsModalVisible: false, // 控制设备弹窗
+    passwordModalVisible:false, // 升级的时候要要在输入框中教研密码
+    upgradePassword:"",// 升级需要输入的密码
+    upgradeSn:"", // 需要升级的设备的sn号
 
     pagination: {
       current: 1,
@@ -102,11 +106,14 @@ export default {
       if (resData.success) {
         const info = formatState(resData.data.rows[0].datDeviceDetailDTO); // 固定属性
 
+
         const deviceDetailInfo = {
           name: info.name,
           baseInfo: [],
           statusInfo: [],
-          dynamicInfo: []
+          dynamicInfo: [],
+          controlInfo:[],
+          testInfo:[]
         };
 
         const baseInfo = deviceDetailInfo.baseInfo;
@@ -150,11 +157,11 @@ export default {
         baseInfo.push({
           key: "安装地址",
           label: "安装地址",
-          value: (info.installAreaInfo && info.installAreaInfo.allName) || ""
+          value: info.detailAddr
         });
         baseInfo.push({
           key: "更新时间",
-          label: "安装地址",
+          label: "更新时间",
           value: info.dataUpTime
         });
 
@@ -162,6 +169,7 @@ export default {
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
         const dynamicInfo = [];
         const statusInfo = [];
+        const controlInfo = [];
 
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
@@ -169,13 +177,30 @@ export default {
 
             // 状态信息
             if (
-              item.attributeCode == "ACInput" ||
-              item.attributeCode == "leakageState" ||
-              item.attributeCode == "DI1" ||
-              item.attributeCode == "incline" ||
-              item.attributeCode == "DI2"
+              item.attributeCode == "ACInput" || //交流输入状态
+              item.attributeCode == "leakageState" || //漏电状态
+              item.attributeCode == "DI1" || //门禁状态
+              //item.attributeCode == "incline" || //箱体倾斜状态
+              item.attributeCode == "DI2" ||   //防雷状态
+              item.attributeCode == "fanState" //风扇状态
             ) {
               statusInfo.push({
+                key: item.attributeCode,
+                label: item.attributeName,
+                value: item.attributeValue
+              });
+            } else if(
+              item.attributeCode == "ACCtrl1" || //第1路交流控制
+              item.attributeCode == "ACCtrl2" || //第2路交流控制
+              item.attributeCode == "DCCtrl1" || //第1路直流控制
+              item.attributeCode == "DCCtrl2" || //第2路直流控制
+              item.attributeCode == "DCCtrl3" || //第3路直流控制
+              item.attributeCode == "DCCtrl4" || //交换机控制
+              item.attributeCode == "DCCtrl5" || //风扇控制
+              item.attributeCode == "DCCtrl6"    //门锁控制
+            ) {
+              //控制信息
+              controlInfo.push({
                 key: item.attributeCode,
                 label: item.attributeName,
                 value: item.attributeValue
@@ -193,6 +218,8 @@ export default {
 
         deviceDetailInfo.statusInfo = statusInfo;
         deviceDetailInfo.dynamicInfo = dynamicInfo;
+        deviceDetailInfo.controlInfo = controlInfo;
+
 
         yield put({
           type: "save",
@@ -252,6 +279,31 @@ export default {
         });
       } else {
         message.error(result.message);
+      }
+    },
+
+    // 升级设备输入密码教研接口
+    *checkUpgradePassword({ payload }, { call, put, select }) {
+
+      console.log('payload',payload);
+      const result = yield call(checkUpgradePassword, payload);
+      if (result.success) {
+
+        // 密码教研成功
+        yield put({
+          type: "save",
+          payload: {passwordModalVisible:false,
+          upgradePassword: ""}
+        });
+
+        // 升级单个设备
+        yield put({
+          type: "upgradeDevice",
+          payload: { sn: payload.sn }
+        });
+
+      } else {
+        message.error("密码错误");
       }
     },
 
@@ -370,10 +422,13 @@ export default {
 
     // 批量升级
     *deviceUpgradeBatch({ payload }, { call, put }) {
+      console.log('tt',payload);
       const resData = yield call(deviceUpgradeBatch, payload);
       if (resData.success) {
         yield put({
-          type: "updateState"
+          type: "updateState",
+          payload: { passwordModalVisible: payload.passwordModalVisible,
+            upgradePassword: ""}
         });
         message.success("升级成功");
       } else {
@@ -464,6 +519,7 @@ export default {
     },
 
     updateState(state, { payload }) {
+      console.log('updateState',payload);
       return {
         ...state,
         ...payload,
@@ -481,6 +537,7 @@ export default {
     },
 
     updateSelect(state, { payload }) {
+      console.log('updateSelect',payload);
       return {
         ...state,
         selectedRowKeys: payload.selectedRowKeys,
