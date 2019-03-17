@@ -224,3 +224,12 @@ export function deleteFirmwares(data) {
     url: api.delFirmwareById
   });
 }
+
+// 升级设备时密码教研接口
+export function checkUpgradePassword(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.checkUpgradePassword
+  });
+}
