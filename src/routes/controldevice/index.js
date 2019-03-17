@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "dva";
 import { Form, Row, Col, Select, Button, Modal } from "antd";
 import styles from "./style.less";
-//import { routerRedux } from "dva/router";
+import { routerRedux } from "dva/router";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -14,7 +14,6 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
-
 
 
       if (!err) {
@@ -61,7 +60,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
   };
 
   function handle() {
-    //dispatch(routerRedux.push("/devicemanage"));
+    dispatch(routerRedux.push("/devicemanage"));
     dispatch({
       type:"controldevice/hideModal"
     });
@@ -79,7 +78,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
+                  <Option value="">&nbsp;</Option>
                   <Option value="0">关</Option>
                   <Option value="1">开</Option>
                   <Option value="2">重启</Option>
@@ -94,7 +93,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
+                  <Option value="">&nbsp;</Option>
                   <Option value="0">关</Option>
                   <Option value="1">开</Option>
                   <Option value="2">重启</Option>
@@ -110,7 +109,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
+                  <Option value="">&nbsp;</Option>
                   <Option value="0">关</Option>
                   <Option value="1">开</Option>
                   <Option value="2">重启</Option>
@@ -125,7 +124,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
+                  <Option value="">&nbsp;</Option>
                   <Option value="0">关</Option>
                   <Option value="1">开</Option>
                   <Option value="2">重启</Option>
@@ -140,7 +139,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
+                  <Option value="">&nbsp;</Option>
                   <Option value="2">重启</Option>
                 </Select>
               )}
@@ -154,25 +153,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
-                  <Option value="0">关</Option>
-                  <Option value="1">开</Option>
-                  <Option value="2">重启</Option>
-                </Select>
-              )}
-            </FormItem>
-          </Col>
-
-
-
-
-          <Col span={12}>
-            <FormItem {...formItemLayout} label="风扇">
-              {getFieldDecorator("DCCtrl5", {
-                rules: [{ required: false, message: "请选择状态 !" }]
-              })(
-                <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
+                  <Option value="">&nbsp;</Option>
                   <Option value="0">关</Option>
                   <Option value="1">开</Option>
                   <Option value="2">重启</Option>
@@ -187,7 +168,7 @@ const ControlDevice = ({ controldevice, dispatch, form }) => {
                 rules: [{ required: false, message: "请选择状态 !" }]
               })(
                 <Select showSearch placeholder="请选择状态">
-                  <Option value="4">&nbsp;</Option>
+                  <Option value="">&nbsp;</Option>
                   <Option value="0">关</Option>
                   <Option value="1">开</Option>
                   <Option value="2">重启</Option>
@@ -273,3 +254,20 @@ export default connect(({ controldevice }) => ({ controldevice }))(WrappedAdd);
   </FormItem>
 </Col>
 */
+
+/**
+ * <Col span={12}>
+ <FormItem {...formItemLayout} label="风扇">
+ {getFieldDecorator("DCCtrl5", {
+                rules: [{ required: false, message: "请选择状态 !" }]
+              })(
+                <Select showSearch placeholder="请选择状态">
+                  <Option value="">&nbsp;</Option>
+                  <Option value="0">关</Option>
+                  <Option value="1">开</Option>
+                  <Option value="2">重启</Option>
+                </Select>
+              )}
+ </FormItem>
+ </Col>
+ */
