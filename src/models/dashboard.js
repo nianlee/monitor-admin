@@ -168,6 +168,15 @@ export default {
         });
 
         yield put({
+          type: "updatePagination",
+          payload: {
+            total: resData.data.total,
+            pageIndex: resData.data.curPage,
+            pageSize: resData.data.pageSize,
+          }
+        });
+
+        yield put({
           type: "updateState",
           payload: {
             dataSource: devicesList,
@@ -177,14 +186,6 @@ export default {
           }
         });
 
-        yield put({
-          type: "updatePagination",
-          payload: {
-            total: resData.data.total,
-            pageIndex: resData.data.curPage,
-            pageSize: resData.data.pageSizedeviceDetailInfo
-          }
-        });
       } else {
         message.error(resData.message);
       }

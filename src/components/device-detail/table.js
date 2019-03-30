@@ -8,13 +8,15 @@ const Table = ({ column, dataSource }) => {
   dataSource &&
     dataSource.forEach((item, index) => {
 
-      if ((index+2) % column != 0) {
-        // 每 column 列为一行，index 以1开始
-        row.push(item);
-      } else {
-        row.push(item);
-        rows.push(row);
-        row = [];
+      if(item.key != 'incline') { //去掉倾斜
+        if ((index+1) % column != 0) {
+          // 每 column 列为一行，index 以1开始
+          row.push(item);
+        } else {
+          row.push(item);
+          rows.push(row);
+          row = [];
+        }
       }
     });
 

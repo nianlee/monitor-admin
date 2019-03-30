@@ -21,7 +21,6 @@ import DeviceDetail from "components/device-detail";
 
 const Dashboard = ({ dashboard, dispatch, form }) => {
   const childProps = { dashboard, dispatch };
-
   const render = (text, record) => {
     if (text === "异常") {
       return <span style={{ color: "red" }}>{text}</span>;
@@ -94,9 +93,9 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       key: "overhaulState",
       render: (text, record) => {
         if (record.overhaulState == 1) {
-          return "检修";
+          return "检修中";
         } else if (record.overhaulState == 0) {
-          return "正常";
+          return "--";
         }
       }
     },
