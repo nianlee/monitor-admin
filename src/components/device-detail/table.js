@@ -5,7 +5,24 @@ import PropTypes from "prop-types";
 const Table = ({ column, dataSource }) => {
   let row = [];
   let rows = [];
-  dataSource &&
+  console.log('dataSource',dataSource.length);
+  if(dataSource && dataSource.length%2 != 0) {
+    dataSource &&
+    dataSource.forEach((item, index) => {
+
+      if(item.key != 'incline') { //去掉倾斜
+        if ((index+2) % column != 0) {
+          // 每 column 列为一行，index 以1开始
+          row.push(item);
+        } else {
+          row.push(item);
+          rows.push(row);
+          row = [];
+        }
+      }
+    });
+  } else {
+    dataSource &&
     dataSource.forEach((item, index) => {
 
       if(item.key != 'incline') { //去掉倾斜
@@ -19,6 +36,8 @@ const Table = ({ column, dataSource }) => {
         }
       }
     });
+  }
+
 
 
   return (
