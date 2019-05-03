@@ -2,6 +2,7 @@ import {
   queryDevices,
   delDeviceById,
   queryDeviceBySn,
+  queryDeviceByAlarmInfo,
   queryDeviceType,
   queryAreaList,
   queryAreaByParentCode,
@@ -39,6 +40,7 @@ export default {
 
     deviceDetailModalVisible: false, // 设备详情弹框
     deviceDetailInfo: {}, // 设备详情
+    deviceDetailAlarmInfo:{},// 设备预警列表信息
 
     queryParamsCache: null, // 查询参数缓存
 
@@ -99,6 +101,35 @@ export default {
   },
 
   effects: {
+
+    *queryDeviceByAlarmInfo({ payload }, { call, put }) {
+
+      const resData = yield call(queryDeviceByAlarmInfo, payload);
+
+      const deviceDetailAlarmInfo = {
+        alarmInfo:[]
+      };
+
+      const alarmInfo = deviceDetailAlarmInfo.alarmInfo;
+      if(resData.data.rows) {
+        resData.data.rows.forEach(item => {
+            alarmInfo.push({
+            key: item.alarmCategoryName,
+            label: item.alarmCategoryName,
+            value: item.alarmInfo
+          })
+        });
+
+        deviceDetailAlarmInfo.alarmInfo = alarmInfo;
+
+        yield put({
+          type: "save",
+          payload: { deviceDetailAlarmInfo }
+        });
+      }
+    },
+
+
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
       const resData = yield call(queryDeviceBySn, payload);
@@ -234,6 +265,8 @@ export default {
     *queryDevices({ payload }, { call, put, select }) {
       const resData = yield call(queryDevices, payload);
 
+      console.log('queryDevices',resData);
+
       if (resData.success && resData.data) {
         const devicesList = resData.data.rows.map((item, index) => {
           item = formatState(item);
@@ -258,6 +291,12 @@ export default {
           }
         });
       } else {
+
+        const KdevicesList = [];
+        yield put({
+          type: "updateState",
+          payload: { dataSource: KdevicesList }
+        });
         message.error(resData.message);
       }
 
@@ -285,7 +324,6 @@ export default {
     // 升级设备输入密码教研接口
     *checkUpgradePassword({ payload }, { call, put, select }) {
 
-      console.log('payload',payload);
       const result = yield call(checkUpgradePassword, payload);
       if (result.success) {
 
@@ -422,7 +460,6 @@ export default {
 
     // 批量升级
     *deviceUpgradeBatch({ payload }, { call, put }) {
-      console.log('tt',payload);
       const resData = yield call(deviceUpgradeBatch, payload);
       if (resData.success) {
         yield put({
@@ -439,7 +476,6 @@ export default {
     // 批量检修/取消检修设备
     *batchOverhaulDevice({ payload }, { call, put }) {
       const resData = yield call(batchOverhaulDevice, payload);
-      console.log('批量检修信息',resData);
       if (resData.success) {
         yield put({
           type: "updateState"
@@ -466,8 +502,6 @@ export default {
     // 批量控制设备
     *batchControlDevice({ payload }, { call, put }) {
       const resData = yield call(batchControlDevice, payload);
-
-      console.log('批量重启信息',resData);
 
       if (resData.success) {
         yield put({ type: "updateState" });
@@ -519,7 +553,6 @@ export default {
     },
 
     updateState(state, { payload }) {
-      console.log('updateState',payload);
       return {
         ...state,
         ...payload,
@@ -537,7 +570,6 @@ export default {
     },
 
     updateSelect(state, { payload }) {
-      console.log('updateSelect',payload);
       return {
         ...state,
         selectedRowKeys: payload.selectedRowKeys,

@@ -12,7 +12,7 @@ import {
   queryDevices,
   queryAreaList,
   queryAreaByParentCode,
-  queryDeviceType
+  queryDeviceType, queryDeviceByAlarmInfo
 } from "../services/manage";
 import { message, notification } from "antd";
 import {
@@ -71,6 +71,7 @@ export default {
     runToken: "", // 巡检token
     inspectionTimer: null, // 巡检 setInterval
     inspectionOpenTimer: null, // 一键巡检启动 setInterval
+    deviceDetailAlarmInfo:{},// 设备预警列表信息
   },
 
   subscriptions: {
@@ -139,6 +140,34 @@ export default {
     *setRefreshTime({ payload }, { call, put }) {
 
     },
+
+    *queryDeviceByAlarmInfo({ payload }, { call, put }) {
+
+      const resData = yield call(queryDeviceByAlarmInfo, payload);
+
+      const deviceDetailAlarmInfo = {
+        alarmInfo:[]
+      };
+
+      const alarmInfo = deviceDetailAlarmInfo.alarmInfo;
+      if(resData.data.rows) {
+        resData.data.rows.forEach(item => {
+          alarmInfo.push({
+            key: item.alarmCategoryName,
+            label: item.alarmCategoryName,
+            value: item.alarmInfo
+          })
+        });
+
+        deviceDetailAlarmInfo.alarmInfo = alarmInfo;
+
+        yield put({
+          type: "save",
+          payload: { deviceDetailAlarmInfo }
+        });
+      }
+    },
+
 
     // 查询设备列表
     *queryDevices({ payload }, { call, put, select }) {

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
 import Table from "./table";
 import STable from "./STable";
+import AlarmTable from "./AlarmTable";
 //import SSTable from "./STable2";
 
 // let dataSource = [];
@@ -14,11 +15,17 @@ import STable from "./STable";
 //   });
 // }
 
-const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
+const DeviceDetail = ({ visible, detailInfo, closeFun,alarmInfo }) => {
+
 
   let statusInfos = detailInfo.statusInfo;
   let controlInfos = detailInfo.controlInfo;
+  let alarmInfos = alarmInfo.alarmInfo;
   let dynamicInfo = [];
+
+  console.log('deviceDetailAlarmInfo',alarmInfos);
+  console.log('statusInfos',statusInfos);
+
   if (detailInfo && detailInfo.dynamicInfo) {
     dynamicInfo = detailInfo.dynamicInfo.sort(
       (a, b) => a.key.localeCompare(
@@ -39,6 +46,19 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
       )
     )
   }
+
+
+  let alarmInfoss = [];
+  if(alarmInfos) {
+    alarmInfoss = alarmInfos.sort(
+      (a,b) => a.key.localeCompare(
+        b.key,
+        'zh-Hans-CN',
+        {sensitivity:'accent'}
+      )
+    )
+  }
+
 
 
   return (
@@ -84,6 +104,15 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
           </Card>
         </Col>
       </Row>
+
+      <div style={{ height: 10, width: "100%" }} />
+      <Row gutter={24}>
+        <Col span={24}>
+          <Card title="设备报警信息">
+            <AlarmTable column={3} dataSource={alarmInfoss} />
+          </Card>
+        </Col>
+      </Row>
     </Modal>
   );
 };
@@ -91,6 +120,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun }) => {
 DeviceDetail.propTypes = {
   visible: PropTypes.bool,
   detailInfo: PropTypes.object,
+  alarmInfo:PropTypes.object,
   closeFun: PropTypes.func
 };
 

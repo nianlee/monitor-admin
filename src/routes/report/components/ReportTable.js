@@ -112,10 +112,10 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
 
   const columns = [
     {
-      title: "设备sn",
-      dataIndex: "sn",
+      title: "设备编码",
+      dataIndex: "deviceCode",
       className: styles.center,
-      key: "sn"
+      key: "deviceCode"
     },
     {
       title: "报警类型",

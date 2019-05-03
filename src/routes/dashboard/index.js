@@ -9,7 +9,7 @@ import {
   Button,
   Cascader,
   Card,
-  Progress
+  Progress, Input
 } from "antd";
 import { connect } from "dva";
 import Alarm from "./components/Alarm";
@@ -118,6 +118,11 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
             });
 
             dispatch({
+              type: "dashboard/queryDeviceByAlarmInfo",
+              payload: { deviceSn: record.sn }
+            });
+
+            dispatch({
               type: "dashboard/updateState",
               payload: { deviceModalVisible: true }
             });
@@ -170,7 +175,6 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
           payload.areaLevel = cascaderAreaId.length;
           payload.areaCode = cascaderAreaId[cascaderAreaId.length - 1];
         }
-
         delete payload.CascaderObject;
         dispatch({
           type: "dashboard/queryDevices",
@@ -204,7 +208,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
           <Card title="设备信息列表">
             <Form onSubmit={handleSubmit} layout="inline">
               <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-                <Col md={6}>
+                <Col md={5}>
                   <FormItem label="设备区域">
                     {getFieldDecorator("CascaderObject")(
                       <Cascader
@@ -216,7 +220,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
                     )}
                   </FormItem>
                 </Col>
-                <Col md={6}>
+                <Col md={5}>
                   <FormItem label="设备类型">
                     {getFieldDecorator("deviceType")(
                       <Select
@@ -229,7 +233,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
                     )}
                   </FormItem>
                 </Col>
-                <Col md={6}>
+                <Col md={5}>
                   <FormItem label="设备状态">
                     {getFieldDecorator("deviceState")(
                       <Select placeholder="请选择" style={{ width: 180 }}>
@@ -238,7 +242,21 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
                     )}
                   </FormItem>
                 </Col>
-                <Col md={6}>
+
+                <Col md={5}>
+                  <FormItem label="设备编码">
+                    {getFieldDecorator("deviceCode", {
+                      rules: [
+                        {
+                          required: false,
+                          message: "请输入设备正确的编码!"
+                        }
+                      ]
+                    })(<Input placeholder="设备编码" />)}
+                  </FormItem>
+                </Col>
+
+                <Col md={4}>
                   <FormItem>
                     <Button
                       type="primary"
@@ -248,8 +266,9 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
                       查询
                     </Button>
                     <Button
-                      style={{ marginLeft: 8, width: 100 }}
+                      style={{ marginLeft: 0, width: 100 }}
                       onClick={handleFormReset}
+                      htmlType="submit"
                     >
                       重置
                     </Button>
@@ -278,6 +297,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
       <DeviceDetail
         visible={dashboard.deviceModalVisible}
         detailInfo={dashboard.deviceDetailInfo}
+        alarmInfo={dashboard.deviceDetailAlarmInfo}
         closeFun={() => {
           dispatch({
             type: "dashboard/updateState",

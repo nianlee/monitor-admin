@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 //import styles from './stable.less'
 
 const Table = ({ column, dataSource }) => {
+
+  console.log('dataSource',dataSource)
   let row = [];
   let rows = [];
-  console.log('dataSource',dataSource.length);
   if(dataSource && dataSource.length%2 != 0) {
     dataSource &&
     dataSource.forEach((item, index) => {

@@ -9,7 +9,7 @@ import {
   Col,
   Form,
   Select,
-  Cascader
+  Cascader, Input
 } from "antd";
 import ControlParams from "./components/ControlParams";
 import { routerRedux } from "dva/router";
@@ -23,7 +23,6 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   const { getFieldDecorator } = form;
   const { selectedRowKeys } = devices;
 
-  //console.log('devices',devices);
   const hasSelected = selectedRowKeys.length > 0; // 是否有被选中
   const deviceTypeLists = devices.deviceTypes.map(type => (
     <Option key={type.name}>{type.value}</Option>
@@ -147,6 +146,11 @@ const DeviceManage = ({ devices, dispatch, form }) => {
   const checkDevice = sn => {
     dispatch({
       type: "devices/queryDeviceBySn",
+      payload: { deviceSn: sn }
+    });
+
+    dispatch({
+      type: "devices/queryDeviceByAlarmInfo",
       payload: { deviceSn: sn }
     });
 
@@ -281,6 +285,8 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         }
 
         delete payload.CascaderObject;
+
+        console.log('value',payload);
         dispatch({
           type: "devices/queryDevices",
           payload
@@ -297,7 +303,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
         style={{ background: "#fff", padding: 20 }}
       >
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
-          <Col md={6} sm={24}>
+          <Col md={5} sm={24}>
             <FormItem label="设备区域">
               {getFieldDecorator("CascaderObject")(
                 <Cascader
@@ -309,7 +315,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
               )}
             </FormItem>
           </Col>
-          <Col md={6} sm={24}>
+          <Col md={5} sm={24}>
             <FormItem label="设备类型">
               {getFieldDecorator("deviceType")(
                 <Select
@@ -322,7 +328,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
               )}
             </FormItem>
           </Col>
-          <Col md={6} sm={24}>
+          <Col md={5} sm={24}>
             <FormItem label="设备状态">
               {getFieldDecorator("deviceState")(
                 <Select placeholder="请选择" style={{ width: "200px" }}>
@@ -331,13 +337,27 @@ const DeviceManage = ({ devices, dispatch, form }) => {
               )}
             </FormItem>
           </Col>
-          <Col md={6}>
+
+          <Col md={5} sm={24}>
+            <FormItem label="设备编码">
+              {getFieldDecorator("deviceCode", {
+                rules: [
+                  {
+                    required: false,
+                    message: "请输入设备正确的编码!"
+                  }
+                ]
+              })(<Input placeholder="设备编码" />)}
+            </FormItem>
+          </Col>
+
+          <Col md={4}>
             <FormItem>
               <Button type="primary" htmlType="submit" style={{ width: 100 }}>
                 查询
               </Button>
               <Button
-                style={{ marginLeft: 8, width: 100 }}
+                style={{ marginLeft: 0, width: 100 }}
                 onClick={handleFormReset}
               >
                 重置
@@ -420,6 +440,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
           });
         }}
         detailInfo={devices.deviceDetailInfo}
+        alarmInfo={devices.deviceDetailAlarmInfo}
       />
 
       <Table

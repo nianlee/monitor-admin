@@ -174,7 +174,6 @@ export const formateDynamic = item => {
 
   // 漏电
   if (item.attributeCode == "leakageState") {
-    console.log('ssssss',item.attributeValue);
     if (item.attributeValue == "0") {
       item.attributeValue = "正常";
     } else {

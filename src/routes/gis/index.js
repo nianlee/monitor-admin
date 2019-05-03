@@ -11,6 +11,7 @@ const CheckboxGroup = Checkbox.Group;
 
 const Gis = ({ gis, dispatch }) => {
   const handleSearch = value => {
+
     let queryKey = value || "";
     dispatch({
       type: "gis/queryDevices",

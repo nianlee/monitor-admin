@@ -11,6 +11,7 @@ export default {
   editDeviceById: `${config.apiHost}/device/editDeviceById`, // 修改设备
   controlDevice: `${config.apiHost}/device/deviceControl`, // 设备控制
   queryDeviceBySn: `${config.apiHost}/device/queryDeviceBySn`, // 根据sn查询设备
+  queryDeviceByAlarmInfo: `${config.apiHost}/device/queryAlarmResults`, // 根据查询设备的alarminfo信息
   queryDeviceTypes: `${config.apiHost}/param/queryParamListForDropdown`, // 设备控制
   deviceUpgradeBatch: `${config.apiHost}/device/deviceUpgradeBatch`, // 设备控制批量升级
   queryAlarmResultHis: `${config.apiHost}/device/queryAlarmResultHis`, // 设备预警历史列表查询

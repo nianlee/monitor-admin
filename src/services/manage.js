@@ -9,6 +9,16 @@ export function queryDevices(data) {
   });
 }
 
+// 查询某一个设备AlarmInfo
+export function queryDeviceByAlarmInfo(data) {
+  return request({
+    data,
+    method: "post",
+    url: api.queryDeviceByAlarmInfo
+  });
+}
+
+
 // 查询某一个设备info
 export function queryDeviceBySn(data) {
   return request({

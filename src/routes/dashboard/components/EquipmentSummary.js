@@ -71,7 +71,6 @@ const EquipmentSummary = ({ dashboard, dispatch }) => {
   }
 
   const stopRefreshTime = () => {
-
     if (dashboard.inspectionOpenTimer) {
       clearInterval(dashboard.inspectionOpenTimer) //直接停止循环
     }
