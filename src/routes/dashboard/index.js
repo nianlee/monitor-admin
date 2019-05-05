@@ -119,7 +119,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
 
             dispatch({
               type: "dashboard/queryDeviceByAlarmInfo",
-              payload: { deviceSn: record.sn }
+              payload: { sn: record.sn }
             });
 
             dispatch({

@@ -23,9 +23,6 @@ const DeviceDetail = ({ visible, detailInfo, closeFun,alarmInfo }) => {
   let alarmInfos = alarmInfo.alarmInfo;
   let dynamicInfo = [];
 
-  console.log('deviceDetailAlarmInfo',alarmInfos);
-  console.log('statusInfos',statusInfos);
-
   if (detailInfo && detailInfo.dynamicInfo) {
     dynamicInfo = detailInfo.dynamicInfo.sort(
       (a, b) => a.key.localeCompare(

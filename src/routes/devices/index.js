@@ -151,7 +151,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
     dispatch({
       type: "devices/queryDeviceByAlarmInfo",
-      payload: { deviceSn: sn }
+      payload: { sn: sn }
     });
 
     dispatch({
@@ -359,6 +359,7 @@ const DeviceManage = ({ devices, dispatch, form }) => {
               <Button
                 style={{ marginLeft: 0, width: 100 }}
                 onClick={handleFormReset}
+                htmlType="submit"
               >
                 重置
               </Button>

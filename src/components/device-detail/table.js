@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 const Table = ({ column, dataSource }) => {
 
-  console.log('dataSource',dataSource)
   let row = [];
   let rows = [];
   if(dataSource && dataSource.length%2 != 0) {
