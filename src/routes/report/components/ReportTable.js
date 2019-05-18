@@ -100,7 +100,7 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
         message.error(resData.message);
       }
     });
-  };*/
+  };
 
   const renderOperation = (text, record) => {
     return (
@@ -109,6 +109,7 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
       </div>
     );
   };
+  */
 
   const columns = [
     {
@@ -140,14 +141,15 @@ const ReportTable = ({ report, dispatch, queryAlarmHis, updateState }) => {
       dataIndex: "alarmEndTime",
       className: styles.center,
       key: "alarmEndTime"
-    },
+    }
+    /*
     {
       title: "操作",
       dataIndex: "操作",
       className: styles.center,
       width: "20%",
       render: (text, record) => renderOperation(text, record)
-    }
+    }*/
   ];
 
   const paginationChange = pagination => {

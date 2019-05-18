@@ -13,6 +13,8 @@ const AddOrUpdateDevice = ({ addOrUpdateDevice, dispatch, form }) => {
     <Option key={type.name}>{type.value}</Option>
   ));
 
+  //console.log('addOrUpdateDevice.regionList',addOrUpdateDevice.regionList);
+
   // 添加设备请求
   const handleSubmit = e => {
     e.preventDefault();

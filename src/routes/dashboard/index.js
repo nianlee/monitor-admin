@@ -160,6 +160,11 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
 
   function handleFormReset() {
     form.resetFields();
+    dispatch({
+      type: "dashboard/clearQueryParamsCache",
+      payload:{page: 1,rows: 10}
+    });
+
   }
 
   const handleSubmit = e => {
@@ -176,6 +181,7 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
           payload.areaCode = cascaderAreaId[cascaderAreaId.length - 1];
         }
         delete payload.CascaderObject;
+
         dispatch({
           type: "dashboard/queryDevices",
           payload
@@ -236,7 +242,9 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
                 <Col md={5}>
                   <FormItem label="设备状态">
                     {getFieldDecorator("deviceState")(
-                      <Select placeholder="请选择" style={{ width: 180 }}>
+                      <Select
+                        showSearch
+                        placeholder="请选择" style={{ width: 180 }}>
                         {deviceStateLists}
                       </Select>
                     )}
@@ -252,7 +260,8 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
                           message: "请输入设备正确的编码!"
                         }
                       ]
-                    })(<Input placeholder="设备编码" />)}
+                    })(<Input
+                      placeholder="设备编码" />)}
                   </FormItem>
                 </Col>
 
@@ -267,8 +276,8 @@ const Dashboard = ({ dashboard, dispatch, form }) => {
                     </Button>
                     <Button
                       style={{ marginLeft: 0, width: 100 }}
-                      onClick={handleFormReset}
                       htmlType="submit"
+                      onClick={handleFormReset}
                     >
                       重置
                     </Button>

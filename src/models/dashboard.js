@@ -114,10 +114,11 @@ export default {
   },
 
   effects: {
+
     // 循环获取数据
     *intervalData({ payload }, { call, put, select }) {
       const { deviceQueryParamsCache } = yield select(_ => _.dashboard);
-      //console.log('deviceQueryParamsCache',deviceQueryParamsCache);
+      //console.log('intervalData',deviceQueryParamsCache);
       // 没有分页数据时，初始化分页数据
       if (!deviceQueryParamsCache.page) {
         deviceQueryParamsCache.page = 1;
@@ -172,15 +173,33 @@ export default {
     // 查询设备列表
     *queryDevices({ payload }, { call, put, select }) {
       const { deviceQueryParamsCache } = yield select(_ => _.dashboard);
+
       const data = {
         ...deviceQueryParamsCache,
         ...payload
       };
 
+
+
+      // 缓存查询参数
+      yield put({
+        type: "updateState",
+        payload: { deviceQueryParamsCache: data }
+      });
+
       const resData = yield call(queryDevices, data);
 
       if (resData.success) {
         if (!resData.data || !resData.data.rows) {
+          yield put({
+            type: "updateState",
+            payload: {
+              dataSource: [],
+              total: 0,
+              pageSize: 10,
+              currentPage: 1
+            }
+          });
           return;
         }
         const devicesList = resData.data.rows.map(item => {
@@ -219,10 +238,12 @@ export default {
         message.error(resData.message);
       }
 
-      // 缓存查询参数
+    },
+
+    *clearQueryParamsCache({ payload}, { call, put }) {
       yield put({
         type: "updateState",
-        payload: { deviceQueryParamsCache: data }
+        payload:{deviceQueryParamsCache: payload}
       });
     },
 
@@ -230,7 +251,6 @@ export default {
     *queryDeviceBySn({ payload }, { call, put }) {
 
       const resData = yield call(queryDeviceBySn, payload);
-      console.log('queryDeviceBySn',resData);
 
       if (resData.success) {
 
@@ -294,9 +314,6 @@ export default {
           label: "更新时间",
           value: info.dataUpTime
         });
-
-
-
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;

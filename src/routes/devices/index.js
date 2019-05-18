@@ -286,7 +286,6 @@ const DeviceManage = ({ devices, dispatch, form }) => {
 
         delete payload.CascaderObject;
 
-        console.log('value',payload);
         dispatch({
           type: "devices/queryDevices",
           payload

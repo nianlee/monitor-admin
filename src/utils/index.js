@@ -276,18 +276,18 @@ export const initAreaData = codes => {
     if (codes && codes.length > 0) {
       const removeLastItem = codes.slice(0, codes.length - 1);
       parentCodes = parentCodes.concat(removeLastItem);
-
       Promise.all(
         parentCodes.map(item =>
           request({
             url: api.queryAreaByParentCode,
             method: "POST",
             data: { parentCode: item }
-          })
+          }),
         )
       )
         .then(res => {
           const formatedAreas = res.map(item => {
+
             if (item.success && item.data) {
               return item.data.map(area => ({
                 ...area,
@@ -300,21 +300,30 @@ export const initAreaData = codes => {
             }
           });
 
+
           formatedAreas.forEach((area, index) => {
-            const currentCode = parentCodes[index + 1]; // 去掉code=0的 根code
+            console.log('index,area',index,area);
+            const currentCode = parentCodes[index+1]; // 去掉code=0的 根code
 
             area.forEach(item => {
+              console.log('item',item);
               if (item.code == currentCode) {
-                item.children = formatedAreas[index + 1];
+                item.children = formatedAreas[index+1];
               }
             });
+
 
             if (index == "0") {
               areaList = area;
             }
+
           });
 
+          console.log('resolve(areaList)',areaList);
+
           resolve(areaList);
+
+          console.log('areaList',areaList);
         })
         .catch(err => {
           reject(err);

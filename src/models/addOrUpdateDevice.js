@@ -113,6 +113,7 @@ export default {
     // 初始化区域
     *initArea({ payload }, { call, put }) {
       const regionList = yield call(initAreaData, payload);
+      console.log('initAreaData', regionList);
       if (Array.isArray(regionList)) {
         yield put({ type: "updateState", payload: { regionList } });
       }
@@ -132,6 +133,8 @@ export default {
             value: item.code
           });
         });
+
+        console.log('relist',relist);
 
         yield put({
           type: "updateState",
@@ -191,6 +194,7 @@ export default {
       }
     },
 
+
     // 根据sn 查询设备详细信息
     *queryDeviceBySn({ payload }, { call, put }) {
       const resData = yield call(queryDeviceBySn, payload);
@@ -199,6 +203,7 @@ export default {
         const infos = resData.data.rows[0].datDeviceDetailDTO;
         if (infos) {
           const areaCodes = formatInitAreaData([infos.installAreaInfo]);
+          console.log('size3',areaCodes);
           yield put({
             type: "updateFormParams",
             payload: {
@@ -226,7 +231,7 @@ export default {
             }
           });
 
-          yield put({ type: "initArea", payload: areaCodes });
+          //yield put({ type: "initArea", payload: areaCodes });
           yield put({ type: "updateState", payload: { deviceId: infos.id } });
         }
       } else {

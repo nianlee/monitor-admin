@@ -8,7 +8,7 @@ const STable = ({ column, dataSource }) => {
   dataSource &&
   dataSource.forEach((item, index) => {
 
-    if ((index+2) % column != 0) {
+    if ((index+3) % column != 0) {
       // 每 column 列为一行，index 以1开始
       row.push(item);
     } else {
