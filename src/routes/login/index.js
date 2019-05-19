@@ -8,25 +8,17 @@ const FormItem = Form.Item;
 
 const Login = ({ login, dispatch, form }) => {
 
-  /*
-  dispatch({
-    type: "login/loginNoCode",
-    payload: { userName:'superadmin',userPw:'111111',very_code:'',remember:'1',very_code_flag:'false'}
-  });
-  */
-
   const handleSubmit = e => {
     e.preventDefault();
     form.validateFields((err, values) => {
       if (!err) {
         dispatch({
-          type: "login/loginNoCode",
-          payload: { ...values ,very_code_flag:'false'}
+          type: "login/loginLoad",
+          payload: { ...values }
         });
       }
     });
   };
-
 
   const { getFieldDecorator } = form;
 
@@ -70,7 +62,7 @@ const Login = ({ login, dispatch, form }) => {
             <Col span="14">
               <FormItem>
                 {getFieldDecorator("very_code", {
-                  rules: [{ required: false, message: "请输入验证码!" }]
+                  rules: [{ required: true, message: "请输入验证码!" }]
                 })(<Input placeholder="验证码"/>)}
               </FormItem>
             </Col>

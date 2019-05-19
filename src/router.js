@@ -58,6 +58,11 @@ const routes = [
     component: () => import("./routes/login")
   },
   {
+    path: "/loginnocode",
+    models: () => [import("./models/loginnocode")],
+    component: () => import("./routes/loginnocode")
+  },
+  {
     // 用户管理
     path: "/usermanage",
     models: () => [import("./models/users")],
@@ -144,7 +149,7 @@ function RouterConfig({ history, app }) {
       <LocaleProvider locale={zh_CN}>
         <App>
           <Switch>
-            <Route path="/" exact render={() => <Redirect to="/dashboard" />} />
+            <Route path="/" exact render={() => <Redirect to="/loginnocode" />} />
             {routes.map(({ path, ...dynamics }, key) => (
               <Route
                 key={key}

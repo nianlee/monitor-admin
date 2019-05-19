@@ -1,8 +1,8 @@
 import { loginLoad } from "services/login";
 import api from "utils/api";
-import { routerRedux } from "dva/router";
 import { message } from "antd";
 import Cookies from "js-cookie";
+import { routerRedux } from "dva/router";
 
 // 格式化menu
 const formatMenu = permMenus => {
@@ -20,7 +20,7 @@ const formatMenu = permMenus => {
 };
 
 export default {
-  namespace: "login",
+  namespace: "loginnocode",
 
   state: {
     randomKey: 1,
@@ -52,7 +52,6 @@ export default {
           console.log(error);
         }
 
-
         yield put(routerRedux.push("/dashboard"));
       } else {
         message.error(resData.message);
@@ -69,16 +68,16 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
 
-      /*
       history.listen(({ pathname }) => {
+        console.log('loginnocode');
         if (pathname == "/loginnocode") {
           dispatch({
             type: "login/loginLoad",
             payload: { userName:'superadmin',userPw:'111111',very_code:'',remember:'1',very_code_flag:'false'}
           });
+
         }
       });
-      */
     }
   },
 };

@@ -28,7 +28,6 @@ const App = ({ children, dispatch, app, loading, location }) => {
 
   // 用loginLayout 接受router 子组件
   const LoginLayout = ({ children }) => children;
-
   if (pathname === "/login") {
     return <LoginLayout>{children}</LoginLayout>;
   }
