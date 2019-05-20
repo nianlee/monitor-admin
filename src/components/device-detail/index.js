@@ -15,7 +15,7 @@ import AlarmTable from "./AlarmTable";
 //   });
 // }
 
-const DeviceDetail = ({ visible, detailInfo, closeFun,alarmInfo }) => {
+const DeviceDetail = ({ visible, detailInfo, closeFun, alarmInfo }) => {
 
 
   let statusInfos = detailInfo.statusInfo;
@@ -34,29 +34,26 @@ const DeviceDetail = ({ visible, detailInfo, closeFun,alarmInfo }) => {
   }
 
   let stateInfo = [];
-  if(statusInfos) {
+  if (statusInfos) {
     stateInfo = statusInfos.sort(
-      (a,b) => a.key.localeCompare(
+      (a, b) => a.key.localeCompare(
         b.key,
         'zh-Hans-CN',
-        {sensitivity:'accent'}
+        { sensitivity: 'accent' }
       )
     )
   }
-
 
   let alarmInfoss = [];
-  if(alarmInfos) {
+  if (alarmInfos) {
     alarmInfoss = alarmInfos.sort(
-      (a,b) => a.key.localeCompare(
+      (a, b) => a.key.localeCompare(
         b.key,
         'zh-Hans-CN',
-        {sensitivity:'accent'}
+        { sensitivity: 'accent' }
       )
     )
   }
-
-
 
   return (
     <Modal
@@ -117,7 +114,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun,alarmInfo }) => {
 DeviceDetail.propTypes = {
   visible: PropTypes.bool,
   detailInfo: PropTypes.object,
-  alarmInfo:PropTypes.object,
+  alarmInfo: PropTypes.object,
   closeFun: PropTypes.func
 };
 

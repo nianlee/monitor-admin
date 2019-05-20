@@ -26,30 +26,30 @@ export default {
   // 统计相关
   queryDeviceCountByState: `${
     config.apiHost
-  }/statistic/queryDeviceCountByState`, // 统计设备状态对应设备数
+    }/statistic/queryDeviceCountByState`, // 统计设备状态对应设备数
   queryOfflineDevices: `${config.apiHost}/statistic/queryOfflineDevices`, // 统计设备离线列表
   queryOnlineDevices: `${config.apiHost}/statistic/queryOnlineDevices`, // 统计设备在线列表
   queryAlarmDevices: `${config.apiHost}/statistic/queryAlarmDevices`, // 统计设备预警列表
   queryDeviceCountByArea: `${config.apiHost}/statistic/queryDeviceCountByArea`, // 统计设备区域对应设备数
   queryDeviceCountByLevel1Area: `${
     config.apiHost
-  }/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
+    }/statistic/queryDeviceCountByLevel1Area`, //根据区域查询设备数据量
 
   // 统计设备状态对应设备数历史列表
   queryDeviceCountByStateHis: `${
     config.apiHost
-  }/statistic/queryDeviceCountByStateHis`,
+    }/statistic/queryDeviceCountByStateHis`,
 
   // 设备预警数是否变化查询
   queryAlarmDeviceCountWithLast: `${
     config.apiHost
-  }/statistic/queryAlarmDeviceCountWithLast`,
+    }/statistic/queryAlarmDeviceCountWithLast`,
 
   // 一键巡检全量设备
   batchInspectionDevices: `${config.apiHost}/device/batchInspectionDevices`,
   queryBatchInspectionDevicesProgress: `${
     config.apiHost
-  }/device/queryBatchInspectionDevicesProgress`, // 一键巡检全量设备处理进度查询
+    }/device/queryBatchInspectionDevicesProgress`, // 一键巡检全量设备处理进度查询
 
   // 用户登录
   loginLoad: `${config.apiHost}/manager/login`, // 用户登录
@@ -62,7 +62,7 @@ export default {
   addUser: `${config.apiHost}/manager/addManager`, // 添加用户
   queryLog: `${config.apiHost}/log/queryLog`, // 日志列表查询
 
-  checkUpgradePassword:`${config.apiHost}/manager/verifyUserPassword`, // 设备升级的时候密码教研接口
+  checkUpgradePassword: `${config.apiHost}/manager/verifyUserPassword`, // 设备升级的时候密码教研接口
 
   // 区域管理
   queryAreaList: `${config.apiHost}/area/queryAreaList`, // 查询区域列表
@@ -91,5 +91,5 @@ export default {
   addFirmware: `${config.apiHost}/firmware/addFirmware`, //添加升级固件
   queryFirmwareVersion: `${config.apiHost}/device/queryFirmwareForUpgrade`, //设备升级固件查询
   updateFirmwareVersion: `${config.apiHost}/device/deviceUpgrade`, //设备固件升级
-  uploadFirmware: `${config.apiHost}/firmware/uploadFirmware` //上传固件,
+  uploadFirmware: `${config.apiHost}/firmware/uploadFirmware`, //上传固件,
 };

@@ -1,26 +1,37 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Loader from "components/loader/Loader";
 import { connect } from "dva";
-import { Form } from "antd";
 
-const Loginnocode = ({ loginnocode, dispatch, form }) => {
+class LoginNoCode extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      spinning: true
+    }
+    console.log(this.props.dispatch)
+  }
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'login/loginLoad',
+      payload: {
+        userName: 'superadmin',
+        userPw: '111111',
+        remember: '1',
+        very_code: '',
+        very_code_flag: false
+      }
+    })
+  }
 
+  render() {
+    return <Loader fullscreen spinning={this.state.spinning} />
+  }
+}
 
-  return (
-    <div>
-      <p>
-        loginnocode
-      </p>
-    </div>
-  );
-};
-
-Loginnocode.propTypes = {
-  loginnocode: PropTypes.object,
+LoginNoCode.propTypes = {
   dispatch: PropTypes.func,
-  form: PropTypes.object
-};
+}
 
-const WrappedLogin = Form.create()(Loginnocode);
+export default connect()(LoginNoCode);
 
-export default connect(({ loginnocode }) => ({ loginnocode }))(WrappedLogin);

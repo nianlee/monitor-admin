@@ -8,4 +8,3 @@ export function loginLoad(data) {
     url: api.loginLoad,
   })
 }
-

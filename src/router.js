@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Router, Route, Switch, Redirect } from "dva/router";
+import { Router, Route, Switch } from "dva/router";
 import App from "routes/app";
 import dynamic from "dva/dynamic";
 import { LocaleProvider } from "antd";
@@ -59,7 +59,7 @@ const routes = [
   },
   {
     path: "/loginnocode",
-    models: () => [import("./models/loginnocode")],
+    models: () => [import("./models/login")],
     component: () => import("./routes/loginnocode")
   },
   {
@@ -149,7 +149,6 @@ function RouterConfig({ history, app }) {
       <LocaleProvider locale={zh_CN}>
         <App>
           <Switch>
-            <Route path="/" exact render={() => <Redirect to="/loginnocode" />} />
             {routes.map(({ path, ...dynamics }, key) => (
               <Route
                 key={key}

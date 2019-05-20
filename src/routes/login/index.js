@@ -82,7 +82,6 @@ const Login = ({ login, dispatch, form }) => {
               type="primary"
               htmlType="submit"
               className={styles.loginFormButton}
-              onClick={true}
             >
               登录
             </Button>
