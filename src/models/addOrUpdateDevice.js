@@ -134,8 +134,6 @@ export default {
           });
         });
 
-        console.log('relist',relist);
-
         yield put({
           type: "updateState",
           payload: {
@@ -201,6 +199,7 @@ export default {
 
       if (resData.success && resData.data) {
         const infos = resData.data.rows[0].datDeviceDetailDTO;
+        console.log('infos',infos);
         if (infos) {
           const areaCodes = formatInitAreaData([infos.installAreaInfo]);
           console.log('size3',areaCodes);
@@ -231,7 +230,7 @@ export default {
             }
           });
 
-          //yield put({ type: "initArea", payload: areaCodes });
+          yield put({ type: "initArea", payload: areaCodes });
           yield put({ type: "updateState", payload: { deviceId: infos.id } });
         }
       } else {

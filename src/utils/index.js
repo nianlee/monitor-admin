@@ -306,24 +306,22 @@ export const initAreaData = codes => {
             const currentCode = parentCodes[index+1]; // 去掉code=0的 根code
 
             area.forEach(item => {
-              console.log('item',item);
+              console.log('index,item',index,item);
               if (item.code == currentCode) {
                 item.children = formatedAreas[index+1];
               }
             });
 
-
             if (index == "0") {
               areaList = area;
             }
-
           });
 
-          console.log('resolve(areaList)',areaList);
+          console.log('areaList',areaList);
 
           resolve(areaList);
 
-          console.log('areaList',areaList);
+          console.log(' resolve(areaList)',areaList);
         })
         .catch(err => {
           reject(err);
