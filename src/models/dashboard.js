@@ -314,6 +314,11 @@ export default {
           label: "更新时间",
           value: info.dataUpTime
         });
+        baseInfo.push({
+          key: "终端IP",
+          label: "终端IP",
+          value: resData.data.rows[0].deviceDynamicDTOS[22].attributeValue
+        });
 
         // 动态属性
         const deviceDynamicDTOS = resData.data.rows[0].deviceDynamicDTOS;
@@ -323,48 +328,50 @@ export default {
 
         if (deviceDynamicDTOS) {
           deviceDynamicDTOS.forEach(item => {
-            item = formateDynamic(item);
+              if(item.attributeName != '终端IP') {
+                item = formateDynamic(item);
 
-            // 状态信息
-            if (
-              item.attributeCode == "ACInput" || //交流输入状态
-              item.attributeCode == "leakageState" || //漏电状态
-              item.attributeCode == "DI1" || //门禁状态
-              //item.attributeCode == "incline" || //箱体倾斜状态
-              item.attributeCode == "DI2" ||   //防雷状态
-              item.attributeCode == "fanState" //风扇状态
+                // 状态信息
+                if (
+                  item.attributeCode == "ACInput" || //交流输入状态
+                  item.attributeCode == "leakageState" || //漏电状态
+                  item.attributeCode == "DI1" || //门禁状态
+                  //item.attributeCode == "incline" || //箱体倾斜状态
+                  item.attributeCode == "DI2" ||   //防雷状态
+                  item.attributeCode == "fanState" //风扇状态
 
-            ) {
-              statusInfo.push({
-                key: item.attributeCode,
-                label: item.attributeName,
-                value: item.attributeValue
-              });
-            } else if(
-              item.attributeCode == "ACCtrl1" || //第1路交流控制
-              item.attributeCode == "ACCtrl2" || //第2路交流控制
-              item.attributeCode == "DCCtrl1" || //第1路直流控制
-              item.attributeCode == "DCCtrl2" || //第2路直流控制
-              item.attributeCode == "DCCtrl3" || //第3路直流控制
-              item.attributeCode == "DCCtrl4" || //交换机控制
-              item.attributeCode == "DCCtrl5" || //风扇控制
-              item.attributeCode == "DCCtrl6"    //门锁控制
-            ) {
-              //控制信息
-              controlInfo.push({
-                key: item.attributeCode,
-                label: item.attributeName,
-                value: item.attributeValue
-              });
-            } else {
-              // 动态信息
-              dynamicInfo.push({
-                key: item.attributeCode,
-                label: item.attributeName,
-                value: item.attributeValue
-              });
-            }
-          });
+                ) {
+                  statusInfo.push({
+                    key: item.attributeCode,
+                    label: item.attributeName,
+                    value: item.attributeValue
+                  });
+                } else if(
+                  item.attributeCode == "ACCtrl1" || //第1路交流控制
+                  item.attributeCode == "ACCtrl2" || //第2路交流控制
+                  item.attributeCode == "DCCtrl1" || //第1路直流控制
+                  item.attributeCode == "DCCtrl2" || //第2路直流控制
+                  item.attributeCode == "DCCtrl3" || //第3路直流控制
+                  item.attributeCode == "DCCtrl4" || //交换机控制
+                  item.attributeCode == "DCCtrl5" || //风扇控制
+                  item.attributeCode == "DCCtrl6"    //门锁控制
+                ) {
+                  //控制信息
+                  controlInfo.push({
+                    key: item.attributeCode,
+                    label: item.attributeName,
+                    value: item.attributeValue
+                  });
+                } else {
+                  // 动态信息
+                  dynamicInfo.push({
+                    key: item.attributeCode,
+                    label: item.attributeName,
+                    value: item.attributeValue
+                  });
+                }
+              }
+            });
         }
 
         deviceDetailInfo.statusInfo = statusInfo;
