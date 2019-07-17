@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Modal, Card, Row, Col } from "antd";
 import Table from "./table";
 import STable from "./STable";
+import BaseInfoTable from "./BaseInfoTable";
 import AlarmTable from "./AlarmTable";
 //import SSTable from "./STable2";
 
@@ -67,7 +68,7 @@ const DeviceDetail = ({ visible, detailInfo, closeFun, alarmInfo }) => {
       <Row gutter={24}>
         <Col span={24}>
           <Card title="基本信息">
-            <STable column={2} dataSource={detailInfo.baseInfo} />
+            <BaseInfoTable column={2} dataSource={detailInfo.baseInfo} />
           </Card>
         </Col>
       </Row>
